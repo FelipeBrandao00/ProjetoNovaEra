@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <Compile Remove="EntitiesConfiguration\**" />
+    <Compile Remove="Identity\**" />
+    <EmbeddedResource Remove="EntitiesConfiguration\**" />
+    <EmbeddedResource Remove="Identity\**" />
+    <None Remove="EntitiesConfiguration\**" />
+    <None Remove="Identity\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="EntitiesConfiguration\" />
-    <Folder Include="Identity\" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
