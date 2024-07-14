@@ -5,11 +5,13 @@ VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{AA6BEC36-AE63-40D7-9B49-5D0BA32089D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Data", "Infra.Data\Infra.Data.csproj", "{A954DE21-18E2-45CB-9D91-760E486411E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.Data", "Infra.Data\Infra.Data.csproj", "{A954DE21-18E2-45CB-9D91-760E486411E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.IoC", "Infra.IoC\Infra.IoC.csproj", "{EFB388BD-3486-4516-B6B4-AFDF7C3C4929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra.IoC", "Infra.IoC\Infra.IoC.csproj", "{EFB388BD-3486-4516-B6B4-AFDF7C3C4929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{8023E7D3-85A7-47CA-A579-4C0671F17F00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{8023E7D3-85A7-47CA-A579-4C0671F17F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{BD62218E-1A36-433F-8A9B-2215CCF3E3B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8023E7D3-85A7-47CA-A579-4C0671F17F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8023E7D3-85A7-47CA-A579-4C0671F17F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8023E7D3-85A7-47CA-A579-4C0671F17F00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD62218E-1A36-433F-8A9B-2215CCF3E3B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD62218E-1A36-433F-8A9B-2215CCF3E3B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD62218E-1A36-433F-8A9B-2215CCF3E3B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD62218E-1A36-433F-8A9B-2215CCF3E3B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
