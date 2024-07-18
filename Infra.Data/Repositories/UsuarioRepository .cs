@@ -29,6 +29,8 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
     {
         var result = await  userContext.Usuarios
             .Where(x => x.dsEmail == email && x.dsSenha == EncodePassword(password))
+            .Include(u => u.CargoUsuario)
+            .ThenInclude(cargoUser => cargoUser.Cargo) 
             .FirstOrDefaultAsync();
         return result;
     }

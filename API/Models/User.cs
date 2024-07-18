@@ -1,3 +1,3 @@
 ﻿namespace API.Models;
 
-public record User(string Name, string Email, string Password);
+public record User(string Email, string Password);

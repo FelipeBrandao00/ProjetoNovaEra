@@ -18,7 +18,9 @@ namespace Infra.IoC {
 
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
-
+            services.AddScoped<IJwtService, JwtService>();
+            
+            
             services.AddAutoMapper(typeof(UsuarioMapping));
 
             return services;

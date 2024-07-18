@@ -1,3 +1,5 @@
-﻿namespace Application.DTOs;
+﻿using Domain.Entities;
 
-public record UsuarioDto(string nmUsuario, string dsEmail, string dsCPF);
+namespace Application.DTOs;
+
+public record UsuarioDto(string nmUsuario, string dsEmail, string dsCPF, ICollection<Cargo_Usuario> CargoUsuario);
