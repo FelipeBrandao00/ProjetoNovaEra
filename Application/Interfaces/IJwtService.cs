@@ -4,5 +4,5 @@ namespace Application.Interfaces;
 
 public interface IJwtService
 {
-    Task<string> GerarToken(UsuarioDto user);
+    string GerarToken(UsuarioDto user);
 }

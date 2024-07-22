@@ -10,12 +10,12 @@ namespace Application.Services;
 
 public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper) : IUsuarioService
 {
-    public async Task<UsuarioDto> AddUsuario(AddUsuarioDto usuarioDto)
+    public async Task<RegisteredUsuarioDto> AddUsuario(AddUsuarioDto usuarioDto)
     {
         var usuarioEntity = mapper.Map<Usuario>(usuarioDto);
         var retorno =  await usuarioRepository.AddUsuario(usuarioEntity);
 
-        return mapper.Map<UsuarioDto>(retorno);
+        return mapper.Map<RegisteredUsuarioDto>(retorno);
     }
 
     public Task<UsuarioDto> UpdateUsuario(UsuarioDto usuario)

@@ -8,26 +8,6 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddInfrastructureJWT(builder.Configuration);
 builder.Services.AddInfrastructureSwagger();
 
-
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Administrador", policy =>
-    {
-        policy.RequireRole("Administrador");
-    });
-    
-    options.AddPolicy("Professor", policy =>
-    {
-        policy.RequireRole("Professor");
-    });
-    
-    options.AddPolicy("Aluno", policy =>
-    {
-        policy.RequireRole("Aluno");
-    });
-});
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Infra.IoC\Infra.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Controllers\TokenController.cs" />
+  </ItemGroup>
+
 </Project>

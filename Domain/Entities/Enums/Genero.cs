@@ -7,6 +7,7 @@
         LançaFoguetes,
         BubbleBee,
         Torradeira,
-        Kombi
+        Kombi,
+        Femboy
     }
 }

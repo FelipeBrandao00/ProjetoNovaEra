@@ -14,10 +14,10 @@ public class JwtService : IJwtService
 
     public JwtService(IConfiguration configuration)
     {
-        _secretKey = configuration["Jwt:SecretKey"];
+        _secretKey = configuration["Jwt:SecretKey"] ?? throw new Exception("Chave de autenticação inválida!");
     }
     
-    public async Task<string> GerarToken(UsuarioDto user)
+    public string GerarToken(UsuarioDto user)
     {
         var hadler = new JwtSecurityTokenHandler();
         var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));

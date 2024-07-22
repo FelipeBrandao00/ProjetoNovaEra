@@ -15,11 +15,10 @@ public class UsuarioController(IUsuarioService usuarioService, IJwtService jwtSe
 {
     
     [HttpPost]
-    [Authorize("Administrador")]
+    [Authorize(Roles = "Admnistrador,Professor")]
     public async Task<ActionResult> AddUsuario([FromBody] AddUsuarioDto user)
     {
        var result = await usuarioService.AddUsuario(user);
-       if (result == null) return BadRequest();
        return Ok(result);
     }
     
@@ -27,7 +26,7 @@ public class UsuarioController(IUsuarioService usuarioService, IJwtService jwtSe
     public async Task<ActionResult> GerarToken([FromBody] User user) {
         var usuario = await usuarioService.Authenticate(user.Email, user.Password);
         if (usuario == null) return BadRequest("Login e/ou Senha inválidos.");
-        var token = await jwtService.GerarToken(usuario);
+        var token = jwtService.GerarToken(usuario);
         return Ok(token);
     }
 }
