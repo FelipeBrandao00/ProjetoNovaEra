@@ -3,10 +3,10 @@ using Application.DTOs.Usuario;
 
 namespace Application.Interfaces {
     public interface IUsuarioService {
-        Task<RegisteredUsuarioDto> AddUsuario(AddUsuarioDto usuario);
-        Task<UsuarioDto> UpdateUsuario(UsuarioDto usuario);
-        Task<UsuarioDto?> GetUsuarioByCpf(string cpf);
-        Task<IEnumerable<UsuarioDto>> GetUsuarios();
+        Task<AddUsuarioResponseDto> AddUsuario(AddUsuarioRequestDto usuario);
+        Task<UsuarioDto> UpdateUsuario(UsuarioDto defaultUsuario);
+        Task<GetUsuarioResponseDto?> GetUsuarioByCpf(string cpf);
+        Task<IEnumerable<GetUsuarioResponseDto>> GetUsuarios();
         Task<UsuarioDto?> Authenticate(string email, string password);
     }
 }

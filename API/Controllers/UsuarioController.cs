@@ -14,15 +14,31 @@ namespace API.Controllers;
 public class UsuarioController(IUsuarioService usuarioService, IJwtService jwtService) : ControllerBase
 {
     
-    [HttpPost]
-    [Authorize(Roles = "Admnistrador,Professor")]
-    public async Task<ActionResult> AddUsuario([FromBody] AddUsuarioDto user)
+    [HttpPost("/AddUsuario")]
+    [Authorize(Roles = "Admnistrador")]
+    public async Task<ActionResult> AddUsuario([FromBody] AddUsuarioRequestDto user)
     {
        var result = await usuarioService.AddUsuario(user);
        return Ok(result);
     }
     
-    [HttpPost("/GerarToken")]
+    [HttpGet("/GetUsuarioByCpf")]
+    [Authorize(Roles = "Admnistrador")]
+    public async Task<ActionResult> GetUsuarioByCpf(string cpf)
+    {
+        var result = await usuarioService.GetUsuarioByCpf(cpf);
+        return Ok(result);
+    }
+    
+    [HttpGet("/GetUsuarios")]
+    [Authorize(Roles = "Admnistrador")]
+    public async Task<ActionResult> GetUsuarios()
+    {
+        var result = await usuarioService.GetUsuarios();
+        return Ok(result);
+    }
+    
+    [HttpPost("/Authenticate")]
     public async Task<ActionResult> GerarToken([FromBody] User user) {
         var usuario = await usuarioService.Authenticate(user.Email, user.Password);
         if (usuario == null) return BadRequest("Login e/ou Senha inválidos.");

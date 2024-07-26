@@ -21,7 +21,7 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
         return await userContext.Usuarios.SingleOrDefaultAsync(x => x.dsCPF == cpf);
     }
 
-    public async Task<IEnumerable<Usuario>> GetUsuarios() {
+    public async Task<List<Usuario>> GetUsuarios() {
         return await userContext.Usuarios.ToListAsync();
     }
 

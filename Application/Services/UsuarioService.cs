@@ -3,19 +3,19 @@ using Application.DTOs.Usuario;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Entities.Enums;
 using Domain.Interfaces;
+using System.Linq;
 
 namespace Application.Services;
 
 public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper) : IUsuarioService
 {
-    public async Task<RegisteredUsuarioDto> AddUsuario(AddUsuarioDto usuarioDto)
+    public async Task<AddUsuarioResponseDto> AddUsuario(AddUsuarioRequestDto usuarioDto)
     {
         var usuarioEntity = mapper.Map<Usuario>(usuarioDto);
         var retorno =  await usuarioRepository.AddUsuario(usuarioEntity);
 
-        return mapper.Map<RegisteredUsuarioDto>(retorno);
+        return mapper.Map<AddUsuarioResponseDto>(retorno);
     }
 
     public Task<UsuarioDto> UpdateUsuario(UsuarioDto usuario)
@@ -23,14 +23,23 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
         throw new NotImplementedException();
     }
 
-    public Task<UsuarioDto?> GetUsuarioByCpf(string cpf)
-    {
-        throw new NotImplementedException();
+    public async Task<GetUsuarioResponseDto?> GetUsuarioByCpf(string cpf)
+    { 
+        return mapper.Map<GetUsuarioResponseDto>(await usuarioRepository.GetUsuarioByCpf(cpf));
     }
 
-    public Task<IEnumerable<UsuarioDto>> GetUsuarios()
+    public async Task<IEnumerable<GetUsuarioResponseDto>> GetUsuarios()
     {
-        throw new NotImplementedException();
+        List<Usuario> listaUsuarios = await usuarioRepository.GetUsuarios();
+
+        List<GetUsuarioResponseDto> result = new();
+
+        foreach (var usuario in listaUsuarios)
+        {
+            result.Add(mapper.Map<GetUsuarioResponseDto>(usuario));
+        }
+                
+        return result;
     }
 
     public async Task<UsuarioDto?> Authenticate(string email, string password)
