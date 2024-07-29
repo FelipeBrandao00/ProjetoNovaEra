@@ -36,7 +36,8 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
     }
 
     public async Task<Usuario> UpdateUsuario(Usuario usuario) {
-        userContext.Usuarios.Update(usuario);
+        usuario.dsSenha = EncodePassword(usuario.dsSenha);
+        userContext.Entry(usuario).State = EntityState.Modified;
         await userContext.SaveChangesAsync();
         return usuario;
     }

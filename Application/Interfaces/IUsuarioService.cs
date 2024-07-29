@@ -1,12 +1,14 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Usuario;
+using Application.DTOs.Jwt;
+using Application.Requests.Usuarios;
+using Application.Responses;
 
 namespace Application.Interfaces {
     public interface IUsuarioService {
-        Task<AddUsuarioResponseDto> AddUsuario(AddUsuarioRequestDto usuario);
-        Task<UsuarioDto> UpdateUsuario(UsuarioDto defaultUsuario);
-        Task<GetUsuarioResponseDto?> GetUsuarioByCpf(string cpf);
-        Task<IEnumerable<GetUsuarioResponseDto>> GetUsuarios();
-        Task<UsuarioDto?> Authenticate(string email, string password);
+        Task<Response<UsuarioDto>> AddUsuario(CreateUsuarioRequest request);
+        Task<Response<UsuarioDto>> UpdateUsuario(UpdateUsuarioRequest request);
+        Task<Response<UsuarioDto>> GetUsuarioByCpf(GetUsuarioByCpfRequest request);
+        Task<PagedResponse<List<UsuarioDto>>> GetUsuarios(GetAllUsuariosRequest request);
+        Task<JwtDto?> Authenticate(string email, string password);
     }
 }

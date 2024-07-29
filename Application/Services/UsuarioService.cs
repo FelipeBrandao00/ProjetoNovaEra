@@ -1,51 +1,101 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Usuario;
+using Application.DTOs.Jwt;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
-using System.Linq;
+using Application.Requests.Usuarios;
+using Application.Responses;
 
 namespace Application.Services;
 
 public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper) : IUsuarioService
 {
-    public async Task<AddUsuarioResponseDto> AddUsuario(AddUsuarioRequestDto usuarioDto)
+    public async Task<Response<UsuarioDto>> AddUsuario(CreateUsuarioRequest request)
     {
-        var usuarioEntity = mapper.Map<Usuario>(usuarioDto);
-        var retorno =  await usuarioRepository.AddUsuario(usuarioEntity);
-
-        return mapper.Map<AddUsuarioResponseDto>(retorno);
-    }
-
-    public Task<UsuarioDto> UpdateUsuario(UsuarioDto usuario)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<GetUsuarioResponseDto?> GetUsuarioByCpf(string cpf)
-    { 
-        return mapper.Map<GetUsuarioResponseDto>(await usuarioRepository.GetUsuarioByCpf(cpf));
-    }
-
-    public async Task<IEnumerable<GetUsuarioResponseDto>> GetUsuarios()
-    {
-        List<Usuario> listaUsuarios = await usuarioRepository.GetUsuarios();
-
-        List<GetUsuarioResponseDto> result = new();
-
-        foreach (var usuario in listaUsuarios)
+        try
         {
-            result.Add(mapper.Map<GetUsuarioResponseDto>(usuario));
+            var usuarioEntity = mapper.Map<Usuario>(request);
+            var retorno =  await usuarioRepository.AddUsuario(usuarioEntity);
+            return new Response<UsuarioDto>(
+                mapper.Map<UsuarioDto>(retorno), 
+                201, 
+                "Usuário criado com sucesso!");
         }
-                
-        return result;
+        catch (Exception e)
+        {
+            var usuarioEntity = mapper.Map<Usuario>(request);
+            var retorno =  await usuarioRepository.AddUsuario(usuarioEntity);
+            return new Response<UsuarioDto>(
+                null, 
+                500, 
+                "Não foi possível criar o usuário");
+        }
     }
 
-    public async Task<UsuarioDto?> Authenticate(string email, string password)
+    public async Task<Response<UsuarioDto>> UpdateUsuario(UpdateUsuarioRequest request)
+    {
+        try
+        {
+            var usuario = mapper.Map<Usuario>(request);
+            var result = await usuarioRepository.UpdateUsuario(usuario);
+            return new Response<UsuarioDto>(mapper.Map<UsuarioDto>(result), 200, "Usuário atualizado com sucesso!");            
+        }
+        catch (Exception e)
+        {
+            return new Response<UsuarioDto>(null, 500, "Não foi possível atualizar o usuário.");
+        }
+    }
+
+    public async Task<Response<UsuarioDto>> GetUsuarioByCpf(GetUsuarioByCpfRequest request)
+    { 
+        try
+        {
+            var result = mapper.Map<UsuarioDto>(await usuarioRepository.GetUsuarioByCpf(request.Cpf));
+            return new Response<UsuarioDto>(result, 200, "Usuário criado com sucesso!");
+        }
+        catch (Exception e)
+        {
+            return new Response<UsuarioDto>(null, 500, "Algo deu errado tentando buscar o usuário.");
+
+        }
+    }
+
+    public async Task<PagedResponse<List<UsuarioDto>>> GetUsuarios(GetAllUsuariosRequest request)
+    {
+        try
+        {
+            List<Usuario> query = await usuarioRepository.GetUsuarios();
+            
+            var usuarios =query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+            
+            List<UsuarioDto> result = new();
+            foreach (var usuario in usuarios)
+            {
+                result.Add(mapper.Map<UsuarioDto>(usuario));
+            }
+
+            return new PagedResponse<List<UsuarioDto>>(
+                result,
+                query.Count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch (Exception e)
+        {
+            return new PagedResponse<List<UsuarioDto>>(null, 500, "Não foi possível consultar os usuarios");
+
+        }
+        
+    }
+
+    public async Task<JwtDto?> Authenticate(string email, string password)
     {
         var usuarioEntity =  await usuarioRepository.Authenticate(email, password);
-        var result = mapper.Map<UsuarioDto>(usuarioEntity);
+        var result = mapper.Map<JwtDto>(usuarioEntity);
         return result;
     }
 }

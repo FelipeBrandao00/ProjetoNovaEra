@@ -1,8 +1,8 @@
-using Application.DTOs;
+using Application.DTOs.Jwt;
 
 namespace Application.Interfaces;
 
 public interface IJwtService
 {
-    string GerarToken(UsuarioDto user);
+    string GerarToken(JwtDto jwtDto);
 }

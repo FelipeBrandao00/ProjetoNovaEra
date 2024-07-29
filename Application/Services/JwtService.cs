@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.DTOs;
+using Application.DTOs.Jwt;
 using Application.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +18,7 @@ public class JwtService : IJwtService
         _secretKey = configuration["Jwt:SecretKey"] ?? throw new Exception("Chave de autenticação inválida!");
     }
     
-    public string GerarToken(UsuarioDto user)
+    public string GerarToken(JwtDto jwtDto)
     {
         var hadler = new JwtSecurityTokenHandler();
         var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretKey));
@@ -26,17 +27,17 @@ public class JwtService : IJwtService
         {
             SigningCredentials = credentials,
             Expires = DateTime.UtcNow.AddMinutes(10),
-            Subject = GetClaimsIdentity(user),
+            Subject = GetClaimsIdentity(jwtDto),
         };
         var token = hadler.CreateToken(tokenDescriptor);
         var strToken = hadler.WriteToken(token);
         return strToken;
     }
     
-    private ClaimsIdentity GetClaimsIdentity(UsuarioDto user) {
+    private ClaimsIdentity GetClaimsIdentity(JwtDto jwtDto) {
         var claimsIdentity = new ClaimsIdentity();
-        claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, user.dsEmail));
-        foreach (var cargoUsuario in user.CargoUsuario)
+        claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, jwtDto.dsEmail));
+        foreach (var cargoUsuario in jwtDto.CargoUsuario)
         {
             claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, cargoUsuario.Cargo.dsCargo));
         }

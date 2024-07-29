@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
-using Application.DTOs.Usuario;
+using Application.DTOs.Jwt;
+using Application.Requests.Usuarios;
 using AutoMapper;
 using Domain.Entities;
 
@@ -9,9 +10,9 @@ public class UsuarioMapping : Profile
 {
     public UsuarioMapping()
     {
-        CreateMap<Usuario, AddUsuarioRequestDto>().ReverseMap();        
-        CreateMap<Usuario, AddUsuarioResponseDto>().ReverseMap();        
-        CreateMap<Usuario, GetUsuarioResponseDto>().ReverseMap();        
+        CreateMap<Usuario, CreateUsuarioRequest>().ReverseMap(); 
+        CreateMap<Usuario, UpdateUsuarioRequest>().ReverseMap(); 
         CreateMap<Usuario, UsuarioDto>().ReverseMap();
+        CreateMap<Usuario, JwtDto>().ReverseMap();
     }
 }

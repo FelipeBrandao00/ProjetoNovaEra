@@ -1,44 +1,48 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using API.Models;
-using Application.DTOs.Usuario;
+﻿using API.Models;
 using Application.Interfaces;
+using Application.Requests.Usuarios;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers;
 [Route("api/[controller]")]
+[Authorize(Roles = "Admnistrador")]
 [ApiController]
 public class UsuarioController(IUsuarioService usuarioService, IJwtService jwtService) : ControllerBase
 {
-    
     [HttpPost("/AddUsuario")]
-    [Authorize(Roles = "Admnistrador")]
-    public async Task<ActionResult> AddUsuario([FromBody] AddUsuarioRequestDto user)
+    public async Task<ActionResult> AddUsuario([FromBody] CreateUsuarioRequest request)
     {
-       var result = await usuarioService.AddUsuario(user);
+       var result = await usuarioService.AddUsuario(request);
        return Ok(result);
+    }
+
+    [HttpPut("/UpdateUsuario")]
+    public async Task<ActionResult> UpdateUsuario(Guid id,UpdateUsuarioRequest request)
+    {
+        if (id != request.cdUsuario) return new BadRequestResult();
+        var result = await usuarioService.UpdateUsuario(request);
+        return Ok(result);
     }
     
     [HttpGet("/GetUsuarioByCpf")]
-    [Authorize(Roles = "Admnistrador")]
     public async Task<ActionResult> GetUsuarioByCpf(string cpf)
     {
-        var result = await usuarioService.GetUsuarioByCpf(cpf);
+        var request = new GetUsuarioByCpfRequest{Cpf = cpf};
+        var result = await usuarioService.GetUsuarioByCpf(request);
         return Ok(result);
     }
     
     [HttpGet("/GetUsuarios")]
-    [Authorize(Roles = "Admnistrador")]
-    public async Task<ActionResult> GetUsuarios()
+    public async Task<ActionResult> GetUsuarios([FromQuery]int? pageNumber = null,[FromQuery]int? pageSize = null)
     {
-        var result = await usuarioService.GetUsuarios();
+        var request = new GetAllUsuariosRequest(pageNumber, pageSize);
+        var result = await usuarioService.GetUsuarios(request);
         return Ok(result);
     }
     
     [HttpPost("/Authenticate")]
+    [AllowAnonymous]
     public async Task<ActionResult> GerarToken([FromBody] User user) {
         var usuario = await usuarioService.Authenticate(user.Email, user.Password);
         if (usuario == null) return BadRequest("Login e/ou Senha inválidos.");
