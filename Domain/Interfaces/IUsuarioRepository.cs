@@ -7,6 +7,5 @@ namespace Domain.Interfaces {
         Task<Usuario> UpdateUsuario(Usuario usuario);
         Task<Usuario?> GetUsuarioByCpf(string cpf);
         Task<List<Usuario>> GetUsuarios();
-        Task<Usuario?> Authenticate(string email, string password);
     }
 }

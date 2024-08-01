@@ -52,7 +52,7 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
         try
         {
             var result = mapper.Map<UsuarioDto>(await usuarioRepository.GetUsuarioByCpf(request.Cpf));
-            return new Response<UsuarioDto>(result, 200, "Usuário criado com sucesso!");
+            return new Response<UsuarioDto>(result, 200, "Usuário encontrado!");
         }
         catch (Exception e)
         {
@@ -90,12 +90,5 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
 
         }
         
-    }
-
-    public async Task<JwtDto?> Authenticate(string email, string password)
-    {
-        var usuarioEntity =  await usuarioRepository.Authenticate(email, password);
-        var result = mapper.Map<JwtDto>(usuarioEntity);
-        return result;
     }
 }

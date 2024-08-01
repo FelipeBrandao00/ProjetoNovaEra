@@ -3,6 +3,7 @@ using System.Text;
 using API_NOVA_ERA.Database;
 using Domain.Entities;
 using Domain.Interfaces;
+using Infra.Data.Encode;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repositories;
@@ -11,7 +12,7 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
 
     public async Task<Usuario> AddUsuario(Usuario usuario)
     {
-        usuario.dsSenha = EncodePassword(usuario.dsSenha);
+        usuario.dsSenha = Password.EncodePassword(usuario.dsSenha);
         userContext.Usuarios.Add(usuario);
         await userContext.SaveChangesAsync();
         return usuario;
@@ -24,30 +25,11 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
     public async Task<List<Usuario>> GetUsuarios() {
         return await userContext.Usuarios.ToListAsync();
     }
-
-    public async Task<Usuario?> Authenticate(string email, string password)
-    {
-        var result = await  userContext.Usuarios
-            .Where(x => x.dsEmail == email && x.dsSenha == EncodePassword(password))
-            .Include(u => u.CargoUsuario)
-            .ThenInclude(cargoUser => cargoUser.Cargo) 
-            .FirstOrDefaultAsync();
-        return result;
-    }
-
+    
     public async Task<Usuario> UpdateUsuario(Usuario usuario) {
-        usuario.dsSenha = EncodePassword(usuario.dsSenha);
+        usuario.dsSenha = Password.EncodePassword(usuario.dsSenha);
         userContext.Entry(usuario).State = EntityState.Modified;
         await userContext.SaveChangesAsync();
         return usuario;
-    }
-
-
-
-    private string EncodePassword(string password)
-    {
-        byte[] bytes   = Encoding.Unicode.GetBytes(password);
-        byte[] inArray = HashAlgorithm.Create("SHA1").ComputeHash(bytes);
-        return Convert.ToBase64String(inArray);
     }
 }

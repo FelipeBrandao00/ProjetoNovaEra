@@ -9,6 +9,5 @@ namespace Application.Interfaces {
         Task<Response<UsuarioDto>> UpdateUsuario(UpdateUsuarioRequest request);
         Task<Response<UsuarioDto>> GetUsuarioByCpf(GetUsuarioByCpfRequest request);
         Task<PagedResponse<List<UsuarioDto>>> GetUsuarios(GetAllUsuariosRequest request);
-        Task<JwtDto?> Authenticate(string email, string password);
     }
 }
