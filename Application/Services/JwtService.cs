@@ -26,7 +26,7 @@ public class JwtService : IJwtService
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             SigningCredentials = credentials,
-            Expires = DateTime.UtcNow.AddMinutes(10),
+            Expires = DateTime.UtcNow.AddDays(1),
             Subject = GetClaimsIdentity(jwtDto),
         };
         var token = hadler.CreateToken(tokenDescriptor);

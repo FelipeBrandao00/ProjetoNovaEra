@@ -21,9 +21,14 @@ namespace Infra.IoC {
             services.AddScoped<IAuthenticateRepository, AuthenticateRepository>();
             services.AddScoped<IAuthenticateService, AuthenticateService>();
             services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<ICargoRepository, CargoRepository>();
+            services.AddScoped<ICargoService, CargoService>();
+            services.AddScoped<ICargoUsuarioRepository, CargoUsuarioRepository>();
             
             
             services.AddAutoMapper(typeof(UsuarioMapping));
+            services.AddAutoMapper(typeof(CargoMapping));
+
 
             return services;
         }
