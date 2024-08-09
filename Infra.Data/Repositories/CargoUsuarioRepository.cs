@@ -24,7 +24,7 @@ public class CargoUsuarioRepository(ApplicationDbContext CargoUsuarioContext) : 
     public async Task<List<Cargo_Usuario>> GetCargosByUserId(Guid cdUsuario)
     {
         return await CargoUsuarioContext.Cargo_Usuarios
-            .Where(x => x.cdUsuario == cdUsuario)
+            .Where(x => x.CdUsuario == cdUsuario)
             .Include(x => x.Cargo)
             .ToListAsync();
     }

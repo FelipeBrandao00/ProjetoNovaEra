@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.DTOs;
 using Application.DTOs.Jwt;
 using Application.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -36,10 +35,10 @@ public class JwtService : IJwtService
     
     private ClaimsIdentity GetClaimsIdentity(JwtDto jwtDto) {
         var claimsIdentity = new ClaimsIdentity();
-        claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, jwtDto.dsEmail));
+        claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, jwtDto.DsEmail));
         foreach (var cargoUsuario in jwtDto.CargoUsuario)
         {
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, cargoUsuario.Cargo.dsCargo));
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, cargoUsuario.Cargo.DsCargo));
         }
         return claimsIdentity;
     }

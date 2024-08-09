@@ -4,10 +4,5 @@
     {
         Masculino = 0,
         Feminino,
-        LançaFoguetes,
-        BubbleBee,
-        Torradeira,
-        Kombi,
-        Femboy
     }
 }

@@ -7,12 +7,12 @@ namespace Domain.Entities
     {
         [Key]
         [Required]
-        public int cdCertificado { get; set; }
-        public string nmArquivo { get; set; }
-        public Extensao dsExtensao { get; set; }
+        public int CdCertificado { get; set; }
+        public required string NmArquivo { get; set; }
+        public Extensao DsExtensao { get; set; }
 
         [Required]
-        public int cdTurma { get; set; }
-        public Turma Turma { get; set; }
+        public int CdTurma { get; set; }
+        public virtual required Turma Turma { get; set; }
     }
 }

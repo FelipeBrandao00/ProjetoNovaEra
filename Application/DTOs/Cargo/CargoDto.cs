@@ -1,3 +1,3 @@
 ﻿namespace Application.DTOs.Cargo;
 
-public record CargoDto(int cdCargo,string dsCargo);
+public record CargoDto(int CdCargo,string DsCargo);

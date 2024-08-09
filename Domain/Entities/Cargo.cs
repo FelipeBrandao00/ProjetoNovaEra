@@ -3,9 +3,9 @@
 namespace Domain.Entities {
     public class Cargo {
         [Key]
-        public int cdCargo { get; set; }
-        public string dsCargo { get; set; }
+        public int CdCargo { get; set; }
+        public required string DsCargo { get; set; }
 
-        public virtual ICollection<Cargo_Usuario> CargoUsuario { get; set; }
+        public virtual ICollection<Cargo_Usuario>? CargoUsuario { get; set; }
     }
 }

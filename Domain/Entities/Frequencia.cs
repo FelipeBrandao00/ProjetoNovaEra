@@ -4,12 +4,12 @@ namespace Domain.Entities
 {
     public class Frequencia
     {
-        public Guid cdAluno { get; set; }
-        public int cdTurma { get; set; }
-        public int cdAula { get; set; }
+        public Guid CdAluno { get; set; }
+        public int CdTurma { get; set; }
+        public int CdAula { get; set; }
 
 
-        public virtual Aula Aula { get; set; }
-        public virtual Aluno Aluno { get; set; }
+        public virtual required Aula Aula { get; set; }
+        public virtual required Aluno Aluno { get; set; }
     }
 }

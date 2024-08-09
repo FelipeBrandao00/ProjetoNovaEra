@@ -1,3 +1,3 @@
-﻿namespace Application.DTOs;
+﻿namespace Application.DTOs.Usuario;
 
-public record UsuarioDto(string nmUsuario, string dsEmail, string dsCPF);
+public record UsuarioDto(string NmUsuario, string DsEmail, string DsCpf);

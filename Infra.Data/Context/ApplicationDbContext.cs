@@ -27,20 +27,20 @@ namespace API_NOVA_ERA.Database {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             modelBuilder.Entity<Turma_Aluno>().
-                HasKey(x => new { x.cdTurma, x.cdAluno });
+                HasKey(x => new { cdTurma = x.CdTurma, cdAluno = x.CdAluno });
 
             modelBuilder.Entity<Cargo_Usuario>()
-                .HasKey(x => new { x.cdUsuario, x.cdCargo });
+                .HasKey(x => new { cdUsuario = x.CdUsuario, cdCargo = x.CdCargo });
 
             modelBuilder.Entity<Frequencia>().
-                HasKey(x => new { x.cdAula, x.cdTurma, x.cdAluno });
+                HasKey(x => new { cdAula = x.CdAula, cdTurma = x.CdTurma, cdAluno = x.CdAluno });
 
 
             #region Turma
             modelBuilder.Entity<Turma>()
                .HasOne(e => e.Certificado)
                .WithOne(e => e.Turma)
-               .HasForeignKey<Certificado>(e => e.cdTurma)
+               .HasForeignKey<Certificado>(e => e.CdTurma)
                .IsRequired();
 
 
@@ -59,36 +59,36 @@ namespace API_NOVA_ERA.Database {
             modelBuilder.Entity<Turma>()
                 .HasMany(t => t.Aulas)
                 .WithOne(a => a.Turma)
-                .HasForeignKey(a => a.cdTurma)
+                .HasForeignKey(a => a.CdTurma)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Turma>()
                 .HasMany(t => t.TurmaAluno)
                 .WithOne(ta => ta.Turma)
-                .HasForeignKey(ta => ta.cdTurma)
+                .HasForeignKey(ta => ta.CdTurma)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
             #region Aula
             modelBuilder.Entity<Aula>()
-                .HasKey(a => new { a.cdAula, a.cdTurma });
+                .HasKey(a => new { cdAula = a.CdAula, cdTurma = a.CdTurma });
 
             modelBuilder.Entity<Aula>()
                 .HasOne(a => a.Turma)
                 .WithMany(t => t.Aulas)
-                .HasForeignKey(a => a.cdTurma)
+                .HasForeignKey(a => a.CdTurma)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Aula>()
                .HasMany(a => a.Conteudos)
                .WithOne(c => c.Aula)
-               .HasForeignKey(c => new { c.cdAula, c.cdTurma })
+               .HasForeignKey(c => new { cdAula = c.CdAula, cdTurma = c.CdTurma })
                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Aula>()
                 .HasMany(a => a.Frequencia)
                 .WithOne(f => f.Aula)
-                .HasForeignKey(f => new { f.cdAula, f.cdTurma })
+                .HasForeignKey(f => new { cdAula = f.CdAula, cdTurma = f.CdTurma })
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
@@ -96,13 +96,13 @@ namespace API_NOVA_ERA.Database {
             modelBuilder.Entity<Aluno>()
                .HasMany(a => a.TurmaAluno)
                .WithOne(ta => ta.Aluno)
-               .HasForeignKey(ta => ta.cdAluno)
+               .HasForeignKey(ta => ta.CdAluno)
                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Aluno>()
                 .HasMany(a => a.Frequencia)
                 .WithOne(f => f.Aluno)
-                .HasForeignKey(f => f.cdAluno)
+                .HasForeignKey(f => f.CdAluno)
                 .OnDelete(DeleteBehavior.Cascade);
 
             #endregion
@@ -111,39 +111,39 @@ namespace API_NOVA_ERA.Database {
             modelBuilder.Entity<Frequencia>()
              .HasOne(f => f.Aula)
              .WithMany(a => a.Frequencia)
-             .HasForeignKey(f => f.cdAula)
-             .HasForeignKey(f => new { f.cdAula, f.cdTurma })
+             .HasForeignKey(f => f.CdAula)
+             .HasForeignKey(f => new { cdAula = f.CdAula, cdTurma = f.CdTurma })
              .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Frequencia>()
                 .HasOne(f => f.Aluno)
                 .WithMany(a => a.Frequencia)
-                .HasForeignKey(f => f.cdAluno)
+                .HasForeignKey(f => f.CdAluno)
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
             modelBuilder.Entity<Usuario>()
             .HasMany(uc => uc.CargoUsuario)
             .WithOne(u => u.Usuario)
-            .HasForeignKey(uc => uc.cdUsuario)
+            .HasForeignKey(uc => uc.CdUsuario)
             .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Cargo>()
            .HasMany(uc => uc.CargoUsuario)
            .WithOne(c => c.Cargo)
-           .HasForeignKey(uc => uc.cdCargo)
+           .HasForeignKey(uc => uc.CdCargo)
            .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Professor>()
                 .HasOne(p => p.Usuario)
                 .WithOne(u => u.Professor)
-                .HasForeignKey<Professor>(p => p.cdProfessor)
+                .HasForeignKey<Professor>(p => p.CdProfessor)
         .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Aluno>()
                 .HasOne(a => a.Usuario)
                 .WithOne(u => u.Aluno)
-                .HasForeignKey<Aluno>(a => a.cdAluno)
+                .HasForeignKey<Aluno>(a => a.CdAluno)
         .OnDelete(DeleteBehavior.NoAction);
         }
     }

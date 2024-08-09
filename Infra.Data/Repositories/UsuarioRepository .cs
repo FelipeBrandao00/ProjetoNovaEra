@@ -12,14 +12,14 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
 
     public async Task<Usuario> AddUsuario(Usuario usuario)
     {
-        usuario.dsSenha = Password.EncodePassword(usuario.dsSenha);
+        usuario.DsSenha = Password.EncodePassword(usuario.DsSenha);
         userContext.Usuarios.Add(usuario);
         await userContext.SaveChangesAsync();
         return usuario;
     }
 
     public async Task<Usuario?> GetUsuarioByCpf(string cpf) {
-        return await userContext.Usuarios.SingleOrDefaultAsync(x => x.dsCPF == cpf);
+        return await userContext.Usuarios.SingleOrDefaultAsync(x => x.DsCpf == cpf);
     }
 
     public async Task<List<Usuario>> GetUsuarios() {
@@ -27,7 +27,7 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
     }
     
     public async Task<Usuario> UpdateUsuario(Usuario usuario) {
-        usuario.dsSenha = Password.EncodePassword(usuario.dsSenha);
+        usuario.DsSenha = Password.EncodePassword(usuario.DsSenha);
         userContext.Entry(usuario).State = EntityState.Modified;
         await userContext.SaveChangesAsync();
         return usuario;

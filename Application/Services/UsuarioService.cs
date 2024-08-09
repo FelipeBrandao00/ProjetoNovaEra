@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.DTOs.Jwt;
+using Application.DTOs.Usuario;
 using Application.Interfaces;
 using AutoMapper;
 using Domain.Entities;

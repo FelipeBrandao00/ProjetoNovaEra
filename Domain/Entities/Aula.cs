@@ -6,14 +6,14 @@ namespace Domain.Entities
     {
         [Key]
         [Required]
-        public int cdAula { get; set; }
-        public DateTime dtAula { get; set; }
+        public int CdAula { get; set; }
+        public DateTime DtAula { get; set; }
 
-        public int cdTurma { get; set; }
-        public virtual Turma Turma { get; set; }
+        public int CdTurma { get; set; }
+        public virtual required Turma Turma { get; set; }
 
-        public virtual ICollection<Conteudo> Conteudos { get; set; }
+        public virtual ICollection<Conteudo>? Conteudos { get; set; }
 
-        public virtual ICollection<Frequencia> Frequencia { get; set; }
+        public virtual ICollection<Frequencia>? Frequencia { get; set; }
     }
 }

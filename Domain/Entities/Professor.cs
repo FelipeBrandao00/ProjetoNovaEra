@@ -5,11 +5,11 @@ namespace Domain.Entities {
     public class Professor {
         [Key, ForeignKey("Usuario")]
         [Required]
-        public Guid cdProfessor { get; set; }
-        public bool icHabilitadoTurma { get; set; }
+        public Guid CdProfessor { get; set; }
+        public bool IcHabilitadoTurma { get; set; }
 
 
-        public Usuario Usuario { get; set; }
-        public ICollection<Turma> Turmas { get; set; }
+        public required Usuario Usuario { get; set; }
+        public virtual ICollection<Turma>? Turmas { get; set; }
     }
 }

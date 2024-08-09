@@ -1,10 +1,10 @@
 ﻿namespace Domain.Entities {
     public class Cargo_Usuario {
-        public Guid cdUsuario { get; set; }
-        public int cdCargo { get; set; }
+        public Guid CdUsuario { get; set; }
+        public int CdCargo { get; set; }
 
 
-        public virtual Usuario Usuario { get; set; }
-        public virtual Cargo Cargo { get; set; }
+        public virtual required Usuario Usuario { get; set; }
+        public virtual required Cargo Cargo { get; set; }
     }
 }

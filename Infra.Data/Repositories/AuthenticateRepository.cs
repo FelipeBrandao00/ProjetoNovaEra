@@ -13,7 +13,7 @@ public class AuthenticateRepository(ApplicationDbContext authContext) : IAuthent
     public async Task<Usuario?> Authenticate(string email, string password)
     {
         var result = await  authContext.Usuarios
-            .Where(x => x.dsEmail == email && x.dsSenha == Password.EncodePassword(password))
+            .Where(x => x.DsEmail == email && x.DsSenha == Password.EncodePassword(password))
             .Include(u => u.CargoUsuario)
             .ThenInclude(cargoUser => cargoUser.Cargo) 
             .FirstOrDefaultAsync();

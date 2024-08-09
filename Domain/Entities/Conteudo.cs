@@ -7,16 +7,16 @@ namespace Domain.Entities
     {
         [Key]
         [Required]
-        public int cdConteudo { get; set; }
-        public string dsConteudo { get; set; }
-        public string nmArquivo { get; set; }
-        public Extensao dsExtencao { get; set; }
+        public int CdConteudo { get; set; }
+        public required string DsConteudo { get; set; }
+        public required string NmArquivo { get; set; }
+        public Extensao DsExtencao { get; set; }
 
         [Required]
-        public int cdAula { get; set; }
+        public virtual int CdAula { get; set; }
         [Required]
-        public int cdTurma { get; set; }
-        public Aula Aula { get; set; }
+        public virtual int CdTurma { get; set; }
+        public virtual required Aula Aula { get; set; }
 
     }
 }
