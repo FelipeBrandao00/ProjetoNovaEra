@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "Admnistrador")]
+    [Authorize(Roles = "Administrador")]
     [ApiController]
     public class CargoController(ICargoService cargoService) : ControllerBase
     {

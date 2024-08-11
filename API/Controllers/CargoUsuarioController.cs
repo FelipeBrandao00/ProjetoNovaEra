@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Requests.CargoUsuario;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Administrador")]
     public class CargoUsuarioController(ICargoUsuarioService cargoUsuarioService) : ControllerBase
     {
         [HttpPost("api/[controller]")]
