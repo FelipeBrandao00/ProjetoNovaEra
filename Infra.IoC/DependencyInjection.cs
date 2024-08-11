@@ -1,4 +1,5 @@
 ﻿using API_NOVA_ERA.Database;
+using Application.DTOs;
 using Application.Interfaces;
 using Application.Mappings;
 using Application.Services;
@@ -18,16 +19,23 @@ namespace Infra.IoC {
 
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IUsuarioService, UsuarioService>();
+            
             services.AddScoped<IAuthenticateRepository, AuthenticateRepository>();
             services.AddScoped<IAuthenticateService, AuthenticateService>();
+            
             services.AddScoped<IJwtService, JwtService>();
+            
             services.AddScoped<ICargoRepository, CargoRepository>();
             services.AddScoped<ICargoService, CargoService>();
+            
             services.AddScoped<ICargoUsuarioRepository, CargoUsuarioRepository>();
+            services.AddScoped<ICargoUsuarioService, CargoUsuarioService>();
             
             
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
+            services.AddAutoMapper(typeof(CargoUsuarioMapping));
+
 
 
             return services;

@@ -14,6 +14,7 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
     public async Task<ActionResult> AddUsuario([FromBody] CreateUsuarioRequest request)
     {
        var result = await usuarioService.AddUsuario(request);
+       if (!result.IsSuccess) return BadRequest(result);
        return Ok(result);
     }
 
@@ -22,6 +23,7 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
     {
         if (id != request.cdUsuario) return new BadRequestResult();
         var result = await usuarioService.UpdateUsuario(request);
+        if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }
     
@@ -30,6 +32,7 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
     {
         var request = new GetUsuarioByCpfRequest{Cpf = cpf};
         var result = await usuarioService.GetUsuarioByCpf(request);
+        if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }
     
@@ -38,6 +41,7 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
     {
         var request = new GetAllUsuariosRequest(pageNumber, pageSize);
         var result = await usuarioService.GetUsuarios(request);
+        if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }
 }

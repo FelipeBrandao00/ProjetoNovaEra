@@ -11,10 +11,11 @@ namespace API.Controllers
     public class CargoController(ICargoService cargoService) : ControllerBase
     {
         [HttpGet("api/[controller]")]
-        public async Task<ActionResult> GetUsuarios([FromQuery]int? pageNumber = null,[FromQuery]int? pageSize = null)
+        public async Task<ActionResult> GetCargos([FromQuery]int? pageNumber = null,[FromQuery]int? pageSize = null)
         {
             var request = new GetAllCargosRequest(pageNumber, pageSize);
             var result = await cargoService.GetCargos(request);
+            if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
     }

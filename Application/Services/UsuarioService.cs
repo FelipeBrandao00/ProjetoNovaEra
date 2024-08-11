@@ -25,8 +25,6 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
         }
         catch (Exception e)
         {
-            var usuarioEntity = mapper.Map<Usuario>(request);
-            var retorno =  await usuarioRepository.AddUsuario(usuarioEntity);
             return new Response<UsuarioDto>(
                 null, 
                 500, 
@@ -88,8 +86,6 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
         catch (Exception e)
         {
             return new PagedResponse<List<UsuarioDto>>(null, 500, "Não foi possível consultar os usuarios");
-
         }
-        
     }
 }
