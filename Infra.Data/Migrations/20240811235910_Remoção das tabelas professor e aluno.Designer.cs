@@ -4,6 +4,7 @@ using API_NOVA_ERA.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240811235910_Remoção das tabelas professor e aluno")]
+    partial class Remoçãodastabelasprofessorealuno
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,28 +58,6 @@ namespace Infra.Data.Migrations
                     b.HasKey("CdCargo");
 
                     b.ToTable("Cargos");
-
-                    b.HasData(
-                        new
-                        {
-                            CdCargo = 1,
-                            DsCargo = "Administrador"
-                        },
-                        new
-                        {
-                            CdCargo = 2,
-                            DsCargo = "Professor"
-                        },
-                        new
-                        {
-                            CdCargo = 3,
-                            DsCargo = "Aluno"
-                        },
-                        new
-                        {
-                            CdCargo = 4,
-                            DsCargo = "Master"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Cargo_Usuario", b =>
@@ -92,18 +73,6 @@ namespace Infra.Data.Migrations
                     b.HasIndex("CdCargo");
 
                     b.ToTable("Cargo_Usuarios");
-
-                    b.HasData(
-                        new
-                        {
-                            CdUsuario = new Guid("a21fa379-2b28-447f-ad88-87ef9df45df7"),
-                            CdCargo = 4
-                        },
-                        new
-                        {
-                            CdUsuario = new Guid("a21fa379-2b28-447f-ad88-87ef9df45df7"),
-                            CdCargo = 1
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Certificado", b =>
@@ -266,6 +235,7 @@ namespace Infra.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DsCpf")
+                        .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
@@ -273,14 +243,14 @@ namespace Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DsGenero")
+                    b.Property<int>("DsGenero")
                         .HasColumnType("int");
 
                     b.Property<string>("DsSenha")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DtNascimento")
+                    b.Property<DateTime>("DtNascimento")
                         .HasColumnType("datetime2");
 
                     b.Property<bool?>("IcHabilitadoTurma")
@@ -293,15 +263,6 @@ namespace Infra.Data.Migrations
                     b.HasKey("CdUsuario");
 
                     b.ToTable("Usuarios");
-
-                    b.HasData(
-                        new
-                        {
-                            CdUsuario = new Guid("a21fa379-2b28-447f-ad88-87ef9df45df7"),
-                            DsEmail = "master@mail.com",
-                            DsSenha = "E59pyTwEJJao6VjsWTBmLGzMr78=",
-                            NmUsuario = "Master"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Aula", b =>

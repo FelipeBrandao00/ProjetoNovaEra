@@ -8,7 +8,7 @@ namespace Domain.Entities
         public int CdTurma { get; set; }
 
         public virtual required Turma Turma { get; set; }
-        public virtual required Aluno Aluno { get; set; }
+        public virtual required Usuario Aluno { get; set; }
 
     }
 }

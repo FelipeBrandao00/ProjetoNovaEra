@@ -21,7 +21,7 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
     [HttpPut("api/[controller]/{id}")]
     public async Task<ActionResult> UpdateUsuario(Guid id,UpdateUsuarioRequest request)
     {
-        if (id != request.cdUsuario) return new BadRequestResult();
+        if (id != request.CdUsuario) return new BadRequestResult();
         var result = await usuarioService.UpdateUsuario(request);
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);

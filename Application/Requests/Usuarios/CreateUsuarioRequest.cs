@@ -2,9 +2,11 @@
 
 public class CreateUsuarioRequest
 {
-    public string nmUsuario { get; set; }
-    public string dsEmail { get; set; }
-    public string dsSenha { get; set; }
-    public string dsCPF { get; set; }
-    public int dsGenero { get; set; }
+    public string NmUsuario { get; set; }
+    public string DsEmail { get; set; }
+    public string DsSenha { get; set; }
+    public string DsCpf { get; set; }
+    public int DsGenero { get; set; }
+    public DateTime? DtNascimento { get; set; }
+    public bool? IcHabilitadoTurma { get; set; }
 }

@@ -6,16 +6,16 @@ namespace Domain.Entities
     {
         [Key]
         [Required]
-        public int cdTurma { get; set; }
-        public DateTime dtInicio { get; set; }
-        public DateTime dtFim { get; set; }
-        public Guid cdProfessor { get; set; }
-        public int cdCurso { get; set; }
-        public virtual Professor Professor { get; set; }
-        public virtual Certificado Certificado { get; set; }
-        public virtual Curso Curso { get; set; }
+        public int CdTurma { get; set; }
+        public DateTime DtInicio { get; set; }
+        public DateTime DtFim { get; set; }
+        public Guid CdProfessor { get; set; }
+        public int CdCurso { get; set; }
+        public virtual required Usuario Professor { get; set; }
+        public virtual Certificado? Certificado { get; set; }
+        public virtual required Curso Curso { get; set; }
 
-        public virtual ICollection<Aula> Aulas { get; set; }
-        public virtual ICollection<Turma_Aluno> TurmaAluno { get; set; }
+        public virtual ICollection<Aula>? Aulas { get; set; }
+        public virtual ICollection<Turma_Aluno>? TurmaAluno { get; set; }
     }
 }

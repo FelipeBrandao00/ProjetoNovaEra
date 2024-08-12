@@ -1,4 +1,6 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Enums;
+using Infra.Data.Encode;
 using Microsoft.EntityFrameworkCore;
 
 namespace API_NOVA_ERA.Database {
@@ -6,9 +8,7 @@ namespace API_NOVA_ERA.Database {
         public ApplicationDbContext() { }
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
-        public DbSet<Aluno> Alunos { get; set; }
         public DbSet<Curso> Cursos { get; set; }
-        public DbSet<Professor> Professores { get; set; }
         public DbSet<Turma> Turmas { get; set; }
         public DbSet<Certificado> Certificados { get; set; }
         public DbSet<Aula> Aulas { get; set; }
@@ -47,13 +47,13 @@ namespace API_NOVA_ERA.Database {
             modelBuilder.Entity<Turma>()
                .HasOne(t => t.Professor)
                .WithMany(p => p.Turmas)
-               .HasForeignKey(t => t.cdProfessor)
+               .HasForeignKey(t => t.CdProfessor)
                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Turma>()
                 .HasOne(t => t.Curso)
                 .WithMany(c => c.Turmas)
-                .HasForeignKey(t => t.cdCurso)
+                .HasForeignKey(t => t.CdCurso)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Turma>()
@@ -92,21 +92,6 @@ namespace API_NOVA_ERA.Database {
                 .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
-            #region Aluno
-            modelBuilder.Entity<Aluno>()
-               .HasMany(a => a.TurmaAluno)
-               .WithOne(ta => ta.Aluno)
-               .HasForeignKey(ta => ta.CdAluno)
-               .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Aluno>()
-                .HasMany(a => a.Frequencia)
-                .WithOne(f => f.Aluno)
-                .HasForeignKey(f => f.CdAluno)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            #endregion
-
             #region Frequencia
             modelBuilder.Entity<Frequencia>()
              .HasOne(f => f.Aula)
@@ -133,18 +118,36 @@ namespace API_NOVA_ERA.Database {
            .WithOne(c => c.Cargo)
            .HasForeignKey(uc => uc.CdCargo)
            .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Professor>()
-                .HasOne(p => p.Usuario)
-                .WithOne(u => u.Professor)
-                .HasForeignKey<Professor>(p => p.CdProfessor)
-        .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<Aluno>()
-                .HasOne(a => a.Usuario)
-                .WithOne(u => u.Aluno)
-                .HasForeignKey<Aluno>(a => a.CdAluno)
-        .OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<Turma>()
+                .HasOne(t => t.Professor)
+                .WithMany(p => p.Turmas)
+                .HasForeignKey(t => t.CdProfessor)
+                .OnDelete(DeleteBehavior.NoAction);
+            
+            
+            modelBuilder.Entity<Cargo>().HasData(
+                new Cargo { CdCargo = 1, DsCargo = "Administrador" },
+                new Cargo { CdCargo = 2, DsCargo = "Professor" },
+                new Cargo { CdCargo = 3, DsCargo = "Aluno" },
+                new Cargo { CdCargo = 4, DsCargo = "Master" }
+            );
+            
+            modelBuilder.Entity<Usuario>().HasData(
+                new Usuario
+                {
+                    CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"),
+                    NmUsuario = "Master",
+                    DsEmail = "master@mail.com",
+                    DsSenha = Password.EncodePassword("1234")
+                }
+            );
+            
+            modelBuilder.Entity<Cargo_Usuario>().HasData(
+                new Cargo_Usuario { CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"), CdCargo = 4 },
+                new Cargo_Usuario { CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"), CdCargo = 1 }
+            );
+            
         }
     }
 }

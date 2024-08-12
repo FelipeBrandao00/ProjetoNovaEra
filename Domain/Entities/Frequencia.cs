@@ -10,6 +10,6 @@ namespace Domain.Entities
 
 
         public virtual required Aula Aula { get; set; }
-        public virtual required Aluno Aluno { get; set; }
+        public virtual required Usuario Aluno { get; set; }
     }
 }
