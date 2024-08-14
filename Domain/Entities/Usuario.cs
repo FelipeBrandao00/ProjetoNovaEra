@@ -14,6 +14,8 @@ namespace Domain.Entities {
         public Genero? DsGenero { get; set; }
         public DateTime? DtNascimento { get; set; }
         public bool? IcHabilitadoTurma { get; set; }
+        public byte[]? DsFoto { get; set; }
+        public string? DsTelefone { get; set; }
         
         public virtual ICollection<Cargo_Usuario>? CargoUsuario { get; set; }
         public virtual ICollection<Turma_Aluno>? TurmaAluno { get; set; }

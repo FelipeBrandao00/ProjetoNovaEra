@@ -6,6 +6,7 @@ namespace Domain.Entities
     {
         public Guid CdAluno { get; set; }
         public int CdTurma { get; set; }
+        public bool? IcAprovado { get; set; }
 
         public virtual required Turma Turma { get; set; }
         public virtual required Usuario Aluno { get; set; }
