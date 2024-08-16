@@ -206,6 +206,38 @@ namespace Infra.Data.Migrations
                     b.ToTable("Frequencias");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Permissao", b =>
+                {
+                    b.Property<int>("CdPermissao")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CdPermissao"));
+
+                    b.Property<string>("NmPermissao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CdPermissao");
+
+                    b.ToTable("Permissoes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Permissao_Cargos", b =>
+                {
+                    b.Property<int>("CdPermissao")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CdCargo")
+                        .HasColumnType("int");
+
+                    b.HasKey("CdPermissao", "CdCargo");
+
+                    b.HasIndex("CdCargo");
+
+                    b.ToTable("Permissao_Cargos");
+                });
+
             modelBuilder.Entity("Domain.Entities.Turma", b =>
                 {
                     b.Property<int>("CdTurma")
@@ -219,6 +251,9 @@ namespace Infra.Data.Migrations
 
                     b.Property<Guid>("CdProfessor")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DsTurma")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DtFim")
                         .HasColumnType("datetime2");
@@ -243,15 +278,12 @@ namespace Infra.Data.Migrations
                     b.Property<Guid>("CdAluno")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AlunoCdUsuario")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool?>("IcAprovado")
                         .HasColumnType("bit");
 
                     b.HasKey("CdTurma", "CdAluno");
 
-                    b.HasIndex("AlunoCdUsuario");
+                    b.HasIndex("CdAluno");
 
                     b.ToTable("Turma_Alunos");
                 });
@@ -378,6 +410,25 @@ namespace Infra.Data.Migrations
                     b.Navigation("Aula");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Permissao_Cargos", b =>
+                {
+                    b.HasOne("Domain.Entities.Cargo", "Cargo")
+                        .WithMany("PermissaoCargos")
+                        .HasForeignKey("CdCargo")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Permissao", "Permissao")
+                        .WithMany("PermissaoCargos")
+                        .HasForeignKey("CdPermissao")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cargo");
+
+                    b.Navigation("Permissao");
+                });
+
             modelBuilder.Entity("Domain.Entities.Turma", b =>
                 {
                     b.HasOne("Domain.Entities.Curso", "Curso")
@@ -399,9 +450,9 @@ namespace Infra.Data.Migrations
 
             modelBuilder.Entity("Domain.Entities.Turma_Aluno", b =>
                 {
-                    b.HasOne("Domain.Entities.Usuario", "Aluno")
+                    b.HasOne("Domain.Entities.Usuario", "Usuario")
                         .WithMany("TurmaAluno")
-                        .HasForeignKey("AlunoCdUsuario")
+                        .HasForeignKey("CdAluno")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -411,9 +462,9 @@ namespace Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Aluno");
-
                     b.Navigation("Turma");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Domain.Entities.Aula", b =>
@@ -426,11 +477,18 @@ namespace Infra.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Cargo", b =>
                 {
                     b.Navigation("CargoUsuario");
+
+                    b.Navigation("PermissaoCargos");
                 });
 
             modelBuilder.Entity("Domain.Entities.Curso", b =>
                 {
                     b.Navigation("Turmas");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Permissao", b =>
+                {
+                    b.Navigation("PermissaoCargos");
                 });
 
             modelBuilder.Entity("Domain.Entities.Turma", b =>

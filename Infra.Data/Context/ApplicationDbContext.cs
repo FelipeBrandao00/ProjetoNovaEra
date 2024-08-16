@@ -18,6 +18,10 @@ namespace API_NOVA_ERA.Database {
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Cargo> Cargos { get; set; }
         public DbSet<Cargo_Usuario> Cargo_Usuarios { get; set; }
+        public DbSet<Permissao> Permissoes { get; set; }
+        public DbSet<Permissao_Cargos> Permissao_Cargos { get; set; }
+
+        
 
 
 
@@ -27,7 +31,10 @@ namespace API_NOVA_ERA.Database {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             modelBuilder.Entity<Turma_Aluno>().
-                HasKey(x => new { cdTurma = x.CdTurma, cdAluno = x.CdAluno });
+                HasKey(x => new { CdTurma = x.CdTurma, CdAluno = x.CdAluno });
+            
+            modelBuilder.Entity<Permissao_Cargos>().
+                HasKey(x => new { CdPermissao = x.CdPermissao, CdCargo = x.CdCargo });
 
             modelBuilder.Entity<Cargo_Usuario>()
                 .HasKey(x => new { cdUsuario = x.CdUsuario, cdCargo = x.CdCargo });
@@ -67,6 +74,12 @@ namespace API_NOVA_ERA.Database {
                 .WithOne(ta => ta.Turma)
                 .HasForeignKey(ta => ta.CdTurma)
                 .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Turma_Aluno>()
+                .HasOne(ta => ta.Usuario)
+                .WithMany(tu => tu.TurmaAluno) 
+                .HasForeignKey(ta => ta.CdAluno)
+                .OnDelete(DeleteBehavior.Cascade); 
             #endregion
 
             #region Aula
@@ -118,6 +131,18 @@ namespace API_NOVA_ERA.Database {
            .WithOne(c => c.Cargo)
            .HasForeignKey(uc => uc.CdCargo)
            .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Cargo>()
+                .HasMany(uc => uc.PermissaoCargos)
+                .WithOne(c => c.Cargo)
+                .HasForeignKey(uc => uc.CdCargo)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            modelBuilder.Entity<Permissao>()
+                .HasMany(uc => uc.PermissaoCargos)
+                .WithOne(c => c.Permissao)
+                .HasForeignKey(uc => uc.CdPermissao)
+                .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<Turma>()
                 .HasOne(t => t.Professor)
