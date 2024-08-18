@@ -25,7 +25,18 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
     public async Task<List<Usuario>> GetUsuarios() {
         return await userContext.Usuarios.ToListAsync();
     }
-    
+
+    public async Task<List<Usuario>> GetUsuariosByCargo(int cdCargo)
+    {
+        return await 
+            (from u in userContext.Usuarios 
+                join cu in userContext.Cargo_Usuarios on u.CdUsuario equals cu.CdUsuario
+                join c in userContext.Cargos on cu.CdCargo equals c.CdCargo 
+                where c.CdCargo == cdCargo
+                select u)
+            .ToListAsync();
+    }
+
     public async Task<Usuario> UpdateUsuario(Usuario usuario) {
         usuario.DsSenha = Password.EncodePassword(usuario.DsSenha);
         userContext.Entry(usuario).State = EntityState.Modified;

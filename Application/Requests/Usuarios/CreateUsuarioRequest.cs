@@ -9,4 +9,6 @@ public class CreateUsuarioRequest
     public int DsGenero { get; set; }
     public DateTime? DtNascimento { get; set; }
     public bool? IcHabilitadoTurma { get; set; }
+    public byte[]? DsFoto { get; set; }
+    public string? DsTelefone { get; set; }
 }

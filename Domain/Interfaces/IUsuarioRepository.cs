@@ -7,5 +7,7 @@ namespace Domain.Interfaces {
         Task<Usuario> UpdateUsuario(Usuario usuario);
         Task<Usuario?> GetUsuarioByCpf(string cpf);
         Task<List<Usuario>> GetUsuarios();
+        Task<List<Usuario>> GetUsuariosByCargo(int cdCargo);
+
     }
 }

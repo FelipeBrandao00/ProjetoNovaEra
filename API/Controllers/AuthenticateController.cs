@@ -12,7 +12,7 @@ public class AuthenticateController(IJwtService jwtService, IAuthenticateService
     public async Task<ActionResult> GerarToken([FromBody] User user) {
         var usuario = await authenticateService.Authenticate(user.Email, user.Password);
         if (usuario == null) return BadRequest("Login e/ou Senha inválidos.");
-        var token = jwtService.GerarToken(usuario);
-        return Ok(token);
+        var response = jwtService.GerarToken(usuario);
+        return Ok(response);
     }
 }

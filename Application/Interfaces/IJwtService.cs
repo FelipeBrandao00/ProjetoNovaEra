@@ -1,8 +1,10 @@
 using Application.DTOs.Jwt;
+using Application.DTOs.Token;
+using Application.Responses;
 
 namespace Application.Interfaces;
 
 public interface IJwtService
 {
-    string GerarToken(JwtDto jwtDto);
+    Response<tokenDto> GerarToken(JwtDto jwtDto);
 }
