@@ -18,7 +18,7 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
        return Ok(result);
     }
 
-    [HttpPut("api/[controller]/{id}")]
+    [HttpPut("api/[controller]/{id:guid}")]
     public async Task<ActionResult> UpdateUsuario(Guid id,UpdateUsuarioRequest request)
     {
         if (id != request.CdUsuario) return new BadRequestResult();
