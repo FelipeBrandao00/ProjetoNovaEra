@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "_LayoutLogin";
+    ViewData["Title"] = "Login";
+}
+
+<div id="divTitulo">
+    <h1 style="color: #FFFFFF">Login</h1>
+    <h3 style="color: #FFFFFF">Por favor, entre para continuar.</h3>
+</div>
+
+<div id="divForm">
+    <div id="divEmail">
+        <label>E-mail</label><br />
+        <input id="txtEmail" class="textInput" type="text" placeholder="Digite o seu e-mail..." />
+    </div>
+
+    <div id="divSenha">
+        <label>Senha</label><br />
+        <input id="txtSenha" class="textInput" type="text" placeholder="Digite a sua senha..." />
+        <button id="btnSeePass"></button>
+    </div>
+
+    <div id="divEqueciSenha">
+        <a href="#">Esqueci a senha.</a>
+    </div>
+
+    <div id="divMsgErro">
+        <span>E-mail e/ou senha inválido.</span>
+    </div>
+</div>
+
+<div id="divBtnEntrar">
+    <button id="btnEntrarLogin">Entrar</button>
+</div>

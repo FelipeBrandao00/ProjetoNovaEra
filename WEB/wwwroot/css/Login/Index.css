@@ -1,0 +1,105 @@
+﻿/* Tags */
+
+label, a, span {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+/* IDs */
+
+#headerLogin {
+    background-color: #FFFFFF;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+#divCamera {
+    display: block;
+    height: 50px;
+}
+#divLogo {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+#mainLogin {
+    padding: 35px;
+}
+
+#divForm {
+    margin-top: 150px;
+}
+#txtEmail {
+    height: 40px;
+    width: 100%;
+}
+#txtSenha {
+    height: 40px;
+    width: 100%;
+}
+#divSenha {
+    margin-top: 10px;
+}
+#divSenha #btnSeePass {
+    height: 40px;
+    width: 40px;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    right: -320px;
+    bottom: 40px;
+    border: none;
+    border-radius: 10px;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+    /*filter: drop-shadow(0px 0px 5px #000000);*/
+}
+
+#divEqueciSenha {
+    text-align: right;
+    filter: drop-shadow(0px 3px 5px #000000);
+}
+
+#divMsgErro {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#divMsgErro span {
+    color: #FF4545;
+}
+
+#divBtnEntrar {
+    display: flex;
+    justify-content: center;
+}
+
+#btnEntrarLogin {
+    color: #FFFFFF;
+    border-radius: 30px;
+    position: absolute;
+    bottom: 35px;
+    width: 317.53px;
+    height: 62.24px;
+    font-size: 24px;
+    border: none;
+    background: rgb(85,163,109);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    filter: drop-shadow(0px 5px 5px #000000);
+}
+
+/* Classes */
+
+::placeholder {
+    color: #636262;
+    opacity: 0.6; /* Firefox */
+}
+
+.textInput {
+    color: #636262;
+    border: none;
+    border-radius: 10px;
+    padding-left: 10px;
+    box-shadow: inset 0 0 10px #000000;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(191,191,191,1) 100%);
+}
