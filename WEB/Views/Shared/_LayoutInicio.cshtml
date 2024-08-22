@@ -5,13 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nova Era</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <!-- MONTSERRAT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- ÍCONES -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            display: flex;
+            align-content: center;
+            background: rgb(226,226,226);
+            background: linear-gradient(138deg, rgba(226,226,226,1) 0%, rgba(107,0,85,1) 25%, rgba(180,90,150,1) 100%);
+        }
+
+        aside {
+            width: 50vw;
+            height: 100vh;
+            background-color: #F2F2F2;
+            border-radius: 10px;
+            background-image: url("../img/logo_aside_bg.png");
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        aside img {
+            height: 50%;
+        }
+
+        main {
+            width: 50vw;
+            height: 100vh;
+        }
+
+        .Mobile {
+            display: none;
+        }
+
+        article {
+            width: 50vw;
+            padding: 5vh 5vw;
+        }
+
+        @@media (max-width: 1200px) {
+            body {
+                background: rgb(226,226,226);
+                background: linear-gradient(180deg, rgba(226,226,226,1) 0%, rgba(73,2,58,1) 25%, rgba(167,81,138,1) 100%);
+            }
+
+            .Mobile {
+                margin: 0;
+                height: 20vh;
+                width: 100vw;
+                font-size: 5vw;
+                background-color: #F2F2F2;
+                border-radius: 10px;
+                box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+                background-image: url("../img/logo_navbar_bg.png");
+                background-size: cover;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            aside {
+                display: none;
+            }
+
+            article {
+                width: 100vw;
+                padding: 5vh 10vw;
+            }
+        }
+    </style>
 </head>
 <body>
     <aside>
         <img src="~/img/logo_aside.png" />
     </aside>
-    <main>
+    <main>        
         <nav class="Mobile">
            <img src="~/img/logo_navbar.png"/>
         </nav>
@@ -26,73 +103,3 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-<style type="text/css">
-    body {
-        margin: 0;
-        display: flex;
-        align-content: center;
-        background: rgb(226,226,226);
-        background: linear-gradient(138deg, rgba(226,226,226,1) 0%, rgba(107,0,85,1) 25%, rgba(180,90,150,1) 100%);
-    }
-
-    aside {
-        width: 50vw;
-        height: 100vh;
-        background-color: #F2F2F2;
-        border-radius: 10px;
-        background-image: url("../img/logo_aside_bg.png");
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    aside img {
-        height: 50%;
-    }
-
-    main {
-        width: 50vw;
-        height: 100vh;
-    }
-
-    .Mobile {
-        display: none;
-    }
-
-    article {
-        width: 50vw;
-        padding: 5vh 5vw;
-    }
-
-    @@media (max-width: 1200px) {
-        body {
-            background: rgb(226,226,226);
-            background: linear-gradient(180deg, rgba(226,226,226,1) 0%, rgba(73,2,58,1) 25%, rgba(167,81,138,1) 100%);
-        }
-
-        .Mobile {
-            margin: 0;
-            height: 20vh;
-            width: 100vw;
-            background-color: #F2F2F2;
-            border-radius: 10px;
-            box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
-            background-image: url("../img/logo_navbar_bg.png");
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        aside {
-            display: none;
-        }
-
-        article {
-            width: 100vw;
-            padding: 10vh 10vw;
-        }
-    }
-</style>

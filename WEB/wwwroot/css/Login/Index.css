@@ -10,6 +10,14 @@
     margin: 0;
 }
 
+p, label, a{
+    font-weight: 700;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(183,183,183,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 #Titulo p:first-child {
     font-size: 70px;
 }
@@ -18,7 +26,7 @@
     font-size: 30px;
 }
 
-form div input,button {
+form div input, button {
     border: none;
     border-radius: 10px;
     background: rgb(255,255,255);
@@ -28,16 +36,22 @@ form div input,button {
 form input {
     height: 40px;
     padding: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    font-family: Montserrat, FontAwesome;
+    user-select: none;
+}
+
+form input:focus {
+    outline: none;
 }
 
 form button {
     height: 40px;
     width: 40px;
-    padding: 10px;
 }
 
 form {
-    margin-top: 5vw;
+    margin-top: 5vh;
     padding: 5vh 2vw;
     background-color: transparent;
     border-radius: 10px;
@@ -49,12 +63,13 @@ form input, label {
     width: 100%;
  }
 
-form label {
-    margin: 10px 0 2px 0;
+form label, span, a {
+    margin: 10px 0 2px 0;    
 }
 
-form div:not(:first-child) {
-    margin: 1.5vw 0 1.5vw 0;
+::placeholder {
+    font-weight: 700;
+    opacity: 0.5;
 }
 
 #Senha {
@@ -66,23 +81,30 @@ form div:not(:first-child) {
     margin: 0;
 }
 
+#Senha input {
+    border-radius: 10px 0 0 10px;
+}
+
 #Senha button {
-    box-shadow: -4px 0px 5px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: -5px 0 5px 1px rgba(0, 0, 0, 0.3);
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
 }
 
 span {
+    font-weight: 600;
     display: flex;
     align-content: center;
     justify-content: center;
     margin-top: 3vh;
+    color: #FF4545;
 }
 
 a {
     display: flex;
     justify-content: flex-end;
     margin-top: 3vh;
+    text-decoration: underline;
 }
 
 #divBtnEntrar {
@@ -94,14 +116,14 @@ a {
 #btnEntrarLogin {
     color: #FFFFFF;
     border-radius: 40px;
-    width: 400px;
-    height: 80px;
-    font-size: 30px;
+    width: 350px;
+    height: 70px;
+    font-size: 20px;
+    border-top: 2px solid white;
     background: rgb(85,163,109);
     background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
-    border-top: 2px solid white;
-    font-weight: bold;
+    font-weight: 600;
     bottom: 4vh;
     position: fixed;
 }
@@ -117,7 +139,7 @@ a {
     form {
         box-shadow: unset;
         margin: 0;
-        padding-bottom: 0;
+        padding: 6vh 0 0 0;
     }
 
     span {
@@ -142,14 +164,14 @@ a {
     #btnEntrarLogin {
         color: #FFFFFF;
         border-radius: 40px;
-        width: 90vw;
+        width: 80vw;
         height: 6vh;
-        font-size: 20px;
+        font-size: 2vh;
         background: rgb(85,163,109);
         background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
         box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
         border-top: 2px solid white;
-        font-weight: bold;
+        font-weight: 700;
     }
 }
 
