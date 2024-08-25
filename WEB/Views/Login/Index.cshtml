@@ -1,33 +1,29 @@
 ﻿@{
-    Layout = "_LayoutLogin";
+    Layout = "_LayoutInicio";
     ViewData["Title"] = "Login";
 }
+<link rel="stylesheet" href="~/css/Login/Index.css">
 
-<div id="divTitulo">
-    <h1 style="color: #FFFFFF">Login</h1>
-    <h3 style="color: #FFFFFF">Por favor, entre para continuar.</h3>
+<div id="Titulo">
+    <p>Login</p>
+    <p>Por favor, entre para continuar.</p>
 </div>
 
-<div id="divForm">
-    <div id="divEmail">
-        <label>E-mail</label><br />
-        <input id="txtEmail" class="textInput" type="text" placeholder="Digite o seu e-mail..." />
+<form>
+    <div id="Email">
+        <label for="txtEmail">E-mail</label>
+        <input id="txtEmail" type="text" placeholder="&#xf0e0; Digite o seu e-mail..." />
     </div>
 
-    <div id="divSenha">
-        <label>Senha</label><br />
-        <input id="txtSenha" class="textInput" type="text" placeholder="Digite a sua senha..." />
+    <label for="Senha">Senha</label>
+    <div id="Senha">
+        <input id="txtSenha" type="password" placeholder=" &#xf023; Digite a sua senha..." />
         <button id="btnSeePass"></button>
     </div>
 
-    <div id="divEqueciSenha">
-        <a href="#">Esqueci a senha.</a>
-    </div>
-
-    <div id="divMsgErro">
-        <span>E-mail e/ou senha inválido.</span>
-    </div>
-</div>
+    <span>E-mail e/ou senha inválido.</span>
+</form>
+<a href="#">Esqueci a senha.</a>
 
 <div id="divBtnEntrar">
     <button id="btnEntrarLogin">Entrar</button>
