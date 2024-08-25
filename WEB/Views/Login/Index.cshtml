@@ -1,4 +1,6 @@
-﻿@{
+﻿@model WEB.Models.Login.LoginViewModel
+
+@{
     Layout = "_LayoutInicio";
     ViewData["Title"] = "Login";
 }
@@ -9,16 +11,18 @@
     <p>Por favor, entre para continuar.</p>
 </div>
 
-<form>
+<form id="loginForm" asp-controller="Login" asp-action="LoginForm" method="post">
     <div id="Email">
         <label for="txtEmail">E-mail</label>
-        <input id="txtEmail" type="text" placeholder="&#xf0e0; Digite o seu e-mail..." />
+        <input asp-for="Email" id="txtEmail" type="text" placeholder="&#xf0e0; Digite o seu e-mail..." />
     </div>
 
     <label for="Senha">Senha</label>
     <div id="Senha">
-        <input id="txtSenha" type="password" placeholder=" &#xf023; Digite a sua senha..." />
-        <button id="btnSeePass"></button>
+        <input asp-for="Password" id="txtSenha" type="password" placeholder=" &#xf023; Digite a sua senha..." />
+        <button id="btnSeePass" type="button" onclick="togglePassword()">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
     </div>
 
     <span>E-mail e/ou senha inválido.</span>
@@ -28,3 +32,25 @@
 <div id="divBtnEntrar">
     <button id="btnEntrarLogin">Entrar</button>
 </div>
+
+
+<script>
+    function togglePassword() {
+        var passwordInput = document.getElementById("txtSenha");
+        var btnSeePassIcon = document.getElementById("btnSeePass").querySelector("i");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            btnSeePassIcon.classList.remove("fa-eye");
+            btnSeePassIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            btnSeePassIcon.classList.remove("fa-eye-slash");
+            btnSeePassIcon.classList.add("fa-eye");
+        }
+    }
+    
+    document.getElementById("btnEntrarLogin").addEventListener("click", function() {
+        document.getElementById("loginForm").submit();
+    });
+</script>

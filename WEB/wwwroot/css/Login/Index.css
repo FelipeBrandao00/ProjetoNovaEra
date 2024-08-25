@@ -2,6 +2,12 @@
     font-family: "Montserrat", sans-serif;
 }
 
+#btnSeePass{
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+}
+
 #Titulo {
     width: 100%;
 }
@@ -67,7 +73,7 @@ form label, span, a {
     margin: 10px 0 2px 0;    
 }
 
-::placeholder {
+::placeholder, i {
     font-weight: 700;
     opacity: 0.5;
 }
