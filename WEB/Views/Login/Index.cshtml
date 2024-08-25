@@ -1,34 +1,56 @@
-﻿@{
-    Layout = "_LayoutLogin";
+﻿@model WEB.Models.Login.LoginViewModel
+
+@{
+    Layout = "_LayoutInicio";
     ViewData["Title"] = "Login";
 }
+<link rel="stylesheet" href="~/css/Login/Index.css">
 
-<div id="divTitulo">
-    <h1 style="color: #FFFFFF">Login</h1>
-    <h3 style="color: #FFFFFF">Por favor, entre para continuar.</h3>
+<div id="Titulo">
+    <p>Login</p>
+    <p>Por favor, entre para continuar.</p>
 </div>
 
-<div id="divForm">
-    <div id="divEmail">
-        <label>E-mail</label><br />
-        <input id="txtEmail" class="textInput" type="text" placeholder="Digite o seu e-mail..." />
+<form id="loginForm" asp-controller="Login" asp-action="LoginForm" method="post">
+    <div id="Email">
+        <label for="txtEmail">E-mail</label>
+        <input asp-for="Email" id="txtEmail" type="text" placeholder="&#xf0e0; Digite o seu e-mail..." />
     </div>
 
-    <div id="divSenha">
-        <label>Senha</label><br />
-        <input id="txtSenha" class="textInput" type="text" placeholder="Digite a sua senha..." />
-        <button id="btnSeePass"></button>
+    <label for="Senha">Senha</label>
+    <div id="Senha">
+        <input asp-for="Password" id="txtSenha" type="password" placeholder=" &#xf023; Digite a sua senha..." />
+        <button id="btnSeePass" type="button" onclick="togglePassword()">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
     </div>
 
-    <div id="divEqueciSenha">
-        <a href="#">Esqueci a senha.</a>
-    </div>
-
-    <div id="divMsgErro">
-        <span>E-mail e/ou senha inválido.</span>
-    </div>
-</div>
+    <span>E-mail e/ou senha inválido.</span>
+</form>
+<a href="#">Esqueci a senha.</a>
 
 <div id="divBtnEntrar">
     <button id="btnEntrarLogin">Entrar</button>
 </div>
+
+
+<script>
+    function togglePassword() {
+        var passwordInput = document.getElementById("txtSenha");
+        var btnSeePassIcon = document.getElementById("btnSeePass").querySelector("i");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            btnSeePassIcon.classList.remove("fa-eye");
+            btnSeePassIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            btnSeePassIcon.classList.remove("fa-eye-slash");
+            btnSeePassIcon.classList.add("fa-eye");
+        }
+    }
+    
+    document.getElementById("btnEntrarLogin").addEventListener("click", function() {
+        document.getElementById("loginForm").submit();
+    });
+</script>
