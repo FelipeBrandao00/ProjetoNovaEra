@@ -5,7 +5,7 @@ using WEB.Models.Login;
 
 namespace WEB.Controllers;
 
-public class LoginController : Controller
+public class LoginController(IConfiguration configuration) : Controller
 {
     public IActionResult Index()
     {
@@ -13,8 +13,16 @@ public class LoginController : Controller
     }
 
     [HttpPost]
-    public void LoginForm(LoginViewModel loginViewModel)
+    public async void LoginForm(LoginViewModel loginViewModel)
     {
-        var x = 1;
+       var result = await loginViewModel.AuthenticateAsync(configuration);
+
+       if (result is null)
+       {
+           //redirecionar para tela de login com erro
+       }else
+       {
+           //redirecionar home e armazenar token
+       }
     }
 }
