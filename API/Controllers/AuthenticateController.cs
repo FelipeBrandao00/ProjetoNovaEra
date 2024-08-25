@@ -1,5 +1,7 @@
 using API.Models;
+using Application.DTOs.Token;
 using Application.Interfaces;
+using Application.Responses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -11,7 +13,7 @@ public class AuthenticateController(IJwtService jwtService, IAuthenticateService
     [HttpPost("")]
     public async Task<ActionResult> GerarToken([FromBody] User user) {
         var usuario = await authenticateService.Authenticate(user.Email, user.Password);
-        if (usuario == null) return BadRequest("Login e/ou Senha inválidos.");
+        if (usuario == null) return BadRequest(new Response<tokenDto>(null,400,"Login e/ou Senha inválidos."));
         var response = jwtService.GerarToken(usuario);
         return Ok(response);
     }

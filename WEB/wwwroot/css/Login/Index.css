@@ -1,13 +1,196 @@
-﻿/* Tags */
+﻿* {
+    font-family: "Montserrat", sans-serif;
+}
 
-label, a, span {
+#btnSeePass{
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+}
+
+#Titulo {
+    width: 100%;
+}
+
+#Titulo p {
+    margin: 0;
+}
+
+p, label, a{
+    font-weight: 700;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(183,183,183,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#Titulo p:first-child {
+    font-size: 70px;
+}
+
+#Titulo p:last-child {
+    font-size: 30px;
+}
+
+form div input, button {
+    border: none;
+    border-radius: 10px;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+form input {
+    height: 40px;
+    padding: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    font-family: Montserrat, FontAwesome;
+    user-select: none;
+}
+
+form input:focus {
+    outline: none;
+}
+
+form button {
+    height: 40px;
+    width: 40px;
+}
+
+form {
+    margin-top: 5vh;
+    padding: 5vh 2vw;
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px 0px inset;
+}
+
+form input, label {
+    display: block;
+    width: 100%;
+ }
+
+form label, span, a {
+    margin: 10px 0 2px 0;    
+}
+
+::placeholder, i {
+    font-weight: 700;
+    opacity: 0.5;
+}
+
+#Senha {
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+    margin: 0;
+}
+
+#Senha input {
+    border-radius: 10px 0 0 10px;
+}
+
+#Senha button {
+    box-shadow: -5px 0 5px 1px rgba(0, 0, 0, 0.3);
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+span {
+    font-weight: 600;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin-top: 3vh;
+    color: #FF4545;
+}
+
+a {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 3vh;
+    text-decoration: underline;
+}
+
+#divBtnEntrar {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10vh;
+}
+
+#btnEntrarLogin {
+    color: #FFFFFF;
+    border-radius: 40px;
+    width: 350px;
+    height: 70px;
+    font-size: 20px;
+    border-top: 2px solid white;
+    background: rgb(85,163,109);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+    bottom: 4vh;
+    position: fixed;
+}
+
+@media (max-width: 1200px) {
+    #Titulo p:first-child {
+        font-size: 40px;
+    }
+    #Titulo p:last-child {
+        font-size: 20px;
+    }
+
+    form {
+        box-shadow: unset;
+        margin: 0;
+        padding: 6vh 0 0 0;
+    }
+
+    span {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        margin-top: 1vh;
+    }
+
+    a {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 3vh;
+    }
+
+    #divBtnEntrar {
+        display: flex;
+        justify-content: center;
+        margin-top: 1vh;
+    }
+
+    #btnEntrarLogin {
+        color: #FFFFFF;
+        border-radius: 40px;
+        width: 80vw;
+        height: 6vh;
+        font-size: 2vh;
+        background: rgb(85,163,109);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+        box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+        border-top: 2px solid white;
+        font-weight: 700;
+    }
+}
+
+/* Tags */
+
+/*label, a, span {
     text-decoration: none;
     color: #FFFFFF;
 }
-
+*/
 /* IDs */
 
-#headerLogin {
+/*#headerLogin {
     background-color: #FFFFFF;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
@@ -50,9 +233,9 @@ label, a, span {
     border: none;
     border-radius: 10px;
     background: rgb(255,255,255);
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);*/
     /*filter: drop-shadow(0px 0px 5px #000000);*/
-}
+/*}
 
 #divEqueciSenha {
     text-align: right;
@@ -85,14 +268,14 @@ label, a, span {
     background: rgb(85,163,109);
     background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     filter: drop-shadow(0px 5px 5px #000000);
-}
+}*/
 
 /* Classes */
 
-::placeholder {
+/*::placeholder {
     color: #636262;
-    opacity: 0.6; /* Firefox */
-}
+    opacity: 0.6;*/ /* Firefox */
+/*}
 
 .textInput {
     color: #636262;
@@ -102,4 +285,4 @@ label, a, span {
     box-shadow: inset 0 0 10px #000000;
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(191,191,191,1) 100%);
-}
+}*/
