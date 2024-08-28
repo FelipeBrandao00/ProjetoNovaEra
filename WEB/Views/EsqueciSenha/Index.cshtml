@@ -1,11 +1,9 @@
-﻿@model WEB.Models.Login.LoginViewModel
-
-@{
+﻿@{
     Layout = "_LayoutInicio";
     ViewData["Title"] = "Esqueci a senha";
 }
 
-<link rel="stylesheet" href="~/css/Login/EsqueciSenha1.css">
+<link rel="stylesheet" href="~/css/EsqueciSenha/Index.css">
 
 <div id="Rota">
     <a href="#"><span>Login</span></a>
@@ -23,7 +21,7 @@
 <form id="EsqueciSenhaForm" asp-controller="Login" asp-action="EsqueciSenhaForm" method="post">
     <div id="Email">
         <p>Digite o seu e-mail para enviarmos um código de recuperação:</p>
-        <input asp-for="Email" id="txtEmail" type="text" placeholder="&#xf0e0; Digite o seu e-mail..." />
+        <input id="txtEmail" type="text" placeholder="&#xf0e0; Digite o seu e-mail..." />
     </div>
 </form>
 
