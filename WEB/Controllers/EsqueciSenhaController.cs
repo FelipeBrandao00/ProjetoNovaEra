@@ -8,4 +8,9 @@ public class EsqueciSenhaController : Controller
     {
         return View();
     }
+
+    public IActionResult ConfirmarCodigo()
+    {
+        return View();
+    }
 }
