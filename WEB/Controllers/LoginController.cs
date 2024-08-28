@@ -12,6 +12,11 @@ public class LoginController : Controller
         return View();
     }
 
+    public IActionResult EsqueciSenha1()
+    {
+        return View();
+    }
+
     [HttpPost]
     public void LoginForm(LoginViewModel loginViewModel)
     {
