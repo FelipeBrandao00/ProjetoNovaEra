@@ -9,6 +9,14 @@ p, label {
     -webkit-text-fill-color: transparent;
 }
 
+form {
+    margin-top: 2vh;
+    padding: 5vh 2vw;
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px 0px inset;
+}
+
 form div input, button {
     border: none;
     border-radius: 10px;
@@ -28,21 +36,13 @@ form input:focus {
     outline: none;
 }
 
-form {
-    margin-top: 2vh;
-    padding: 5vh 2vw;
-    background-color: transparent;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px 0px inset;
+form label {
+    margin: 10px 0 2px 0;
 }
 
 form input, label {
     display: block;
     width: 100%;
-}
-
-form label {
-    margin: 10px 0 2px 0;
 }
 
 ::placeholder {
@@ -74,7 +74,11 @@ span {
 #divBotoes {
     display: flex;
     justify-content: flex-end;
-    margin-top: 10vh;
+    flex-direction: column;
+    gap: 15px;
+    position: fixed;
+    bottom: 4vh;
+    right: 5vw;
 }
 
 #btnTrocarEmail {
@@ -88,8 +92,6 @@ span {
     background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
     box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
     font-weight: 600;
-    bottom: 11vh;
-    position: fixed;
 }
 
 #btnConfimarCodigo {
@@ -103,8 +105,6 @@ span {
     background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
     font-weight: 600;
-    bottom: 4vh;
-    position: fixed;
 }
 
 #Rota {
@@ -114,6 +114,7 @@ span {
 }
 
 #divReenviar {
+    margin-top: 2vh;
     display: flex;
     justify-content: center;
     gap: 6px;
@@ -131,17 +132,20 @@ span {
 
 #Codigo {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 30px;
 }
 
 #Codigo input {
-    height: 7vh;
+    height: 10vh;
     width: 10vw;
-    /*height: 10vh;
-    width: 5vw;*/
-    padding: 0 0 0 1vw;
+    padding: 0px;
     font-size: 3vh;
     font-weight: 700;
+    text-align: center;
+    max-width: 55px;
+    min-width: 30px;
+    max-height: 70px;
 }
 
 /* Responsivo */
@@ -166,7 +170,9 @@ span {
     #divBotoes {
         display: flex;
         justify-content: center;
-        margin-top: 1vh;
+        position: fixed;
+        bottom: 4vh;
+        right: unset;
     }
 
     #btnTrocarEmail {
@@ -193,5 +199,10 @@ span {
         box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
         border-top: 2px solid white;
         font-weight: 700;
+    }
+
+    #Codigo {
+        display: flex;
+        justify-content: space-between;
     }
 }
