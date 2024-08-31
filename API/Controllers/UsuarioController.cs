@@ -53,4 +53,23 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }
+    
+    [HttpGet("api/[controller]/{email}")]
+    public async Task<ActionResult> GetUsuarioByEmail(string email)
+    {
+        var request = new GetUsuarioByEmailRequest{Email = email};
+        var result = await usuarioService.GetUsuarioByEmail(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
+    
+    [HttpPatch("api/[controller]/{id:guid}")]
+    public async Task<ActionResult> UpdateUsuario(Guid id,UpdateUsuarioPasswordRequest request)
+    {
+        if (id != request.CdUsuario) return new BadRequestResult();
+        var result = await usuarioService.UpdatePasswordUsuario(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
 }
+
