@@ -11,5 +11,7 @@ namespace Application.Interfaces {
         Task<Response<UsuarioDto>> GetUsuarioByCpf(GetUsuarioByCpfRequest request);
         Task<PagedResponse<List<UsuarioDto>>> GetUsuarios(GetAllUsuariosRequest request);
         Task<PagedResponse<List<UsuarioDto>>> GetUsuariosByCargo(GetAllUsuariosByCargoRequest request);
+        Task<Response<UsuarioDto>> GetUsuarioByEmail(GetUsuarioByEmailRequest request);
+        Task<Response<UsuarioDto>> UpdatePasswordUsuario(UpdateUsuarioPasswordRequest request);
     }
 }

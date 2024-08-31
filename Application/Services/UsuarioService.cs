@@ -117,4 +117,31 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
             return new PagedResponse<List<UsuarioDto>>(null, 500, "Não foi possível consultar os usuarios");
         }
     }
+
+    public async Task<Response<UsuarioDto>> GetUsuarioByEmail(GetUsuarioByEmailRequest request)
+    {
+        try
+        {
+            var result = mapper.Map<UsuarioDto>(await usuarioRepository.GetUsuarioByEmail(request.Email));
+            return new Response<UsuarioDto>(result, 200, "Usuário encontrado!");
+        }
+        catch (Exception e)
+        {
+            return new Response<UsuarioDto>(null, 500, "Algo deu errado tentando buscar o usuário.");
+
+        } 
+    }
+
+    public async Task<Response<UsuarioDto>> UpdatePasswordUsuario(UpdateUsuarioPasswordRequest request)
+    {
+        try
+        {
+            var result = await usuarioRepository.UpdatePasswordUsuario(request.CdUsuario, request.NewPassword);
+            return new Response<UsuarioDto>(mapper.Map<UsuarioDto>(result), 200, "Senha do usuário atualizada com sucesso!");            
+        }
+        catch (Exception e)
+        {
+            return new Response<UsuarioDto>(null, 500, "Não foi possível atualizar a senha do usuário.");
+        }
+    }
 }

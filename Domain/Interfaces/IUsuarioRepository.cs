@@ -8,6 +8,7 @@ namespace Domain.Interfaces {
         Task<Usuario?> GetUsuarioByCpf(string cpf);
         Task<List<Usuario>> GetUsuarios();
         Task<List<Usuario>> GetUsuariosByCargo(int cdCargo);
-
+        Task<Usuario?> GetUsuarioByEmail(string email);
+        Task<Usuario?> UpdatePasswordUsuario(Guid cdUsuario, string newPassword);
     }
 }
