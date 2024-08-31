@@ -1,0 +1,214 @@
+﻿/* Folha de estilos: EsqueciSenha */
+
+/* Tags */
+p, label {
+    font-weight: 700;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(183,183,183,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+form {
+    margin-top: 2vh;
+    padding: 5vh 2vw;
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px 0px inset;
+}
+
+form div input, button {
+    border: none;
+    border-radius: 10px;
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+form input {
+    height: 40px;
+    padding: 10px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    font-family: Montserrat, FontAwesome;
+    user-select: none;
+}
+
+form input:focus {
+    outline: none;
+}
+
+form label {
+    margin: 10px 0 2px 0;
+}
+
+form input, label {
+    display: block;
+    width: 100%;
+}
+
+::placeholder {
+    font-weight: 700;
+    opacity: 0.5;
+}
+
+span {
+    font-weight: 600;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    color: #FFFFFF;
+}
+
+/* IDs */
+#Titulo {
+    width: 100%;
+}
+
+#Titulo p {
+    margin: 0;
+}
+
+#Titulo p:first-child {
+    font-size: 70px;
+}
+
+#divBotoes {
+    /*display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    gap: 15px;
+    position: fixed;
+    bottom: 4vh;
+    right: 5vw;*/
+    margin-top: 3vh;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+#btnTrocarEmail {
+    color: rgb(131 131 131);
+    border-radius: 40px;
+    width: 350px;
+    height: 6vh;
+    font-size: 20px;
+    border-top: 2px solid white;
+    background: rgb(250,250,250);
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+}
+
+#btnConfimarCodigo {
+    color: #FFFFFF;
+    border-radius: 40px;
+    width: 350px;
+    height: 6vh;
+    font-size: 20px;
+    border-top: 2px solid white;
+    background: rgb(85,163,109);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+    font-weight: 600;
+}
+
+#Rota {
+    display: flex;
+    gap: 6px;
+    font-style: italic
+}
+
+#divReenviar {
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+#msgErroLogin {
+    font-weight: 600;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 10px 0 2px 0;
+    margin-top: 3vh;
+    color: #FF4545;
+}
+
+#Codigo {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+#Codigo input {
+    height: 10vh;
+    width: 10vw;
+    padding: 0px;
+    font-size: 3vh;
+    font-weight: 700;
+    text-align: center;
+    max-width: 55px;
+    min-width: 30px;
+    max-height: 70px;
+}
+
+/* Responsivo */
+@media (max-width: 1200px) {
+    form {
+        box-shadow: unset;
+        margin: 0;
+        padding: 6vh 0 0 0;
+    }
+
+    #msgErroLogin {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        margin-top: 1vh;
+    }
+
+    #Titulo p:first-child {
+        font-size: 40px;
+    }
+
+    #divBotoes {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 15px;
+        position: fixed;
+        bottom: 4vh;
+        right: unset;
+    }
+
+    #btnTrocarEmail {
+        color: rgb(131 131 131);
+        border-radius: 40px;
+        width: 80vw;
+        height: 6vh;
+        font-size: 2vh;
+        background: rgb(250,250,250);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+        box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+        border-top: 2px solid white;
+        font-weight: 700;
+    }
+
+    #btnConfimarCodigo {
+        color: #FFFFFF;
+        border-radius: 40px;
+        width: 80vw;
+        height: 6vh;
+        font-size: 2vh;
+        background: rgb(85,163,109);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+        box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+        border-top: 2px solid white;
+        font-weight: 700;
+    }
+
+    #Codigo {
+        display: flex;
+        justify-content: space-between;
+    }
+}
