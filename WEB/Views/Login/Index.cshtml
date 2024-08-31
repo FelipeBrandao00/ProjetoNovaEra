@@ -4,6 +4,7 @@
     Layout = "_LayoutInicio";
     ViewData["Title"] = "Login";
 }
+
 <link rel="stylesheet" href="~/css/Login/Index.css">
 
 <div id="Titulo">
@@ -25,14 +26,14 @@
         </button>
     </div>
 
-    <span>E-mail e/ou senha inválido.</span>
+    <span id="msgErroLogin">E-mail e/ou senha inválido.</span>
 </form>
-<a href="#">Esqueci a senha.</a>
+
+<a asp-controller="EsqueciSenha" asp-action="Index">Esqueci a senha.</a>
 
 <div id="divBtnEntrar">
     <button id="btnEntrarLogin">Entrar</button>
 </div>
-
 
 <script>
     function togglePassword() {

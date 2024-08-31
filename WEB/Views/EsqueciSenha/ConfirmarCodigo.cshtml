@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_LayoutInicio";
+    ViewData["Title"] = "Esqueci a senha";
+}
+
+<link rel="stylesheet" href="~/css/EsqueciSenha/ConfimarCodigo.css">
+
+<div id="Rota">
+    <a href="#"><span>Login</span></a>
+    <span>> Esqueci a senha</span>
+</div>
+
+<div id="Titulo">
+    <p>Esqueci a senha</p>
+</div>
+
+<form id="ConfirmarCodigoForm" asp-controller="EsqueciSenha" asp-action="ConfirmarCodigoForm" method="post">
+    <p>Se o e-mail digitado for vinculado à uma conta, você receberá um código de 6 dígitos. Digite-o abaixo:</p>
+    <div id="Codigo">
+        <input id="txtChar1" type="text" placeholder="1" maxlength="1" />
+        <input id="txtChar2" type="text" placeholder="2" maxlength="1" />
+        <input id="txtChar3" type="text" placeholder="3" maxlength="1" />
+        <input id="txtChar4" type="text" placeholder="4" maxlength="1" />
+        <input id="txtChar5" type="text" placeholder="A" maxlength="1" />
+    </div>
+    <span id="msgErroLogin">Código inválido.</span>
+    <div id="divBotoes">
+        <button id="btnTrocarEmail">Trocar e-mail</button>
+        <button id="btnConfimarCodigo">Confirmar código</button>
+    </div>
+</form>
+
+<div id="divReenviar">
+    <span>Não recebeu o código?</span>
+    <a href="#"><span>reenviar.</span></a>
+</div>
