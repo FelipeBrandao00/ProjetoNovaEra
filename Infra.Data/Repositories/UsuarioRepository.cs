@@ -37,6 +37,19 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
             .ToListAsync();
     }
 
+    public async Task<Usuario?> GetUsuarioByEmail(string email)
+    {
+        return await userContext.Usuarios.SingleOrDefaultAsync(x => x.DsEmail == email);
+    }
+
+    public async Task<Usuario?> UpdatePasswordUsuario(Guid cdUsuario, string newPassword)
+    {
+        var usuario = userContext.Usuarios.Where(x => x.CdUsuario == cdUsuario).FirstOrDefault();
+        usuario.DsSenha = Password.EncodePassword(newPassword);
+        userContext.SaveChangesAsync();
+        return usuario; 
+    }
+
     public async Task<Usuario> UpdateUsuario(Usuario usuario) {
         usuario.DsSenha = Password.EncodePassword(usuario.DsSenha);
         userContext.Entry(usuario).State = EntityState.Modified;
