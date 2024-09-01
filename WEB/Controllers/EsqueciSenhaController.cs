@@ -14,7 +14,12 @@ public class EsqueciSenhaController : Controller
     {
         return View();
     }
-    
+
+    public IActionResult RedefinirSenha()
+    {
+        return View();
+    }
+
     [HttpPost]
     public async void EsqueciSenhaForm(EsqueciSenhaViewModel esqueciSenhaViewModel)
     {
