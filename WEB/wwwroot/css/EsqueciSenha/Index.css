@@ -73,14 +73,13 @@ span {
 
 #divBtnEnviarCodigo {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 10vh;
+    margin-top: 2vh;
 }
 
 #btnEnviarCodigo {
     color: #FFFFFF;
-    border-radius: 40px;
-    width: 350px;
+    border-radius: 20px;
+    width: 100%;
     height: 70px;
     font-size: 20px;
     border-top: 2px solid white;
@@ -89,7 +88,7 @@ span {
     box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
     font-weight: 600;
     bottom: 4vh;
-    position: fixed;
+    position: unset;
 }
 
 #divBtnVoltar {
@@ -138,7 +137,7 @@ span {
 
     #btnEnviarCodigo {
         color: #FFFFFF;
-        border-radius: 40px;
+        border-radius: 20px;
         width: 80vw;
         height: 6vh;
         font-size: 2vh;
@@ -147,5 +146,6 @@ span {
         box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
         border-top: 2px solid white;
         font-weight: 700;
+        position: absolute;
     }
 }

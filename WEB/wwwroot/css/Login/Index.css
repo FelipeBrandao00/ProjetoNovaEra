@@ -116,7 +116,7 @@ a {
 
 #btnEntrarLogin {
     color: #FFFFFF;
-    border-radius: 40px;
+    border-radius: 20px;
     width: 350px;
     height: 70px;
     font-size: 20px;
@@ -165,7 +165,7 @@ a {
 
     #btnEntrarLogin {
         color: #FFFFFF;
-        border-radius: 40px;
+        border-radius: 20px;
         width: 80vw;
         height: 6vh;
         font-size: 2vh;
