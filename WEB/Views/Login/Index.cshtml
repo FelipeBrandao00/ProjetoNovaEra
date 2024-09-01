@@ -26,7 +26,7 @@
         </button>
     </div>
 
-    <span id="msgErroLogin">E-mail e/ou senha inválido.</span>
+    <span id="msgErroLogin" style="display: @(ViewData.ModelState.IsValid ? "none" : "block")">E-mail e/ou senha inválido.</span>
 </form>
 
 <a asp-controller="EsqueciSenha" asp-action="Index">Esqueci a senha.</a>
@@ -53,5 +53,13 @@
     
     document.getElementById("btnEntrarLogin").addEventListener("click", function() {
         document.getElementById("loginForm").submit();
+    });
+
+    document.getElementById("txtEmail").addEventListener("input", function () {
+        document.getElementById("msgErroLogin").style.display = "none";
+    });
+
+    document.getElementById("txtSenha").addEventListener("input", function () {
+        document.getElementById("msgErroLogin").style.display = "none";
     });
 </script>

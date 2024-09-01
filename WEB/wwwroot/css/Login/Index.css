@@ -129,6 +129,10 @@ a {
     position: fixed;
 }
 
+#msgErroLogin{
+    text-align: center;
+}
+
 @media (max-width: 1200px) {
     form {
         box-shadow: unset;
