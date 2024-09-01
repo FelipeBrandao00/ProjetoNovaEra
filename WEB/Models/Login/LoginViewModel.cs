@@ -16,7 +16,7 @@ namespace WEB.Models.Login;
             using (var client = new HttpClient())
             {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Authenticate";
+                var url = $"{baseUrl}/Authenticate/GerarToken";
                 var loginData = new
                 {
                     email = this.Email,
