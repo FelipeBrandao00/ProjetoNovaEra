@@ -158,11 +158,4 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
 
         return new string(token);
     }
-
-    public async Task<bool> VerifyPasswordResetTokenAsync(Guid cdUsuario, string token)
-    {
-        // Verificação de token: comparando com o token armazenado e verificando a validade
-
-        return true;
-    }
 }
