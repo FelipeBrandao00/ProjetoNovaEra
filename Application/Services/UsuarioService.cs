@@ -144,4 +144,25 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
             return new Response<UsuarioDto>(null, 500, "Não foi possível atualizar a senha do usuário.");
         }
     }
+    
+    public string GeneratePasswordResetToken()
+    {
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var random = new Random();
+        var token = new char[5];
+
+        for (var i = 0; i < token.Length; i++)
+        {
+            token[i] = chars[random.Next(chars.Length)];
+        }
+
+        return new string(token);
+    }
+
+    public async Task<bool> VerifyPasswordResetTokenAsync(Guid cdUsuario, string token)
+    {
+        // Verificação de token: comparando com o token armazenado e verificando a validade
+
+        return true;
+    }
 }
