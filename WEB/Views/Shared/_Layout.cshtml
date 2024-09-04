@@ -55,6 +55,8 @@
             width: 50px;
             background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
             border-radius: 10px;
+            border: none;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
         }
 
         #btnCloseSidebar {
@@ -72,11 +74,8 @@
             margin-top: 100px;
         }
 
-        button {
-            border: none;
-        }
-
         #Botoes > div > button {
+            border: none;
             width: 100%;
             min-height: 55px;
             border-radius: 10px;
@@ -119,16 +118,16 @@
         }
 
         .collap {
-            max-height: 0; /* Start with zero height */
-            overflow: hidden; /* Hide content that overflows */
-            transition: max-height 0.3s ease-out; /* Transition for smooth animation */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
             box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
             border-radius: 0 0 10px 10px;
             margin: 1px;
         }
 
         .collap.expanded {
-            max-height: 200px; /* Set a max-height that is enough to fit the content */
+            max-height: 200px;
         }
 
         .collap > button {
@@ -157,7 +156,7 @@
         }
 
         article {
-            width: 50vw;
+            width: 77vw;
             padding: 5vh 5vw;
         }
 
@@ -173,21 +172,14 @@
         }
 
         @@media (max-width: 1200px) {
-            body {
-                background: rgb(226,226,226);
-                background: linear-gradient(180deg, rgba(226,226,226,1) 0%, rgba(73,2,58,1) 25%, rgba(167,81,138,1) 100%);
-            }
-
             .Mobile {
                 margin: 0;
-                height: 20vh;
+                height: 10vh;
                 width: 100vw;
                 font-size: 5vw;
-                background-color: #F2F2F2;
-                border-radius: 10px;
+                background: linear-gradient(180deg, rgba(79,0,62,1) 0%, rgba(107,0,85,1) 100%);
+                border-radius: 0 0 10px 10px;
                 box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
-                background-image: url("../img/logo_navbar_bg.png");
-                background-size: cover;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -299,7 +291,7 @@
     </aside>
     <main>
         <nav class="Mobile">
-            <img src="~/img/logo_navbar.png" />
+            <img src="~/img/logo_navbar_home.png" />
         </nav>
         <article>
             @RenderBody()
