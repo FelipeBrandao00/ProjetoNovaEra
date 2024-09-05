@@ -39,6 +39,10 @@
             transition: width 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
         }
 
+        #userData {
+            display: none;
+        }
+
         aside.mobileview {
             transition: width 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
         }
@@ -246,6 +250,54 @@
                 width: 100vw;
                 padding: 5vh 10vw;
             }
+
+            #userData {
+                height: 30vh;
+                width: 40vw;
+                position: absolute;
+                right: 0px;
+                margin-right: 3vw;
+                display: none;
+                text-align: right;
+            }
+
+            #userDetails {
+                height: 30%;
+                width: 100%;
+                border-radius: 10px 0 0 0;
+                background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+                padding: 8px;
+                font-size: 17px;
+            }
+
+            #userData > button {
+                height: 23.3%;
+                width: 100%;
+                background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+                box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+                border: none;
+                text-align: right;
+                padding: 8px;
+            }
+
+            #userData > button:first-child {
+                border-radius: 10px 0 0 0;
+            }
+
+            #userData > button:last-child {
+                border-radius: 0 0 10px 10px;
+            }
+
+            #userData.expanded {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        @@media (max-width: 500px) {
+            #userData {
+                width: 70vw;
+            }
         }
     </style>
 </head>
@@ -345,14 +397,24 @@
     <main>
         <nav class="Mobile">
             <button id="btnOpenSidebar" onclick="toggleSidebar()">
-                <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-bars"></i>
             </button>
             <img src="~/img/logo_navbar_home.png" />
-            <button id="btnUserMobile" onclick="toggleSidebar()">
+            <button id="btnUserMobile" onclick="toggleUser()">
                 <i class="fa-solid fa-user"></i>
             </button>
         </nav>
         <article id="article">
+            <div id="userData">
+                <div id="userDetails">
+                    Marilene
+                    <br />
+                    Administrador
+                </div>
+                <button>Editar perfil</button>
+                <button>Trocar senha</button>
+                <button>Sair</button>
+            </div>
             @RenderBody()
         </article>
     </main>
@@ -364,17 +426,30 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script type="text/javascript">
+        function toggleUser() {
+            var userData = document.getElementById('userData');
+            var isExpanded = userData.classList.contains('expanded');
+
+            if (isExpanded) {
+                userData.classList.remove('expanded');
+            } else {
+                userData.classList.add('expanded');
+            }
+        }
         function toggleSidebar() {
             var aside = document.getElementById('aside');
             var isCollapsed = aside.classList.contains('collapsed');
+            var userData = document.getElementById('userData');
 
             if (isCollapsed) {
+                userData.classList.remove('expanded');
                 aside.classList.remove('collapsed');
                 aside.classList.remove('mobileview');
                 document.getElementById('btnOpenSidebar').style.display = 'block';
                 document.getElementById('btnCloseSidebar').style.display = 'none';
                 document.querySelector('main').classList.remove('shifted');
             } else {
+                userData.classList.remove('expanded');
                 aside.classList.add('collapsed');
                 aside.classList.add('mobileview');
                 document.getElementById('btnOpenSidebar').style.display = 'none';
