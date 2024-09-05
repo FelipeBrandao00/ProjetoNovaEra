@@ -34,7 +34,17 @@
             padding: 35px 2vw;
             overflow-y: scroll;
             overflow-x: hidden;
-            transition: width 0.3s ease, overflow 0.3s ease;
+            transform: scaleX(1);
+            transform-origin: left;
+            transition: width 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        aside.mobileview {
+            transition: width 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        aside::-webkit-scrollbar {
+            display: none;
         }
 
         aside nav {
@@ -136,7 +146,7 @@
             width: 100%;
             min-height: 45px;
             border: none;
-            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5) inset;
+            /*box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5) inset;*/
             text-align: left;
             background: linear-gradient(180deg, rgba(205,205,205,1) 0%, rgba(51,51,51,1) 100%);
             -webkit-background-clip: text;
@@ -149,41 +159,37 @@
             border-radius: 0 0 10px 10px;
         }
 
+        #aside.collapsed > nav {
+            justify-content: center;
+        }
+
         #aside.collapsed {
             width: 8vw;
             padding: 35px 1vw;
+            
         }
 
-        #aside.collapsed img{
+        #aside.collapsed img {
             display: none;
-        }
-
-        #aside.collapsed .sec button {
-            text-align: center;
-            padding: 0;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
         }
 
         #aside.collapsed .sec button b {
             display: none;
         }
 
-        #aside .sec button {
-            transition: padding 0.3s ease, font-size 0.3s ease;
-        }
-
-        #aside.collapsed .sec {
-            display: flex;
-            flex-direction: column;
-        }
-
         #aside.collapsed .sec button {
+            text-align: center;
             font-size: 0;
             padding: 10px;
         }
 
         main {
             height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.shifted {
+            margin-left: 8vw;
         }
 
         .Mobile {
@@ -207,6 +213,10 @@
         }
 
         @@media (max-width: 1200px) {
+            main, main.shifted {
+                margin-left: 0vw;
+            }
+
             .Mobile {
                 margin: 0;
                 height: 10vh;
@@ -218,10 +228,17 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                padding: 10px;
+                padding: 20px;
             }
 
             aside {
+                position: fixed;
+                width: 100vw;
+                padding: 50px;
+                border-radius: 0;
+            }
+
+            aside.mobileview {
                 display: none;
             }
 
@@ -233,7 +250,7 @@
     </style>
 </head>
 <body>
-    <aside id="aside" class="collapsed collapsed-mobile">
+    <aside id="aside" class="mobileview">
         <nav>
             <img id="logoNavMobile" src="~/img/logo_sidebar_mobile.png"/>
             <img id="logoNavDesktop" src="~/img/logo_sidebar.png" />
@@ -327,7 +344,7 @@
     </aside>
     <main>
         <nav class="Mobile">
-            <button id="btnOpenSidebarMobile" onclick="toggleSidebar()">
+            <button id="btnOpenSidebar" onclick="toggleSidebar()">
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
             <img src="~/img/logo_navbar_home.png" />
@@ -349,12 +366,21 @@
     <script type="text/javascript">
         function toggleSidebar() {
             var aside = document.getElementById('aside');
-            aside.classList.toggle('collapsed');
-
             var isCollapsed = aside.classList.contains('collapsed');
-            document.getElementById('btnOpenSidebar').style.display = isCollapsed ? 'none' : 'block';
-            document.getElementById('btnCloseSidebar').style.display = isCollapsed ? 'block' : 'none';
-            document.getElementById('article').style.width = isCollapsed ? '92vw' : '77vw';
+
+            if (isCollapsed) {
+                aside.classList.remove('collapsed');
+                aside.classList.remove('mobileview');
+                document.getElementById('btnOpenSidebar').style.display = 'block';
+                document.getElementById('btnCloseSidebar').style.display = 'none';
+                document.querySelector('main').classList.remove('shifted');
+            } else {
+                aside.classList.add('collapsed');
+                aside.classList.add('mobileview');
+                document.getElementById('btnOpenSidebar').style.display = 'none';
+                document.getElementById('btnCloseSidebar').style.display = 'block';
+                document.querySelector('main').classList.add('shifted');
+            }
         }
 
         function toggleCollapsible(toggleButtonId, collapsibleContentId, secId) {
