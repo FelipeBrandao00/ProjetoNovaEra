@@ -3,7 +3,7 @@ using WEB.Models.EsqueciSenha;
 
 namespace WEB.Controllers;
 
-public class EsqueciSenhaController : Controller
+public class EsqueciSenhaController(IConfiguration configuration) : Controller
 {
     public IActionResult Index()
     {
@@ -21,8 +21,14 @@ public class EsqueciSenhaController : Controller
     }
 
     [HttpPost]
-    public async void EsqueciSenhaForm(EsqueciSenhaViewModel esqueciSenhaViewModel)
+    public async Task<IActionResult> EsqueciSenhaForm(EsqueciSenhaViewModel esqueciSenhaViewModel)
     {
-        var x = 1;
+        var result = await esqueciSenhaViewModel.RedefinirSenhaRequest(configuration);
+
+        if (result)
+        {
+            return View("ConfirmarCodigo",esqueciSenhaViewModel);
+        }
+        return View("Index");
     }
 }

@@ -20,8 +20,7 @@ public class AuthenticateController(IJwtService jwtService, IAuthenticateService
     }
 
     [HttpPost("EsqueciSenha")]
-    public async Task<IActionResult> EsqueciSenha([FromBody] string email) {
-        var request = new GetUsuarioByEmailRequest { Email = email };
+    public async Task<IActionResult> EsqueciSenha([FromBody] GetUsuarioByEmailRequest request) {
         var user = await usuarioService.GetUsuarioByEmail(request);
 
         if (user.Data != null) {
@@ -33,8 +32,13 @@ public class AuthenticateController(IJwtService jwtService, IAuthenticateService
                 DtValidade = DateTime.Now.AddMinutes(15)
             };
             await passwordChangeService.AddPasswordChange(requestPasswordChange);
-            await emailService.SendPasswordResetEmailAsync(user.Data.DsEmail, resetToken);
+            //await emailService.SendPasswordResetEmailAsync(user.Data.DsEmail, resetToken);
         }
-        return Ok(new { Message = "Se existir uma conta com este e-mail, um código de redefinição de senha foi enviado." });
+        return Ok();
+    }
+
+    public async Task<IActionResult> ValidarCodigo([FromBody] GetUsuarioByEmailRequest request)
+    {
+        return Ok();
     }
 }
