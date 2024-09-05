@@ -31,4 +31,16 @@ public class EsqueciSenhaController(IConfiguration configuration) : Controller
         }
         return View("Index");
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> ConfirmarCodigo(EsqueciSenhaViewModel esqueciSenhaViewModel)
+    {
+        var result = await esqueciSenhaViewModel.ValidarCodigo(configuration);
+
+        if (result)
+        {
+            return View("ConfirmarCodigo",esqueciSenhaViewModel);
+        }
+        return View("Index");
+    }
 }

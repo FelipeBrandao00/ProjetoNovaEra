@@ -10,6 +10,5 @@ public class PasswordChangeMapping : Profile
     public PasswordChangeMapping()
     {
         CreateMap<RequestChangePassword, AddPasswordChangeRequest>().ReverseMap(); 
-        CreateMap<RequestChangePassword, PasswordChangeDto>().ReverseMap();
     }
 }

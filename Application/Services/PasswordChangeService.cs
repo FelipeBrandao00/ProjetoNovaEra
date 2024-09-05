@@ -8,15 +8,16 @@ using Domain.Interfaces;
 
 namespace Application.Services;
 
-public class PasswordChangeService(IPasswordChangeRepository passwordChangeRepository, IMapper mapper) : IPasswordChangeService
+public class PasswordChangeService(IPasswordChangeRepository passwordChangeRepository, IMapper mapper,IUsuarioRepository usuarioRepository) : IPasswordChangeService
 {
     public async Task<Response<PasswordChangeDto>> AddPasswordChange(AddPasswordChangeRequest request)
     {
         try
         {
             var entity = mapper.Map<RequestChangePassword>(request);
-            var result = mapper.Map<PasswordChangeDto>(await passwordChangeRepository.AddPasswordChange(entity));
-            return new Response<PasswordChangeDto>(result, 200, "Cadastro de token bem sucedido");
+            var result = await passwordChangeRepository.AddPasswordChange(entity);
+            var response = new PasswordChangeDto(result != null);
+            return new Response<PasswordChangeDto>(response, 200, "Cadastro de token bem sucedido");
         }
         catch (Exception e)
         {
@@ -28,8 +29,11 @@ public class PasswordChangeService(IPasswordChangeRepository passwordChangeRepos
     {
         try
         {
-            var result = mapper.Map<PasswordChangeDto>(await passwordChangeRepository.VerifyPasswordChangeCode(request.CdUsuario,request.DsToken));
-            return new Response<PasswordChangeDto>(result, 200, "Consulta de token bem sucedida");
+            var usuario = await usuarioRepository.GetUsuarioByEmail(request.Email);
+            if (usuario is null) throw new Exception("Usuario nao encontrado");
+            var result = await passwordChangeRepository.VerifyPasswordChangeCode(usuario.CdUsuario,request.DsToken);
+            var response = new PasswordChangeDto(result != null);
+            return new Response<PasswordChangeDto>(response, 200, "Consulta de token bem sucedida");
         }
         catch (Exception e)
         {

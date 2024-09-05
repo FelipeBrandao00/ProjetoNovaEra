@@ -37,8 +37,10 @@ public class AuthenticateController(IJwtService jwtService, IAuthenticateService
         return Ok();
     }
 
-    public async Task<IActionResult> ValidarCodigo([FromBody] GetUsuarioByEmailRequest request)
+    [HttpPost("ValidarTokenRedefinicao")]
+    public async Task<IActionResult> ValidarTokenRedefinicao([FromBody] VerifyPasswordChangeCodeRequest request)
     {
-        return Ok();
+        var result = await passwordChangeService.VerifyPasswordChangeCode(request);
+        return Ok(result);
     }
 }

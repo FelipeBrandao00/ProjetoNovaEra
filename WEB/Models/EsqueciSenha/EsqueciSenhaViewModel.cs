@@ -8,6 +8,7 @@ namespace WEB.Models.EsqueciSenha;
 public class EsqueciSenhaViewModel
 {
     public string Email { get; set; }
+    public string Token { get; set; }
     
     
      public async Task<bool> RedefinirSenhaRequest(IConfiguration configuration)
@@ -38,16 +39,23 @@ public class EsqueciSenhaViewModel
             using (var client = new HttpClient())
             {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Usuario";
+                var url = $"{baseUrl}/Authenticate/ValidarTokenRedefinicao";
                 var Body = new
                 {
                     email = this.Email,
+                    token = this.Token
                 };
                 var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
                 try
                 {
                     var response = await client.PatchAsync(url, content);
-                    return response.IsSuccessStatusCode;
+                    if (!response.IsSuccessStatusCode) return false;
+                
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    var responseData = JsonSerializer.Deserialize<Response<ResponseModel>>(responseBody, options);
+                    if (responseData != null || !responseData.IsSuccess || responseData.Data != null) return false;
+                    return responseData.Data.Valido;
                 }
                 catch (Exception ex)
                 {
@@ -56,7 +64,12 @@ public class EsqueciSenhaViewModel
             }
         }
      
-     
+        public class ResponseModel
+        {
+            [JsonPropertyName("Valido")]
+            public bool Valido { get; set; }
+            
+        }
      
      
 }
