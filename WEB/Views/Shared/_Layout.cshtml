@@ -33,6 +33,8 @@
             background: linear-gradient(180deg, rgba(79,0,62,1) 0%, rgba(107,0,85,1) 25%, rgba(167,81,138,1) 52%);
             padding: 35px 2vw;
             overflow-y: scroll;
+            overflow-x: hidden;
+            transition: width 0.3s ease, overflow 0.3s ease;
         }
 
         aside nav {
@@ -50,7 +52,7 @@
             display: none;
         }
 
-        #btnOpenSidebar, #btnCloseSidebar {
+        #btnOpenSidebar, #btnCloseSidebar, #btnOpenSidebarMobile, #btnCloseSidebarMobile, #btnUserMobile{
             height: 50px;
             width: 50px;
             background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
@@ -147,6 +149,39 @@
             border-radius: 0 0 10px 10px;
         }
 
+        #aside.collapsed {
+            width: 8vw;
+            padding: 35px 1vw;
+        }
+
+        #aside.collapsed img{
+            display: none;
+        }
+
+        #aside.collapsed .sec button {
+            text-align: center;
+            padding: 0;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #aside.collapsed .sec button b {
+            display: none;
+        }
+
+        #aside .sec button {
+            transition: padding 0.3s ease, font-size 0.3s ease;
+        }
+
+        #aside.collapsed .sec {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #aside.collapsed .sec button {
+            font-size: 0;
+            padding: 10px;
+        }
+
         main {
             height: 100vh;
         }
@@ -182,7 +217,8 @@
                 box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
                 display: flex;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-between;
+                padding: 10px;
             }
 
             aside {
@@ -197,16 +233,16 @@
     </style>
 </head>
 <body>
-    <aside id="aside">
+    <aside id="aside" class="collapsed collapsed-mobile">
         <nav>
             <img id="logoNavMobile" src="~/img/logo_sidebar_mobile.png"/>
-            <img id="logoNavDesktop" src="~/img/logo_sidebar.png"/>
+            <img id="logoNavDesktop" src="~/img/logo_sidebar.png" />
 
-            <button id="btnOpenSidebar" onclick="toggleSidebar('true')">
+            <button id="btnOpenSidebar" onclick="toggleSidebar()">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <button id="btnCloseSidebar">
+            <button id="btnCloseSidebar" onclick="toggleSidebar()">
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </nav>
@@ -291,9 +327,15 @@
     </aside>
     <main>
         <nav class="Mobile">
+            <button id="btnOpenSidebarMobile" onclick="toggleSidebar()">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
             <img src="~/img/logo_navbar_home.png" />
+            <button id="btnUserMobile" onclick="toggleSidebar()">
+                <i class="fa-solid fa-user"></i>
+            </button>
         </nav>
-        <article>
+        <article id="article">
             @RenderBody()
         </article>
     </main>
@@ -305,6 +347,16 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script type="text/javascript">
+        function toggleSidebar() {
+            var aside = document.getElementById('aside');
+            aside.classList.toggle('collapsed');
+
+            var isCollapsed = aside.classList.contains('collapsed');
+            document.getElementById('btnOpenSidebar').style.display = isCollapsed ? 'none' : 'block';
+            document.getElementById('btnCloseSidebar').style.display = isCollapsed ? 'block' : 'none';
+            document.getElementById('article').style.width = isCollapsed ? '92vw' : '77vw';
+        }
+
         function toggleCollapsible(toggleButtonId, collapsibleContentId, secId) {
             var button = document.getElementById(toggleButtonId);
             var content = document.getElementById(collapsibleContentId);
