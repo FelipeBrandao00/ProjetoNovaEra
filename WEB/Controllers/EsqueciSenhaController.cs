@@ -15,9 +15,10 @@ public class EsqueciSenhaController(IConfiguration configuration) : Controller
         return View();
     }
 
-    public IActionResult RedefinirSenha()
+    public IActionResult RedefinirSenha(string email)
     {
-        return View();
+        var model = new EsqueciSenhaViewModel { Email = email };
+        return View(model);
     }
 
     [HttpPost]
@@ -33,14 +34,15 @@ public class EsqueciSenhaController(IConfiguration configuration) : Controller
     }
     
     [HttpPost]
-    public async Task<IActionResult> ConfirmarCodigo(EsqueciSenhaViewModel esqueciSenhaViewModel)
+    public async Task<bool> ConfirmarCodigo(EsqueciSenhaViewModel esqueciSenhaViewModel)
     {
-        var result = await esqueciSenhaViewModel.ValidarCodigo(configuration);
-
-        if (result)
-        {
-            return View("ConfirmarCodigo",esqueciSenhaViewModel);
-        }
-        return View("Index");
+        return await esqueciSenhaViewModel.ValidarCodigo(configuration);
+    }
+    
+    [HttpPost]
+    public async Task<bool> TrocarSenha(EsqueciSenhaViewModel esqueciSenhaViewModel)
+    {
+        if (esqueciSenhaViewModel.NovaSenha != esqueciSenhaViewModel.SenhaConfirmada) return false;
+        return await esqueciSenhaViewModel.RedefinirSenha(configuration);
     }
 }

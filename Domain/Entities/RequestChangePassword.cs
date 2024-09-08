@@ -10,4 +10,5 @@ public class RequestChangePassword
     public Guid CdUsuario { get; set; }
     public string DsCodigoRedefinicao { get; set; }
     public DateTime DtValidade { get; set; }
+    public DateTime? DtTrocaSenha { get; set; }
 }

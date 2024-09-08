@@ -38,8 +38,7 @@ public class AuthenticateController(IJwtService jwtService, IAuthenticateService
     }
 
     [HttpPost("ValidarTokenRedefinicao")]
-    public async Task<IActionResult> ValidarTokenRedefinicao([FromBody] VerifyPasswordChangeCodeRequest request)
-    {
+    public async Task<IActionResult> ValidarTokenRedefinicao([FromBody] VerifyPasswordChangeCodeRequest request) {
         var result = await passwordChangeService.VerifyPasswordChangeCode(request);
         return Ok(result);
     }
