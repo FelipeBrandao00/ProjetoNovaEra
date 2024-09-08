@@ -13,6 +13,7 @@
     <!-- ÍCONES -->
 
     <style type="text/css">
+
         * {
             font-family: "Montserrat", sans-serif;
         }
@@ -25,6 +26,7 @@
         }
 
         aside {
+            z-index: 100;
             width: 23vw;
             height: 100vh;
             border-radius: 0 10px 10px 0; 
@@ -37,10 +39,6 @@
             transform: scaleX(1);
             transform-origin: left;
             transition: width 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        #userData {
-            display: none;
         }
 
         aside.mobileview {
@@ -66,7 +64,7 @@
             display: none;
         }
 
-        #btnOpenSidebar, #btnCloseSidebar, #btnOpenSidebarMobile, #btnCloseSidebarMobile, #btnUserMobile{
+        #btnOpenSidebar, #btnCloseSidebar, #btnOpenSidebarMobile, #btnCloseSidebarMobile, #btnUserMobile {
             height: 50px;
             width: 50px;
             background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
@@ -170,7 +168,6 @@
         #aside.collapsed {
             width: 8vw;
             padding: 35px 1vw;
-            
         }
 
         #aside.collapsed img {
@@ -200,9 +197,120 @@
             display: none;
         }
 
+        .Mobile > button {
+            font-size: 0px;
+        }
+
         article {
             width: 77vw;
-            padding: 5vh 5vw;
+            height: 100vh;
+            padding: 5vh 5vw 8vh 5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #userData {
+            z-index: 10;
+            display: none;
+            text-align: right;
+            position: absolute;
+            right: 5vw;
+            top: 12vh;
+            background: rgba(159, 159, 159, 1);
+            border-radius: 10px 0 10px 10px;
+        }
+
+        #userDetails {
+            display: none;
+            height: 30%;
+            width: 100%;
+            border-radius: 10px 0 0 0;
+            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+            padding: 8px;
+            font-size: 17px;
+            padding: 18px 15px 15px 15px;
+            line-height: 20px;
+        }
+
+        #userData > button {
+            height: 23.3%;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+            border: none;
+            text-align: right;
+            padding: 15px;
+        }
+
+        #userData > button > b {
+            background: linear-gradient(180deg, rgba(186,186,186,1) 0%, rgba(51,51,51,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #userDetails > b, userDetails > span {
+            background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* #userData > button:first-child {
+            border-radius: 10px 0 0 0;
+        } */
+
+        #userData > button:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+
+        #userData.expanded {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #Rota {
+            display: flex;
+            gap: 6px;
+            font-style: italic;
+            font-size: 16px;
+        }
+
+        #Rota > a {
+            cursor: pointer;
+            color: inherit;
+        }
+
+        #navGeral {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #navGeral > div:first-child b {
+            font-size: 32px;
+            line-height: 30px;
+        }
+
+        #navGeral div:last-child {
+            display: flex;
+            align-items: center;
+        }
+
+        #userDetailsPC {
+            font-size: 20px;
+            line-height: 25px;
+            text-align: right;
+            margin-right: 2vh;
+        }
+
+        #btnUserPC {
+            height: 31px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+            box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.5);
         }
 
         @@media (max-width: 1500px) {
@@ -217,6 +325,11 @@
         }
 
         @@media (max-width: 1200px) {
+
+            #navGeral > :last-child {
+                display: none !important;
+            }
+
             main, main.shifted {
                 margin-left: 0vw;
             }
@@ -252,6 +365,7 @@
             }
 
             #userData {
+                z-index: 10;
                 height: 30vh;
                 width: 40vw;
                 position: absolute;
@@ -262,35 +376,7 @@
             }
 
             #userDetails {
-                height: 30%;
-                width: 100%;
-                border-radius: 10px 0 0 0;
-                background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
-                padding: 8px;
-                font-size: 17px;
-            }
-
-            #userData > button {
-                height: 23.3%;
-                width: 100%;
-                background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
-                box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
-                border: none;
-                text-align: right;
-                padding: 8px;
-            }
-
-            #userData > button:first-child {
-                border-radius: 10px 0 0 0;
-            }
-
-            #userData > button:last-child {
-                border-radius: 0 0 10px 10px;
-            }
-
-            #userData.expanded {
-                display: flex;
-                flex-direction: column;
+                display: block;
             }
         }
 
@@ -299,9 +385,12 @@
                 width: 70vw;
             }
         }
+
     </style>
+
 </head>
 <body>
+
     <aside id="aside" class="mobileview">
         <nav>
             <img id="logoNavMobile" src="~/img/logo_sidebar_mobile.png"/>
@@ -394,6 +483,7 @@
             </div>
         </div>
     </aside>
+
     <main>
         <nav class="Mobile">
             <button id="btnOpenSidebar" onclick="toggleSidebar()">
@@ -404,18 +494,44 @@
                 <i class="fa-solid fa-user"></i>
             </button>
         </nav>
+
         <article id="article">
+
             <div id="userData">
                 <div id="userDetails">
-                    Marilene
-                    <br />
-                    Administrador
+                    <b>Marilene</b><br />
+                    <span>Administrador</span>
                 </div>
-                <button>Editar perfil</button>
-                <button>Trocar senha</button>
-                <button>Sair</button>
+                <button style="border-radius: 10px 0 0 0"><b>Editar perfil</b></button>
+                <button><b>Trocar senha</b></button>
+                <button><b>Sair</b></button>
             </div>
+
+            <div id="navGeral">
+                <div>
+                    <div id="Rota">
+                        <a href="#" style="cursor: pointer">
+                            <span>Menu rápido</span>
+                        </a>
+                        <span>> Alunos</span>
+                    </div>
+                    <b>Alunos</b>
+                </div>
+                <div>
+                    <div id="userDetailsPC">
+                        <b>Marilene</b><br />
+                        <span>Administrador</span>
+                    </div>
+                    <div>
+                        <button id="btnUserPC" onclick="toggleUser()">
+                            <i class="fa-solid fa-angle-down arrow-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             @RenderBody()
+
         </article>
     </main>
 
@@ -426,6 +542,7 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script type="text/javascript">
+
         function toggleUser() {
             var userData = document.getElementById('userData');
             var isExpanded = userData.classList.contains('expanded');
@@ -436,6 +553,7 @@
                 userData.classList.add('expanded');
             }
         }
+
         function toggleSidebar() {
             var aside = document.getElementById('aside');
             var isCollapsed = aside.classList.contains('collapsed');
@@ -475,6 +593,8 @@
                 downArrow.classList.add('rotate-up');
             }
         }
+
     </script>
+
 </body>
 </html>
