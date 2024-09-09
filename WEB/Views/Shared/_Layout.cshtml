@@ -219,25 +219,17 @@
             top: 12vh;
             background: rgba(159, 159, 159, 1);
             border-radius: 10px 0 10px 10px;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
         }
 
         #userDetails {
             display: none;
-            height: 30%;
-            width: 100%;
-            border-radius: 10px 0 0 0;
-            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
-            padding: 8px;
-            font-size: 17px;
-            padding: 18px 15px 15px 15px;
-            line-height: 20px;
         }
 
         #userData > button {
             height: 23.3%;
             width: 100%;
             background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
-            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
             border: none;
             text-align: right;
             padding: 15px;
@@ -249,7 +241,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        #userDetails > b, userDetails > span {
+        #userDetails > div > b, userDetails > div > span {
             background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -302,7 +294,7 @@
             font-size: 20px;
             line-height: 25px;
             text-align: right;
-            margin-right: 2vh;
+            margin-right: 1vw;
         }
 
         #btnUserPC {
@@ -360,6 +352,7 @@
             }
 
             article {
+                height: 90vh;
                 width: 100vw;
                 padding: 5vh 10vw;
             }
@@ -367,7 +360,7 @@
             #userData {
                 z-index: 10;
                 height: 30vh;
-                width: 40vw;
+                width: 30vw;
                 position: absolute;
                 right: 0px;
                 margin-right: 3vw;
@@ -377,12 +370,22 @@
 
             #userDetails {
                 display: block;
+                height: 30%;
+                width: 100%;
+                border-radius: 10px 0 0 0;
+                background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+                font-size: 17px;
+                padding-right: 15px;
+                line-height: 20px;
+                display: flex;
+                justify-content: end;
+                align-items: center;
             }
         }
 
         @@media (max-width: 500px) {
             #userData {
-                width: 70vw;
+                width: 60vw;
             }
         }
 
@@ -499,8 +502,10 @@
 
             <div id="userData">
                 <div id="userDetails">
-                    <b>Marilene</b><br />
-                    <span>Administrador</span>
+                    <div>
+                        <b>Marilene</b><br />
+                        <span>Administrador</span>
+                    </div>
                 </div>
                 <button style="border-radius: 10px 0 0 0"><b>Editar perfil</b></button>
                 <button><b>Trocar senha</b></button>
