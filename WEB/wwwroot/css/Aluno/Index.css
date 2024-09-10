@@ -20,7 +20,7 @@
     box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
 }
 
-#conteudoPagEsq {
+#conteudoPagEsq, #conteudoPagDir {
     height: 100%;
     padding: 0 2vw 2vh 2vw;
 }
@@ -59,6 +59,14 @@
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 
+#btnNext {
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    padding: 3px 20px 0px 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
 #txtBusca {
     width: 100%;
     border: none;
@@ -81,6 +89,39 @@ input:focus, button:focus {
     margin-top: 2vh;
     align-items: center;
     justify-content: space-between;
+}
+
+#listaAlunos > div:first-child > button {
+    text-align: left;
+    color: #989898;
+    padding: 10px 0px 10px 8px;
+    border: 1px solid #AEAEAE;
+    background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
+    font-weight: 600;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px 0px inset;
+}
+
+#listaAlunos > div:first-child > button:first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+#listaAlunos > div:first-child > button:last-child {
+    border-radius: 0 0 5px 5px;
+}
+
+/* Classes */
+.divMsgSelecione {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/*.divMsgSelecione > span, #divBusca > button > b {*/
+.linear1 {
+    background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 @media (max-width: 1200px) {
