@@ -1,4 +1,47 @@
 ﻿@{
     Layout = "_Layout";
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Menu rápido";
+    ViewData["Page"] = "Menu rápido";
 }
+
+<link rel="stylesheet" href="~/css/Home/Index.css">
+
+<div id="Container">
+    <section id="secDdl">
+        <div id="Turmas">
+            <b><i class="fa-solid fa-school"></i> Turmas</b>
+            <button><b><i class="fa-solid fa-circle-plus"></i> Adicionar turma</b></button>
+            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar turmas</b></button>
+            <button><b><i class="fa-solid fa-file-circle-plus"></i> Cadastro de conteúdo</b></button>
+        </div>
+        <div id="Professores">
+            <b><i class="fa-solid fa-chalkboard-user"></i> Professores</b>
+            <button><b><i class="fa-solid fa-circle-plus"></i> Adicionar professor</b></button>
+            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar professores</b></button>
+        </div>
+        <div id="Alunos">
+            <b><i class="fa-brands fa-google-scholar"></i> Alunos</b>
+            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar alunos</b></button>
+            <button><b><i class="fa-solid fa-award"></i> Emitir certificado</b></button>
+        </div>
+        <div id="Cursos">
+            <b><i class="fa-solid fa-book-bookmark"></i> Cursos</b>
+            <button><b><i class="fa-solid fa-circle-plus"></i> Adicionar curso</b></button>
+            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar cursos</b></button>
+        </div>
+    </section>
+
+    <section id="secResto">
+        <button><b><i class="fa-solid fa-book-open"></i>  Matrícula</b></button>
+        <button><b><i class="fa-solid fa-scroll"></i> Chamada</b></button>
+    </section>
+
+    <section id="secSistema">
+        <b><i class="fa-solid fa-gear"></i> Sistema</b>
+        <div id="Sistema">
+            <button><b><i class="fa-solid fa-circle-plus"></i> Adicionar usuário</b></button>
+            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar usuários</b></button>
+            <button><b><i class="fa-solid fa-trophy"></i> Gerenciar permissões</b></button>
+        </div>
+    </section>
+</div>

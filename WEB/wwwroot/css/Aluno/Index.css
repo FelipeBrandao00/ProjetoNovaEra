@@ -108,7 +108,7 @@ input:focus, button:focus {
 #listaAlunos > div:first-child > button:last-child {
     border-radius: 0 0 5px 5px;
 }
-
+LIST
 /* Classes */
 .divMsgSelecione {
     display: flex;

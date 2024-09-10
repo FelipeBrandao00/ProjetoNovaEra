@@ -499,7 +499,6 @@
         </nav>
 
         <article id="article">
-
             <div id="userData">
                 <div id="userDetails">
                     <div>
@@ -515,12 +514,16 @@
             <div id="navGeral">
                 <div>
                     <div id="Rota">
-                        <a href="#" style="cursor: pointer">
-                            <span>Menu rápido</span>
-                        </a>
-                        <span>> Alunos</span>
+                        @if (ViewData["Page"] != "Menu rápido") {
+                            <a href="#" style="cursor: pointer">
+                                <span>Menu rápido</span>
+                            </a>
+                           <span>> @ViewData["Page"]</span>
+                        } else {
+                            <br />
+                        }
                     </div>
-                    <b>Alunos</b>
+                    <b>@ViewData["Page"]</b>
                 </div>
                 <div>
                     <div id="userDetailsPC">

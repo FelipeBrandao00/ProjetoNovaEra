@@ -18,6 +18,6 @@ public class EsqueciSenhaController : Controller
     [HttpPost]
     public async void EsqueciSenhaForm(EsqueciSenhaViewModel esqueciSenhaViewModel)
     {
-        var x = 1;
+        int x = 1;
     }
 }
