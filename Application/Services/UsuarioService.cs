@@ -136,7 +136,11 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
     {
         try
         {
-            var result = await usuarioRepository.UpdatePasswordUsuario(request.CdUsuario, request.NewPassword);
+            var usuario = await usuarioRepository.GetUsuarioByEmail(request.Email);
+
+            if (usuario is null) throw new Exception("Usuario não encontrado");
+
+            var result = await usuarioRepository.UpdatePasswordUsuario(usuario.CdUsuario, request.NewPassword);
             return new Response<UsuarioDto>(mapper.Map<UsuarioDto>(result), 200, "Senha do usuário atualizada com sucesso!");            
         }
         catch (Exception e)
@@ -157,12 +161,5 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
         }
 
         return new string(token);
-    }
-
-    public async Task<bool> VerifyPasswordResetTokenAsync(Guid cdUsuario, string token)
-    {
-        // Verificação de token: comparando com o token armazenado e verificando a validade
-
-        return true;
     }
 }

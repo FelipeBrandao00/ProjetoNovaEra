@@ -48,9 +48,8 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase 
     }
 
     [AllowAnonymous]
-    [HttpPatch("api/[controller]/{id:guid}")]
-    public async Task<ActionResult> UpdateUsuario(Guid id, UpdateUsuarioPasswordRequest request) {
-        if (id != request.CdUsuario) return new BadRequestResult();
+    [HttpPatch("api/[controller]")]
+    public async Task<ActionResult> UpdateUsuario(UpdateUsuarioPasswordRequest request) {
         var result = await usuarioService.UpdatePasswordUsuario(request);
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);

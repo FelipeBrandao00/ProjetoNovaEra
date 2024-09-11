@@ -14,6 +14,5 @@ namespace Application.Interfaces {
         Task<Response<UsuarioDto>> GetUsuarioByEmail(GetUsuarioByEmailRequest request);
         Task<Response<UsuarioDto>> UpdatePasswordUsuario(UpdateUsuarioPasswordRequest request);
         string GeneratePasswordResetToken();
-        Task<bool> VerifyPasswordResetTokenAsync(Guid cdUsuario, string token);
     }
 }

@@ -3,7 +3,7 @@ using WEB.Models.EsqueciSenha;
 
 namespace WEB.Controllers;
 
-public class EsqueciSenhaController : Controller
+public class EsqueciSenhaController(IConfiguration configuration) : Controller
 {
     public IActionResult Index()
     {
@@ -15,14 +15,34 @@ public class EsqueciSenhaController : Controller
         return View();
     }
 
-    public IActionResult RedefinirSenha()
+    public IActionResult RedefinirSenha(string email)
     {
-        return View();
+        var model = new EsqueciSenhaViewModel { Email = email };
+        return View(model);
     }
 
     [HttpPost]
-    public async void EsqueciSenhaForm(EsqueciSenhaViewModel esqueciSenhaViewModel)
+    public async Task<IActionResult> EsqueciSenhaForm(EsqueciSenhaViewModel esqueciSenhaViewModel)
     {
-        var x = 1;
+        var result = await esqueciSenhaViewModel.RedefinirSenhaRequest(configuration);
+
+        if (result)
+        {
+            return View("ConfirmarCodigo",esqueciSenhaViewModel);
+        }
+        return View("Index");
+    }
+    
+    [HttpPost]
+    public async Task<bool> ConfirmarCodigo(EsqueciSenhaViewModel esqueciSenhaViewModel)
+    {
+        return await esqueciSenhaViewModel.ValidarCodigo(configuration);
+    }
+    
+    [HttpPost]
+    public async Task<bool> TrocarSenha(EsqueciSenhaViewModel esqueciSenhaViewModel)
+    {
+        if (esqueciSenhaViewModel.NovaSenha != esqueciSenhaViewModel.SenhaConfirmada) return false;
+        return await esqueciSenhaViewModel.RedefinirSenha(configuration);
     }
 }

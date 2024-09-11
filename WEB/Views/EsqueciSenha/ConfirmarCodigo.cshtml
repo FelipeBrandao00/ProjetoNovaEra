@@ -1,4 +1,6 @@
-﻿@{
+﻿@model WEB.Models.EsqueciSenha.EsqueciSenhaViewModel
+
+@{
     Layout = "_LayoutInicio";
     ViewData["Title"] = "Esqueci a senha";
 }
@@ -6,7 +8,7 @@
 <link rel="stylesheet" href="~/css/EsqueciSenha/ConfimarCodigo.css">
 
 <div id="Rota">
-    <a href="#"><span>Login</span></a>
+    <a onclick="redirecionarParaLogin()" style="cursor: pointer"><span>Login</span></a>
     <span>> Esqueci a senha</span>
 </div>
 
@@ -14,19 +16,19 @@
     <p>Esqueci a senha</p>
 </div>
 
-<form id="ConfirmarCodigoForm" asp-controller="EsqueciSenha" asp-action="ConfirmarCodigoForm" method="post">
+<form id="ConfirmarCodigoForm">
     <p>Se o e-mail digitado for vinculado à uma conta, você receberá um código de 6 dígitos. Digite-o abaixo:</p>
     <div id="Codigo">
-        <input id="txtChar1" type="text" placeholder="1" maxlength="1" />
-        <input id="txtChar2" type="text" placeholder="2" maxlength="1" />
-        <input id="txtChar3" type="text" placeholder="3" maxlength="1" />
-        <input id="txtChar4" type="text" placeholder="4" maxlength="1" />
-        <input id="txtChar5" type="text" placeholder="A" maxlength="1" />
+        <input id="txtChar1" type="text" placeholder="1" maxlength="1" tabindex="1" oninput="this.value = this.value.toUpperCase(); goToNext(1)"/>
+        <input id="txtChar2" type="text" placeholder="2" maxlength="1" tabindex="2" oninput="this.value = this.value.toUpperCase(); goToNext(2)"/>
+        <input id="txtChar3" type="text" placeholder="3" maxlength="1" tabindex="3" oninput="this.value = this.value.toUpperCase(); goToNext(3)"/>
+        <input id="txtChar4" type="text" placeholder="4" maxlength="1" tabindex="4" oninput="this.value = this.value.toUpperCase(); goToNext(4)"/>
+        <input id="txtChar5" type="text" placeholder="A" maxlength="1" tabindex="5" oninput="this.value = this.value.toUpperCase();"/>
     </div>
-    <span id="msgErroLogin">Código inválido.</span>
+    <span id="msgErroLogin" style="display: none">Código inválido.</span>
     <div id="divBotoes">
-        <button id="btnTrocarEmail">Trocar e-mail</button>
-        <button id="btnConfimarCodigo">Confirmar código</button>
+        <button id="btnTrocarEmail" onclick="redirecionarParaEmail()">Trocar e-mail</button>
+        <button id="btnConfimarCodigo" onclick="enviarCodigo()">Confirmar código</button>
     </div>
 </form>
 
@@ -34,3 +36,48 @@
     <span>Não recebeu o código?</span>
     <a href="#"><span>reenviar.</span></a>
 </div>
+
+<script type="text/javascript">
+    function goToNext(value) {
+        let txt = 'txtChar' + (value + 1);
+        document.getElementById(txt).focus();
+    }
+
+    function redirecionarParaLogin() {
+        window.location.href = '@Url.Action("Index", "Login")';
+    }
+
+    function redirecionarParaEmail() {
+        event.preventDefault();
+        window.location.href = '@Url.Action("Index", "EsqueciSenha")';
+    }
+
+    function enviarCodigo() {
+        event.preventDefault();
+        let strValor = "";
+        for (let i = 1; i <= 5; i++) {
+            strValor += document.getElementById('txtChar' + i).value;
+        }
+
+        $.ajax({
+            url: '@Url.Action("ConfirmarCodigo", "EsqueciSenha")',
+            type: 'POST',
+            data: {
+                Token: strValor,
+                Email: '@Model.Email'
+            },
+            success: function (response) {
+                if (response == true)
+                    window.location.href = '@Url.Action("RedefinirSenha", "EsqueciSenha")?email=' + encodeURIComponent('@Model.Email');
+                else{
+                    var mesagemErro = document.getElementById("msgErroLogin");
+                    mesagemErro.style.display = 'flex'
+                }
+            },
+            error: function () {
+                alert("Houve algum erro ao enviar o código. Entre em contato com o suporte.");
+            }
+        });
+    }
+
+</script>
