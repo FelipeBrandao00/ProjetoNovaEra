@@ -17,4 +17,16 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="DTOs\PermissaoCargo\PermissaoCargoDto\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="DTOs\PermissaoCargo\PermissaoCargoDto\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="DTOs\PermissaoCargo\PermissaoCargoDto\**" />
+  </ItemGroup>
+
 </Project>

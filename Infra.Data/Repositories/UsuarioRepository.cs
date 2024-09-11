@@ -7,31 +7,31 @@ using Infra.Data.Encode;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repositories;
-public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepository {
+public class UsuarioRepository(ApplicationDbContext _context) : IUsuarioRepository {
 
 
     public async Task<Usuario> AddUsuario(Usuario usuario)
     {
         usuario.DsSenha = Password.EncodePassword(usuario.DsSenha);
-        userContext.Usuarios.Add(usuario);
-        await userContext.SaveChangesAsync();
+        _context.Usuarios.Add(usuario);
+        await _context.SaveChangesAsync();
         return usuario;
     }
 
     public async Task<Usuario?> GetUsuarioByCpf(string cpf) {
-        return await userContext.Usuarios.SingleOrDefaultAsync(x => x.DsCpf == cpf);
+        return await _context.Usuarios.SingleOrDefaultAsync(x => x.DsCpf == cpf);
     }
 
     public async Task<List<Usuario>> GetUsuarios() {
-        return await userContext.Usuarios.ToListAsync();
+        return await _context.Usuarios.ToListAsync();
     }
 
     public async Task<List<Usuario>> GetUsuariosByCargo(int cdCargo)
     {
         return await 
-            (from u in userContext.Usuarios 
-                join cu in userContext.Cargo_Usuarios on u.CdUsuario equals cu.CdUsuario
-                join c in userContext.Cargos on cu.CdCargo equals c.CdCargo 
+            (from u in _context.Usuarios 
+                join cu in _context.Cargo_Usuarios on u.CdUsuario equals cu.CdUsuario
+                join c in _context.Cargos on cu.CdCargo equals c.CdCargo 
                 where c.CdCargo == cdCargo
                 select u)
             .ToListAsync();
@@ -39,21 +39,21 @@ public class UsuarioRepository(ApplicationDbContext userContext) : IUsuarioRepos
 
     public async Task<Usuario?> GetUsuarioByEmail(string email)
     {
-        return await userContext.Usuarios.SingleOrDefaultAsync(x => x.DsEmail == email);
+        return await _context.Usuarios.SingleOrDefaultAsync(x => x.DsEmail == email);
     }
 
     public async Task<Usuario?> UpdatePasswordUsuario(Guid cdUsuario, string newPassword)
     {
-        var usuario = userContext.Usuarios.Where(x => x.CdUsuario == cdUsuario).FirstOrDefault();
+        var usuario = _context.Usuarios.Where(x => x.CdUsuario == cdUsuario).FirstOrDefault();
         usuario.DsSenha = Password.EncodePassword(newPassword);
-        userContext.SaveChangesAsync();
+        _context.SaveChangesAsync();
         return usuario; 
     }
 
     public async Task<Usuario> UpdateUsuario(Usuario usuario) {
         usuario.DsSenha = Password.EncodePassword(usuario.DsSenha);
-        userContext.Entry(usuario).State = EntityState.Modified;
-        await userContext.SaveChangesAsync();
+        _context.Entry(usuario).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
         return usuario;
     }
 }

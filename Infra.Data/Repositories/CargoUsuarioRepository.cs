@@ -5,25 +5,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repositories;
 
-public class CargoUsuarioRepository(ApplicationDbContext CargoUsuarioContext) : ICargoUsuarioRepository
+public class CargoUsuarioRepository(ApplicationDbContext _context) : ICargoUsuarioRepository
 {
     public async Task<Cargo_Usuario> AddCargoUsuario(Cargo_Usuario cargoUsuario)
     {
-        CargoUsuarioContext.Cargo_Usuarios.Add(cargoUsuario);
-        await CargoUsuarioContext.SaveChangesAsync();
+        _context.Cargo_Usuarios.Add(cargoUsuario);
+        await _context.SaveChangesAsync();
         return cargoUsuario;
     }
 
     public async Task<Cargo_Usuario> DeleteCargoUsuario(Cargo_Usuario cargoUsuario)
     {
-        CargoUsuarioContext.Cargo_Usuarios.Remove(cargoUsuario);
-        await CargoUsuarioContext.SaveChangesAsync();
+        _context.Cargo_Usuarios.Remove(cargoUsuario);
+        await _context.SaveChangesAsync();
         return cargoUsuario;
     }
 
     public async Task<List<Cargo_Usuario>> GetCargosByUserId(Guid cdUsuario)
     {
-        return await CargoUsuarioContext.Cargo_Usuarios
+        return await _context.Cargo_Usuarios
             .Where(x => x.CdUsuario == cdUsuario)
             .Include(x => x.Cargo)
             .ToListAsync();
