@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listar alunos";
+    ViewData["Page"] = "Alunos";
+}
+
+<link rel="stylesheet" href="~/css/Aluno/Index.css">
+
+<div id="capaLivro">
+    <div id="paginaEsquerda">
+        <div id="conteudoPagEsq">
+            <div id="marcadorPagina"></div>
+
+            <div id="divBusca">
+                <input id="txtBusca" type="text" placeholder="Digite o nome do aluno..." />
+                <button id="btnPesquisar"><b class="linear1">Pesquisar</b></button>
+            </div>
+
+            <div id="listaAlunos">
+                <div>
+                    <button>Allyne Mariana</button>
+                    <button>Felipe dos Santos Brandão</button>
+                    <button>João Marcus Corrêa Azevedo</button>
+                    <button>Juliana Gema Fidalga</button>
+                    <button>Juliana da Silva Fidalgo</button>
+                    <button>Matheus Ferreira Ladislau</button>
+                    <button>Matheus Lerreira Radislau</button>
+                    <button>Matheus Ferreiro Lobisomen</button>
+                    <button>Zóio</button>
+                </div>
+                <div>
+                    <span><b class="linear1">Página 1 de 50</b></span>
+                    <button id="btnNext">
+                        <i class="fa-solid fa-angle-right arrow-icon"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="paginaDireita">
+        <div id="conteudoPagDir">
+            <div class="divMsgSelecione">
+                <span class="linear1">Selecione um aluno para ver suas informações!</span>
+            </div>
+        </div>
+    </div>
+</div>

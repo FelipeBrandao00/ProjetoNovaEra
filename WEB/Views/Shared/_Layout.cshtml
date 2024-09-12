@@ -1,49 +1,608 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nova Era</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WEB.styles.css" asp-append-version="true" />
+    <!-- MONTSERRAT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- ÍCONES -->
+
+    <style type="text/css">
+
+        * {
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            align-content: center;
+            background-color: #F2F2F2;
+        }
+
+        aside {
+            z-index: 100;
+            width: 23vw;
+            height: 100vh;
+            border-radius: 0 10px 10px 0; 
+            display: block;
+            background: rgb(79,0,62);
+            background: linear-gradient(180deg, rgba(79,0,62,1) 0%, rgba(107,0,85,1) 25%, rgba(167,81,138,1) 52%);
+            padding: 35px 2vw;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            transform: scaleX(1);
+            transform-origin: left;
+            transition: width 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        aside.mobileview {
+            transition: width 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        aside::-webkit-scrollbar {
+            display: none;
+        }
+
+        aside nav {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #logoNavDesktop {
+            width: 100%;
+            max-width: 180px;
+            height: auto;
+        }
+
+        #logoNavMobile {
+            display: none;
+        }
+
+        #btnOpenSidebar, #btnCloseSidebar, #btnOpenSidebarMobile, #btnCloseSidebarMobile, #btnUserMobile {
+            height: 50px;
+            width: 50px;
+            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        #btnCloseSidebar {
+            display: none;
+        }
+
+        i {
+            background: linear-gradient(180deg, rgba(205,205,205,1) 0%, rgba(51,51,51,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+
+        #Botoes {
+            margin-top: 100px;
+        }
+
+        #Botoes > div > button {
+            border: none;
+            width: 100%;
+            min-height: 55px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+            padding: 0 15px 0 15px;
+            font-size: 1.2rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 4%;
+        }
+
+        #Botoes > div > button > b {
+            background: linear-gradient(180deg, rgba(205,205,205,1) 0%, rgba(51,51,51,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sec {
+            margin-top: 30px;
+            border-radius: 10px 10px;
+        }
+
+        .sec i, .collap > button > i {
+            width: 2rem;
+        }
+
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .arrow-icon.rotate-up {
+            transform: rotate(180deg);
+        }
+
+        .arrow-icon.rotate-down {
+            transform: rotate(0deg);
+        }
+
+        .collap {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+            border-radius: 0 0 10px 10px;
+            margin: 1px;
+        }
+
+        .collap.expanded {
+            max-height: 200px;
+        }
+
+        .collap > button {
+            width: 100%;
+            min-height: 45px;
+            border: none;
+            /*box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5) inset;*/
+            text-align: left;
+            background: linear-gradient(180deg, rgba(205,205,205,1) 0%, rgba(51,51,51,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .collap > button:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+
+        #aside.collapsed > nav {
+            justify-content: center;
+        }
+
+        #aside.collapsed {
+            width: 8vw;
+            padding: 35px 1vw;
+        }
+
+        #aside.collapsed img {
+            display: none;
+        }
+
+        #aside.collapsed .sec button b {
+            display: none;
+        }
+
+        #aside.collapsed .sec button {
+            text-align: center;
+            font-size: 0;
+            padding: 10px;
+        }
+
+        main {
+            height: 100vh;
+            transition: margin-left 0.3s ease;
+        }
+
+        main.shifted {
+            margin-left: 8vw;
+        }
+
+        .Mobile {
+            display: none;
+        }
+
+        .Mobile > button {
+            font-size: 0px;
+        }
+
+        article {
+            width: 77vw;
+            height: 100vh;
+            padding: 5vh 5vw 8vh 5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #userData {
+            z-index: 10;
+            display: none;
+            text-align: right;
+            position: absolute;
+            right: 5vw;
+            top: 12vh;
+            background: rgba(159, 159, 159, 1);
+            border-radius: 10px 0 10px 10px;
+            box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        #userDetails {
+            display: none;
+        }
+
+        #userData > button {
+            height: 23.3%;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+            border: none;
+            text-align: right;
+            padding: 15px;
+        }
+
+        #userData > button > b {
+            background: linear-gradient(180deg, rgba(186,186,186,1) 0%, rgba(51,51,51,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #userDetails > div > b, userDetails > div > span {
+            background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* #userData > button:first-child {
+            border-radius: 10px 0 0 0;
+        } */
+
+        #userData > button:last-child {
+            border-radius: 0 0 10px 10px;
+        }
+
+        #userData.expanded {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #Rota {
+            display: flex;
+            gap: 6px;
+            font-style: italic;
+            font-size: 16px;
+        }
+
+        #Rota > a {
+            cursor: pointer;
+            color: inherit;
+        }
+
+        #navGeral {
+            display: flex;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #navGeral > div:first-child b {
+            font-size: 32px;
+            line-height: 30px;
+        }
+
+        #navGeral div:last-child {
+            display: flex;
+            align-items: center;
+        }
+
+        #userDetailsPC {
+            font-size: 20px;
+            line-height: 25px;
+            text-align: right;
+            margin-right: 1vw;
+        }
+
+        #btnUserPC {
+            height: 31px;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+            box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        @@media (max-width: 1500px) {
+            #logoNavMobile {
+                display: block;
+                height: 50px;
+            }
+
+            #logoNavDesktop {
+                display: none;
+            }
+        }
+
+        @@media (max-width: 1200px) {
+
+            #navGeral > :last-child {
+                display: none !important;
+            }
+
+            main, main.shifted {
+                margin-left: 0vw;
+            }
+
+            .Mobile {
+                margin: 0;
+                height: 10vh;
+                width: 100vw;
+                font-size: 5vw;
+                background: linear-gradient(180deg, rgba(79,0,62,1) 0%, rgba(107,0,85,1) 100%);
+                border-radius: 0 0 10px 10px;
+                box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px;
+            }
+
+            aside {
+                position: fixed;
+                width: 100vw;
+                padding: 50px;
+                border-radius: 0;
+            }
+
+            aside.mobileview {
+                display: none;
+            }
+
+            article {
+                height: 90vh;
+                width: 100vw;
+                padding: 5vh 10vw;
+            }
+
+            #userData {
+                z-index: 10;
+                height: 30vh;
+                width: 30vw;
+                position: absolute;
+                right: 0px;
+                margin-right: 3vw;
+                display: none;
+                text-align: right;
+            }
+
+            #userDetails {
+                display: block;
+                height: 30%;
+                width: 100%;
+                border-radius: 10px 0 0 0;
+                background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+                font-size: 17px;
+                padding-right: 15px;
+                line-height: 20px;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+            }
+        }
+
+        @@media (max-width: 500px) {
+            #userData {
+                width: 60vw;
+            }
+        }
+
+    </style>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WEB</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+
+    <aside id="aside" class="mobileview">
+        <nav>
+            <img id="logoNavMobile" src="~/img/logo_sidebar_mobile.png"/>
+            <img id="logoNavDesktop" src="~/img/logo_sidebar.png" />
+
+            <button id="btnOpenSidebar" onclick="toggleSidebar()">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
+            <button id="btnCloseSidebar" onclick="toggleSidebar()">
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </nav>
+
+        <div id="Botoes">
+            <div id="secTurma" class="sec">
+                <button id="btnCollapsibleTurma" onclick="toggleCollapsible('btnCollapsibleTurma','collapTurma','secTurma')">
+                    <i class="fa-solid fa-school"></i>
+                    <b>Turmas</b>
+                    <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+                <div class="collap" id="collapTurma">
+                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar turma</button>
+                    <button><i class="fa-solid fa-rectangle-list"></i>Listar turma</button>
+                    <button><i class="fa-solid fa-file-circle-plus"></i>Cadastro de conteúdo</button>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - WEB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div id="secProfessor" class="sec">
+                <button id="btnCollapsibleProfessor" onclick="toggleCollapsible('btnCollapsibleProfessor','collapProfessor','secProfessor')">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                    <b>Professores</b>
+                    <i class="fa-solid fa-angle-down arrow-icon"></i>
+                </button>
+                <div class="collap" id="collapProfessor">
+                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar professor</button>
+                    <button><i class="fa-solid fa-rectangle-list"></i>Listar professor</button>
+                </div>
+            </div>
+
+            <div id="secAluno" class="sec">
+                <button id="btnCollapsibleAluno" onclick="toggleCollapsible('btnCollapsibleAluno','collapAluno','secAluno')">
+                    <i class="fa-brands fa-google-scholar"></i>
+                    <b>Alunos</b>
+                    <i class="fa-solid fa-angle-down arrow-icon"></i>
+                </button>
+                <div class="collap" id="collapAluno">
+                    <button><i class="fa-solid fa-rectangle-list"></i>Listar alunos</button>
+                    <button><i class="fa-solid fa-award"></i>Emitir certificado</button>
+                </div>
+            </div>
+
+            <div id="secCurso" class="sec">
+                <button id="btnCollapsibleCurso" onclick="toggleCollapsible('btnCollapsibleCurso','collapCurso','secCurso')">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                    <b>Cursos</b>
+                    <i class="fa-solid fa-angle-down arrow-icon"></i>
+                </button>
+                <div class="collap" id="collapCurso">
+                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar curso</button>
+                    <button><i class="fa-solid fa-rectangle-list"></i>Listar cursos</button>
+                </div>
+            </div>
+
+            <div id="secMatricula" class="sec">
+                <button>
+                    <i class="fa-solid fa-book-open"></i>
+                    <b>Matrícula</b>
+                </button>
+            </div>
+
+            <div id="secChamada" class="sec">
+                <button>
+                    <i class="fa-solid fa-scroll"></i>
+                    <b>Chamada</b>
+                </button>
+            </div>
+
+            <div id="secSistema" class="sec">
+                <button id="btnCollapsibleSistema" onclick="toggleCollapsible('btnCollapsibleSistema','collapSistema','secSistema')">
+                    <i class="fa-solid fa-gear"></i>
+                    <b>Sistema</b>
+                    <i class="fa-solid fa-angle-down arrow-icon"></i>
+                </button>
+                <div class="collap" id="collapSistema">
+                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar usuário</button>
+                    <button><i class="fa-solid fa-rectangle-list"></i>Listar usuários</button>
+                    <button><i class="fa-solid fa-trophy"></i>Gerenciar permissões</button>
+                </div>
+            </div>
         </div>
-    </footer>
+    </aside>
+
+    <main>
+        <nav class="Mobile">
+            <button id="btnOpenSidebar" onclick="toggleSidebar()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <img src="~/img/logo_navbar_home.png" />
+            <button id="btnUserMobile" onclick="toggleUser()">
+                <i class="fa-solid fa-user"></i>
+            </button>
+        </nav>
+
+        <article id="article">
+            <div id="userData">
+                <div id="userDetails">
+                    <div>
+                        <b>Marilene</b><br />
+                        <span>Administrador</span>
+                    </div>
+                </div>
+                <button style="border-radius: 10px 0 0 0"><b>Editar perfil</b></button>
+                <button><b>Trocar senha</b></button>
+                <button><b>Sair</b></button>
+            </div>
+
+            <div id="navGeral">
+                <div>
+                    <div id="Rota">
+                        @if (ViewData["Page"] != "Menu rápido") {
+                            <a href="#" style="cursor: pointer">
+                                <span>Menu rápido</span>
+                            </a>
+                           <span>> @ViewData["Page"]</span>
+                        } else {
+                            <br />
+                        }
+                    </div>
+                    <b>@ViewData["Page"]</b>
+                </div>
+                <div>
+                    <div id="userDetailsPC">
+                        <b>Marilene</b><br />
+                        <span>Administrador</span>
+                    </div>
+                    <div>
+                        <button id="btnUserPC" onclick="toggleUser()">
+                            <i class="fa-solid fa-angle-down arrow-icon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            @RenderBody()
+
+        </article>
+    </main>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>    
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script type="text/javascript">
+
+        function toggleUser() {
+            var userData = document.getElementById('userData');
+            var isExpanded = userData.classList.contains('expanded');
+
+            if (isExpanded) {
+                userData.classList.remove('expanded');
+            } else {
+                userData.classList.add('expanded');
+            }
+        }
+
+        function toggleSidebar() {
+            var aside = document.getElementById('aside');
+            var isCollapsed = aside.classList.contains('collapsed');
+            var userData = document.getElementById('userData');
+
+            if (isCollapsed) {
+                userData.classList.remove('expanded');
+                aside.classList.remove('collapsed');
+                aside.classList.remove('mobileview');
+                document.getElementById('btnOpenSidebar').style.display = 'block';
+                document.getElementById('btnCloseSidebar').style.display = 'none';
+                document.querySelector('main').classList.remove('shifted');
+            } else {
+                userData.classList.remove('expanded');
+                aside.classList.add('collapsed');
+                aside.classList.add('mobileview');
+                document.getElementById('btnOpenSidebar').style.display = 'none';
+                document.getElementById('btnCloseSidebar').style.display = 'block';
+                document.querySelector('main').classList.add('shifted');
+            }
+        }
+
+        function toggleCollapsible(toggleButtonId, collapsibleContentId, secId) {
+            var button = document.getElementById(toggleButtonId);
+            var content = document.getElementById(collapsibleContentId);
+            var sec = document.getElementById(secId);
+            var downArrow = button.querySelector('.fa-angle-down');
+
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded'); 
+                downArrow.classList.remove('rotate-up');
+                downArrow.classList.add('rotate-down');
+            } else {
+                content.classList.add('expanded');
+                sec.style.background = 'linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%)';
+                downArrow.classList.remove('rotate-down');
+                downArrow.classList.add('rotate-up');
+            }
+        }
+
+    </script>
+
 </body>
 </html>

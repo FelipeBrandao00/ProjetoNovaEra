@@ -1,0 +1,208 @@
+﻿#Container {
+    height: 74vh;
+    padding-top: 40px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#Container > #secDdl {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#Container > #secDdl > div {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    background-color: #E7E7E7;
+    box-shadow: rgb(0, 0, 0, 0.4) 0 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    border-radius: 10px;
+}
+
+#Container > #secDdl > div > b {
+    background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 20px;
+}
+
+#Container > #secDdl > div > button {
+    background: rgb(200,200,200);
+    background: linear-gradient(180deg, rgba(200,200,200,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+    padding: 0 15px 0 15px;
+    border: none;
+    min-height: 40px;
+    text-align: left;
+}
+
+#Container > #secDdl > div > button > b {
+    background-color: #333333;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 13px;
+}
+
+#Container > #secDdl > div > button > b > i {
+    font-size: 1rem;
+}
+
+#Container > #secDdl > div > button:first-of-type {
+    border-radius: 10px 10px 0 0;
+}
+
+#Container > #secDdl > div > button:last-of-type {
+    border-radius: 0 0 10px 10px;
+}
+
+#Container > #secResto {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #E7E7E7;
+    box-shadow: rgb(0, 0, 0, 0.4) 0 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    border-radius: 10px;
+}
+
+#Container > #secResto > button {
+    background: rgb(200,200,200);
+    background: linear-gradient(180deg, rgba(200,200,200,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+    padding: 0 15px 0 15px;
+    border: none;
+    min-height: 40px;
+    width: 49%;
+    text-align: left;
+}
+
+#Container > #secResto > button > b {
+    background-color: #333333;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+#Container > #secSistema {
+    padding: 20px;
+    background-color: #E7E7E7;
+    box-shadow: rgb(0, 0, 0, 0.4) 0 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+    border-radius: 10px;
+}
+
+#Container > #secSistema > #Sistema {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#Container > #secSistema > #Sistema > button {
+    background: rgb(200,200,200);
+    background: linear-gradient(180deg, rgba(200,200,200,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+    padding: 0 15px 0 15px;
+    border: none;
+    min-height: 40px;
+    width: 32%;
+    text-align: left;
+}
+
+#Container > #secSistema > #Sistema > button > b {
+    background-color: #333333;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#Container > #secSistema > b {
+    background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 20px;
+}
+
+#Container > #secResto > button:first-of-type {
+    border-radius: 10px 0 0 10px;
+}
+
+#Container > #secResto > button:last-of-type {
+    border-radius: 0 10px 10px 0;
+}
+
+#Container > #secSistema > #Sistema > button:first-of-type {
+    border-radius: 10px 0 0 10px;
+}
+
+#Container > #secSistema > #Sistema > button:last-of-type {
+    border-radius: 0 10px 10px 0;
+}
+
+
+@media (max-width: 1200px) {
+    #Container > #secDdl > div > button > b {
+        font-size: 16px;
+    }
+
+    #Container > #secDdl {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    #Container > #secDdl > div {
+        margin-bottom: 50px;
+    }
+
+    #Container > #secResto {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    #Container > #secResto > button {
+        width: 100%;
+    }
+
+    #Container > #secSistema {
+        margin-top: 50px;
+    }
+
+    #Container > #secSistema > #Sistema {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    #Container > #secSistema > #Sistema > button {
+        width: 100%;
+    }
+
+    #Container > #secResto > button:first-of-type {
+        border-radius: 10px 10px 0 0;
+    }
+
+    #Container > #secResto > button:last-of-type {
+        border-radius: 0 0 10px 10px;
+    }
+
+    #Container > #secSistema > #Sistema > button:first-of-type {
+        border-radius: 10px 10px 0 0;
+    }
+
+    #Container > #secSistema > #Sistema > button:last-of-type {
+        border-radius: 0 0 10px 10px;
+    }
+
+}
