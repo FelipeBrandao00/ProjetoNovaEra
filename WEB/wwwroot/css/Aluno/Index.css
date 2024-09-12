@@ -1,0 +1,131 @@
+﻿/* Folha de estilos: Aluno */
+
+/* IDs */
+#capaLivro {
+    height: 74vh;
+    /*width: 67vw;*/
+    padding: 6px;
+    border-radius: 5px;
+    background-color: #940075;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
+    display: flex;
+}
+
+#paginaEsquerda {
+    z-index: 1;
+    width: 50%;
+    padding-right: 2vw;
+    background: rgb(243,243,243);
+    background: linear-gradient(90deg, rgba(243,243,243,1) 18%, rgba(227,227,227,1) 95%, rgba(170,169,169,1) 100%);
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+#conteudoPagEsq, #conteudoPagDir {
+    height: 100%;
+    padding: 0 2vw 2vh 2vw;
+}
+
+#paginaDireita {
+    z-index: 0;
+    width: 50%;
+    padding-left: 2vw;
+    background: rgb(243,243,243);
+    background: linear-gradient(270deg, rgba(243,243,243,1) 63%, rgba(227,227,227,1) 94%, rgba(170,169,169,1) 100%);
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+#marcadorPagina {
+    width: 62px;
+    height: 62px;
+    background: rgb(220,220,220);
+    background: linear-gradient(180deg, rgba(220,220,220,1) 0%, rgba(183,4,145,1) 50%, rgba(140,7,112,1) 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 50%, 0% 100%);
+}
+
+#divBusca {
+    margin-top: 4vh;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 10px;
+}
+
+#btnPesquisar {
+    width: 120px;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+#btnNext {
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    padding: 3px 20px 0px 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+#txtBusca {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px 0px inset;
+}
+
+input:focus, button:focus {
+    outline: none;
+}
+
+#listaAlunos div:first-child {
+    margin-top: 2vh;
+    display: grid;
+}
+
+#listaAlunos div:last-child {
+    display: flex;
+    margin-top: 2vh;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#listaAlunos > div:first-child > button {
+    text-align: left;
+    color: #989898;
+    padding: 10px 0px 10px 8px;
+    border: 1px solid #AEAEAE;
+    background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
+    font-weight: 600;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px 0px inset;
+}
+
+#listaAlunos > div:first-child > button:first-child {
+    border-radius: 5px 5px 0 0;
+}
+
+#listaAlunos > div:first-child > button:last-child {
+    border-radius: 0 0 5px 5px;
+}
+LIST
+/* Classes */
+.divMsgSelecione {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/*.divMsgSelecione > span, #divBusca > button > b {*/
+.linear1 {
+    background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@media (max-width: 1200px) {
+    #capaLivro {
+        display: none;
+    }
+}
