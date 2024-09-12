@@ -36,10 +36,18 @@ namespace Infra.IoC {
             services.AddScoped<IPasswordChangeRepository, PasswordChangeRepository>();
             services.AddScoped<IPasswordChangeService, PasswordChangeService>();
             
+            services.AddScoped<IPermissaoRepository, PermissaoRepository>();
+            services.AddScoped<IPermissaoService, PermissaoService>();
+            
+            services.AddScoped<IPermissaoCargoRepository, PermissaoCargoRepository>();
+            services.AddScoped<IPermissaoCargoService, PermissaoCargoService>();
+            
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
             services.AddAutoMapper(typeof(CargoUsuarioMapping));
             services.AddAutoMapper(typeof(PasswordChangeMapping));
+            services.AddAutoMapper(typeof(PermissaoMapping));
+            services.AddAutoMapper(typeof(PermissaoCargoMapping));
             
             return services;
         }

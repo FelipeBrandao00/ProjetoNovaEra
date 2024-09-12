@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repositories;
 
-public class CargoRepository(ApplicationDbContext cargoContext) : ICargoRepository
+public class CargoRepository(ApplicationDbContext _context) : ICargoRepository
 {
     public async Task<List<Cargo>> GetCargos()
     {
-        return await cargoContext.Cargos.ToListAsync();
+        return await _context.Cargos.ToListAsync();
     }
 }

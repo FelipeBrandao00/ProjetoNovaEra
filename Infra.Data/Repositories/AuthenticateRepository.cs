@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data.Repositories;
 
-public class AuthenticateRepository(ApplicationDbContext authContext) : IAuthenticateRepository
+public class AuthenticateRepository(ApplicationDbContext _context) : IAuthenticateRepository
 {
     public async Task<Usuario?> Authenticate(string email, string password)
     {
-        var result = await  authContext.Usuarios
+        var result = await  _context.Usuarios
             .Where(x => x.DsEmail == email && x.DsSenha == Password.EncodePassword(password))
             .Include(u => u.CargoUsuario)
             .ThenInclude(cargoUser => cargoUser.Cargo) 
