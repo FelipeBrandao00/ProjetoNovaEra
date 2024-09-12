@@ -33,12 +33,14 @@ namespace Infra.IoC {
             
             services.AddTransient<IEmailService, EmailService>();
             
+            services.AddScoped<IPasswordChangeRepository, PasswordChangeRepository>();
+            services.AddScoped<IPasswordChangeService, PasswordChangeService>();
+            
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
             services.AddAutoMapper(typeof(CargoUsuarioMapping));
-
-
-
+            services.AddAutoMapper(typeof(PasswordChangeMapping));
+            
             return services;
         }
     }

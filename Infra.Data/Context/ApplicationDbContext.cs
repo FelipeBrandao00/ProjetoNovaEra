@@ -20,11 +20,8 @@ namespace API_NOVA_ERA.Database {
         public DbSet<Cargo_Usuario> Cargo_Usuarios { get; set; }
         public DbSet<Permissao> Permissoes { get; set; }
         public DbSet<Permissao_Cargos> Permissao_Cargos { get; set; }
-
+        public DbSet<RequestChangePassword> RequestsChangePassword{ get; set; }
         
-
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);

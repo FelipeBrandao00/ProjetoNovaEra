@@ -4,7 +4,7 @@ using WEB.Models.Login;
 
 namespace WEB.Controllers;
 
-public class LoginController(IConfiguration configuration) : Controller
+public class LoginController(IConfiguration _configuration) : Controller
 {
     public IActionResult Index()
     {
@@ -12,16 +12,18 @@ public class LoginController(IConfiguration configuration) : Controller
     }
 
     [HttpPost]
-    public async void LoginForm(LoginViewModel loginViewModel)
+    public async Task<IActionResult> LoginForm(LoginViewModel loginViewModel)
     {
-       var result = await loginViewModel.AuthenticateAsync(configuration);
+        var result = await loginViewModel.AuthenticateAsync(_configuration);
 
-       if (result is null)
+        if (result is null)
+        {
+            ModelState.AddModelError(string.Empty, "E-mail e/ou senha inválido.");
+            return View("Index");
+        }
+       else
        {
-           //redirecionar para tela de login com erro
-       }else
-       {
-           //redirecionar home e armazenar token
+           return View("Index");
        }
     }
 }

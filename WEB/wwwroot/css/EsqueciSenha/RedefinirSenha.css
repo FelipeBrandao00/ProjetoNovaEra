@@ -1,4 +1,4 @@
-﻿/* Folha de estilos: Login */
+﻿/* Folha de estilos: EsqueciSenha */
 
 /* Tags */
 p, label, a {
@@ -39,10 +39,10 @@ form {
 form input, label {
     display: block;
     width: 100%;
- }
+}
 
 form label, span, a {
-    margin: 10px 0 2px 0;    
+    margin: 10px 0 2px 0;
 }
 
 ::placeholder, i {
@@ -66,6 +66,19 @@ a {
     text-decoration: underline;
 }
 
+/* Classes */
+.btnSeePass {
+    height: 40px;
+    width: 40px;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    border-radius: 0 10px 10px 0;
+    box-shadow: -5px 0 5px 1px rgba(0, 0, 0, 0.3);
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+}
+
 /* IDs */
 #Titulo {
     width: 100%;
@@ -79,11 +92,7 @@ a {
     font-size: 70px;
 }
 
-#Titulo p:last-child {
-    font-size: 30px;
-}
-
-#Senha {
+#divNovaSenha, #divConfirmaSenha {
     display: flex;
     flex-direction: row;
     border-radius: 10px;
@@ -92,32 +101,20 @@ a {
     margin: 0;
 }
 
-#Senha input {
+form div input {
     border-radius: 10px 0 0 10px;
-}
-
-#btnSeePass {
-    height: 40px;
-    width: 40px;
-    display: grid;
-    place-items: center;
-    font-size: 1.5rem;
-    border-radius: 0 10px 10px 0;
-    box-shadow: -5px 0 5px 1px rgba(0, 0, 0, 0.3);
-    background: rgb(255,255,255);
-    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
 }
 
 #divBtnEntrar {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 10vh;
+    justify-content: center;
+    margin-top: 3vh;
 }
 
-#btnEntrarLogin {
+#btnEntrar {
     color: #FFFFFF;
     border-radius: 20px;
-    width: 350px;
+    width: 100vw;
     height: 70px;
     font-size: 20px;
     border-top: 2px solid white;
@@ -125,11 +122,9 @@ a {
     background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
     font-weight: 600;
-    bottom: 4vh;
-    position: fixed;
 }
 
-#msgErroLogin{
+#msgErro {
     text-align: center;
 }
 
@@ -157,17 +152,13 @@ a {
         font-size: 40px;
     }
 
-    #Titulo p:last-child {
-        font-size: 20px;
-    }
-
     #divBtnEntrar {
         display: flex;
         justify-content: center;
         margin-top: 1vh;
     }
 
-    #btnEntrarLogin {
+    #btnEntrar {
         color: #FFFFFF;
         border-radius: 20px;
         width: 80vw;
@@ -178,5 +169,7 @@ a {
         box-shadow: 0 8px 5px 0 rgba(0, 0, 0, 0.3);
         border-top: 2px solid white;
         font-weight: 700;
+        position: fixed;
+        bottom: 4vh;
     }
 }

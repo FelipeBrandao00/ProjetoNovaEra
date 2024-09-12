@@ -1,0 +1,94 @@
+﻿@model WEB.Models.EsqueciSenha.EsqueciSenhaViewModel
+
+@{
+    Layout = "_LayoutInicio";
+    ViewData["Title"] = "Esqueci a senha";
+}
+
+<link rel="stylesheet" href="~/css/EsqueciSenha/RedefinirSenha.css">
+
+<div id="Titulo">
+    <p>Trocar a senha</p>
+</div>
+
+<form id="RedefinirSenhaForm">
+    <label for="divNovaSenha">Digite a sua nova senha:</label>
+    <div id="divNovaSenha">
+        <input id="txtNovaSenha" type="password" placeholder=" &#xf023; Digite a sua nova senha..." />
+        <button class="btnSeePass" type="button" onclick="togglePassword(this)">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <label for="divConfirmaSenha">Confirme a senha:</label>
+    <div id="divConfirmaSenha">
+        <input id="txtConfirmaSenha" type="password" placeholder=" &#xf023; Confirme a senha..." />
+        <button class="btnSeePass" type="button" onclick="togglePassword(this)">
+            <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
+    </div>
+
+    <span id="msgErro" style="display: none">As senhas não conferem.</span>
+
+    <div id="divBtnEntrar">
+        <button id="btnEntrar" onclick="RedefinirSenha()">Trocar Senha</button>
+    </div>
+</form>
+
+<script>
+    function togglePassword(button) {
+        var passwordInput = button.previousElementSibling;  
+        var btnSeePassIcon = button.querySelector("i");     
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            btnSeePassIcon.classList.remove("fa-eye");
+            btnSeePassIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            btnSeePassIcon.classList.remove("fa-eye-slash");
+            btnSeePassIcon.classList.add("fa-eye");
+        }
+    }
+    
+    document.getElementById("txtNovaSenha").addEventListener("input", function () {
+        document.getElementById("msgErro").style.display = "none";
+    });
+
+    document.getElementById("txtConfirmaSenha").addEventListener("input", function () {
+        document.getElementById("msgErro").style.display = "none";
+    });
+
+    function RedefinirSenha() {
+        event.preventDefault();
+        let strNovaSenha = document.getElementById("txtNovaSenha").value;
+        let strSenhaConfirmada = document.getElementById("txtConfirmaSenha").value;
+        
+        if (strNovaSenha != strSenhaConfirmada) exibirMensagemErro();
+        
+        $.ajax({
+            url: '@Url.Action("TrocarSenha", "EsqueciSenha")',
+            type: 'POST',
+            data: {
+                Email: '@Model.Email',
+                NovaSenha: strNovaSenha,
+                SenhaConfirmada: strSenhaConfirmada
+            },
+            success: function (response) {
+                if (response == true)
+                    window.location.href = '@Url.Action("Index", "Login")';
+                else{
+                    exibirMensagemErro();
+                }
+            },
+            error: function () {
+                alert("Houve algum erro ao enviar o código. Entre em contato com o suporte.");
+            }
+        });
+    }
+    
+    function exibirMensagemErro(){
+        var mesagemErro = document.getElementById("msgErro");
+        mesagemErro.style.display = 'flex'
+    }
+</script>
