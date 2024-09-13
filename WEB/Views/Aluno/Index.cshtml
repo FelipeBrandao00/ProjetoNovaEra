@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "_Layout";
     ViewData["Title"] = "Listar alunos";
+    ViewData["PagePrev"] = "Menu rápido";
     ViewData["Page"] = "Alunos";
 }
 
@@ -29,8 +30,11 @@
                     <button>Zóio</button>
                 </div>
                 <div>
+                    <button class="btnControlList btnDisabled" disabled>
+                        <i class="fa-solid fa-angle-left arrow-icon"></i>
+                    </button>
                     <span><b class="linear1">Página 1 de 50</b></span>
-                    <button id="btnNext">
+                    <button class="btnControlList">
                         <i class="fa-solid fa-angle-right arrow-icon"></i>
                     </button>
                 </div>
@@ -40,9 +44,61 @@
     </div>
     <div id="paginaDireita">
         <div id="conteudoPagDir">
-            <div class="divMsgSelecione">
+            <div class="divMsgSelecione" style="display:none;">
                 <span class="linear1">Selecione um aluno para ver suas informações!</span>
             </div>
+
+            <div id="divInfoAluno">
+
+                <div id="divImgAluno">
+                    <img height="122" width="122" />
+                </div>
+
+                <div id="divNomeAluno">
+                    <label for="divNomeAluno" class="linear1">Nome:</label><br />
+                    <input id="txtNomeAluno" class="txtInfoAluno" type="text" placeholder="" />
+                </div>
+
+                <div id="divEmailAluno">
+                    <label for="divEmailAluno" class="linear1">Email:</label><br />
+                    <input id="txtEmailAluno" class="txtInfoAluno" type="text" placeholder="" />
+                </div>
+
+                <div id="divGrupoPC1">
+                    <div id="divGeneroAluno">
+                        <label for="divGeneroAluno" class="linear1">Gênero:</label><br />
+                        <input id="txtGeneroAluno" class="txtInfoAluno" type="text" placeholder="" />
+                    </div>
+
+                    <div id="divNascimentoAluno">
+                        <label for="divNascimentoAluno" class="linear1">Data de nascimento:</label><br />
+                        <input id="txtNascimentoAluno" class="txtInfoAluno" type="text" placeholder="" />
+                    </div>
+
+                    <div id="divTelefoneAluno">
+                        <label for="divTelefoneAluno" class="linear1">Telefone:</label><br />
+                        <input id="txtTelefoneAluno" class="txtInfoAluno" type="text" placeholder="" />
+                    </div>
+                </div>
+
+                <div id="divGrupoPC2">
+                    <div id="divCursoAluno">
+                        <label for="divCursoAluno" class="linear1">Curso atual:</label><br />
+                        <input id="txtCursoAluno" class="txtInfoAluno" type="text" placeholder="" />
+                    </div>
+
+                    <div id="divTurmaAluno">
+                        <label for="divTurmaAluno" class="linear1">Turma atual:</label><br />
+                        <input id="txtTurmaAluno" class="txtInfoAluno" type="text" placeholder="" />
+                    </div>
+                </div>
+
+                <div id="divBotoesAluno">
+                    <button id="btnEditar"><b class="linear1">Editar aluno</b></button>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>

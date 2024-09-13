@@ -50,29 +50,23 @@
     gap: 10px;
 }
 
-#btnPesquisar {
-    width: 120px;
+#btnPesquisar, #btnEditar {
+    width: 100px;
+    font-size: 12px;
     border: none;
     border-radius: 10px;
     background-color: white;
     padding: 5px 10px 5px 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-}
-
-#btnNext {
-    border: none;
-    border-radius: 10px;
-    background-color: white;
-    padding: 3px 20px 0px 20px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
 }
 
 #txtBusca {
     width: 100%;
     border: none;
+    padding: 10px;
+    font-size: 12px;
     border-radius: 10px;
-    padding: 5px 10px 5px 10px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px 0px inset;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
 }
 
 input:focus, button:focus {
@@ -86,19 +80,21 @@ input:focus, button:focus {
 
 #listaAlunos div:last-child {
     display: flex;
+    font-size: 12px;
     margin-top: 2vh;
     align-items: center;
     justify-content: space-between;
 }
 
 #listaAlunos > div:first-child > button {
+    font-size: 15px;
+    font-weight: 600;
     text-align: left;
     color: #989898;
     padding: 10px 0px 10px 8px;
     border: 1px solid #AEAEAE;
     background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
-    font-weight: 600;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px 0px inset;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px inset;
 }
 
 #listaAlunos > div:first-child > button:first-child {
@@ -108,7 +104,60 @@ input:focus, button:focus {
 #listaAlunos > div:first-child > button:last-child {
     border-radius: 0 0 5px 5px;
 }
-LIST
+
+/* Div Info Aluno */
+
+#divInfoAluno {
+    padding-top: 5vh;
+}
+
+#divInfoAluno label {
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/* Div Img Aluno */
+
+#divImgAluno {
+    width: 100%;
+    text-align: center;
+}
+
+#divImgAluno > img {
+    background-color: #DBD8D8;
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+/* Resto do Aluno */
+
+#divNomeAluno{
+    margin-top: 3vh;
+}
+
+#divEmailAluno {
+    margin-top: 1vh;
+}
+
+#divGrupoPC1 {
+    margin-top: 1vh;
+    display: flex;
+    gap: 15px;
+}
+
+#divGrupoPC2 {
+    margin-top: 3vh;
+    display: flex;
+    gap: 15px;
+}
+
+#divBotoesAluno {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 11vh;
+}
+
 /* Classes */
 .divMsgSelecione {
     display: flex;
@@ -117,11 +166,34 @@ LIST
     height: 100%;
 }
 
-/*.divMsgSelecione > span, #divBusca > button > b {*/
+.btnDisabled {
+    opacity: 40%;
+}
+
 .linear1 {
     background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.btnControlList {
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 2px 20px 0px 20px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+.txtInfoAluno {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #DBD8D8;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
 }
 
 @media (max-width: 1200px) {

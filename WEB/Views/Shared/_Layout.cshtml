@@ -394,16 +394,16 @@
 </head>
 <body>
 
-    <aside id="aside" class="mobileview">
+    <aside id="aside" class="collapsed mobileview">
         <nav>
             <img id="logoNavMobile" src="~/img/logo_sidebar_mobile.png"/>
             <img id="logoNavDesktop" src="~/img/logo_sidebar.png" />
 
-            <button id="btnOpenSidebar" onclick="toggleSidebar()">
+            <button id="btnOpenSidebar" onclick="toggleSidebar()" style="display:none;">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <button id="btnCloseSidebar" onclick="toggleSidebar()">
+            <button id="btnCloseSidebar" onclick="toggleSidebar()" style="display:block;">
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </nav>
@@ -487,7 +487,7 @@
         </div>
     </aside>
 
-    <main>
+    <main class="shifted">
         <nav class="Mobile">
             <button id="btnOpenSidebar" onclick="toggleSidebar()">
                 <i class="fa-solid fa-bars"></i>
@@ -514,9 +514,9 @@
             <div id="navGeral">
                 <div>
                     <div id="Rota">
-                        @if (ViewData["Page"] != "Menu rápido") {
+                        @if (ViewData["PagePrev"] != null) {
                             <a href="#" style="cursor: pointer">
-                                <span>Menu rápido</span>
+                                <span>@ViewData["PagePrev"]</span>
                             </a>
                            <span>> @ViewData["Page"]</span>
                         } else {
