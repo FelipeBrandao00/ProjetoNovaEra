@@ -16,14 +16,12 @@ public class LoginController(IConfiguration _configuration) : Controller
     {
         var result = await loginViewModel.AuthenticateAsync(_configuration);
 
-        if (result is null)
-        {
+        if (result is null) {
             ModelState.AddModelError(string.Empty, "E-mail e/ou senha inválido.");
             return View("Index");
         }
-       else
-       {
-           return View("Index");
-       }
+
+        Response.Cookies.Append("Token", result.Token);
+        return RedirectToAction("Index", "Home");
     }
 }
