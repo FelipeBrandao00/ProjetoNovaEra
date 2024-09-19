@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nova Era</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css">
     <!-- MONTSERRAT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -208,6 +209,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 10px;
         }
 
         #userData {
@@ -305,6 +307,10 @@
             box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.5);
         }
 
+        #backgroundModal {
+            display: none;
+        }
+
         @@media (max-width: 1500px) {
             #logoNavMobile {
                 display: block;
@@ -317,6 +323,14 @@
         }
 
         @@media (max-width: 1200px) {
+            .MobileInvisible {
+                background: none !important;
+                background-color: transparent !important;
+                border-radius: 0px !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0px !important;
+            }
 
             #navGeral > :last-child {
                 display: none !important;
@@ -381,11 +395,34 @@
                 justify-content: end;
                 align-items: center;
             }
+
+            main > nav:first-child {
+                position: relative;
+                z-index: 90;
+            }
+
+            #backgroundModal {
+                z-index: 1;
+                position: absolute;
+                background-color: black;
+                opacity: 62%;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;    
+            }
         }
 
         @@media (max-width: 500px) {
             #userData {
                 width: 60vw;
+            }
+        }
+
+        @@media (max-height: 520px) {
+            article {
+                padding: 10px 5vw 0px 5vw;
+                justify-content: center;
             }
         }
 
@@ -497,6 +534,8 @@
                 <i class="fa-solid fa-user"></i>
             </button>
         </nav>
+
+        <div id="backgroundModal"></div>
 
         <article id="article">
             <div id="userData">

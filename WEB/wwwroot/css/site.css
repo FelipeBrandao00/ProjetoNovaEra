@@ -1,3 +1,10 @@
 * {
     font-family: "Montserrat", sans-serif;
 }
+
+/* Estilos de gradient */
+.linear1 {
+    background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

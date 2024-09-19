@@ -1,0 +1,127 @@
+﻿/* Folha de estilos: Shared */
+
+#divLivro {
+    overflow-y: auto;
+}
+
+#capaLivro {
+    min-height: 367px;
+    height: 74vh;
+    /*width: 67vw;*/
+    padding: 6px;
+    border-radius: 5px;
+    background-color: #940075;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
+    display: flex;
+}
+
+#paginaEsquerda {
+    z-index: 1;
+    width: 50%;
+    padding-right: 2vw;
+    background: rgb(243,243,243);
+    background: linear-gradient(90deg, rgba(243,243,243,1) 18%, rgba(227,227,227,1) 95%, rgba(170,169,169,1) 100%);
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+#conteudoPagEsq {
+    height: 100%;
+    padding: 0 2vw 3vh 2vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#paginaDireita {
+    z-index: 0;
+    width: 50%;
+    padding-left: 2vw;
+    background: rgb(243,243,243);
+    background: linear-gradient(270deg, rgba(243,243,243,1) 63%, rgba(227,227,227,1) 94%, rgba(170,169,169,1) 100%);
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+#conteudoPagDir {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 2vw 2vh 2vw;
+}
+
+#marcadorPagina {
+    width: 62px;
+    min-height: 62px;
+    background: rgb(220,220,220);
+    background: linear-gradient(180deg, rgba(220,220,220,1) 0%, rgba(183,4,145,1) 50%, rgba(140,7,112,1) 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 50%, 0% 100%);
+}
+
+#divTitInfoAluno {
+    display: none;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #paginaEsquerda {
+        z-index: 0;
+        width: 100%;
+    }
+
+    #paginaDireita {
+        z-index: 2;
+        width: 94vw;
+        /* display: none; */
+        padding: 2vh 3vw !important;
+        position: absolute;
+        top: 13vh;
+        bottom: 3vh;
+        left: 3vw;
+        right: 3vw;
+        background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+        border-radius: 5px !important;
+        box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    #conteudoPagDir {
+        background-color: #EAEAEA !important;
+        border-radius: 10px !important;
+        overflow-y: auto;
+        height: 84%;
+    }
+
+    #marcadorPagina {
+        display: none;
+    }
+
+    #divTitInfoAluno {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 20px;
+        height: 40px;
+        gap: 4vw;
+    }
+
+    #divTitInfoAluno > span {
+        font-weight: 700;
+    }
+
+    #btnVoltarModal {
+        border: none;
+        border-radius: 10px;
+        padding: 10px 15px 3px 15px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+    }
+}
+
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #conteudoPagEsq, #conteudoPagDir {
+        padding: 0 2vw 15px 2vw;
+    }
+}

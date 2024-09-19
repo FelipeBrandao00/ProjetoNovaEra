@@ -1,49 +1,12 @@
 ﻿/* Folha de estilos: Aluno */
 
+input:focus, button:focus {
+    outline: none;
+}
+
 /* IDs */
-#capaLivro {
-    height: 74vh;
-    /*width: 67vw;*/
-    padding: 6px;
-    border-radius: 5px;
-    background-color: #940075;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
-    display: flex;
-}
-
-#paginaEsquerda {
-    z-index: 1;
-    width: 50%;
-    padding-right: 2vw;
-    background: rgb(243,243,243);
-    background: linear-gradient(90deg, rgba(243,243,243,1) 18%, rgba(227,227,227,1) 95%, rgba(170,169,169,1) 100%);
-    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
-}
-
-#conteudoPagEsq, #conteudoPagDir {
-    height: 100%;
-    padding: 0 2vw 2vh 2vw;
-}
-
-#paginaDireita {
-    z-index: 0;
-    width: 50%;
-    padding-left: 2vw;
-    background: rgb(243,243,243);
-    background: linear-gradient(270deg, rgba(243,243,243,1) 63%, rgba(227,227,227,1) 94%, rgba(170,169,169,1) 100%);
-    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.3);
-}
-
-#marcadorPagina {
-    width: 62px;
-    height: 62px;
-    background: rgb(220,220,220);
-    background: linear-gradient(180deg, rgba(220,220,220,1) 0%, rgba(183,4,145,1) 50%, rgba(140,7,112,1) 100%);
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 50%, 0% 100%);
-}
-
 #divBusca {
-    margin-top: 4vh;
+    margin-top: 2vh;
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -85,26 +48,20 @@
     width: 100%;
     border: none;
     padding: 10px;
-    font-size: 12px;
+    font-size: 12px;    
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
 }
 
-input:focus, button:focus {
-    outline: none;
+#listaAlunos {
+    /* max-height: 70%; */
+    overflow-y: auto;
+    min-height: 133px;
 }
 
 #listaAlunos div:first-child {
-    margin-top: 2vh;
+    /*margin-top: 2vh;*/
     display: grid;
-}
-
-#listaAlunos div:last-child {
-    display: flex;
-    font-size: 12px;
-    margin-top: 2vh;
-    align-items: center;
-    justify-content: space-between;
 }
 
 #listaAlunos > div:first-child > button {
@@ -124,6 +81,14 @@ input:focus, button:focus {
 
 #listaAlunos > div:first-child > button:last-child {
     border-radius: 0 0 5px 5px;
+}
+
+#barraLista {
+    display: flex;
+    font-size: 12px;
+    /* margin-top: 2vh; */
+    align-items: center;
+    justify-content: space-between;
 }
 
 #divInfoAluno {
@@ -235,12 +200,6 @@ input:focus, button:focus {
     opacity: 40%;
 }
 
-.linear1 {
-    background: linear-gradient(180deg, rgba(70,70,70,1) 0%, rgba(123,123,123,1) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
 .btnControlList {
     border: none;
     border-radius: 6px;
@@ -262,50 +221,12 @@ input:focus, button:focus {
 }
 
 /* Escondidos na versão PC */
-#divBotaoEditarMobile,
-#divBotoesEdicaoMobile,
-#divTitInfoAluno {
+#divBotaoEditarMobile, #divBotoesEdicaoMobile {
     display: none;
 }
 
 /* Responsivo MOBILE */
 @media (max-width: 1200px) {
-    .MobileInvisible {
-        background: none !important;
-        background-color: transparent !important;
-        border-radius: 0px !important;
-        box-shadow: none !important;
-        border: none !important;
-        padding: 0px !important;
-    }
-
-    #marcadorPagina {
-        display: none;
-    }
-
-    #paginaEsquerda {
-        z-index: 0;
-        width: 100%;
-    }
-
-    #paginaDireita {
-        z-index: 1;
-        width: 94vw;
-        /* display: none; */
-        padding: 2vh 3vw !important;
-        position: absolute;
-        top: 13vh;
-        bottom: 3vh;
-        left: 3vw;
-        right: 3vw;
-        background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
-        border-radius: 5px !important;
-        box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
     #msgListaAlunoMobile {
         width: 100%;
         display: block;
@@ -315,7 +236,7 @@ input:focus, button:focus {
     }
 
     #listaAlunos div:first-child {
-        margin-top: 1vh;
+        /*margin-top: 1vh;*/
     }
 
     #divGrupoPC1, #divGrupoPC2 {
@@ -329,14 +250,7 @@ input:focus, button:focus {
         width: 100%;
     }
 
-    #conteudoPagDir {
-        background-color: #EAEAEA !important;
-        border-radius: 10px !important;
-        overflow-y: auto;
-        height: 84%;
-    }
-
-    #divInfoAluno {     
+    #divInfoAluno {
         min-height: 100%;
         padding: 5vh 4vw;
         /* border-radius: 0px !important; */
@@ -385,32 +299,24 @@ input:focus, button:focus {
         height: 45px;
         color: #FFFFFF;
         width: 50%;
-        font-size: 16px;
+        font-size: 16px;    
         border: none;
         border-radius: 6px;
         padding: 5px 10px 5px 10px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
         background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     }
+}
 
-    #divTitInfoAluno {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        font-size: 20px;
-        height: 40px;
-        gap: 4vw;
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #divBusca {
+        margin-top: 10px;
     }
-
-    #divTitInfoAluno > span {
-        font-weight: 700;
+    #divInfoAluno {
+        padding-top: 15px;
     }
-
-    #btnVoltarModal {
-        border: none;
-        border-radius: 10px;
-        padding: 10px 15px 3px 15px;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-        background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+    #divBotaoEditar, divBotoesEdicao {
+        margin-top: 5vh;
     }
 }
