@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    string role = ViewBag.Role;
+    string nome = ViewBag.Nome;
+}
+
+
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="utf-8" />
@@ -541,13 +547,13 @@
             <div id="userData">
                 <div id="userDetails">
                     <div>
-                        <b>Marilene</b><br />
-                        <span>Administrador</span>
+                        <b>@nome</b><br />
+                        <span>@role</span>
                     </div>
                 </div>
                 <button style="border-radius: 10px 0 0 0"><b>Editar perfil</b></button>
                 <button><b>Trocar senha</b></button>
-                <button><b>Sair</b></button>
+                <button onclick="Logout()"><b>Sair</b></button>
             </div>
 
             <div id="navGeral">
@@ -566,8 +572,8 @@
                 </div>
                 <div>
                     <div id="userDetailsPC">
-                        <b>Marilene</b><br />
-                        <span>Administrador</span>
+                        <b>@nome</b><br />
+                        <span>@role</span>
                     </div>
                     <div>
                         <button id="btnUserPC" onclick="toggleUser()">
@@ -639,6 +645,10 @@
                 downArrow.classList.remove('rotate-down');
                 downArrow.classList.add('rotate-up');
             }
+        }
+
+        function Logout() {
+            window.location.href = '@Url.Action("Sair", "Home")';
         }
 
     </script>
