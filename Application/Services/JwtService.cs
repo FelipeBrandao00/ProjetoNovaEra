@@ -46,6 +46,7 @@ public class JwtService : IJwtService
     private ClaimsIdentity GetClaimsIdentity(JwtDto jwtDto) {
         var claimsIdentity = new ClaimsIdentity();
         claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, jwtDto.DsEmail));
+        claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, jwtDto.NmUsuario));
         foreach (var cargoUsuario in jwtDto.CargoUsuario)
         {
             claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, cargoUsuario.Cargo.DsCargo));

@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.TurmaAluno;
+using Application.DTOs.Usuario;
 using Application.Interfaces;
 using Application.Requests.Cargos;
 using Application.Responses;
@@ -41,7 +42,32 @@ public class AlunoService(IAlunoRepository alunoRepository, IMapper mapper) : IA
         }
         catch (Exception e) {
             return new Response<TurmaAlunoDto?>(null, 500, "Algo deu errado tentando buscar a turma atual do aluno.");
+        }
+    }
 
+    public async Task<PagedResponse<List<UsuarioDto?>>> GetAlunoByLikedName(GetAlunoByLikedNameRequest request)
+    {
+        try {
+            List<Usuario> query = await alunoRepository.GetAlunoByLikedName(request.NmUsuario);
+
+            var alunos = query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            List<UsuarioDto> result = new();
+            foreach (var aluno in alunos) {
+                result.Add(mapper.Map<UsuarioDto>(aluno));
+            }
+
+            return new PagedResponse<List<UsuarioDto>>(
+                result,
+                query.Count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch (Exception e) {
+            return new PagedResponse<List<UsuarioDto>>(null, 500, "Não foi possível consultar os alunos.");
         }
     }
 }
