@@ -25,15 +25,11 @@ public class HomeController : Controller
         ViewBag.Nome = dados.role[1];
         return View();
     }
+
     public IActionResult Sair()
     {
         Response.Cookies.Delete("Token");
         return RedirectToAction("Index", "Login");
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

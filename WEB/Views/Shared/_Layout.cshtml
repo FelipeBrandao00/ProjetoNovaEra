@@ -3,7 +3,6 @@
     string nome = ViewBag.Nome;
 }
 
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -484,7 +483,7 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapAluno">
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar alunos</button>
+                    <button onclick="redirecionarParaListarAluno()"><i class="fa-solid fa-rectangle-list"></i>Listar alunos</button>
                     <button><i class="fa-solid fa-award"></i>Emitir certificado</button>
                 </div>
             </div>
@@ -559,9 +558,11 @@
             <div id="navGeral">
                 <div>
                     <div id="Rota">
-                        @if (ViewData["PagePrev"] != null) {
-                            <a href="#" style="cursor: pointer">
-                                <span>@ViewData["PagePrev"]</span>
+                        @{ var aPagePrev = ViewData["PagePrev"] as string[]; }
+
+                        @if (aPagePrev != null) {
+                            <a asp-controller="@aPagePrev[2]" asp-action="@aPagePrev[1]" style="cursor: pointer">
+                                <span>@aPagePrev[0]</span>
                             </a>
                            <span>> @ViewData["Page"]</span>
                         } else {
@@ -647,8 +648,15 @@
             }
         }
 
+        //Redirecionamentos
+
         function Logout() {
             window.location.href = '@Url.Action("Sair", "Home")';
+        }
+
+        function redirecionarParaListarAluno() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Aluno")';
         }
 
     </script>

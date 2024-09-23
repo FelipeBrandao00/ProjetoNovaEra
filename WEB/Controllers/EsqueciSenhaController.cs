@@ -7,16 +7,31 @@ public class EsqueciSenhaController(IConfiguration configuration) : Controller
 {
     public IActionResult Index()
     {
+        string? token = Request.Cookies["Token"];
+
+        if (!string.IsNullOrEmpty(token))
+            return RedirectToAction("Index", "Home");
+
         return View();
     }
 
     public IActionResult ConfirmarCodigo()
     {
+        string? token = Request.Cookies["Token"];
+
+        if (!string.IsNullOrEmpty(token))
+            return RedirectToAction("Index", "Home");
+
         return View();
     }
 
     public IActionResult RedefinirSenha(string email)
     {
+        string? token = Request.Cookies["Token"];
+
+        if (!string.IsNullOrEmpty(token))
+            return RedirectToAction("Index", "Home");
+
         var model = new EsqueciSenhaViewModel { Email = email };
         return View(model);
     }

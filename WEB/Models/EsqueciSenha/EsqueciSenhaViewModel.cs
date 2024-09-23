@@ -12,94 +12,93 @@ public class EsqueciSenhaViewModel
     public string NovaSenha { get; set; }
     public string SenhaConfirmada { get; set; }
     
-    
-     public async Task<bool> RedefinirSenhaRequest(IConfiguration configuration)
+    public async Task<bool> RedefinirSenhaRequest(IConfiguration configuration)
+    {
+        using (var client = new HttpClient())
         {
-            using (var client = new HttpClient())
+            var baseUrl = configuration["BaseRequest"];
+            var url = $"{baseUrl}/Authenticate/EsqueciSenha";
+            var Body = new
             {
-                var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Authenticate/EsqueciSenha";
-                var Body = new
-                {
-                    email = this.Email,
-                };
-                var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
-                try
-                {
-                    var response = await client.PostAsync(url, content);
-                    return response.IsSuccessStatusCode;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                email = this.Email,
+            };
+            var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
+            try
+            {
+                var response = await client.PostAsync(url, content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
+    }
      
-        public async Task<bool> ValidarCodigo(IConfiguration configuration)
+    public async Task<bool> ValidarCodigo(IConfiguration configuration)
+    {
+        using (var client = new HttpClient())
         {
-            using (var client = new HttpClient())
+            var baseUrl = configuration["BaseRequest"];
+            var url = $"{baseUrl}/Authenticate/ValidarTokenRedefinicao";
+            var Body = new
             {
-                var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Authenticate/ValidarTokenRedefinicao";
-                var Body = new
-                {
-                    Email = this.Email,
-                    DsToken = this.Token
-                };
-                var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
-                try
-                {
-                    var response = await client.PostAsync(url, content);
-                    if (!response.IsSuccessStatusCode) return false;
+                Email = this.Email,
+                DsToken = this.Token
+            };
+            var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
+            try
+            {
+                var response = await client.PostAsync(url, content);
+                if (!response.IsSuccessStatusCode) return false;
                 
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<Response<ResponseModelToken>>(responseBody, options);
-                    if (responseData == null || !responseData.IsSuccess || responseData.Data == null) return false;
-                    return responseData.Data.Valido;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var responseData = JsonSerializer.Deserialize<Response<ResponseModelToken>>(responseBody, options);
+                if (responseData == null || !responseData.IsSuccess || responseData.Data == null) return false;
+                return responseData.Data.Valido;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
+    }
 
-        public async Task<bool> RedefinirSenha(IConfiguration configuration)
+    public async Task<bool> RedefinirSenha(IConfiguration configuration)
+    {
+        using (var client = new HttpClient())
         {
-            using (var client = new HttpClient())
+            var baseUrl = configuration["BaseRequest"];
+            var url = $"{baseUrl}/Usuario";
+            var Body = new
             {
-                var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Usuario";
-                var Body = new
-                {
-                    Email = this.Email,
-                    NewPassword = this.NovaSenha
-                };
-                var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
-                try
-                {
-                    var response = await client.PatchAsync(url, content);
-                    if (!response.IsSuccessStatusCode) return false;
+                Email = this.Email,
+                NewPassword = this.NovaSenha
+            };
+            var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
+            try
+            {
+                var response = await client.PatchAsync(url, content);
+                if (!response.IsSuccessStatusCode) return false;
                 
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<Response<ResponseModelUsuario>>(responseBody, options);
-                    if (responseData == null || !responseData.IsSuccess || responseData.Data == null) return false;
-                    return responseData.IsSuccess;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var responseData = JsonSerializer.Deserialize<Response<ResponseModelUsuario>>(responseBody, options);
+                if (responseData == null || !responseData.IsSuccess || responseData.Data == null) return false;
+                return responseData.IsSuccess;
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
+    }
      
-        public class ResponseModelToken
-        {
-            [JsonPropertyName("Valido")]
-            public bool Valido { get; set; }
+    public class ResponseModelToken
+    {
+        [JsonPropertyName("Valido")]
+        public bool Valido { get; set; }
             
-        }
+    }
 }

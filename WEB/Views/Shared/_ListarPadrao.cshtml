@@ -1,0 +1,49 @@
+﻿@model WEB.Models.Shared.ListarPadraoViewModel
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/Shared/ListarPadrao.css">
+
+<div id="msgListaPadraoMobile">
+    <span>Aperte no @Html.Raw(Model.TipoItem) para ver suas informações!</span>
+</div>
+
+<div id="listaPadrao">
+    <div>
+
+        @foreach (var item in Model.ItensLista) {
+            <button>@item.Text</button>
+        }
+
+    </div>
+</div>
+
+<div id="barraListaPadrao">
+
+    @if (Model.PaginaAtual == 1) {
+        <button id="btnListPrev" class="btnControlList btnDisabled" disabled>
+            <i class="fa-solid fa-angle-left arrow-icon"></i>
+        </button>
+    }
+    else {
+        <button id="btnListPrev" class="btnControlList">
+            <i class="fa-solid fa-angle-left arrow-icon"></i>
+        </button>
+    }
+
+    <span><b class="linear1">Página @Html.Raw(Model.PaginaAtual) de @Html.Raw(Model.PaginaTotal)</b></span>
+
+    @if (Model.PaginaAtual == Model.PaginaTotal) {
+        <button id="btnListNext" class="btnControlList btnDisabled" disabled>
+            <i class="fa-solid fa-angle-right arrow-icon"></i>
+        </button>
+    }
+    else {
+        <button id="btnListNext" class="btnControlList">
+            <i class="fa-solid fa-angle-right arrow-icon"></i>
+        </button>
+    }
+
+</div>

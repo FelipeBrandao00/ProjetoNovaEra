@@ -8,6 +8,11 @@ public class LoginController(IConfiguration _configuration) : Controller
 {
     public IActionResult Index()
     {
+        string? token = Request.Cookies["Token"];
+
+        if (!string.IsNullOrEmpty(token))
+            return RedirectToAction("Index", "Home");
+
         return View();
     }
 
