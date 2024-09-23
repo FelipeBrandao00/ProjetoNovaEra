@@ -22,5 +22,13 @@ namespace API.Controllers {
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
+        
+        [HttpGet("api/[controller]/GetAlunoByLikedName")]
+        public async Task<ActionResult> GetAlunoByLikedName([FromBody]string nome, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+            var request = new GetAlunoByLikedNameRequest(nome, pageNumber, pageSize);
+            var result = await alunoService.GetAlunoByLikedName(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }
