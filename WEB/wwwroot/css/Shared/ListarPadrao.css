@@ -7,7 +7,7 @@
     min-height: 133px;
 }
 
-#listaPadrao div:first-child {
+#listaPadrao > div:first-child {
     /*margin-top: 2vh;*/
     display: grid;
 }

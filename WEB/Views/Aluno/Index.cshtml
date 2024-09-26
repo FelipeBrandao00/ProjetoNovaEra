@@ -20,7 +20,7 @@
 
                 <div id="divBusca">
                     <input id="txtBusca" type="text" placeholder="Digite o nome do aluno..." />
-                    <button id="btnPesquisar"><b class="linear1">Pesquisar</b></button>
+                    <button id="btnPesquisar" onclick="carregarListaAlunos()"><b class="linear1">Pesquisar</b></button>
                 </div>
 
                 <div id="msgListaAluno" class="divMsgSelecione">
@@ -125,18 +125,20 @@
 </div>
 
 <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function () {
-        let Busca = $('#txtBusca').val();
-        carregarListaAlunos(Busca);
-    });
+    document.addEventListener("DOMContentLoaded", carregarListaAlunos);
 
-    function carregarListaAlunos(Busca) {
+    function carregarListaAlunos() {
+        event.preventDefault();
+
         $('#divListaAluno').empty();
         $('#msgListaAluno').show();
+
+        let Busca = $('#txtBusca').val();
 
         $.ajax({
             url: '@Url.Action("ListarAlunos", "Aluno")',
             type: 'GET',
+            async: true,
             data: {
                 Busca: Busca
             },

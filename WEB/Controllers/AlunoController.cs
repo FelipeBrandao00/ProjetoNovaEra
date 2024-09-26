@@ -1,19 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using WEB.Models;
 using WEB.Models.EsqueciSenha;
 using WEB.Models.Shared;
 
 namespace WEB.Controllers
 {
-    public class AlunoController : Controller
+    public class AlunoController(IConfiguration configuration) : Controller
     {
-        private readonly ILogger<AlunoController> _logger;
-
-        public AlunoController(ILogger<AlunoController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
             string? token = Request.Cookies["Token"];
@@ -28,11 +22,10 @@ namespace WEB.Controllers
             return View();
         }
 
-        public ActionResult ListarAlunos(ListarPadraoViewModel model)
+        [HttpGet]
+        public async Task<IActionResult> ListarAlunos(ListarAlunoViewModel model)
         {
-            model.TipoItem = "Aluno";
-            model.PaginaAtual = 1;
-            model.PaginaTotal = 15;
+            await model.GerarLista(configuration);
             return PartialView("_ListarPadrao", model);
         }
     }

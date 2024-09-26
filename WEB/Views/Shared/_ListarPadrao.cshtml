@@ -13,8 +13,18 @@
 <div id="listaPadrao">
     <div>
 
-        @foreach (var item in Model.ItensLista) {
-            <button>@item.Text</button>
+        @if (Model.ItensLista != null && Model.ItensLista.Count > 0)
+        {
+            foreach (var item in Model.ItensLista)
+            {
+                <button>@item.Text</button>
+            }
+        }
+        else
+        {
+            <div style="text-align: center; width: 100%">
+                <span class="linear1">Não há @Html.Raw(Model.TipoItem)s.</span>
+            </div>
         }
 
     </div>
@@ -22,7 +32,7 @@
 
 <div id="barraListaPadrao">
 
-    @if (Model.PaginaAtual == 1) {
+    @if (Model.PaginaAtual <= 1) {
         <button id="btnListPrev" class="btnControlList btnDisabled" disabled>
             <i class="fa-solid fa-angle-left arrow-icon"></i>
         </button>
@@ -35,7 +45,7 @@
 
     <span><b class="linear1">Página @Html.Raw(Model.PaginaAtual) de @Html.Raw(Model.PaginaTotal)</b></span>
 
-    @if (Model.PaginaAtual == Model.PaginaTotal) {
+    @if (Model.PaginaAtual >= Model.PaginaTotal) {
         <button id="btnListNext" class="btnControlList btnDisabled" disabled>
             <i class="fa-solid fa-angle-right arrow-icon"></i>
         </button>

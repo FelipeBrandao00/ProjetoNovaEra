@@ -3,63 +3,37 @@ using System.Text.Json;
 using System.Text;
 using System.Text.Json.Serialization;
 using Application.Responses;
+using System.ComponentModel.DataAnnotations;
 
 namespace WEB.Models.Shared
 {
-    public class ListarPadraoViewModel
+    public abstract class ListarPadraoViewModel
     {
-        //[JsonPropertyName("ItensLista")]
-        public List<itemLista> ItensLista { get; set; }
+        public abstract string TipoItem { get; set; }
+        public List<ItemListaPadrao>? ItensLista { get; set; }
+        public int PaginaAtual { get; set; } = 1;
+        public int PaginaTotal { get; set; } = 1;
+        public int TamanhoPagina { get; set; } = 9;
+        public int TotalItens { get; set; } = 0;
+        public string Busca { get; set; } = String.Empty;
 
-        //[JsonPropertyName("ItensLista")]
-        public string TipoItem { get; set; }
-
-        //[JsonPropertyName("PaginaAtual")]
-        public int PaginaAtual { get; set; }
-
-        //[JsonPropertyName("PaginaTotal")]
-        public int PaginaTotal { get; set; }
-        //[JsonPropertyName("TamanhoPagina")]
-        public int TamanhoPagina { get; set; }
-        //[JsonPropertyName("TotalItens")]
-        public int TotalItens { get; set; }
-
-        //[JsonPropertyName("Busca")]
-        public string Busca { get; set; }
-
-        public async Task<bool> ValidarCodigo(IConfiguration configuration)
+        public virtual async Task<bool> GerarLista(IConfiguration configuration)
         {
-            using (var client = new HttpClient())
-            {
-                var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/api/Aluno/GetAlunoByLikedName/{this.Busca}?pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
-
-                try
-                {
-                    var response = await client.GetAsync(url);
-                    if (!response.IsSuccessStatusCode) return false;
-
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<Response<ListarPadraoViewModel>>(responseBody, options);
-                    if (responseData == null || !responseData.IsSuccess || responseData.Data == null) return false;
-
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-            }
+            return false;
         }
 
-        public class itemLista
+        public class ItemListaPadrao
         {
-            //[JsonPropertyName("Id")]
-            public string Id { get; set; }
+            public required string Id { get; set; }
+            public required string Text { get; set; }
+        }
 
-            //[JsonPropertyName("Text")]
-            public string Text { get; set; }
+        public class ResponseModelListaPadrao : Response<List<ResponseModelUsuario>?>
+        {
+            public int PaginaAtual { get; init; }
+            public int PaginaTotal { get; init; }
+            public int TamanhoPagina { get; init; }
+            public int TotalItens { get; init; }
         }
     }
 }
