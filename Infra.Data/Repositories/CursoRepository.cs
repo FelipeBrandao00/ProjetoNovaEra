@@ -26,9 +26,23 @@ public class CursoRepository(ApplicationDbContext _context) : ICursoRepository
         await _context.SaveChangesAsync();
         return curso;    }
 
-    public async Task<List<Curso>> GetCursos()
+    public async Task<List<Curso>> GetCursos(DateTime? dtInicial = null, DateTime? dtFinal = null, bool icAndamento = true, bool icFinalizado = true)
     {
-        return await _context.Cursos.ToListAsync();
+        IQueryable<Curso> cursos =  _context.Cursos;
+
+        if (dtInicial != null)
+            cursos = cursos.Where(x => x.DtCriacao >= dtInicial.Value);
+        
+        if (dtFinal != null)
+            cursos = cursos.Where(x => x.DtCriacao <= dtFinal.Value);
+        
+        if (!icAndamento)
+            cursos = cursos.Where(x => x.DtFinalizacao != null);
+        
+        if (!icFinalizado)
+            cursos = cursos.Where(x => x.DtFinalizacao != null);
+
+        return await cursos.ToListAsync();
     }
 
     public async Task<Curso> GetCursoByid(int cdCurso)

@@ -68,7 +68,7 @@ public class CursoService(ICursoRepository _cursoRepository, IMapper mapper) : I
     {
         try
         {
-            List<Curso> query = await _cursoRepository.GetCursos();
+            List<Curso> query = await _cursoRepository.GetCursos(request.DtInicial,request.DtFinal,request.IcAndamento.Value,request.IcFinalizado.Value);
             
             var usuarios =query
                 .Skip((request.PageNumber - 1) * request.PageSize)

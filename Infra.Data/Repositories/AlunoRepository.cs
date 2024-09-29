@@ -29,12 +29,18 @@ public class AlunoRepository(ApplicationDbContext _context) : IAlunoRepository
 
     public async Task<List<Usuario?>> GetAlunoByLikedName(string nmAluno)
     {
-        return await 
-            (from u in _context.Usuarios 
+        var alunos =
+            (from u in _context.Usuarios
                 join cu in _context.Cargo_Usuarios on u.CdUsuario equals cu.CdUsuario
-                join c in _context.Cargos on cu.CdCargo equals c.CdCargo 
-                where u.NmUsuario.Contains(nmAluno) && c.DsCargo == "Aluno"
-                select u)
-            .ToListAsync();
+                join c in _context.Cargos on cu.CdCargo equals c.CdCargo
+                where c.DsCargo == "Aluno"
+                select u);
+
+        if (!string.IsNullOrEmpty(nmAluno))
+        {
+            alunos = alunos.Where( x=>  x.NmUsuario.Contains(nmAluno));
+        }
+
+        return await alunos.ToListAsync();
     }
 }
