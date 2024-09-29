@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text;
 using Application.Responses;
+using System.Net.Http.Headers;
 
 namespace WEB.Models.Shared
 {
@@ -20,6 +21,10 @@ namespace WEB.Models.Shared
                     url += $"{this.Busca}?";
 
                 url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
+
+                var token = configuration["JwtToken"];
+                if (!string.IsNullOrEmpty(token))
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 try
                 {

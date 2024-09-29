@@ -25,6 +25,7 @@ namespace WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> ListarAlunos(ListarAlunoViewModel model)
         {
+            configuration["JwtToken"] = Request.Cookies["Token"];
             await model.GerarLista(configuration);
             return PartialView("_ListarPadrao", model);
         }
