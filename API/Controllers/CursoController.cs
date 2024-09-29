@@ -1,16 +1,13 @@
 using Application.Interfaces;
 using Application.Requests.Curso;
-using Application.Requests.Usuarios;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 [Authorize(Roles = "Administrador")]
 [ApiController]
-public class CursoController(ICursoService cursoService) : ControllerBase
-{
+public class CursoController(ICursoService cursoService) : ControllerBase {
     [HttpPost("api/[controller]")]
     public async Task<ActionResult> AddCurso([FromBody] CreateCursoRequest request) {
         var result = await cursoService.AddCurso(request);
@@ -35,8 +32,8 @@ public class CursoController(ICursoService cursoService) : ControllerBase
     }
 
     [HttpGet("api/[controller]")]
-    public async Task<ActionResult> GetCursos([FromQuery]DateTime? dtInicial = null,[FromQuery] DateTime? dtFinal = null,[FromQuery] bool icAndamento = true,[FromQuery] bool icFinalizado = true,[FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
-        var request = new GetCursosRequest(pageNumber, pageSize,dtInicial,dtFinal,icAndamento,icFinalizado);
+    public async Task<ActionResult> GetCursos([FromQuery] string nome = "", [FromQuery] DateTime? dtInicial = null, [FromQuery] DateTime? dtFinal = null, [FromQuery] bool? icFinalizado = null, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+        var request = new GetCursosRequest(nome, pageNumber, pageSize, dtInicial, dtFinal, icFinalizado);
         var result = await cursoService.GetCursos(request);
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
