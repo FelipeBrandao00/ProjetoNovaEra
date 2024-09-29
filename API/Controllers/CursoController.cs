@@ -35,8 +35,8 @@ public class CursoController(ICursoService cursoService) : ControllerBase
     }
 
     [HttpGet("api/[controller]")]
-    public async Task<ActionResult> GetCursos([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
-        var request = new GetCursosRequest(pageNumber, pageSize);
+    public async Task<ActionResult> GetCursos([FromQuery]DateTime? dtInicial = null,[FromQuery] DateTime? dtFinal = null,[FromQuery] bool icAndamento = true,[FromQuery] bool icFinalizado = true,[FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+        var request = new GetCursosRequest(pageNumber, pageSize,dtInicial,dtFinal,icAndamento,icFinalizado);
         var result = await cursoService.GetCursos(request);
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
