@@ -17,7 +17,7 @@
         {
             foreach (var item in Model.ItensLista)
             {
-                <button>@item.Text</button>
+                <button onclick="CarregarInfoPadrao(@item.Id)">@item.Text</button>
             }
         }
         else

@@ -30,10 +30,10 @@ namespace WEB.Models.Shared
 
         public class ResponseModelListaPadrao : Response<List<ResponseModelUsuario>?>
         {
-            public int PaginaAtual { get; init; }
-            public int PaginaTotal { get; init; }
-            public int TamanhoPagina { get; init; }
-            public int TotalItens { get; init; }
+            public int currentPage { get; set; }
+            public int totalCount { get; set; }
+            public int pageSize { get; set; }
+            public int totalPages { get; set; }
         }
     }
 }

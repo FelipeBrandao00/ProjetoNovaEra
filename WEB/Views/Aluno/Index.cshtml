@@ -41,12 +41,13 @@
             </div>
 
             <div id="conteudoPagDir" class="MobileInvisible">
-                <div id="msgInfoAluno" class="divMsgSelecione" style="display:none;">
+                <div id="msgInfoAluno" class="divMsgSelecione" @* style="display:none;" *@>
                     <span class="linear1">Selecione um aluno para ver suas informações!</span>
                 </div>
 
-                <div id="divInfoAluno">
+                <div id="divInfoAluno" style="display:none;">
 
+                    @*
                     <div id="divImgAluno">
                         <img height="122" width="122" />
                         <div>
@@ -68,7 +69,7 @@
                     <div id="divGrupoPC1">
                         <div id="divGeneroAluno">
                             <label for="divGeneroAluno" class="linear1">Gênero:</label><br />
-                            @* <input id="txtGeneroAluno" class="txtInfoAluno" type="text" placeholder="" /> *@
+                            <!--<input id="txtGeneroAluno" class="txtInfoAluno" type="text" placeholder="" />-->
                             <select id="txtGeneroAluno" class="txtInfoAluno">
                                 <option value="0">Selecione</option>
                                 <option value="1">Feminino</option>
@@ -107,6 +108,7 @@
                         <button id="btnCancelar"><b class="linear1">Cancelar edição</b></button>
                         <button id="btnSalvar"><b>Salvar</b></button>
                     </div>
+                    *@
 
                 </div>
             </div>
@@ -125,10 +127,15 @@
 </div>
 
 <script type="text/javascript">
+
     document.addEventListener("DOMContentLoaded", carregarListaAlunos);
 
     function carregarListaAlunos() {
         event.preventDefault();
+
+        $('#divInfoAluno').empty();
+        $('#divInfoAluno').hide();
+        $('#msgInfoAluno').show();
 
         $('#divListaAluno').empty();
         $('#msgListaAluno').show();
@@ -148,4 +155,29 @@
             }
         });
     }
+
+    function CarregarInfoPadrao(cpfAluno) { //Implementando a função de carregamento de informação do aluno
+        event.preventDefault();
+
+        $('#divInfoAluno').empty();
+        //$('#divInfoAluno').hide();
+        //$('#msgInfoAluno').show();
+
+        let Busca = $('#txtBusca').val();
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAluno", "Aluno")',
+            type: 'GET',
+            async: true,
+            data: {
+                cpfAluno: cpfAluno
+            },
+            success: function (data) {
+                $('#msgInfoAluno').hide();
+                $('#divInfoAluno').html(data);
+                $('#divInfoAluno').show();
+            }
+        });
+    }
+
 </script>

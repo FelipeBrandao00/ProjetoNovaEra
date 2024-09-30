@@ -15,10 +15,10 @@ namespace WEB.Models.Shared
             using (var client = new HttpClient())
             {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Aluno/GetAlunoByLikedName/";
+                var url = $"{baseUrl}/Aluno/GetAlunoByLikedName?";
 
                 if (!string.IsNullOrEmpty(this.Busca))
-                    url += $"{this.Busca}?";
+                    url += $"nome={this.Busca}&";
 
                 url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
 
@@ -39,13 +39,13 @@ namespace WEB.Models.Shared
                     if (responseData == null || !responseData.IsSuccess)
                         return false;
 
-                    this.PaginaAtual = responseData.PaginaAtual;
-                    this.PaginaTotal = responseData.PaginaTotal;
-                    this.TamanhoPagina = responseData.TamanhoPagina;
-                    this.TotalItens = responseData.TotalItens;
+                    this.PaginaAtual = responseData.currentPage;
+                    this.PaginaTotal = responseData.totalPages;
+                    this.TamanhoPagina = responseData.pageSize;
+                    this.TotalItens = responseData.totalCount;
                     this.ItensLista = responseData.Data?.Select(usuario => new ItemListaPadrao
                     {
-                        Id = usuario.CdUsuario.ToString(),
+                        Id = usuario.DsCpf,
                         Text = usuario.NmUsuario
                     }).ToList() ?? new List<ItemListaPadrao>();
 
