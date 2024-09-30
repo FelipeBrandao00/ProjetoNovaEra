@@ -6,6 +6,6 @@ public class GetAlunoByLikedNameRequest : PagedRequest
 
     public GetAlunoByLikedNameRequest(string nmUsuario,int? pageNumber, int? pageSize) : base(pageNumber, pageSize)
     {
-        NmUsuario = nmUsuario;
+        NmUsuario = nmUsuario.Trim();
     }
 }

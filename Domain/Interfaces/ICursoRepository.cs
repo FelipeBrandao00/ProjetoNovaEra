@@ -2,12 +2,11 @@
 
 namespace Domain.Interfaces;
 
-public interface ICursoRepository
-{
+public interface ICursoRepository {
     Task<Curso> AddCurso(Curso curso);
     Task<Curso> DeleteCurso(Curso curso);
     Task<Curso> UpdateCurso(Curso curso);
-    Task<List<Curso>> GetCursos(DateTime? dtInicial = null, DateTime? dtFinal = null, bool icAndamento = true, bool icFinalizado = true);
+    Task<List<Curso>> GetCursos(string nmCurso, DateTime? dtInicial = null, DateTime? dtFinal = null, bool? icFinalizado = null);
     Task<Curso> GetCursoByid(int cdCurso);
 
 }
