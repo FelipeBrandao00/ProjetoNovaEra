@@ -42,12 +42,21 @@ namespace Infra.IoC {
             services.AddScoped<IPermissaoCargoRepository, PermissaoCargoRepository>();
             services.AddScoped<IPermissaoCargoService, PermissaoCargoService>();
             
+            services.AddScoped<IAlunoRepository, AlunoRepository>();
+            services.AddScoped<IAlunoService, AlunoService>();
+            
+            services.AddScoped<ICursoRepository, CursoRepository>();
+            services.AddScoped<ICursoService, CursoService>();
+            
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
             services.AddAutoMapper(typeof(CargoUsuarioMapping));
             services.AddAutoMapper(typeof(PasswordChangeMapping));
             services.AddAutoMapper(typeof(PermissaoMapping));
             services.AddAutoMapper(typeof(PermissaoCargoMapping));
+            services.AddAutoMapper(typeof(TurmaAlunoMapping));
+            services.AddAutoMapper(typeof(CursoMapping));
+
             
             return services;
         }
