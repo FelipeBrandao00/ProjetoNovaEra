@@ -19,7 +19,7 @@ public class UsuarioRepository(ApplicationDbContext _context) : IUsuarioReposito
     }
 
     public async Task<Usuario?> GetUsuarioByCpf(string cpf) {
-        return await _context.Usuarios.SingleOrDefaultAsync(x => x.DsCpf == cpf);
+        return await _context.Usuarios.FirstOrDefaultAsync(x => x.DsCpf == cpf);
     }
 
     public async Task<List<Usuario>> GetUsuarios() {
