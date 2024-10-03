@@ -98,7 +98,7 @@
     function carregarInfoPadrao(param) { //Implementando a função de carregamento de informação do aluno
         event.preventDefault();
 
-        if (window.matchMedia("(max-width: 1200px)").matches) { // Eu acho que isso é uma gambiarra...
+        if (window.matchMedia("(max-width: 1200px)").matches) {
             $('#paginaDireita').css('display', 'flex');
             $('#backgroundModal').css('display', 'block');
         }
@@ -145,7 +145,7 @@
         infoAlunoTemp = {
             NmUsuario: $('#txtNomeAluno').val(),
             DsEmail: $('#txtEmailAluno').val(),
-            StrDsGenero: $('#txtGeneroAluno').val(),
+            DsGenero: $('#txtGeneroAluno').val(),
             DtNascimento: $('#txtNascimentoAluno').val(),
             DsTelefone: $('#txtTelefoneAluno').val()
         }
@@ -171,13 +171,10 @@
 
         $('#txtNomeAluno').val(infoAlunoTemp.NmUsuario);
         $('#txtEmailAluno').val(infoAlunoTemp.DsEmail);
-        $('#txtGeneroAluno').val(infoAlunoTemp.StrDsGenero);
+        $('#txtGeneroAluno').val(infoAlunoTemp.DsGenero);
         $('#txtNascimentoAluno').val(infoAlunoTemp.DtNascimento);
         $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
     }
-
-    /* Tentativa falhada de passar a model como parâmetro na função */
-    //function salvarInfoAluno(infoAlunoJson, mobile = false) {
 
     function salvarInfoAluno(mobile = false) {
         event.preventDefault();
@@ -187,7 +184,7 @@
             DsCpf: $('#DsCpf').val(),
             NmUsuario: $('#txtNomeAluno').val(),
             DsEmail: $('#txtEmailAluno').val(),
-            StrDsGenero: $('#txtGeneroAluno').val(),
+            DsGenero: $('#txtGeneroAluno').val(),
             DtNascimento: $('#txtNascimentoAluno').val(),
             DsTelefone: $('#txtTelefoneAluno').val()
         }

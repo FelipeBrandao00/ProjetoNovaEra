@@ -42,7 +42,7 @@
 <div id="divGrupoPC1">
     <div id="divGeneroAluno">
         <label for="divGeneroAluno" class="linear1">Gênero:</label><br />
-        <select id="txtGeneroAluno" class="txtInfoAluno" asp-for="StrDsGenero" disabled>
+        <select id="txtGeneroAluno" class="txtInfoAluno" asp-for="DsGenero" disabled>
             <option value="0">Selecione</option>
             <option value="1">Feminino</option>
             <option value="2">Masculino</option>
@@ -79,9 +79,4 @@
 <div id="divBotoesEdicao">
     <button id="btnCancelar" onclick="cancelarEdicaoAluno()"><b class="linear1">Cancelar edição</b></button>
     <button id="btnSalvar" onclick="salvarInfoAluno()"><b>Salvar</b></button>
-
-    <!-- Tentativa falhada de passar a model como parâmetro na função -->
-    @*
-        <button id="btnSalvar" onclick="salvarInfoAluno(@Html.Raw(@Json.Serialize(Model)))"><b>Salvar</b></button>
-    *@
 </div>

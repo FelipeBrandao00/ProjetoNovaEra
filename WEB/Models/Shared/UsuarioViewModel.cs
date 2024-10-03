@@ -49,20 +49,8 @@ public class UsuarioViewModel
         {
             var baseUrl = configuration["BaseRequest"];
             var url = $"{baseUrl}/Usuario/{responseModelUsuario.CdUsuario}";
-            var Body = new
-            {
-                cdUsuario = responseModelUsuario.CdUsuario,
-                nmUsuario = responseModelUsuario.NmUsuario,
-                dsEmail = responseModelUsuario.DsEmail,
-                dsSenha = "CLj6QBTMn7/ypWBsDLPR2JMtyIs=",               //<-- Problema aí
-                dsCpf = responseModelUsuario.DsCpf,
-                dsGenero = 0,                                           //<-- Problema aí
-                dtNascimento = responseModelUsuario.DtNascimento,
-                icHabilitadoTurma = true                                //<-- Problema aí
 
-                //E tem o telefone que nem ta aqui...
-            };
-            var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
+            var content = new StringContent(JsonSerializer.Serialize(responseModelUsuario), Encoding.UTF8, "application/json");
 
             var token = configuration["JwtToken"];
             if (!string.IsNullOrEmpty(token))
