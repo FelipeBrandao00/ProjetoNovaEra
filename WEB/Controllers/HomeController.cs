@@ -15,7 +15,20 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        string? token = Request.Cookies["Token"];
+        if (string.IsNullOrEmpty(token)) {
+            return RedirectToAction("Index", "Login");
+        }
+
+        var dados = JwtToken.DescriptografarJwt(token);
+        ViewBag.Role = dados.role[0];
+        ViewBag.Nome = dados.role[1];
         return View();
+    }
+    public IActionResult Sair()
+    {
+        Response.Cookies.Delete("Token");
+        return RedirectToAction("Index", "Login");
     }
 
     public IActionResult Privacy()
