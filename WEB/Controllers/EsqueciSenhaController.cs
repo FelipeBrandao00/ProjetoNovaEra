@@ -43,7 +43,7 @@ public class EsqueciSenhaController(IConfiguration configuration) : Controller
 
         if (result)
         {
-            return View("ConfirmarCodigo",esqueciSenhaViewModel);
+            return View("ConfirmarCodigo", esqueciSenhaViewModel);
         }
         return View("Index");
     }

@@ -32,16 +32,22 @@ namespace WEB.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarInfoAluno(string cpfAluno)
+        public async Task<IActionResult> CarregarInfoAluno(UsuarioViewModel UsuarioViewModel)
         {
             configuration["JwtToken"] = Request.Cookies["Token"];
-
-            //Busca as informações do aluno...
-            var model = new ResponseModelUsuario();
+            var response = await UsuarioViewModel.BuscarInfo(configuration);
 
             //Busca a turma que ele ta...
 
-            return PartialView("_InfoAluno", model);
+            return PartialView("_InfoAluno", response.Data);
+        }
+
+        [HttpPost]
+        public async Task<bool> AtualizarInfoAluno(ResponseModelUsuario ResponseModelUsuario)
+        {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            var response = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);
+            return response.IsSuccess;
         }
     }
 }

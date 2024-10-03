@@ -69,7 +69,8 @@
     #paginaDireita {
         z-index: 2;
         width: 94vw;
-        /* display: none; */
+        /* display: flex; */
+        display: none;
         padding: 2vh 3vw !important;
         position: absolute;
         top: 13vh;
@@ -79,7 +80,6 @@
         background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
         border-radius: 5px !important;
         box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
-        display: flex;
         flex-direction: column;
         justify-content: space-between;
         gap: 15px;

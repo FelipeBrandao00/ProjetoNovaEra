@@ -1,4 +1,6 @@
-﻿namespace Application.Responses;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Responses;
 
 public class ResponseModelUsuario
 {

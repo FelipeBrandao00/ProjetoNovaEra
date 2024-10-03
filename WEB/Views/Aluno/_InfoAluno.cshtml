@@ -2,12 +2,27 @@
 
 @{
     Layout = null;
+    var NmCurso = ViewBag.NmCurso ?? String.Empty;
+    var NmTurma = ViewBag.NmTurma ?? String.Empty;
+    var imgSrc = Model.DsFoto != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
 }
 
 <link rel="stylesheet" href="~/css/Aluno/InfoAluno.css">
 
+@Html.HiddenFor(model => model.CdUsuario)
+@Html.HiddenFor(model => model.DsCpf)
+
 <div id="divImgAluno">
-    <img height="122" width="122" />
+
+    @if (!String.IsNullOrEmpty(imgSrc))
+    {
+        <img height="122" width="122" src="@imgSrc" alt="Foto do Aluno" />
+    }
+    else
+    {
+        <img height="122" width="122" />
+    }
+    
     <div>
         <button id="btnTrocarFoto"><b class="linear1">Trocar foto</b></button>
         <button id="btnExcluirFoto"><b>Excluir foto</b></button>
@@ -16,19 +31,18 @@
 
 <div id="divNomeAluno">
     <label for="divNomeAluno" class="linear1">Nome:</label><br />
-    <input id="txtNomeAluno" class="txtInfoAluno" type="text" placeholder="" />
+    <input id="txtNomeAluno" class="txtInfoAluno" asp-for="NmUsuario" type="text" placeholder="" disabled />
 </div>
 
 <div id="divEmailAluno">
     <label for="divEmailAluno" class="linear1">Email:</label><br />
-    <input id="txtEmailAluno" class="txtInfoAluno" type="text" placeholder="" />
+    <input id="txtEmailAluno" class="txtInfoAluno" asp-for="DsEmail" type="text" placeholder="" disabled />
 </div>
 
 <div id="divGrupoPC1">
     <div id="divGeneroAluno">
         <label for="divGeneroAluno" class="linear1">Gênero:</label><br />
-        @* <input id="txtGeneroAluno" class="txtInfoAluno" type="text" placeholder="" /> *@
-        <select id="txtGeneroAluno" class="txtInfoAluno">
+        <select id="txtGeneroAluno" class="txtInfoAluno" asp-for="StrDsGenero" disabled>
             <option value="0">Selecione</option>
             <option value="1">Feminino</option>
             <option value="2">Masculino</option>
@@ -37,32 +51,37 @@
 
     <div id="divNascimentoAluno">
         <label for="divNascimentoAluno" class="linear1">Nascimento:</label><br />
-        <input id="txtNascimentoAluno" class="txtInfoAluno" type="text" placeholder="" />
+        <input id="txtNascimentoAluno" class="txtInfoAluno" asp-for="DtNascimento" type="date" placeholder="" disabled />
     </div>
 
     <div id="divTelefoneAluno">
         <label for="divTelefoneAluno" class="linear1">Telefone:</label><br />
-        <input id="txtTelefoneAluno" class="txtInfoAluno" type="text" placeholder="" />
+        <input id="txtTelefoneAluno" class="txtInfoAluno" asp-for="DsTelefone" type="text" placeholder="" disabled />
     </div>
 </div>
 
 <div id="divGrupoPC2">
     <div id="divCursoAluno">
         <label for="divCursoAluno" class="linear1">Curso atual:</label><br />
-        <input id="txtCursoAluno" class="txtInfoAluno" type="text" placeholder="" />
+        <input id="txtCursoAluno" class="txtInfoAluno" value="@NmCurso" type="text" disabled />
     </div>
 
     <div id="divTurmaAluno">
         <label for="divTurmaAluno" class="linear1">Turma atual:</label><br />
-        <input id="txtTurmaAluno" class="txtInfoAluno" type="text" placeholder="" />
+        <input id="txtTurmaAluno" class="txtInfoAluno" value="@NmTurma" type="text" disabled />
     </div>
 </div>
 
 <div id="divBotaoEditar">
-    <button id="btnEditar"><b class="linear1">Editar aluno</b></button>
+    <button id="btnEditar" onclick="carregarEdicaoAluno()"><b class="linear1">Editar aluno</b></button>
 </div>
 
 <div id="divBotoesEdicao">
-    <button id="btnCancelar"><b class="linear1">Cancelar edição</b></button>
-    <button id="btnSalvar"><b>Salvar</b></button>
+    <button id="btnCancelar" onclick="cancelarEdicaoAluno()"><b class="linear1">Cancelar edição</b></button>
+    <button id="btnSalvar" onclick="salvarInfoAluno()"><b>Salvar</b></button>
+
+    <!-- Tentativa falhada de passar a model como parâmetro na função -->
+    @*
+        <button id="btnSalvar" onclick="salvarInfoAluno(@Html.Raw(@Json.Serialize(Model)))"><b>Salvar</b></button>
+    *@
 </div>

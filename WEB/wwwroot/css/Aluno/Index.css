@@ -13,7 +13,7 @@ input:focus, button:focus {
     gap: 10px;
 }
 
-#btnPesquisar, #btnEditar {
+#btnPesquisar {
     width: 100px;
     font-size: 12px;
     border: none;
@@ -21,27 +21,6 @@ input:focus, button:focus {
     background-color: white;
     padding: 5px 10px 5px 10px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-}
-
-#btnCancelar {
-    width: 130px;
-    font-size: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: white;
-    padding: 5px 10px 5px 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-}
-
-#btnSalvar {
-    color: #FFFFFF;
-    width: 100px;
-    font-size: 12px;
-    border: none;
-    border-radius: 6px;
-    padding: 5px 10px 5px 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
 }
 
 #txtBusca {
@@ -62,113 +41,8 @@ input:focus, button:focus {
     font-size: 12px;
 }
 
-#divImgAluno {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-#divImgAluno > img {
-    background-color: #DBD8D8;
-    border: none;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
-}
-
-#divImgAluno > div:last-child {
-    display: none;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
-
-#btnTrocarFoto {
-    width: 100px;
-    font-size: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: white;
-    padding: 5px 10px 5px 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-}
-
-#btnExcluirFoto {
-    color: #FFFFFF;
-    width: 100px;
-    font-size: 12px;
-    border: none;
-    border-radius: 6px;
-    padding: 5px 10px 5px 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-    background: linear-gradient(0deg, rgba(218,53,53,1) 0%, rgba(126,6,6,1) 100%);
-}
-
-#divNomeAluno{
-    margin-top: 3vh;
-}
-
-#divEmailAluno {
-    margin-top: 1vh;
-}
-
-#divGrupoPC1 {
-    margin-top: 1vh;
-    display: flex;
-    gap: 15px;
-}
-
-#divGrupoPC1 > div {
-    width: 33.3%;
-}
-
-#divGrupoPC2 {
-    gap: 15px;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 3vh;
-}
-
-#divGrupoPC2 > div {
-    width: 50%;
-}
-
-#divBotaoEditar {
-    /*display: none;*/
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 11vh;
-}
-
-#divBotoesEdicao {
-    display: none;
-    /*display: flex;*/
-    justify-content: space-between;
-    margin-top: 11vh;
-}
-
 #msgListaAluno {
     padding-bottom: 62px;
-}
-
-/* Classes */
-.divMsgSelecione {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-}
-
-.txtInfoAluno {
-    width: 100%;
-    border: none;
-    padding: 8px;
-    font-size: 15px;
-    border-radius: 10px;
-    font-weight: 600;
-    background-color: #DBD8D8;
-    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
-    color: #2F2F2F;
 }
 
 #divListaAluno {
@@ -179,6 +53,15 @@ input:focus, button:focus {
     gap: 10px;
 }
 
+/* Classes */
+.divMsgSelecione {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100% !important;
+}
+
 /* Escondidos na versão PC */
 #divBotaoEditarMobile, #divBotoesEdicaoMobile {
     display: none;
@@ -186,26 +69,11 @@ input:focus, button:focus {
 
 /* Responsivo MOBILE */
 @media (max-width: 1200px) {
-    #divGrupoPC1, #divGrupoPC2 {
-        gap: 1vh;
-        display: flex;
-        margin-top: 1vh;
-        flex-direction: column;
-    }
-
-    #divGrupoPC1 > div, #divGrupoPC2 > div {
-        width: 100%;
-    }
-
     #divInfoAluno {
         min-height: 100%;
         padding: 5vh 4vw;
         /* border-radius: 0px !important; */
         box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
-    }
-
-    #divBotaoEditar, #divBotoesEdicao {
-        display: none;
     }
 
     #divBotaoEditarMobile {
@@ -262,8 +130,5 @@ input:focus, button:focus {
     }
     #divInfoAluno {
         padding-top: 15px;
-    }
-    #divBotaoEditar, divBotoesEdicao {
-        margin-top: 5vh;
     }
 }
