@@ -1,0 +1,457 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listar professores";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Professores";
+}
+
+<link rel="stylesheet" href="~/css/Professor/Index.css">
+<link rel="stylesheet" href="~/css/Shared/Livro.css">
+
+<!-- LIVRO -->
+
+<div id="divLivro">
+    <div id="capaLivro" class="MobileInvisible">
+        <div id="paginaEsquerda" class="MobileInvisible">
+
+            <div id="conteudoPagEsq" class="MobileInvisible">
+                <div id="divTopo">
+                    <div id="marcadorPagina"></div>
+                    <button id="btnAdicionar" onclick="carregarAdicionarProfessor(false)"><b class="linear1">Adicionar professor</b></button>
+                    <button id="btnAdicionarMobile" onclick="carregarAdicionarProfessor(true)"><b class="linear1">Adicionar professor</b></button>
+                </div>
+
+                <div id="divBusca">
+                    <input id="txtBusca" type="text" placeholder="Digite o nome do professor..." />
+
+                    <div id="divFiltros">
+                        <div id="idCheckbox">
+                            <label for="chkAtivos">Ativos</label>
+                            <input id="chkAtivos" type="checkbox" />
+
+                            <label for="chkInativos">Inativos</label>
+                            <input id="chkInativos" type="checkbox" />
+                        </div>
+                        <button id="btnPesquisar" onclick="carregarListaProfessores()"><b class="linear1">Pesquisar</b></button>
+                    </div>
+                    
+                </div>
+
+                <div id="msgListaProfessor" class="divMsgSelecione">
+                    <span class="linear1">Digite o nome do professor e aperte em “Pesquisar!”</span>
+                </div>
+
+                <div id="divListaProfessor"></div>
+            </div>
+
+        </div>
+        <div id="paginaDireita" class="MobileInvisible">
+
+            <div id="divTitInfoProfessor">
+                <button id="btnVoltarModal" onclick="voltarMobile()">
+                    <i class="fa-solid fa-angle-left arrow-icon"></i>
+                </button>
+                <span class="linear1">Informações do professor</span>
+            </div>
+
+            <div id="conteudoPagDir" class="MobileInvisible">
+                <div id="msgInfoProfessor" class="divMsgSelecione">
+                    <span class="linear1">Selecione um professor para ver suas informações!</span>
+                </div>
+
+                <div id="divInfoProfessor" style="display:none;"></div>
+            </div>
+
+            <div id="divBotaoAdicionarMobile">
+                <button id="btnConfirmarAdicionarMobile" onclick="adicionarProfessor()"><b style="color: white;">Adicionar professor</b></button>
+            </div>
+
+            <div id="divBotoesEditarMobile">
+                <button id="btnDesativarMobile" onclick="carregarDesabilitarProfessor(true)"><b style="color: white;">Desativar professor</b></button>
+                <button id="btnEditarMobile" onclick="carregarEdicaoProfessor(true)"><b class="linear1">Editar professor</b></button>
+            </div>
+
+            <div id="divBotoesEdicaoMobile">
+                <button id="btnCancelarMobile" onclick="cancelarEdicaoProfessor(true)"><b class="linear1">Cancelar edição</b></button>
+                <button id="btnSalvarMobile" onclick="salvarInfoProfessor(true)"><b>Salvar</b></button>
+            </div>
+
+            <div id="divDesabilitarProfessorMobile">
+                <b class="linear1">Tem certeza que deseja desabilitar o professor:</b>
+                <b class="linear1" id="nmProfessor"></b>
+                <b class="linear1">Não será possível vinculá-lo à nenhuma turma.</b>
+                <div id="divBotoesDesabilitarProfessorMobile">
+                    <button id="btnIgnorarDesabilitarProfessorMobile" onclick="cancelarDesabilitarProfessor(true)"><b class="linear1">Não</b></button>
+                    <button id="btnDesabilitarProfessorMobile" onclick="desabilitarProfessor(true)"><b style="color: white;">Desabilitar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoHabilitarProfessorMobile">
+                <button id="btnHabilitarProfessorMobile" onclick="carregarHabilitarProfessor(true)"><b class="linear1">Habilitar professor</b></button>
+            </div>
+
+            <div id="divHabilitarProfessorMobile">
+                <b class="linear1">Tem certeza que deseja habilitar o professor:</b>
+                <b class="linear1" id="nmProfessorHab"></b>
+                <b class="linear1">O professor poderá ser vinculado em turmas novamente.</b>
+                <div id="divBotoesHabilitarProfessorMobile">
+                    <button id="btnIgnorarHabilitarProfessorMobile" onclick="cancelarHabilitarProfessor(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarHabilitarProfessorMobile" onclick="habilitarProfessor(true)"><b style="color: white;">Habilitar</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.location.hash = '';
+    let infoProfessorTemp;
+
+    document.addEventListener("DOMContentLoaded", carregarListaProfessores);
+
+    function carregarListaProfessores(atualizarInfoProfessor = true) {
+        event.preventDefault();
+
+        if (atualizarInfoProfessor) {
+            $('#divInfoProfessor').empty();
+            $('#divInfoProfessor').hide();
+            $('#msgInfoProfessor').show();
+        }
+
+        $('#divListaProfessor').empty();
+        $('#msgListaProfessor').show();
+
+        let Busca = $('#txtBusca').val();
+
+        $.ajax({
+            url: '@Url.Action("ListarProfessores", "Professor")',
+            type: 'GET',
+            async: true,
+            data: {
+                Busca: Busca
+            },
+            success: function (data) {
+                $('#msgListaProfessor').hide();
+                $('#divListaProfessor').html(data);
+            }
+        });
+    }
+
+    function carregarInfoPadrao(param) { //Implementando a função de carregamento de informação do Professor
+        event.preventDefault();
+
+        if (window.matchMedia("(max-width: 1200px)").matches) { // Eu acho que isso é uma gambiarra...
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divDesabilitarProfessorMobile').css('display', 'none');
+            $('#divBotaoHabilitarProfessorMobile').css('display', 'none');
+            $('#divHabilitarProfessorMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#divInfoProfessor').empty();
+        $('#divInfoProfessor').hide();
+        $('#msgInfoProfessor').show();
+
+        let Busca = $('#txtBusca').val();
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoProfessor", "Professor")',
+            type: 'GET',
+            async: true,
+            data: {
+                DsCpf: param
+            },
+            success: function (data) {
+                $('#msgInfoProfessor').hide();
+                $('#divInfoProfessor').html(data);
+                $('#divInfoProfessor').show();
+            }
+        });
+    }
+
+    function carregarAdicionarProfessor(mobile = false) {
+        if (window.matchMedia("(max-width: 1200px)").matches) { // Eu acho que isso é uma gambiarra...
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divDesabilitarProfessorMobile').css('display', 'none');
+            $('#divBotaoHabilitarProfessorMobile').css('display', 'none');
+            $('#divHabilitarProfessorMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'flex');
+        }
+
+        $.ajax({
+            url: '@Url.Action("CarregarAdicionarProfessor", "Professor")',
+            type: 'GET',
+            async: true,
+            success: function(data) {
+                $('#msgInfoProfessor').hide();
+                $('#divInfoProfessor').html(data);
+                $('#divInfoProfessor').show();
+
+                if (mobile) {
+                    $('#divBotaoAdicionar').css('display', 'none');
+                } else {
+                    $('#divBotaoAdicionar').css('display', 'flex');
+                }
+
+                $('#divBotoesEditar').css('display', 'none');
+                
+                $('#divImgProfessor > div:last-child').css('display', 'flex');
+
+                $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                    .css('background-color', '#FFFFFF')
+                    .removeAttr('disabled');
+            }
+        });
+    }
+
+    function adicionarProfessor(mobile = false) {
+        event.preventDefault();
+
+        let infoAdd = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
+            NmUsuario: $('#txtNomeProfessor').val(),
+            DsEmail: $('#txtEmailProfessor').val(),
+            StrDsGenero: $('#txtGeneroProfessor').val(),
+            DtNascimento: $('#txtNascimentoProfessor').val(),
+            DsTelefone: $('#txtTelefoneProfessor').val()
+        }
+
+        $.ajax({
+            url: '@Url.Action("AdicionarProfessor", "Professor")',
+            type: 'POST',
+            async: true,
+            data: infoAdd,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotaoAdicionarMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotaoAdicionar').css('display', 'none');
+                }
+
+                $('#divImgProfessor > div:last-child').css('display', 'none');
+
+                $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarListaProfessores(false);
+            }
+        });
+    }
+
+    function carregarEdicaoProfessor(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'flex');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divBotoesEdicao').css('display', 'flex');
+        }
+
+        $('#divImgProfessor > div:last-child').css('display', 'flex');
+
+        $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+            .css('background-color', '#FFFFFF')
+            .removeAttr('disabled');
+
+        infoProfessorTemp = {
+            NmUsuario: $('#txtNomeProfessor').val(),
+            DsEmail: $('#txtEmailProfessor').val(),
+            StrDsGenero: $('#txtGeneroProfessor').val(),
+            DtNascimento: $('#txtNascimentoProfessor').val(),
+            DsTelefone: $('#txtTelefoneProfessor').val()
+        }
+    }
+
+    function cancelarEdicaoProfessor(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divBotoesEdicao').css('display', 'none');
+        }
+
+        $('#divImgProfessor > div:last-child').css('display', 'none');
+
+        $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+            .css('background-color', '#DBD8D8')
+            .attr('disabled', true);
+
+        $('#txtNomeProfessor').val(infoProfessorTemp.NmUsuario);
+        $('#txtEmailProfessor').val(infoProfessorTemp.DsEmail);
+        $('#txtGeneroProfessor').val(infoProfessorTemp.StrDsGenero);
+        $('#txtNascimentoProfessor').val(infoProfessorTemp.DtNascimento);
+        $('#txtTelefoneProfessor').val(infoProfessorTemp.DsTelefone);
+    }
+
+    /* Tentativa falhada de passar a model como parâmetro na função */
+    //function salvarInfoProfessor(infoProfessorJson, mobile = false) {
+
+    function salvarInfoProfessor(mobile = false) {
+        event.preventDefault();
+
+        infoProfessorTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
+            NmUsuario: $('#txtNomeProfessor').val(),
+            DsEmail: $('#txtEmailProfessor').val(),
+            StrDsGenero: $('#txtGeneroProfessor').val(),
+            DtNascimento: $('#txtNascimentoProfessor').val(),
+            DsTelefone: $('#txtTelefoneProfessor').val()
+        }
+
+        $.ajax({
+            url: '@Url.Action("AtualizarInfoProfessor", "Professor")',
+            type: 'POST',
+            async: true,
+            data: infoProfessorTemp,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotoesEdicaoMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotoesEdicao').css('display', 'none');
+                }
+
+                $('#divImgProfessor > div:last-child').css('display', 'none');
+
+                $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarListaProfessores(false);
+            }
+        });
+    }
+
+    function carregarDesabilitarProfessor(mobile = false) {
+        if (mobile) {
+            $("#nmProfessor").text($('#txtNomeProfessor').val());
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divDesabilitarProfessorMobile').css('display', 'flex');
+        } else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divDesabilitarProfessor').css('display', 'flex');
+            window.location.hash = '#divDesabilitarProfessor';
+        }
+    }
+
+    function cancelarDesabilitarProfessor(mobile = false) {
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divDesabilitarProfessorMobile').css('display', 'none');
+        } else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divDesabilitarProfessor').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function carregarHabilitarProfessor(mobile = false) {
+        if (mobile) {
+            $("#nmProfessorHab").text($('#txtNomeProfessor').val());
+            $('#divBotaoHabilitarProfessorMobile').css('display', 'none');
+            $('#divHabilitarProfessorMobile').css('display', 'flex');
+        } else {
+            $('#divBotaoHabilitarProfessor').css('display', 'none');
+            $('#divHabilitarProfessor').css('display', 'flex');
+            window.location.hash = '#divHabilitarProfessor';
+        }
+    }
+
+    function cancelarHabilitarProfessor(mobile = false) {
+        if (mobile) {
+            $('#divBotaoHabilitarProfessorMobile').css('display', 'flex');
+            $('#divHabilitarProfessorMobile').css('display', 'none');
+        } else {
+            $('#divBotaoHabilitarProfessor').css('display', 'flex');
+            $('#divHabilitarProfessor').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function desabilitarProfessor(mobile = false) {
+        $.ajax({
+            url: '@Url.Action("DesabilitarProfessor", "Professor")',
+            type: 'POST',
+            async: true,
+            data: infoProfessorTemp,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotaoHabilitarProfessorMobile').css('display', 'flex');
+                    $('#divDesabilitarProfessorMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotaoHabilitarProfessor').css('display', 'flex');
+                    $('#divDesabilitarProfessor').css('display', 'none');
+                    window.location.hash = '';
+                }
+
+                // $('#divImgProfessor > div:last-child').css('display', 'none');
+
+                // $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                //     .css('background-color', '#DBD8D8')
+                //     .attr('disabled', true);
+
+                carregarListaProfessores(false);
+            }
+        });
+    }
+
+    function habilitarProfessor(mobile = false) {
+        $.ajax({
+            url: '@Url.Action("HabilitarProfessor", "Professor")',
+            type: 'POST',
+            async: true,
+            data: infoProfessorTemp,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divHabilitarProfessorMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divHabilitarProfessor').css('display', 'none');
+                    window.location.hash = '';
+                }
+
+                // $('#divImgProfessor > div:last-child').css('display', 'none');
+
+                // $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                //     .css('background-color', '#DBD8D8')
+                //     .attr('disabled', true);
+
+                carregarListaProfessores(false);
+            }
+        });
+    }
+
+    function voltarMobile() {
+        event.preventDefault();
+
+        $('#paginaDireita').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
+
+</script>
