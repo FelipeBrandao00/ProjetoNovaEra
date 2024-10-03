@@ -10,7 +10,7 @@ namespace Domain.Entities
 
         public string? DsTurma { get; set; }
         public DateTime DtInicio { get; set; }
-        public DateTime DtFim { get; set; }
+        public DateTime? DtFim { get; set; }
         public Guid CdProfessor { get; set; }
         public int CdCurso { get; set; }
         public virtual required Usuario Professor { get; set; }
