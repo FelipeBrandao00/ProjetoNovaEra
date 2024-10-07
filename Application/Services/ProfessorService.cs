@@ -54,7 +54,7 @@ public class ProfessorService(IProfessorRepository professorRepository, IMapper 
     {
         try
         {
-            var professor = await professorRepository.SetProfessorHabilitadoTurma(request.CdProfessor);
+            var professor = await professorRepository.SetProfessorDesabilitadoTurma(request.CdProfessor);
             if(professor is null) return new Response<UsuarioDto?>(null, 500, "Professor não encontrado.");
             var professorDto = mapper.Map<UsuarioDto>(professor);
             return new Response<UsuarioDto?>(professorDto, 200, "Sucesso ao desabilitar professor");
