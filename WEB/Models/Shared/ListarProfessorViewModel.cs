@@ -8,12 +8,17 @@ namespace WEB.Models.Shared {
         public override async Task<bool> GerarLista(IConfiguration configuration) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Aluno/GetAlunoByLikedName?";
-
-                if (!string.IsNullOrEmpty(this.Busca))
-                    url += $"nome={this.Busca}&";
+                var url = $"{baseUrl}/Professor/GetProfessores?";
 
                 url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
+                if (!string.IsNullOrEmpty(this.Busca))
+                    url += $"&nmProfessor={this.Busca}&";
+
+                if (this.IcHabilitadoTurma != null) {
+                    string boolLower = this.IcHabilitadoTurma.ToString().ToLower();
+                    url += $"&icHabilitadoTurma={boolLower}";
+                }
+                    
 
                 var token = configuration["JwtToken"];
                 if (!string.IsNullOrEmpty(token))

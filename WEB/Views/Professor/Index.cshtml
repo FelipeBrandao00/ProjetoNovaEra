@@ -28,10 +28,10 @@
                     <div id="divFiltros">
                         <div id="idCheckbox">
                             <label for="chkAtivos">Ativos</label>
-                            <input id="chkAtivos" type="checkbox" />
+                            <input id="chkAtivos" type="checkbox" checked/>
 
                             <label for="chkInativos">Inativos</label>
-                            <input id="chkInativos" type="checkbox" />
+                            <input id="chkInativos" type="checkbox" checked/>
                         </div>
                         <button id="btnPesquisar" onclick="carregarListaProfessores()"><b class="linear1">Pesquisar</b></button>
                     </div>
@@ -108,8 +108,17 @@
     window.location.hash = '';
     let infoProfessorTemp;
 
+    // $(document).ready(function() {
+    // if ('@ViewBag.IcAdicionar' == 'True') {
+    //     if (window.matchMedia("(max-width: 1200px)").matches) {
+    //         carregarAdicionarProfessor(true);
+    //     } else {
+    //         carregarAdicionarProfessor();
+    //     }
+    // }
+    // });
+    
     document.addEventListener("DOMContentLoaded", carregarListaProfessores);
-
     function carregarListaProfessores(atualizarInfoProfessor = true) {
         event.preventDefault();
 
@@ -124,12 +133,21 @@
 
         let Busca = $('#txtBusca').val();
 
+        let IcHabilitadoTurma = null;
+        if (!$('#chkAtivos').is(":checked") && $('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = false;
+        }
+        if ($('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = true;
+        }
+
         $.ajax({
             url: '@Url.Action("ListarProfessores", "Professor")',
             type: 'GET',
             async: true,
             data: {
-                Busca: Busca
+                Busca: Busca,
+                IcHabilitadoTurma: IcHabilitadoTurma
             },
             success: function (data) {
                 $('#msgListaProfessor').hide();
@@ -138,10 +156,10 @@
         });
     }
 
-    function carregarInfoPadrao(param) { //Implementando a função de carregamento de informação do Professor
+    function carregarInfoPadrao(param) {
         event.preventDefault();
 
-        if (window.matchMedia("(max-width: 1200px)").matches) { // Eu acho que isso é uma gambiarra...
+        if (window.matchMedia("(max-width: 1200px)").matches) {
             $('#paginaDireita').css('display', 'flex');
             $('#backgroundModal').css('display', 'block');
             $('#divBotoesEditarMobile').css('display', 'flex');
@@ -174,8 +192,8 @@
     }
 
     function carregarAdicionarProfessor(mobile = false) {
-        if (window.matchMedia("(max-width: 1200px)").matches) { // Eu acho que isso é uma gambiarra...
-            $('#paginaDireita').css('display', 'flex');
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex')
             $('#backgroundModal').css('display', 'block');
 
             $('#divBotoesEditarMobile').css('display', 'none');
@@ -392,11 +410,15 @@
     }
 
     function desabilitarProfessor(mobile = false) {
+        let cdProfessor = $('#CdUsuario').val();
+
         $.ajax({
             url: '@Url.Action("DesabilitarProfessor", "Professor")',
             type: 'POST',
             async: true,
-            data: infoProfessorTemp,
+            data: {
+                CdUsuario: cdProfessor
+            },
             success: function (data) {
                 if (mobile) {
                     $('#divBotaoHabilitarProfessorMobile').css('display', 'flex');
@@ -420,11 +442,15 @@
     }
 
     function habilitarProfessor(mobile = false) {
+        let cdProfessor = $('#CdUsuario').val();
+
         $.ajax({
             url: '@Url.Action("HabilitarProfessor", "Professor")',
             type: 'POST',
             async: true,
-            data: infoProfessorTemp,
+            data: {
+                CdUsuario: cdProfessor
+            },
             success: function (data) {
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');

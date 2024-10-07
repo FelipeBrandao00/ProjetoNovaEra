@@ -12,4 +12,5 @@ public class ResponseModelUsuario
     public string StrDsGenero { get; init; }
     public DateTime? DtNascimento { get; init; }
     public byte[]? DsFoto { get; set; }
+    public bool? IcHabilitadoTurma { get; set; }
 }
