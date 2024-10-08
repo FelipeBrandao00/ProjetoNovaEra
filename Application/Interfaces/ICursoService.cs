@@ -1,4 +1,4 @@
-﻿using Application.DTOs.Curso;
+﻿using Application.DTOs.Cursos;
 using Application.Requests.Curso;
 using Application.Responses;
 
