@@ -14,5 +14,4 @@ public class ResponseModelUsuario
     public bool? IcHabilitadoTurma { get; init; }
     public DateTime? DtNascimento { get; init; }
     public byte[]? DsFoto { get; set; }
-    public bool? IcHabilitadoTurma { get; set; }
 }

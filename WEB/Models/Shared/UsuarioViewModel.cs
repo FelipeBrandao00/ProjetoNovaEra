@@ -87,12 +87,12 @@ public class UsuarioViewModel
                 nmUsuario = responseModelUsuario.NmUsuario,
                 dsEmail = responseModelUsuario.DsEmail,
                 dsSenha = "CLj6QBTMn7/ypWBsDLPR2JMtyIs=",
-                dsCpf = "51565669878",
-                dsGenero = 0,
+                dsCpf = responseModelUsuario.DsCpf,
+                dsGenero = responseModelUsuario.DsGenero,
                 dtNascimento = responseModelUsuario.DtNascimento,
-                icHabilitadoTurma = false,
+                icHabilitadoTurma = responseModelUsuario.IcHabilitadoTurma,
                 dsFoto = "",
-                dsTelefone = ""
+                dsTelefone = responseModelUsuario.DsTelefone
             };
             var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
 

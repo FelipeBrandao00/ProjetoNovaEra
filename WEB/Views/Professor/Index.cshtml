@@ -27,10 +27,10 @@
 
                     <div id="divFiltros">
                         <div id="idCheckbox">
-                            <label for="chkAtivos">Ativos</label>
+                            <label for="chkAtivos">Habilitados</label>
                             <input id="chkAtivos" type="checkbox" checked/>
 
-                            <label for="chkInativos">Inativos</label>
+                            <label for="chkInativos">Desabilitados</label>
                             <input id="chkInativos" type="checkbox" checked/>
                         </div>
                         <button id="btnPesquisar" onclick="carregarListaProfessores()"><b class="linear1">Pesquisar</b></button>
@@ -64,7 +64,7 @@
             </div>
 
             <div id="divBotaoAdicionarMobile">
-                <button id="btnConfirmarAdicionarMobile" onclick="adicionarProfessor()"><b style="color: white;">Adicionar professor</b></button>
+                <button id="btnConfirmarAdicionarMobile" onclick="adicionarProfessor(true)"><b style="color: white;">Adicionar professor</b></button>
             </div>
 
             <div id="divBotoesEditarMobile">
@@ -107,18 +107,21 @@
 <script type="text/javascript">
     window.location.hash = '';
     let infoProfessorTemp;
-
-    // $(document).ready(function() {
-    // if ('@ViewBag.IcAdicionar' == 'True') {
-    //     if (window.matchMedia("(max-width: 1200px)").matches) {
-    //         carregarAdicionarProfessor(true);
-    //     } else {
-    //         carregarAdicionarProfessor();
-    //     }
-    // }
-    // });
     
     document.addEventListener("DOMContentLoaded", carregarListaProfessores);
+    document.addEventListener("DOMContentLoaded", checkAdicionar);
+
+    function checkAdicionar() {
+        if ('@ViewBag.IcAdicionar' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                carregarAdicionarProfessor(true);
+            } else {
+                carregarAdicionarProfessor();
+            }
+            
+        }
+    }
+    
     function carregarListaProfessores(atualizarInfoProfessor = true) {
         event.preventDefault();
 
@@ -134,6 +137,11 @@
         let Busca = $('#txtBusca').val();
 
         let IcHabilitadoTurma = null;
+        if (!$('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            alert('Selecione ao menos um filtro!');
+            return;
+        }
+
         if (!$('#chkAtivos').is(":checked") && $('#chkInativos').is(":checked")) {
             IcHabilitadoTurma = false;
         }
@@ -223,25 +231,39 @@
                 
                 $('#divImgProfessor > div:last-child').css('display', 'flex');
 
-                $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                $('#txtNomeProfessor, #txtEmailProfessor, #txtCPFProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor, #txtSituacaoProfessor')
                     .css('background-color', '#FFFFFF')
-                    .removeAttr('disabled');
             }
         });
     }
 
     function adicionarProfessor(mobile = false) {
         event.preventDefault();
+        
+        if (!validarCampos()) {
+            return;
+        }
+
+        if ($('#txtSituacaoProfessor').find(":selected").val() == -1) {
+            alert('Selecione sua situação!');
+            return false;
+        }
+
+        let Habilitado = ($('#txtSituacaoProfessor').find(":selected").val() == 1) ? 'True' : 'False';
 
         let infoAdd = {
             CdUsuario: $('#CdUsuario').val(),
             DsCpf: $('#DsCpf').val(),
             NmUsuario: $('#txtNomeProfessor').val(),
             DsEmail: $('#txtEmailProfessor').val(),
-            StrDsGenero: $('#txtGeneroProfessor').val(),
+            DsCpf: $('#txtCPFProfessor').val(),
+            DsGenero: $('#txtGeneroProfessor').find(":selected").val(),
             DtNascimento: $('#txtNascimentoProfessor').val(),
-            DsTelefone: $('#txtTelefoneProfessor').val()
+            DsTelefone: $('#txtTelefoneProfessor').val(),
+            IcHabilitadoTurma: Habilitado
         }
+
+        console.log(infoAdd);
 
         $.ajax({
             url: '@Url.Action("AdicionarProfessor", "Professor")',
@@ -260,7 +282,7 @@
 
                 $('#divImgProfessor > div:last-child').css('display', 'none');
 
-                $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                $('#txtNomeProfessor, #txtEmailProfessor, #txtCPFProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor, #txtSituacaoProfessor')
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
@@ -283,14 +305,14 @@
 
         $('#divImgProfessor > div:last-child').css('display', 'flex');
 
-        $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+        $('#txtNomeProfessor, #txtEmailProfessor, #txtCPFProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
             .css('background-color', '#FFFFFF')
             .removeAttr('disabled');
 
         infoProfessorTemp = {
             NmUsuario: $('#txtNomeProfessor').val(),
             DsEmail: $('#txtEmailProfessor').val(),
-            StrDsGenero: $('#txtGeneroProfessor').val(),
+            DsGenero: $('#txtGeneroProfessor').val(),
             DtNascimento: $('#txtNascimentoProfessor').val(),
             DsTelefone: $('#txtTelefoneProfessor').val()
         }
@@ -310,13 +332,13 @@
 
         $('#divImgProfessor > div:last-child').css('display', 'none');
 
-        $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+        $('#txtNomeProfessor, #txtEmailProfessor, #txtCPFProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
         $('#txtNomeProfessor').val(infoProfessorTemp.NmUsuario);
         $('#txtEmailProfessor').val(infoProfessorTemp.DsEmail);
-        $('#txtGeneroProfessor').val(infoProfessorTemp.StrDsGenero);
+        $('#txtGeneroProfessor').val(infoProfessorTemp.DsGenero);
         $('#txtNascimentoProfessor').val(infoProfessorTemp.DtNascimento);
         $('#txtTelefoneProfessor').val(infoProfessorTemp.DsTelefone);
     }
@@ -327,12 +349,17 @@
     function salvarInfoProfessor(mobile = false) {
         event.preventDefault();
 
+        if (!validarCampos()) {
+            return;
+        }
+
         infoProfessorTemp = {
             CdUsuario: $('#CdUsuario').val(),
             DsCpf: $('#DsCpf').val(),
             NmUsuario: $('#txtNomeProfessor').val(),
             DsEmail: $('#txtEmailProfessor').val(),
-            StrDsGenero: $('#txtGeneroProfessor').val(),
+            DsCpf: $('#txtCPFProfessor').val(),
+            DsGenero: $('#txtGeneroProfessor').find(":selected").val(),
             DtNascimento: $('#txtNascimentoProfessor').val(),
             DsTelefone: $('#txtTelefoneProfessor').val()
         }
@@ -354,7 +381,7 @@
 
                 $('#divImgProfessor > div:last-child').css('display', 'none');
 
-                $('#txtNomeProfessor, #txtEmailProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
+                $('#txtNomeProfessor, #txtEmailProfessor, #txtCPFProfessor, #txtGeneroProfessor, #txtNascimentoProfessor, #txtTelefoneProfessor')
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
@@ -429,6 +456,7 @@
                     $('#divDesabilitarProfessor').css('display', 'none');
                     window.location.hash = '';
                 }
+                $("#txtSituacaoProfessor").val("Desabilitado");
 
                 // $('#divImgProfessor > div:last-child').css('display', 'none');
 
@@ -461,6 +489,7 @@
                     $('#divHabilitarProfessor').css('display', 'none');
                     window.location.hash = '';
                 }
+                $("#txtSituacaoProfessor").val("Habilitado");
 
                 // $('#divImgProfessor > div:last-child').css('display', 'none');
 
@@ -478,6 +507,34 @@
 
         $('#paginaDireita').css('display', 'none');
         $('#backgroundModal').css('display', 'none');
+    }
+
+    function validarCampos() {
+        if ($('#txtCPFProfessor').val().length != 11) {
+            alert('O CPF é obrigatório e precisa ser válido!');
+            return false;
+        }
+
+        if ($('#txtNomeProfessor').val().length == 0) {
+            alert('O nome é obrigatório!');
+            return false;
+        }
+
+        if ($('#txtEmailProfessor').val().length == 0) {
+            alert('O e-mail é obrigatório!');
+            return false;
+        }
+
+        if ($('#txtGeneroProfessor').find(":selected").val() == 0) {
+            alert('Selecione um gênero!');
+            return false;
+        }
+
+        if (!$('#txtNascimentoProfessor').val()) {
+            alert('A data é obrigatória!');
+            return false;
+        }
+        return true;
     }
 
 </script>

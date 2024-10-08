@@ -4,7 +4,7 @@
     Layout = null;
     var NmCurso = ViewBag.NmCurso ?? String.Empty;
     var NmTurma = ViewBag.NmTurma ?? String.Empty;
-    var imgSrc = Model.DsFoto != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+    var imgSrc = (Model.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
 }
 
 <link rel="stylesheet" href="~/css/Aluno/InfoAluno.css">

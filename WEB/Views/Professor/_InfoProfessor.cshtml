@@ -46,10 +46,15 @@
     <input id="txtEmailProfessor" class="txtInfoProfessor" asp-for="DsEmail" type="text" placeholder="" disabled />
 </div>
 
+<div id="divCPFProfessor">
+    <label for="divCPFProfessor" class="linear1">CPF:</label><br />
+    <input id="txtCPFProfessor" class="txtInfoProfessor" asp-for="DsCpf" type="text" placeholder="" disabled />
+</div>
+
 <div id="divGrupoPC1">
     <div id="divGeneroProfessor">
         <label for="divGeneroProfessor" class="linear1">Gênero:</label><br />
-        <select id="txtGeneroProfessor" class="txtInfoProfessor" asp-for="StrDsGenero" disabled>
+        <select id="txtGeneroProfessor" class="txtInfoProfessor" asp-for="DsGenero" disabled>
             <option value="0">Selecione</option>
             <option value="1">Feminino</option>
             <option value="2">Masculino</option>
@@ -67,7 +72,12 @@
     </div>
 </div>
 
-<div id="divGrupoPC2">
+<div id="divSituacaoProfessor">
+    <label for="txtSituacaoProfessor" class="linear1">Situação:</label><br />
+    <input id="txtSituacaoProfessor" class="txtInfoProfessor" asp-for="IcHabilitadoTurma" type="text" placeholder="" disabled />
+</div>
+
+@* <div id="divGrupoPC2">
     <div id="divCursoProfessor">
         <label for="divCursoProfessor" class="linear1">Curso atual:</label><br />
         <input id="txtCursoProfessor" class="txtInfoProfessor" value="@NmCurso" type="text" disabled />
@@ -77,7 +87,7 @@
         <label for="divTurmaProfessor" class="linear1">Turma atual:</label><br />
         <input id="txtTurmaProfessor" class="txtInfoProfessor" value="@NmTurma" type="text" disabled />
     </div>
-</div>
+</div> *@
 
 <div id="divBotaoAdicionar">
     <button id="btnConfirmarAdicionar" onclick="adicionarProfessor()"><b style="color: white;">Adicionar professor</b></button>
@@ -125,9 +135,10 @@
 
 <script type="text/javascript">
     atualizarBotoes();
+    atualizarSituacao();
 
     function atualizarBotoes() {
-        if('@Model.IcHabilitadoTurma' == 'False') {
+        if('@Model?.IcHabilitadoTurma' == 'False') {
             if (window.matchMedia("(max-width: 1200px)").matches) {
                 $('#divBotoesEditarMobile').hide();
                 $('#divBotaoHabilitarProfessorMobile').show();
@@ -135,6 +146,13 @@
                 $('#divBotoesEditar').hide();
                 $('#divBotaoHabilitarProfessor').show();
             }
+        }
+    }
+
+    function atualizarSituacao() {
+        if ('@Model?.IcHabilitadoTurma' != 'Null') {
+            let txt = ('@Model?.IcHabilitadoTurma' == 'True') ? 'Habilitado' : 'Desabilitado';
+            $("#txtSituacaoProfessor").val(txt);
         }
     }
 </script>

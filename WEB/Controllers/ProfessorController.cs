@@ -1,6 +1,7 @@
 ﻿using Application.Responses;
 using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
+using WEB.Models.CargoUsuario;
 using WEB.Models.Professor;
 using WEB.Models.Shared;
 
@@ -40,9 +41,10 @@ namespace WEB.Controllers {
 
         public async Task<IActionResult> AdicionarProfessor(ResponseModelUsuario ResponseModelUsuario) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new UsuarioViewModel().Adicionar(configuration, ResponseModelUsuario);
-            //adicionar ao cargo
-            return PartialView("_InfoProfessor", response.Data);
+            var responseAdd = await new UsuarioViewModel().Adicionar(configuration, ResponseModelUsuario);
+            var resposeCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, responseAdd.Data.CdUsuario, 2);
+
+            return PartialView("_InfoProfessor", responseAdd.Data);
         }
 
         [HttpPost]

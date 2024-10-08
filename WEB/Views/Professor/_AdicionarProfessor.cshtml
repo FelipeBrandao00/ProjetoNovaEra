@@ -18,18 +18,23 @@
 
 <div id="divNomeProfessor">
     <label for="divNomeProfessor" class="linear1">Nome:</label><br />
-    <input id="txtNomeProfessor" class="txtInfoProfessor" asp-for="NmUsuario" type="text" placeholder="" disabled />
+    <input id="txtNomeProfessor" class="txtInfoProfessor" asp-for="NmUsuario" type="text" placeholder="Digite o nome..." />
 </div>
 
 <div id="divEmailProfessor">
     <label for="divEmailProfessor" class="linear1">Email:</label><br />
-    <input id="txtEmailProfessor" class="txtInfoProfessor" asp-for="DsEmail" type="text" placeholder="" disabled />
+    <input id="txtEmailProfessor" class="txtInfoProfessor" asp-for="DsEmail" type="text" placeholder="Digite o e-mail..." />
+</div>
+
+<div id="divCPFProfessor">
+    <label for="divCPFProfessor" class="linear1">CPF:</label><br />
+    <input id="txtCPFProfessor" class="txtInfoProfessor" asp-for="DsCpf" type="text" placeholder="Digite o CPF..." />
 </div>
 
 <div id="divGrupoPC1">
     <div id="divGeneroProfessor">
         <label for="divGeneroProfessor" class="linear1">Gênero:</label><br />
-        <select id="txtGeneroProfessor" class="txtInfoProfessor" asp-for="StrDsGenero" disabled>
+        <select id="txtGeneroProfessor" class="txtInfoProfessor" asp-for="DsGenero">
             <option value="0">Selecione</option>
             <option value="1">Feminino</option>
             <option value="2">Masculino</option>
@@ -38,13 +43,22 @@
 
     <div id="divNascimentoProfessor">
         <label for="divNascimentoProfessor" class="linear1">Nascimento:</label><br />
-        <input id="txtNascimentoProfessor" class="txtInfoProfessor" asp-for="DtNascimento" type="date" placeholder="" disabled />
+        <input id="txtNascimentoProfessor" class="txtInfoProfessor" asp-for="DtNascimento" type="date"/>
     </div>
 
     <div id="divTelefoneProfessor">
         <label for="divTelefoneProfessor" class="linear1">Telefone:</label><br />
-        <input id="txtTelefoneProfessor" class="txtInfoProfessor" asp-for="DsTelefone" type="text" placeholder="" disabled />
+        <input id="txtTelefoneProfessor" class="txtInfoProfessor" asp-for="DsTelefone" type="text" placeholder="Digite o telefone..." />
     </div>
+</div>
+
+<div id="divSituacaoProfessor">
+    <label for="txtSituacaoProfessor" class="linear1">Situação:</label><br />
+    <select id="txtSituacaoProfessor" class="txtInfoProfessor">
+        <option value="-1">Selecione</option>
+        <option value="0">Desabilitado</option>
+        <option value="1">Hablitado</option>
+    </select>
 </div>
 
 @* <div id="divGrupoPC2">
