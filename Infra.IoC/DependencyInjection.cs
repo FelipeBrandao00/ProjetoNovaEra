@@ -47,7 +47,10 @@ namespace Infra.IoC {
             
             services.AddScoped<ICursoRepository, CursoRepository>();
             services.AddScoped<ICursoService, CursoService>();
-            
+
+            services.AddScoped<IGeneroService, GeneroService>();
+
+
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
             services.AddAutoMapper(typeof(CargoUsuarioMapping));
