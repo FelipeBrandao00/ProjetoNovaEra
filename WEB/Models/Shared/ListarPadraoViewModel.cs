@@ -16,6 +16,7 @@ namespace WEB.Models.Shared
         public int TamanhoPagina { get; set; } = 9;
         public int TotalItens { get; set; } = 0;
         public string Busca { get; set; } = String.Empty;
+        public bool? IcHabilitadoTurma { get; set; } = null;
 
         public virtual async Task<bool> GerarLista(IConfiguration configuration)
         {

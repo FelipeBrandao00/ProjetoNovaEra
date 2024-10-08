@@ -664,6 +664,10 @@
             window.location.href = '@Url.Action("Index", "Professor")';
         }
 
+        function redirecionarParaAdicionarProfessor() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Professor", new { icAdicionar = true })';
+        }
     </script>
 
 </body>

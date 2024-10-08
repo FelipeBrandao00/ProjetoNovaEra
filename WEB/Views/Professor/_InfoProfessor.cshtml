@@ -12,8 +12,8 @@
     if (!icAdicionar) {
         NmCurso = ViewBag.NmCurso ?? String.Empty;
         NmTurma = ViewBag.NmTurma ?? String.Empty;
-        imgSrc = Model.DsFoto != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
-        NmUsuario = Model.NmUsuario;
+        imgSrc = Model?.DsFoto != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+        NmUsuario = Model?.NmUsuario;
     }
 }
 
@@ -121,3 +121,20 @@
         <button id="btnConfirmarHabilitarProfessor" onclick="habilitarProfessor()"><b style="color: white;">Habilitar</b></button>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    atualizarBotoes();
+
+    function atualizarBotoes() {
+        if('@Model.IcHabilitadoTurma' == 'False') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotoesEditarMobile').hide();
+                $('#divBotaoHabilitarProfessorMobile').show();
+            } else {
+                $('#divBotoesEditar').hide();
+                $('#divBotaoHabilitarProfessor').show();
+            }
+        }
+    }
+</script>

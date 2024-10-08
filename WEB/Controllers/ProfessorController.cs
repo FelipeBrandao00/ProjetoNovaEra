@@ -6,7 +6,7 @@ using WEB.Models.Shared;
 
 namespace WEB.Controllers {
     public class ProfessorController(IConfiguration configuration) : Controller {
-        public IActionResult Index() {
+        public IActionResult Index(bool icAdicionar = false) {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token)) {
                 return RedirectToAction("Index", "Login");
@@ -15,6 +15,8 @@ namespace WEB.Controllers {
             var dados = JwtToken.DescriptografarJwt(token);
             ViewBag.Role = dados.role[0];
             ViewBag.Nome = dados.role[1];
+
+            ViewBag.IcAdicionar = icAdicionar;
             return View();
         }
 
@@ -33,12 +35,13 @@ namespace WEB.Controllers {
         }
 
         public async Task<IActionResult> CarregarAdicionarProfessor() {
-            return PartialView("_InfoProfessor", null);
+            return PartialView("_AdicionarProfessor", null);
         }
 
         public async Task<IActionResult> AdicionarProfessor(ResponseModelUsuario ResponseModelUsuario) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);
+            var response = await new UsuarioViewModel().Adicionar(configuration, ResponseModelUsuario);
+            //adicionar ao cargo
             return PartialView("_InfoProfessor", response.Data);
         }
 
@@ -50,16 +53,16 @@ namespace WEB.Controllers {
         }
 
         [HttpPost]
-        public async Task<bool> HabilitarProfessor(ProfessorViewModel ProfessorViewModel) {
+        public async Task<bool> HabilitarProfessor(ResponseModelUsuario ResponseModelUsuario) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await ProfessorViewModel.Desativar(configuration);
+            var response = await new ProfessorViewModel().Habilitar(configuration, ResponseModelUsuario);
             return response.IsSuccess;
         }
 
         [HttpPost]
-        public async Task<bool> DesabilitarProfessor(ProfessorViewModel ProfessorViewModel) {
+        public async Task<bool> DesabilitarProfessor(ResponseModelUsuario ResponseModelUsuario) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await ProfessorViewModel.Ativar(configuration);
+            var response = await new ProfessorViewModel().Desabilitar(configuration, ResponseModelUsuario);
             return response.IsSuccess;
         }
     }
