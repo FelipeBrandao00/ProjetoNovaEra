@@ -471,7 +471,7 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapProfessor">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar professor</button>
+                    <button onclick="redirecionarParaAdicionarProfessor()" ><i class="fa-solid fa-circle-plus"></i>Adicionar professor</button>
                     <button onclick="redirecionarParaListarProfessor()"><i class="fa-solid fa-rectangle-list"></i>Listar professor</button>
                 </div>
             </div>
@@ -495,8 +495,8 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapCurso">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar curso</button>
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar cursos</button>
+                    <button onclick="redirecionarParaAdicionarCurso()"><i class="fa-solid fa-circle-plus"></i>Adicionar curso</button>
+                    <button onclick="redirecionarParaListarCurso()"><i class="fa-solid fa-rectangle-list"></i>Listar cursos</button>
                 </div>
             </div>
 
@@ -667,6 +667,16 @@
         function redirecionarParaAdicionarProfessor() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Professor", new { icAdicionar = true })';
+        }
+
+        function redirecionarParaListarCurso() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Curso")';
+        }
+
+        function redirecionarParaAdicionarCurso() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Curso", new { icAdicionar = true })';
         }
     </script>
 

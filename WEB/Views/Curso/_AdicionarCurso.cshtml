@@ -1,0 +1,66 @@
+﻿@model Application.Responses.ResponseModelUsuario
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/Curso/InfoCurso.css">
+
+<div id="divImgCurso">
+
+    <img height="122" width="122" />
+
+    <div>
+        <button id="btnTrocarFoto"><b class="linear1">Trocar foto</b></button>
+        <button id="btnExcluirFoto"><b>Excluir foto</b></button>
+    </div>
+</div>
+
+<div id="divNomeCurso">
+    <label for="divNomeCurso" class="linear1">Nome:</label><br />
+    <input id="txtNomeCurso" class="txtInfoCurso" asp-for="NmUsuario" type="text" placeholder="Digite o nome..." />
+</div>
+
+<div id="divEmailCurso">
+    <label for="divEmailCurso" class="linear1">Email:</label><br />
+    <input id="txtEmailCurso" class="txtInfoCurso" asp-for="DsEmail" type="text" placeholder="Digite o e-mail..." />
+</div>
+
+<div id="divCFCurso">
+    <label for="divCFCurso" class="linear1">CPF:</label><br />
+    <input id="txtCFCurso" class="txtInfoCurso" asp-for="DsCpf" type="text" placeholder="Digite o CPF..." />
+</div>
+
+<div id="divGrupoPC1">
+    <div id="divGeneroCurso">
+        <label for="divGeneroCurso" class="linear1">Gênero:</label><br />
+        <select id="txtGeneroCurso" class="txtInfoCurso" asp-for="DsGenero">
+            <option value="0">Selecione</option>
+            <option value="1">Feminino</option>
+            <option value="2">Masculino</option>
+        </select>
+    </div>
+
+    <div id="divNascimentoCurso">
+        <label for="divNascimentoCurso" class="linear1">Nascimento:</label><br />
+        <input id="txtNascimentoCurso" class="txtInfoCurso" asp-for="DtNascimento" type="date" />
+    </div>
+
+    <div id="divTelefoneCurso">
+        <label for="divTelefoneCurso" class="linear1">Telefone:</label><br />
+        <input id="txtTelefoneCurso" class="txtInfoCurso" asp-for="DsTelefone" type="text" placeholder="Digite o telefone..." />
+    </div>
+</div>
+
+<div id="divSituacaoCurso">
+    <label for="txtSituacaoCurso" class="linear1">Situação:</label><br />
+    <select id="txtSituacaoCurso" class="txtInfoCurso">
+        <option value="-1">Selecione</option>
+        <option value="0">Desabilitado</option>
+        <option value="1">Habilitado</option>
+    </select>
+</div>
+
+<div id="divBotaoAdicionar">
+    <button id="btnConfirmarAdicionar" onclick="adicionarCurso()"><b style="color: white;">Adicionar curso</b></button>
+</div>

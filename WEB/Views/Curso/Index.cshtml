@@ -1,0 +1,445 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listar cursos";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Cursos";
+}
+
+<link rel="stylesheet" href="~/css/Curso/Index.css">
+<link rel="stylesheet" href="~/css/Shared/Livro.css">
+
+<!-- LIVRO -->
+
+<div id="divLivro">
+    <div id="capaLivro" class="MobileInvisible">
+        <div id="paginaEsquerda" class="MobileInvisible">
+
+            <div id="conteudoPagEsq" class="MobileInvisible">
+                <div id="divTopo">
+                    <div id="marcadorPagina"></div>
+                    <button id="btnAdicionar" onclick="carregarAdicionarCurso(false)"><b class="linear1">Adicionar curso</b></button>
+                    <button id="btnAdicionarMobile" onclick="carregarAdicionarCurso(true)"><b class="linear1">Adicionar curso</b></button>
+                </div>
+
+                <div id="divBusca">
+                    <input id="txtBusca" type="text" placeholder="Digite o nome do curso..." />
+
+                    <div id="divFiltros">
+                        <div id="idCheckbox">
+                            <label for="chkAtivos">Habilitados</label>
+                            <input id="chkAtivos" type="checkbox" checked />
+
+                            <label for="chkInativos">Desabilitados</label>
+                            <input id="chkInativos" type="checkbox" checked />
+                        </div>
+                        <button id="btnPesquisar" onclick="carregarListaCursos()"><b class="linear1">Pesquisar</b></button>
+                    </div>
+
+                </div>
+
+                <div id="msgListaCurso" class="divMsgSelecione">
+                    <span class="linear1">Digite o nome do curso e aperte em “Pesquisar!”</span>
+                </div>
+
+                <div id="divListaCurso"></div>
+            </div>
+
+        </div>
+        <div id="paginaDireita" class="MobileInvisible">
+
+            <div id="divTitInfoCurso">
+                <button id="btnVoltarModal" onclick="voltarMobile()">
+                    <i class="fa-solid fa-angle-left arrow-icon"></i>
+                </button>
+                <span class="linear1">Informações do curso</span>
+            </div>
+
+            <div id="conteudoPagDir" class="MobileInvisible">
+                <div id="msgInfoCurso" class="divMsgSelecione">
+                    <span class="linear1">Selecione um curso para ver suas informações!</span>
+                </div>
+
+                <div id="divInfoCurso" style="display:none;"></div>
+            </div>
+
+            <div id="divBotaoAdicionarMobile">
+                <button id="btnConfirmarAdicionarMobile" onclick="adicionarCurso(true)"><b style="color: white;">Adicionar curso</b></button>
+            </div>
+
+            <div id="divBotoesEditarMobile">
+                <button id="btnDesativarMobile" onclick="carregarDesabilitarCurso(true)"><b style="color: white;">Desativar curso</b></button>
+                <button id="btnEditarMobile" onclick="carregarEdicaoCurso(true)"><b class="linear1">Editar curso</b></button>
+            </div>
+
+            <div id="divBotoesEdicaoMobile">
+                <button id="btnCancelarMobile" onclick="cancelarEdicaoCurso(true)"><b class="linear1">Cancelar edição</b></button>
+                <button id="btnSalvarMobile" onclick="salvarInfoCurso(true)"><b>Salvar</b></button>
+            </div>
+
+            <div id="divDesabilitarCursoMobile">
+                <b class="linear1">Tem certeza que deseja desabilitar o curso:</b>
+                <b class="linear1" id="nmCurso"></b>
+                <b class="linear1">Não será possível vinculá-lo à nenhuma turma.</b>
+                <div id="divBotoesDesabilitarCursoMobile">
+                    <button id="btnIgnorarDesabilitarCursoMobile" onclick="cancelarDesabilitarCurso(true)"><b class="linear1">Não</b></button>
+                    <button id="btnDesabilitarCursoMobile" onclick="desabilitarCurso(true)"><b style="color: white;">Desabilitar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoHabilitarCursoMobile">
+                <button id="btnHabilitarCursoMobile" onclick="carregarHabilitarCurso(true)"><b class="linear1">Habilitar curso</b></button>
+            </div>
+
+            <div id="divHabilitarCursoMobile">
+                <b class="linear1">Tem certeza que deseja habilitar o curso:</b>
+                <b class="linear1" id="nmCursoHab"></b>
+                <b class="linear1">O curso poderá ser vinculado em turmas novamente.</b>
+                <div id="divBotoesHabilitarCursoMobile">
+                    <button id="btnIgnorarHabilitarCursoMobile" onclick="cancelarHabilitarCurso(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarHabilitarCursoMobile" onclick="habilitarCurso(true)"><b style="color: white;">Habilitar</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.location.hash = '';
+    let infoCursoTemp;
+
+    document.addEventListener("DOMContentLoaded", carregarListaCursos);
+    document.addEventListener("DOMContentLoaded", checkAdicionar);
+
+    function checkAdicionar() {
+        if ('@ViewBag.IcAdicionar' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                carregarAdicionarCurso(true);
+            } else {
+                carregarAdicionarCurso();
+            }
+
+        }
+    }
+
+    function carregarListaCursos(atualizarInfoCurso = true) {
+        event.preventDefault();
+
+        if (atualizarInfoCurso) {
+            $('#divInfoCurso').empty();
+            $('#divInfoCurso').hide();
+            $('#msgInfoCurso').show();
+        }
+
+        $('#divListaCurso').empty();
+        $('#msgListaCurso').show();
+
+        let Busca = $('#txtBusca').val();
+
+        let IcHabilitadoTurma = null;
+        if (!$('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            alert('Selecione ao menos um filtro!');
+            return;
+        }
+
+        if (!$('#chkAtivos').is(":checked") && $('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = false;
+        }
+        if ($('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = true;
+        }
+
+        $.ajax({
+            url: '@Url.Action("ListarCursos", "Curso")',
+            type: 'GET',
+            async: true,
+            data: {
+                Busca: Busca,
+                IcHabilitadoTurma: IcHabilitadoTurma
+            },
+            success: function (data) {
+                $('#msgListaCurso').hide();
+                $('#divListaCurso').html(data);
+            }
+        });
+    }
+
+    function carregarInfoPadrao(param) {
+        event.preventDefault();
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divDesabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoHabilitarCursoMobile').css('display', 'none');
+            $('#divHabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#divInfoCurso').empty();
+        $('#divInfoCurso').hide();
+        $('#msgInfoCurso').show();
+
+        let Busca = $('#txtBusca').val();
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoCurso", "Curso")',
+            type: 'GET',
+            async: true,
+            data: {
+                DsCpf: param
+            },
+            success: function (data) {
+                $('#msgInfoCurso').hide();
+                $('#divInfoCurso').html(data);
+                $('#divInfoCurso').show();
+            }
+        });
+    }
+
+    function carregarAdicionarCurso(mobile = false) {
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex')
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divDesabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoHabilitarCursoMobile').css('display', 'none');
+            $('#divHabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'flex');
+        }
+
+        $.ajax({
+            url: '@Url.Action("CarregarAdicionarCurso", "Curso")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#divInfoCurso').empty();
+                $('#divInfoCurso').hide();
+                $('#divListaCurso').hide();
+                $('#msgListaCurso').hide();
+                $('#divInfoCurso').html(data);
+                $('#divInfoCurso').show();
+                $('#btnAdicionarMobile').hide();
+            }
+        });
+    }
+
+    function adicionarCurso(mobile = false) {
+        event.preventDefault();
+        let objCurso = {
+            Nome: $('#Nome').val(),
+            Descricao: $('#Descricao').val(),
+            CodCurso: $('#CodCurso').val()
+        };
+
+        $.ajax({
+            url: '@Url.Action("AdicionarCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: JSON.stringify(objCurso),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#msgListaCurso').hide();
+                $('#divListaCurso').empty();
+                $('#divInfoCurso').hide();
+                $('#divInfoCurso').empty();
+                $('#divListaCurso').html(data);
+            }
+        });
+    }
+
+    function carregarEdicaoCurso(mobile = false) {
+        let selectedCurso = infoCursoTemp;
+
+        if (selectedCurso == null) {
+            return;
+        }
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'flex');
+            $('#divDesabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoHabilitarCursoMobile').css('display', 'none');
+            $('#divHabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#divInfoCurso').empty();
+        $('#divInfoCurso').hide();
+        $('#msgInfoCurso').show();
+
+        $.ajax({
+            url: '@Url.Action("CarregarEdicaoCurso", "Curso")',
+            type: 'GET',
+            async: true,
+            data: {
+                CodCurso: selectedCurso.CodCurso
+            },
+            success: function (data) {
+                $('#msgInfoCurso').hide();
+                $('#divInfoCurso').html(data);
+                $('#divInfoCurso').show();
+            }
+        });
+    }
+
+    function salvarInfoCurso(mobile = false) {
+        event.preventDefault();
+        let objCurso = {
+            Nome: $('#Nome').val(),
+            Descricao: $('#Descricao').val(),
+            CodCurso: $('#CodCurso').val()
+        };
+
+        $.ajax({
+            url: '@Url.Action("SalvarInfoCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: JSON.stringify(objCurso),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $('#msgListaCurso').hide();
+                $('#divListaCurso').empty();
+                $('#divInfoCurso').hide();
+                $('#divInfoCurso').empty();
+                $('#divListaCurso').html(data);
+            }
+        });
+    }
+
+    function carregarDesabilitarCurso(mobile = false) {
+        let selectedCurso = infoCursoTemp;
+
+        if (selectedCurso == null) {
+            return;
+        }
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divDesabilitarCursoMobile').css('display', 'flex');
+            $('#divBotaoHabilitarCursoMobile').css('display', 'none');
+            $('#divHabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#nmCurso').text(selectedCurso.Nome);
+    }
+
+    function desabilitarCurso(mobile = false) {
+        event.preventDefault();
+        let selectedCurso = infoCursoTemp;
+
+        if (selectedCurso == null) {
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("DesabilitarCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: {
+                CodCurso: selectedCurso.CodCurso
+            },
+            success: function (data) {
+                $('#msgListaCurso').hide();
+                $('#divListaCurso').empty();
+                $('#divInfoCurso').hide();
+                $('#divInfoCurso').empty();
+                $('#divListaCurso').html(data);
+            }
+        });
+    }
+
+    function carregarHabilitarCurso(mobile = false) {
+        let selectedCurso = infoCursoTemp;
+
+        if (selectedCurso == null) {
+            return;
+        }
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divDesabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoHabilitarCursoMobile').css('display', 'flex');
+            $('#divHabilitarCursoMobile').css('display', 'flex');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#nmCursoHab').text(selectedCurso.Nome);
+    }
+
+    function habilitarCurso(mobile = false) {
+        event.preventDefault();
+        let selectedCurso = infoCursoTemp;
+
+        if (selectedCurso == null) {
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("HabilitarCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: {
+                CodCurso: selectedCurso.CodCurso
+            },
+            success: function (data) {
+                $('#msgListaCurso').hide();
+                $('#divListaCurso').empty();
+                $('#divInfoCurso').hide();
+                $('#divInfoCurso').empty();
+                $('#divListaCurso').html(data);
+            }
+        });
+    }
+
+    function cancelarEdicaoCurso(mobile = false) {
+        $('#divInfoCurso').hide();
+        $('#divInfoCurso').empty();
+        $('#msgInfoCurso').show();
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'none');
+            $('#backgroundModal').css('display', 'none');
+        }
+    }
+
+    function cancelarDesabilitarCurso(mobile = false) {
+        $('#divDesabilitarCursoMobile').css('display', 'none');
+        $('#divInfoCurso').empty();
+        $('#divInfoCurso').hide();
+        $('#msgInfoCurso').show();
+    }
+
+    function cancelarHabilitarCurso(mobile = false) {
+        $('#divHabilitarCursoMobile').css('display', 'none');
+        $('#divInfoCurso').empty();
+        $('#divInfoCurso').hide();
+        $('#msgInfoCurso').show();
+    }
+
+    function voltarMobile() {
+        $('#paginaDireita').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+        $('#divInfoCurso').empty();
+        $('#divInfoCurso').hide();
+        $('#msgInfoCurso').show();
+        $('#divListaCurso').show();
+        $('#btnAdicionarMobile').show();
+    }
+</script>

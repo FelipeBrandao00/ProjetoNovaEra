@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Application.Responses;
 using System.ComponentModel.DataAnnotations;
+using WEB.Models.Response;
 
 namespace WEB.Models.Shared
 {
@@ -16,7 +17,6 @@ namespace WEB.Models.Shared
         public int TamanhoPagina { get; set; } = 9;
         public int TotalItens { get; set; } = 0;
         public string Busca { get; set; } = String.Empty;
-        public bool? IcHabilitadoTurma { get; set; } = null;
 
         public virtual async Task<bool> GerarLista(IConfiguration configuration)
         {
@@ -31,6 +31,13 @@ namespace WEB.Models.Shared
 
         public class ResponseModelListaPadrao : Response<List<ResponseModelUsuario>?>
         {
+            public int currentPage { get; set; }
+            public int totalCount { get; set; }
+            public int pageSize { get; set; }
+            public int totalPages { get; set; }
+        }
+
+        public class ResponseModelListaCurso : Response<List<ResponseModelCurso>?> {
             public int currentPage { get; set; }
             public int totalCount { get; set; }
             public int pageSize { get; set; }

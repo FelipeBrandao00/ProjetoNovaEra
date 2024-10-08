@@ -1,25 +1,25 @@
-﻿/* Folha de estilos: Aluno */
+﻿/* Folha de estilos: Curso */
 
 /* IDs */
-#divImgAluno {
+#divImgCurso {
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-#divImgAluno > img {
-    background-color: #DBD8D8;
-    border: none;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
-}
+    #divImgCurso > img {
+        background-color: #DBD8D8;
+        border: none;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    }
 
-#divImgAluno > div:last-child {
-    display: none;
-    flex-direction: column;
-    justify-content: space-evenly;
-}
+    #divImgCurso > div:last-child {
+        display: none;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
 
 #btnTrocarFoto {
     width: 100px;
@@ -42,11 +42,11 @@
     background: linear-gradient(0deg, rgba(218,53,53,1) 0%, rgba(126,6,6,1) 100%);
 }
 
-#divNomeAluno {
+#divNomeCurso {
     margin-top: 3vh;
 }
 
-#divEmailAluno {
+#divEmailCurso {
     margin-top: 1vh;
 }
 
@@ -56,9 +56,9 @@
     gap: 15px;
 }
 
-#divGrupoPC1 > div {
-    width: 33.3%;
-}
+    #divGrupoPC1 > div {
+        width: 33.3%;
+    }
 
 #divGrupoPC2 {
     gap: 15px;
@@ -67,19 +67,35 @@
     margin-top: 3vh;
 }
 
-#divGrupoPC2 > div {
-    width: 50%;
+    #divGrupoPC2 > div {
+        width: 50%;
+    }
+
+#divBotoesEditar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 11vh;
 }
 
-#divBotaoEditar {
-    /*display: none;*/
-    display: flex;
+#divBotaoAdicionar {
+    display: none;
     justify-content: flex-end;
     margin-top: 11vh;
 }
 
+#btnConfirmarAdicionar {
+    color: #FFFFFF;
+    width: 150px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
 #btnEditar {
-    width: 100px;
+    width: 130px;
     font-size: 12px;
     border: none;
     border-radius: 6px;
@@ -89,11 +105,22 @@
 }
 
 #btnCancelar {
-    width: 130px;
+    width: 160px;
     font-size: 12px;
     border: none;
     border-radius: 6px;
     background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnDesativar {
+    width: 160px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
     padding: 5px 10px 5px 10px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
 }
@@ -111,13 +138,12 @@
 
 #divBotoesEdicao {
     display: none;
-    /*display: flex;*/
     justify-content: space-between;
     margin-top: 11vh;
 }
 
 /* Classes */
-.txtInfoAluno {
+.txtInfoCurso {
     width: 100%;
     border: none;
     padding: 8px;
@@ -138,18 +164,18 @@
         flex-direction: column;
     }
 
-    #divGrupoPC1 > div, #divGrupoPC2 > div {
-        width: 100%;
-    }
+        #divGrupoPC1 > div, #divGrupoPC2 > div {
+            width: 100%;
+        }
 
-    #divBotaoEditar, #divBotoesEdicao {
+    #divBotoesEditar, #divBotoesEdicao {
         display: none;
     }
 }
 
 /* Para telas com alturas muito baixas */
 @media (max-height: 520px) {
-    #divBotaoEditar, divBotoesEdicao {
+    #divBotoesEditar, #divBotoesEdicao {
         margin-top: 5vh;
     }
 }

@@ -2,25 +2,30 @@
 using System.Net.Http.Headers;
 
 namespace WEB.Models.Shared {
-    public class ListarProfessorViewModel : ListarPadraoViewModel {
-        public override string TipoItem { get; set; } = "Professor";
-
-        public bool? IcHabilitadoTurma { get; set; } = null;
+    public class listarCursoViewModel : ListarPadraoViewModel {
+        public override string TipoItem { get; set; } = "Curso";
+        public DateTime? dtInicial { get; set; }
+        public DateTime? dtFinal { get; set; }
+        public bool? icFinalizado { get; set; }
 
         public override async Task<bool> GerarLista(IConfiguration configuration) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Professor/GetProfessores?";
+                var url = $"{baseUrl}/Curso?";
 
-                url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
-                if (!string.IsNullOrEmpty(this.Busca))
-                    url += $"&nmProfessor={this.Busca}&";
-
-                if (this.IcHabilitadoTurma != null) {
-                    string boolLower = this.IcHabilitadoTurma.ToString().ToLower();
-                    url += $"&icHabilitadoTurma={boolLower}";
+                if (!string.IsNullOrEmpty(this.Busca)) {
+                    url += $"nome={this.Busca}&";
                 }
-                    
+                if (this.dtInicial != null) {
+                    url += $"dtInicial={this.dtInicial}&";
+                }
+                if (this.dtFinal != null) {
+                    url += $"dtFinal={this.dtFinal}&";
+                }
+                if (this.icFinalizado != null) {
+                    url += $"icFinalizado={this.icFinalizado}&";
+                }
+                url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
 
                 var token = configuration["JwtToken"];
                 if (!string.IsNullOrEmpty(token))
@@ -33,7 +38,7 @@ namespace WEB.Models.Shared {
 
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<ResponseModelListaPadrao>(responseBody, options);
+                    var responseData = JsonSerializer.Deserialize<ResponseModelListaCurso>(responseBody, options);
 
                     if (responseData == null || !responseData.IsSuccess)
                         return false;
@@ -42,9 +47,9 @@ namespace WEB.Models.Shared {
                     this.PaginaTotal = responseData.totalPages;
                     this.TamanhoPagina = responseData.pageSize;
                     this.TotalItens = responseData.totalCount;
-                    this.ItensLista = responseData.Data?.Select(usuario => new ItemListaPadrao {
-                        Id = usuario.DsCpf,
-                        Text = usuario.NmUsuario
+                    this.ItensLista = responseData.Data?.Select(curso => new ItemListaPadrao {
+                        Id = curso.CdCurso.ToString(),
+                        Text = curso.NmCurso
                     }).ToList() ?? new List<ItemListaPadrao>();
 
                     return true;

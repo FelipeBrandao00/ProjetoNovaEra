@@ -21,7 +21,6 @@ namespace API_NOVA_ERA.Database {
         public DbSet<Permissao> Permissoes { get; set; }
         public DbSet<Permissao_Cargos> Permissao_Cargos { get; set; }
         public DbSet<RequestChangePassword> RequestsChangePassword{ get; set; }
-        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
@@ -164,7 +163,7 @@ namespace API_NOVA_ERA.Database {
                     DsSenha = Password.EncodePassword("1234")
                 }
             );
-            
+
             modelBuilder.Entity<Cargo_Usuario>().HasData(
                 new Cargo_Usuario { CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"), CdCargo = 4 },
                 new Cargo_Usuario { CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"), CdCargo = 1 }
