@@ -1,6 +1,8 @@
 ﻿@{
     Layout = "_Layout";
     ViewData["Title"] = "Menu rápido";
+
+    ViewData["PagePrev"] = null;
     ViewData["Page"] = "Menu rápido";
 }
 
@@ -16,18 +18,18 @@
         </div>
         <div id="Professores">
             <b><i class="fa-solid fa-chalkboard-user"></i> Professores</b>
-            <button><b><i class="fa-solid fa-circle-plus"></i> Adicionar professor</b></button>
-            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar professores</b></button>
+            <button onclick="redirecionarParaAdicionarProfessor()"><b><i class="fa-solid fa-circle-plus"></i> Adicionar professor</b></button>
+            <button onclick="redirecionarParaListarProfessor()"><b><i class="fa-solid fa-rectangle-list"></i> Listar professores</b></button>
         </div>
         <div id="Alunos">
             <b><i class="fa-brands fa-google-scholar"></i> Alunos</b>
-            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar alunos</b></button>
+            <button onclick="redirecionarParaListarAluno()"><b><i class="fa-solid fa-rectangle-list"></i> Listar alunos</b></button>
             <button><b><i class="fa-solid fa-award"></i> Emitir certificado</b></button>
         </div>
         <div id="Cursos">
             <b><i class="fa-solid fa-book-bookmark"></i> Cursos</b>
-            <button><b><i class="fa-solid fa-circle-plus"></i> Adicionar curso</b></button>
-            <button><b><i class="fa-solid fa-rectangle-list"></i> Listar cursos</b></button>
+            <button onclick="redirecionarParaAdicionarCurso()"><b><i class="fa-solid fa-circle-plus"></i> Adicionar curso</b></button>
+            <button onclick="redirecionarParaListarCurso()"><b><i class="fa-solid fa-rectangle-list"></i> Listar cursos</b></button>
         </div>
     </section>
 

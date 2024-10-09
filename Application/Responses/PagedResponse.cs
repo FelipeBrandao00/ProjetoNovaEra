@@ -1,4 +1,6 @@
-﻿namespace Application.Responses;
+﻿using System;
+
+namespace Application.Responses;
 
 public class PagedResponse<TData> : Response<TData>
 {

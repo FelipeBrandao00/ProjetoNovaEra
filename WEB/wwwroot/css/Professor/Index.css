@@ -1,0 +1,394 @@
+﻿/* Folha de estilos: Professor */
+
+input:focus, button:focus {
+    outline: none;
+}
+
+/* IDs */
+#divTitInfoProfessor {
+    display: none;
+}
+
+#btnAdicionar, #btnAdicionarMobile {
+    height: 30px;
+    width: 150px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    margin-top: 20px;
+}
+
+#divTopo {
+    display: flex;
+    justify-content: space-between;
+}
+
+#divBusca {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#divFiltros {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+}
+
+#btnPesquisar {
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+
+#txtBusca {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+#divInfoProfessor {
+    padding-top: 5vh;
+}
+
+    #divInfoProfessor label {
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+#msgListaProfessor {
+    padding-bottom: 62px;
+}
+
+#divListaProfessor {
+    display: flex;
+    min-height: 172px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#divBotaoHabilitarProfessor {
+    display: none;
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+    font-size: 14px;
+    justify-content: center;
+}
+
+#btnHabilitarProfessor {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: white;
+}
+
+#divHabilitarProfessor {
+    display: none;
+    background-color: white;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px inset;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+#btnIgnorarHabilitarProfessor, #btnConfirmarHabilitarProfessor {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+}
+
+#btnConfirmarHabilitarProfessor {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#btnIgnorarHabilitarProfessor {
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnDesabilitarProfessor {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+}
+
+#divDesabilitarProfessor {
+    display: none;
+    background-color: white;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px inset;
+    /*display: flex;*/
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+#btnIgnorarDesabilitarProfessor, #btnDesabilitarProfessor {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;   
+}
+
+#btnIgnorarDesabilitarProfessor {
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnDesabilitarProfessor {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+}
+
+
+/* Classes */
+.divMsgSelecione {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100% !important;
+}
+
+/* Escondidos na versão PC */
+#divBotoesEditarMobile, #divBotoesEdicaoMobile, #divDesabilitarProfessorMobile, #divBotaoHabilitarProfessorMobile, #divHabilitarProfessorMobile, #divBotaoAdicionarMobile, #btnAdicionarMobile {
+    display: none;
+}
+
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #btnAdicionar {
+        display: none;
+    }
+
+    #btnAdicionarMobile {
+        display: unset;
+    }
+
+    #divTitInfoProfessor {
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 20px;
+        height: 40px;
+        gap: 4vw;
+    }
+
+        #divTitInfoProfessor > span {
+            font-weight: 700;
+        }
+
+    #divInfoProfessor {
+        min-height: 100%;
+        padding: 5vh 4vw;
+        /* border-radius: 0px !important; */
+        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    }
+
+    #divTopo {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+
+    #divBotoesEditarMobile {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin: 0px;
+    }
+
+    #divBotaoAdicionarMobile {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin: 0px;
+    }
+
+    #divBotoesEdicaoMobile {
+        display: none;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    #btnConfirmarAdicionarMobile {
+        height: 45px;
+        color: #FFFFFF;
+        width: 100%;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #btnEditarMobile {
+        height: 45px;
+        font-size: 16px;
+        width: 50%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #btnDesativarMobile {
+        height: 45px;
+        font-size: 14px;
+        width: 50%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    }
+
+    #btnCancelarMobile {
+        height: 45px;
+        font-size: 16px;
+        width: 50%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #btnSalvarMobile {
+        height: 45px;
+        color: #FFFFFF;
+        width: 50%;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #divBotaoHabilitarProfessorMobile {
+        display: none;
+        text-align: center;
+        width: 100%;
+        font-size: 14px;
+        justify-content: center;
+    }
+
+    #btnHabilitarProfessorMobile {
+        height: 45px;
+        font-size: 16px;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #divHabilitarProfessorMobile, #divDesabilitarProfessorMobile {
+        display: none;
+        background-color: white;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px inset;
+        /*display: flex;*/
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    #btnIgnorarDesabilitarProfessorMobile, #btnDesabilitarProfessorMobile, #btnIgnorarHabilitarProfessorMobile, #btnConfirmarHabilitarProfessorMobile {
+        margin-top: 5px;
+        height: 30px;
+        font-size: 14px;
+        width: 45%;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+    }
+
+    #btnIgnorarDesabilitarProfessorMobile, #btnIgnorarHabilitarProfessorMobile {
+        background-color: white;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    }
+
+    #btnDesabilitarProfessorMobile {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    }
+
+    #btnConfirmarHabilitarProfessorMobile {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+}
+
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #divBusca {
+        margin-top: 10px;
+    }
+
+    #divInfoProfessor {
+        padding-top: 15px;
+    }
+}

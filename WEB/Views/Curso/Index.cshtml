@@ -1,0 +1,516 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listar cursos";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Cursos";
+}
+
+<link rel="stylesheet" href="~/css/Curso/Index.css">
+<link rel="stylesheet" href="~/css/Shared/Livro.css">
+
+<!-- LIVRO -->
+
+<div id="divLivro">
+    <div id="capaLivro" class="MobileInvisible">
+        <div id="paginaEsquerda" class="MobileInvisible">
+
+            <div id="conteudoPagEsq" class="MobileInvisible">
+                <div id="divTopo">
+                    <div id="marcadorPagina"></div>
+                    <button id="btnAdicionar" onclick="carregarAdicionarCurso(false)"><b class="linear1">Adicionar curso</b></button>
+                    <button id="btnAdicionarMobile" onclick="carregarAdicionarCurso(true)"><b class="linear1">Adicionar curso</b></button>
+                </div>
+
+                <div id="divBusca">
+                    <input id="txtBusca" type="text" placeholder="Digite o nome do curso..." />
+
+                    <div id="divFiltros">
+                        <div id="idData">
+                            <div id="divInputData">
+                                <label for="txtInicio"> De:</label>
+                                <input id="txtInicio" type="date"/>
+                            </div>
+                            <div id="divInputData">
+                                <label for="txtFim">Até:</label>
+                                <input id="txtFim" type="date"/>
+                            </div>
+                        </div>
+
+                        <div id="idCheckbox">
+                            <div id="divInputCheckbox">
+                                <label for="chkEmAndamento">Em Andamento</label>
+                                <input id="chkEmAndamento" type="checkbox" checked />
+                            </div>
+                            <div id="divInputCheckbox">
+                                <label for="chkFinalizado">Finalizado</label>
+                                <input id="chkFinalizado" type="checkbox" checked />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divPesquisar">
+                        <button id="btnFiltrosMobile" onclick="toggleFiltros()">
+                            <b class="linear1">Filtros</b>
+                            <i id="arrowIcon" class="fa fa-angles-up"></i>
+                        </button>
+                        <button id="btnPesquisar" onclick="carregarListaCursos()"><b class="linear1">Pesquisar</b></button>
+                    </div>
+                </div>
+
+                <div id="msgListaCurso" class="divMsgSelecione">
+                    <span class="linear1">Digite o nome do curso e aperte em “Pesquisar!”</span>
+                </div>
+
+                <div id="divListaCurso"></div>
+            </div>
+
+        </div>
+        <div id="paginaDireita" class="MobileInvisible">
+
+            <div id="divTitInfoCurso">
+                <button id="btnVoltarModal" onclick="voltarMobile()">
+                    <i class="fa-solid fa-angle-left arrow-icon"></i>
+                </button>
+                <span class="linear1">Informações do curso</span>
+            </div>
+
+            <div id="conteudoPagDir" class="MobileInvisible">
+                <div id="msgInfoCurso" class="divMsgSelecione">
+                    <span class="linear1">Selecione um curso para ver suas informações!</span>
+                </div>
+
+                <div id="divInfoCurso" style="display:none;"></div>
+            </div>
+
+            <div id="divBotaoAdicionarMobile">
+                <button id="btnConfirmarAdicionarMobile" onclick="adicionarCurso(true)"><b style="color: white;">Adicionar curso</b></button>
+            </div>
+
+            <div id="divBotoesEditarMobile">
+                <button id="btnFinalizarMobile" onclick="carregarFinalizarCurso(true)"><b style="color: white;">Finalizar curso</b></button>
+                <button id="btnEditarMobile" onclick="carregarEdicaoCurso(true)"><b class="linear1">Editar curso</b></button>
+            </div>
+
+            <div id="divBotoesEdicaoMobile">
+                <button id="btnCancelarMobile" onclick="cancelarEdicaoCurso(true)"><b class="linear1">Cancelar edição</b></button>
+                <button id="btnSalvarMobile" onclick="salvarInfoCurso(true)"><b>Salvar</b></button>
+            </div>
+
+            <div id="divFinalizarCursoMobile">
+                <b class="linear1">Tem certeza que deseja finalizar o curso:</b>
+                <b class="linear1" id="nmCurso"></b>
+                <b class="linear1">Não será possível vinculá-lo à nenhuma turma.</b>
+                <div id="divBotoesFinalizarCursoMobile">
+                    <button id="btnIgnorarFinalizarCursoMobile" onclick="cancelarFinalizarCurso(true)"><b class="linear1">Não</b></button>
+                    <button id="btnFinalizarCursoMobile" onclick="finalizarCurso(true)"><b style="color: white;">Finalizar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoReativarCursoMobile">
+                <button id="btnReativarCursoMobile" onclick="carregarReativarCurso(true)"><b class="linear1">Reativar curso</b></button>
+            </div>
+
+            <div id="divReativarCursoMobile">
+                <b class="linear1">Tem certeza que deseja reativar o curso:</b>
+                <b class="linear1" id="nmCursoHab"></b>
+                <b class="linear1">O curso poderá ser vinculado em turmas novamente.</b>
+                <div id="divBotoesReativarCursoMobile">
+                    <button id="btnIgnorarReativarCursoMobile" onclick="cancelarReativarCurso(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarReativarCursoMobile" onclick="reativarCurso(true)"><b style="color: white;">Reativar</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.location.hash = '';
+    let infoCursoTemp;
+
+    document.addEventListener("DOMContentLoaded", carregarListaCursos);
+    document.addEventListener("DOMContentLoaded", checkAdicionar);
+
+    function toggleFiltros() {
+        const filtros = document.getElementById('divFiltros');
+        filtros.classList.toggle('hidden');
+        arrowIcon.classList.toggle('up');
+    }
+
+    function checkAdicionar() {
+        if ('@ViewBag.IcAdicionar' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                carregarAdicionarCurso(true);
+            } else {
+                carregarAdicionarCurso();
+            }
+
+        }
+    }
+
+    function carregarListaCursos(atualizarInfoCurso = true) {
+        event.preventDefault();
+
+        if (atualizarInfoCurso) {
+            $('#divInfoCurso').empty();
+            $('#divInfoCurso').hide();
+            $('#msgInfoCurso').show();
+        }
+
+        $('#divListaCurso').empty();
+        $('#msgListaCurso').show();
+
+        let Busca = $('#txtBusca').val();
+
+        let IcFinalizado = null;
+        if (!$('#chkEmAndamento').is(":checked") && !$('#chkFinalizado').is(":checked")) {
+            alert('Selecione ao menos um filtro!');
+            return;
+        }
+
+        if (!$('#chkEmAndamento').is(":checked") && $('#chkFinalizado').is(":checked")) {
+            IcFinalizado = true;
+        }
+        if ($('#chkEmAndamento').is(":checked") && !$('#chkFinalizado').is(":checked")) {
+            IcFinalizado = false;
+        }
+
+        let dtInicial = $("#txtInicio").val();
+        let dtFinal = $("#txtFinal").val();
+
+        $.ajax({
+            url: '@Url.Action("ListarCursos", "Curso")',
+            type: 'GET',
+            async: true,
+            data: {
+                Busca: Busca,
+                IcFinalizado: IcFinalizado,
+                DtInicial: dtInicial,
+                DtFinal: dtFinal
+            },
+            success: function (data) {
+                $('#msgListaCurso').hide();
+                $('#divListaCurso').html(data);
+            }
+        });
+    }
+
+    function carregarInfoPadrao(param) {
+        event.preventDefault();
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divFinalizarCursoMobile').css('display', 'none');
+            $('#divBotaoReativarCursoMobile').css('display', 'none');
+            $('#divReativarCursoMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#divInfoCurso').empty();
+        $('#divInfoCurso').hide();
+        $('#msgInfoCurso').show();
+
+        let Busca = $('#txtBusca').val();
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoCurso", "Curso")',
+            type: 'GET',
+            async: true,
+            data: {
+                id: param
+            },
+            success: function (data) {
+                $('#msgInfoCurso').hide();
+                $('#divInfoCurso').html(data);
+                $('#divInfoCurso').show();
+            }
+        });
+    }
+
+    function carregarAdicionarCurso(mobile = false) {
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex')
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divFinalizarCursoMobile').css('display', 'none');
+            $('#divBotaoReativarCursoMobile').css('display', 'none');
+            $('#divReativarCursoMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'flex');
+        }
+
+        $.ajax({
+            url: '@Url.Action("CarregarAdicionarCurso", "Curso")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#msgInfoCurso').hide();
+                $('#divInfoCurso').html(data);
+                $('#divInfoCurso').show();
+
+                if (mobile) {
+                    $('#divBotaoAdicionar').css('display', 'none');
+                } else {
+                    $('#divBotaoAdicionar').css('display', 'flex');
+                }
+
+                $('#divBotoesEditar').css('display', 'none');
+                
+                $('#txtNomeCurso, #txtDescricaoCurso, #txtCriacao')
+                    .css('background-color', '#FFFFFF')
+            }
+        });
+    }
+
+    function adicionarCurso(mobile = false) {
+        event.preventDefault();
+        
+        if (!validarCampos()) {
+            return;
+        }
+
+        let infoAdd = {
+            CdCurso: $('#CdCurso').val(),
+            NmCurso: $('#txtNomeCurso').val(),
+            DsCurso: $('#txtDescricaoCurso').val(),
+            DtCriacao: $('#txtCriacao').val(),
+            DtFinalizacao: $('#txtFinalizacao').val(),
+        }
+
+        $.ajax({
+            url: '@Url.Action("AdicionarCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: infoAdd,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotaoAdicionarMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotaoAdicionar').css('display', 'none');
+                }
+
+                $('#txtNomeCurso, #txtDescricaoCurso, #txtCriacao')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarListaCursos(false);
+            }
+        });
+    }
+
+    function carregarEdicaoCurso(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'flex');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divBotoesEdicao').css('display', 'flex');
+        }
+
+        $('#txtNomeCurso, #txtDescricaoCurso, #txtCriacao, #txtFinalizacao')
+            .css('background-color', '#FFFFFF')
+            .removeAttr('disabled');
+
+        infoCursoTemp = {
+            CdCurso: $('#CdCurso').val(),
+            NmCurso: $('#txtNomeCurso').val(),
+            DsCurso: $('#txtDescricaoCurso').val(),
+            DtCriacao: $('#txtCriacao').val(),
+            DtFinalizacao: $('#txtFinalizacao').val(),
+        }
+    }
+
+    function salvarInfoCurso(mobile = false) {
+        event.preventDefault();
+
+        if (!validarCampos()) {
+            return;
+        }
+
+        infoCursoTemp = {
+            CdCurso: $('#CdCurso').val(),
+            NmCurso: $('#txtNomeCurso').val(),
+            DsCurso: $('#txtDescricaoCurso').val(),
+            DtCriacao: $('#txtCriacao').val(),
+            DtFinalizacao: $('#txtFinalizacao').val(),
+        }
+
+        $.ajax({
+            url: '@Url.Action("AtualizarInfoCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: infoCursoTemp,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotoesEdicaoMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotoesEdicao').css('display', 'none');
+                }
+
+                $('#txtNomeCurso, #txtDescricaoCurso, #txtCriacao, #txtFinalizacao')
+             .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarListaCursos(false);
+            }
+        });
+    }
+
+    function carregarFinalizarCurso(mobile = false) {
+        if (mobile) {
+            $("#nmCurso").text($('#txtNomeCurso').val());
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divFinalizarCursoMobile').css('display', 'flex');
+        } else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divFinalizarCurso').css('display', 'flex');
+            window.location.hash = '#divFinalizarCurso';
+        }
+    }
+
+    function cancelarFinalizarCurso(mobile = false) {
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divFinalizarCursoMobile').css('display', 'none');
+        } else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divFinalizarCurso').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function carregarReativarCurso(mobile = false) {
+        if (mobile) {
+            $("#nmCursoHab").text($('#txtNomeCurso').val());
+            $('#divBotaoReativarCursoMobile').css('display', 'none');
+            $('#divReativarCursoMobile').css('display', 'flex');
+        } else {
+            $('#divBotaoReativarCurso').css('display', 'none');
+            $('#divReativarCurso').css('display', 'flex');
+            window.location.hash = '#divReativarCurso';
+        }
+    }
+
+    function cancelarReativarCurso(mobile = false) {
+        if (mobile) {
+            $('#divBotaoReativarCursoMobile').css('display', 'flex');
+            $('#divReativarCursoMobile').css('display', 'none');
+        } else {
+            $('#divBotaoReativarCurso').css('display', 'flex');
+            $('#divReativarCurso').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function finalizarCurso(mobile = false) {
+        let cdCurso = $('#CdCurso').val();
+
+        $.ajax({
+            url: '@Url.Action("FinalizarCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdCurso: cdCurso
+            },
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotaoReativarCursoMobile').css('display', 'flex');
+                    $('#divFinalizarCursoMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotaoReativarCurso').css('display', 'flex');
+                    $('#divFinalizarCurso').css('display', 'none');
+                    window.location.hash = '';
+                }
+
+                $('#divDataFinalizacao').css('display', 'unset');
+                carregarListaCursos(false);
+            }
+        });
+    }
+
+    function reativarCurso(mobile = false) {
+        let cdCurso = $('#CdCurso').val();
+
+        $.ajax({
+            url: '@Url.Action("ReativarCurso", "Curso")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdCurso: cdCurso
+            },
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divReativarCursoMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divReativarCurso').css('display', 'none');
+                    window.location.hash = '';
+                }
+                $('#divDataFinalizacao').css('display', 'none');
+                carregarListaCursos(false);
+            }
+        });
+    }
+
+    function cancelarEdicaoCurso(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divBotoesEdicao').css('display', 'none');
+        }
+
+        $('#txtNomeCurso, #txtDescricaoCurso, #txtCriacao, #txtFinalizacao')
+            .css('background-color', '#DBD8D8')
+            .attr('disabled', true);
+
+        $('#txtNomeCurso').val(infoCursoTemp.NmCurso);
+        $('#txtDescricaoCurso').val(infoCursoTemp.DsCurso);
+        $('#txtCriacao').val(infoCursoTemp.DtCriacao);
+        $('#txtFinalizacao').val(infoCursoTemp.DtNascimento);
+    }
+
+    function voltarMobile() {
+        event.preventDefault();
+
+        $('#paginaDireita').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
+
+    function validarCampos() {
+        if ($('#txtNomeCurso').val().length == 0) {
+            alert('O nome é obrigatório!');
+            return false;
+        }
+
+        if ($('#txtDescricaoCurso').val().length == 0) {
+            alert('A descrição é obrigatória!');
+            return false;
+        }
+
+        if (!$('#txtCriacao').val()) {
+            alert('A data de criação é obrigatória!');
+            return false;
+        }
+        return true;
+    }
+</script>

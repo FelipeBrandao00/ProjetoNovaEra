@@ -284,7 +284,7 @@ namespace Infra.Data.Migrations
                     b.Property<string>("DsTurma")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DtFim")
+                    b.Property<DateTime?>("DtFim")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DtInicio")

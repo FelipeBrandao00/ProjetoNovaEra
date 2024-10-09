@@ -19,7 +19,7 @@ public class UsuarioRepository(ApplicationDbContext _context) : IUsuarioReposito
     }
 
     public async Task<Usuario?> GetUsuarioByCpf(string cpf) {
-        return await _context.Usuarios.SingleOrDefaultAsync(x => x.DsCpf == cpf);
+        return await _context.Usuarios.FirstOrDefaultAsync(x => x.DsCpf == cpf);
     }
 
     public async Task<List<Usuario>> GetUsuarios() {
@@ -51,6 +51,9 @@ public class UsuarioRepository(ApplicationDbContext _context) : IUsuarioReposito
     }
 
     public async Task<Usuario> UpdateUsuario(Usuario usuario) {
+        var currentUserPassword = _context.Usuarios.Where(x => x.CdUsuario == usuario.CdUsuario).Select(x => x.DsSenha).FirstOrDefault();
+        if (currentUserPassword == null) return null;
+        usuario.DsSenha = currentUserPassword;
         _context.Entry(usuario).State = EntityState.Modified;
         await _context.SaveChangesAsync();
         return usuario;

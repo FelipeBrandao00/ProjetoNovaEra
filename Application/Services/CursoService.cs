@@ -88,4 +88,36 @@ public class CursoService(ICursoRepository _cursoRepository, IMapper mapper) : I
             return new Response<CursoDto>(null, 500, "Algo deu errado tentando buscar o curso.");
         }
     }
+
+    public async Task<Response<CursoDto>> FinalizarCurso(FinishCursoByidRequest request) {
+        try {
+            var retorno = await _cursoRepository.FinalizarCurso(request.CdCurso);
+            return new Response<CursoDto>(
+                mapper.Map<CursoDto>(retorno),
+                201,
+                "Curso finalizado com sucesso!");
+        }
+        catch (Exception e) {
+            return new Response<CursoDto>(
+                null,
+                500,
+                "Não foi possível finalizar o curso");
+        }
+    }
+
+    public async Task<Response<CursoDto>> ReativarCurso(ReactivateCursoByidRequest request) {
+        try {
+            var retorno = await _cursoRepository.ReativarCurso(request.CdCurso);
+            return new Response<CursoDto>(
+                mapper.Map<CursoDto>(retorno),
+                201,
+                "Curso reativado com sucesso!");
+        }
+        catch (Exception e) {
+            return new Response<CursoDto>(
+                null,
+                500,
+                "Não foi possível reativar o curso");
+        }
+    }
 }

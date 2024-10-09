@@ -1,0 +1,96 @@
+﻿@model Application.Responses.ResponseModelCurso
+
+@{
+    bool icAdicionar = Model is null;
+
+    Layout = null;
+    var NmCurso = Model?.NmCurso;
+    var IcFinalizado = Model?.DtFinalizacao != null;
+
+    if (!icAdicionar) {
+        NmCurso = Model?.NmCurso ?? String.Empty;
+    }
+}
+
+<link rel="stylesheet" href="~/css/Curso/InfoCurso.css">
+
+@Html.HiddenFor(model => model.CdCurso)
+
+<div id="divNomeCurso">
+    <label for="divNomeCurso" class="linear1">Nome:</label><br />
+    <input id="txtNomeCurso" class="txtInfoCurso" asp-for="NmCurso" type="text" placeholder="Digite o nome do curso..." disabled />
+</div>
+
+<div id="divDescricaoCurso">
+    <label for="txtDescricaoCurso" class="linear1">Descrição:</label><br />
+    <textarea id="txtDescricaoCurso" class="txtInfoCurso" asp-for="DsCurso" type="text" placeholder="Digite a descrição do curso..." disabled></textarea>
+</div>
+
+<div id="divDatas">
+    <div id="divDataCriacao">
+        <label for="txtCriacao" class="linear1">Data de criação:</label><br />
+        <input id="txtCriacao" class="txtInfoCurso" asp-for="DtCriacao" type="date" disabled/>
+    </div>
+
+    <div id="divDataFinalizacao">
+        <label for="txtFinalizacao" class="linear1">Data de finalização:</label><br />
+        <input id="txtFinalizacao" class="txtInfoCurso" asp-for="DtFinalizacao" type="date" disabled/>
+    </div>
+</div>
+
+
+<div id="divBotaoAdicionar">
+    <button id="btnConfirmarAdicionar" onclick="adicionarCurso()"><b style="color: white;">Adicionar curso</b></button>
+</div>
+
+<div id="divBotoesEditar">
+    <button id="btnFinalizar" onclick="carregarFinalizarCurso()"><b style="color: white;">Finalizar curso</b></button>
+    <button id="btnEditar" onclick="carregarEdicaoCurso()"><b class="linear1">Editar curso</b></button>
+</div>
+
+<div id="divBotoesEdicao">
+    <button id="btnCancelar" onclick="cancelarEdicaoCurso()"><b class="linear1">Cancelar edição</b></button>
+    <button id="btnSalvar" onclick="salvarInfoCurso()"><b>Salvar</b></button>
+</div>
+
+<div id="divFinalizarCurso">
+    <b class="linear1">Tem certeza que deseja finalizar o curso:</b>
+    <b class="linear1">@NmCurso</b>
+    <b class="linear1">Não será possível vinculá-lo à nenhuma turma.</b>
+    <div id="divBotoesFinalizarCurso">
+        <button id="btnIgnorarFinalizarCurso" onclick="cancelarFinalizarCurso()"><b class="linear1">Não</b></button>
+        <button id="btnFinalizarCurso" onclick="finalizarCurso()"><b style="color: white;">Finalizar</b></button>
+    </div>
+</div>
+
+<div id="divBotaoReativarCurso">
+    <button id="btnReativarCurso" onclick="carregarReativarCurso()"><b class="linear1">Reativar curso</b></button>
+</div>
+
+<div id="divReativarCurso">
+    <b class="linear1">Tem certeza que deseja reativar o curso:</b>
+    <b class="linear1">@NmCurso</b>
+    <b class="linear1">O curso poderá ser vinculado em turmas novamente.</b>
+    <div id="divBotoesReativarCurso">
+        <button id="btnIgnorarReativarCurso" onclick="cancelarReativarCurso()"><b class="linear1">Não</b></button>
+        <button id="btnConfirmarReativarCurso" onclick="reativarCurso()"><b style="color: white;">Reativar</b></button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    atualizarBotoes();
+
+    function atualizarBotoes() {
+        if ('@IcFinalizado' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotoesEditarMobile').hide();
+                $('#divBotaoReativarCursoMobile').show();
+            } else {
+                $('#divBotoesEditar').hide();
+                $('#divBotaoReativarCurso').show();
+            }
+        } else {
+            $('#divDataFinalizacao').css('display', 'none');
+        }
+    }
+</script>

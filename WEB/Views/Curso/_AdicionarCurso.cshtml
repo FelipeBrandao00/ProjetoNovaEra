@@ -1,0 +1,28 @@
+﻿@model Application.Responses.ResponseModelCurso
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/Curso/InfoCurso.css">
+
+<div id="divNomeCurso">
+    <label for="divNomeCurso" class="linear1">Nome:</label><br />
+    <input id="txtNomeCurso" class="txtInfoCurso" asp-for="NmCurso" type="text" placeholder="Digite o nome do curso..." />
+</div>
+
+<div id="divDescricaoCurso">
+    <label for="txtDescricaoCurso" class="linear1">Descrição:</label><br />
+    <textarea id="txtDescricaoCurso" class="txtInfoCurso" asp-for="DsCurso" type="text" placeholder="Digite a descrição do curso..."></textarea>
+</div>
+
+<div id="divDatas">
+    <div id="divDataCriacao">
+        <label for="txtCriacao" class="linear1">Data de criação:</label><br />
+        <input id="txtCriacao" class="txtInfoCurso" asp-for="DtCriacao" type="date"/>
+    </div>
+</div>
+
+<div id="divBotaoAdicionar">
+    <button id="btnConfirmarAdicionar" onclick="adicionarCurso()"><b style="color: white;">Adicionar curso</b></button>
+</div>

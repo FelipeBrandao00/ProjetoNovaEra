@@ -3,7 +3,6 @@
     string nome = ViewBag.Nome;
 }
 
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -11,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nova Era</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css">
     <!-- MONTSERRAT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -214,6 +214,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            gap: 10px;
         }
 
         #userData {
@@ -311,6 +312,10 @@
             box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.5);
         }
 
+        #backgroundModal {
+            display: none;
+        }
+
         @@media (max-width: 1500px) {
             #logoNavMobile {
                 display: block;
@@ -323,6 +328,14 @@
         }
 
         @@media (max-width: 1200px) {
+            .MobileInvisible {
+                background: none !important;
+                background-color: transparent !important;
+                border-radius: 0px !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0px !important;
+            }
 
             #navGeral > :last-child {
                 display: none !important;
@@ -387,6 +400,22 @@
                 justify-content: end;
                 align-items: center;
             }
+
+            main > nav:first-child {
+                position: relative;
+                z-index: 90;
+            }
+
+            #backgroundModal {
+                z-index: 1;
+                position: absolute;
+                background-color: black;
+                opacity: 62%;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;    
+            }
         }
 
         @@media (max-width: 500px) {
@@ -395,21 +424,28 @@
             }
         }
 
+        @@media (max-height: 520px) {
+            article {
+                padding: 10px 5vw 0px 5vw;
+                justify-content: center;
+            }
+        }
+
     </style>
 
 </head>
 <body>
 
-    <aside id="aside" class="mobileview">
+    <aside id="aside" class="collapsed mobileview">
         <nav>
             <img id="logoNavMobile" src="~/img/logo_sidebar_mobile.png"/>
             <img id="logoNavDesktop" src="~/img/logo_sidebar.png" />
 
-            <button id="btnOpenSidebar" onclick="toggleSidebar()">
+            <button id="btnOpenSidebar" onclick="toggleSidebar()" style="display:none;">
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
 
-            <button id="btnCloseSidebar" onclick="toggleSidebar()">
+            <button id="btnCloseSidebar" onclick="toggleSidebar()" style="display:block;">
                 <i class="fa-solid fa-arrow-right"></i>
             </button>
         </nav>
@@ -435,8 +471,8 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapProfessor">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar professor</button>
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar professor</button>
+                    <button onclick="redirecionarParaAdicionarProfessor()" ><i class="fa-solid fa-circle-plus"></i>Adicionar professor</button>
+                    <button onclick="redirecionarParaListarProfessor()"><i class="fa-solid fa-rectangle-list"></i>Listar professor</button>
                 </div>
             </div>
 
@@ -447,7 +483,7 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapAluno">
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar alunos</button>
+                    <button onclick="redirecionarParaListarAluno()"><i class="fa-solid fa-rectangle-list"></i>Listar alunos</button>
                     <button><i class="fa-solid fa-award"></i>Emitir certificado</button>
                 </div>
             </div>
@@ -459,8 +495,8 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapCurso">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar curso</button>
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar cursos</button>
+                    <button onclick="redirecionarParaAdicionarCurso()"><i class="fa-solid fa-circle-plus"></i>Adicionar curso</button>
+                    <button onclick="redirecionarParaListarCurso()"><i class="fa-solid fa-rectangle-list"></i>Listar cursos</button>
                 </div>
             </div>
 
@@ -493,7 +529,7 @@
         </div>
     </aside>
 
-    <main>
+    <main class="shifted">
         <nav class="Mobile">
             <button id="btnOpenSidebar" onclick="toggleSidebar()">
                 <i class="fa-solid fa-bars"></i>
@@ -503,6 +539,8 @@
                 <i class="fa-solid fa-user"></i>
             </button>
         </nav>
+
+        <div id="backgroundModal"></div>
 
         <article id="article">
             <div id="userData">
@@ -520,9 +558,11 @@
             <div id="navGeral">
                 <div>
                     <div id="Rota">
-                        @if (ViewData["Page"] != "Menu rápido") {
-                            <a href="#" style="cursor: pointer">
-                                <span>Menu rápido</span>
+                        @{ var aPagePrev = ViewData["PagePrev"] as string[]; }
+
+                        @if (aPagePrev != null) {
+                            <a asp-controller="@aPagePrev[2]" asp-action="@aPagePrev[1]" style="cursor: pointer">
+                                <span>@aPagePrev[0]</span>
                             </a>
                            <span>> @ViewData["Page"]</span>
                         } else {
@@ -608,10 +648,36 @@
             }
         }
 
+        //Redirecionamentos
+
         function Logout() {
             window.location.href = '@Url.Action("Sair", "Home")';
         }
 
+        function redirecionarParaListarAluno() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Aluno")';
+        }
+
+        function redirecionarParaListarProfessor() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Professor")';
+        }
+
+        function redirecionarParaAdicionarProfessor() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Professor", new { icAdicionar = true })';
+        }
+
+        function redirecionarParaListarCurso() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Curso")';
+        }
+
+        function redirecionarParaAdicionarCurso() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Curso", new { icAdicionar = true })';
+        }
     </script>
 
 </body>

@@ -43,7 +43,27 @@ public class CursoRepository(ApplicationDbContext _context) : ICursoRepository {
         return await cursos.ToListAsync();
     }
 
-    public async Task<Curso> GetCursoByid(int cdCurso) {
+    public async Task<Curso?> GetCursoByid(int cdCurso) {
         return await _context.Cursos.Where(x => x.CdCurso == cdCurso).FirstOrDefaultAsync();
+    }
+
+    public async Task<Curso> FinalizarCurso(int cdCurso) {
+        var curso = await GetCursoByid(cdCurso);
+
+        if (curso != null && curso.DtFinalizacao == null) { 
+            curso.DtFinalizacao = DateTime.Now;
+            await _context.SaveChangesAsync();
+        }
+        return curso;
+    }
+
+    public async Task<Curso> ReativarCurso(int cdCurso) {
+        var curso = await GetCursoByid(cdCurso);
+
+        if (curso != null && curso.DtFinalizacao != null) {
+            curso.DtFinalizacao = null;
+            await _context.SaveChangesAsync();
+        }
+        return curso;
     }
 }

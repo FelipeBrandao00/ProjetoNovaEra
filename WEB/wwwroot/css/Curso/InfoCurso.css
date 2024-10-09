@@ -1,0 +1,116 @@
+﻿/* Folha de estilos: Curso */
+
+/* IDs */
+
+#txtDescricaoCurso {
+    min-height: 300px;
+}
+
+#divDatas {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#divDataCriacao, #divDataFinalizacao {
+    width: 45%;
+}
+
+
+#divBotoesEditar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 11vh;
+}
+
+#divBotaoAdicionar {
+    display: none;
+    justify-content: flex-end;
+    margin-top: 11vh;
+}
+
+#btnConfirmarAdicionar {
+    color: #FFFFFF;
+    width: 150px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#btnEditar {
+    width: 130px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnCancelar {
+    width: 160px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnFinalizar {
+    width: 160px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnSalvar {
+    color: #FFFFFF;
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#divBotoesEdicao {
+    display: none;
+    justify-content: space-between;
+    margin-top: 11vh;
+}
+
+/* Classes */
+.txtInfoCurso {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #DBD8D8;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #divBotoesEditar, #divBotoesEdicao {
+        display: none;
+    }
+}
+
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #divBotoesEditar, #divBotoesEdicao {
+        margin-top: 5vh;
+    }
+}

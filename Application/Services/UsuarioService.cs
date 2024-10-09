@@ -38,6 +38,9 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
         {
             var usuario = mapper.Map<Usuario>(request);
             var result = await usuarioRepository.UpdateUsuario(usuario);
+
+            if(request is null) return new Response<UsuarioDto>(null, 500, "Não foi possível encontrar o usuário.");
+
             return new Response<UsuarioDto>(mapper.Map<UsuarioDto>(result), 200, "Usuário atualizado com sucesso!");            
         }
         catch (Exception e)
