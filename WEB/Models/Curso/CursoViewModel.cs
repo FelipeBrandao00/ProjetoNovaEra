@@ -37,10 +37,10 @@ namespace WEB.Models.Curso {
             }
         }
 
-        public async Task<Response<ResponseModelCurso>> Habilitar(IConfiguration configuration, ResponseModelCurso responseModelCurso) {
+        public async Task<Response<ResponseModelCurso>> Reativar(IConfiguration configuration, ResponseModelCurso responseModelCurso) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Curso/SetHabilitarProfessor";
+                var url = $"{baseUrl}/Curso/ReativarCurso";
 
                 var Body = new {
                     CdCurso = responseModelCurso.CdCurso
@@ -71,10 +71,10 @@ namespace WEB.Models.Curso {
             }
         }
 
-        public async Task<Response<ResponseModelCurso>> Desabilitar(IConfiguration configuration, ResponseModelCurso responseModelCurso) {
+        public async Task<Response<ResponseModelCurso>> Finalizar(IConfiguration configuration, ResponseModelCurso responseModelCurso) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Curso/SetDesabilitarProfessor";
+                var url = $"{baseUrl}/Curso/DesativarCurso";
 
                 var Body = new {
                     CdCurso = responseModelCurso.CdCurso

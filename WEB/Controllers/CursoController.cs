@@ -1,8 +1,6 @@
 ﻿using Application.Responses;
 using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
-using WEB.Models.CargoUsuario;
-using WEB.Models.Professor;
 using WEB.Models.Shared;
 using WEB.Models.Curso;
 
@@ -55,16 +53,16 @@ namespace WEB.Controllers {
         }
 
         [HttpPost]
-        public async Task<bool> HabilitarCurso(ResponseModelCurso ResponseModelCurso) {
+        public async Task<bool> ReativarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().Habilitar(configuration, ResponseModelCurso);
+            var response = await new CursoViewModel().Reativar(configuration, ResponseModelCurso);
             return response.IsSuccess;
         }
 
         [HttpPost]
-        public async Task<bool> DesabilitarCurso(ResponseModelCurso ResponseModelCurso) {
+        public async Task<bool> FinalizarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().Desabilitar(configuration, ResponseModelCurso);
+            var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
             return response.IsSuccess;
         }
     }

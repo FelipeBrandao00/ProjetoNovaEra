@@ -44,7 +44,7 @@
 </div>
 
 <div id="divBotoesEditar">
-    <button id="btnDesativar" onclick="carregarDesabilitarCurso()"><b style="color: white;">Desabilitar curso</b></button>
+    <button id="btnFinalizar" onclick="carregarFinalizarCurso()"><b style="color: white;">Finalizar curso</b></button>
     <button id="btnEditar" onclick="carregarEdicaoCurso()"><b class="linear1">Editar curso</b></button>
 </div>
 
@@ -53,27 +53,27 @@
     <button id="btnSalvar" onclick="salvarInfoCurso()"><b>Salvar</b></button>
 </div>
 
-<div id="divDesabilitarCurso">
-    <b class="linear1">Tem certeza que deseja desabilitar o curso:</b>
+<div id="divFinalizarCurso">
+    <b class="linear1">Tem certeza que deseja finalizar o curso:</b>
     <b class="linear1">@NmCurso</b>
     <b class="linear1">Não será possível vinculá-lo à nenhuma turma.</b>
-    <div id="divBotoesDesabilitarCurso">
-        <button id="btnIgnorarDesabilitarCurso" onclick="cancelarDesabilitarCurso()"><b class="linear1">Não</b></button>
-        <button id="btnDesabilitarCurso" onclick="desabilitarCurso()"><b style="color: white;">Desabilitar</b></button>
+    <div id="divBotoesFinalizarCurso">
+        <button id="btnIgnorarFinalizarCurso" onclick="cancelarFinalizarCurso()"><b class="linear1">Não</b></button>
+        <button id="btnFinalizarCurso" onclick="finalizarCurso()"><b style="color: white;">Finalizar</b></button>
     </div>
 </div>
 
-<div id="divBotaoHabilitarCurso">
-    <button id="btnHabilitarCurso" onclick="carregarHabilitarCurso()"><b class="linear1">Habilitar curso</b></button>
+<div id="divBotaoReativarCurso">
+    <button id="btnReativarCurso" onclick="carregarReativarCurso()"><b class="linear1">Reativar curso</b></button>
 </div>
 
-<div id="divHabilitarCurso">
-    <b class="linear1">Tem certeza que deseja habilitar o curso:</b>
+<div id="divReativarCurso">
+    <b class="linear1">Tem certeza que deseja reativar o curso:</b>
     <b class="linear1">@NmCurso</b>
     <b class="linear1">O curso poderá ser vinculado em turmas novamente.</b>
-    <div id="divBotoesHabilitarCurso">
-        <button id="btnIgnorarHabilitarCurso" onclick="cancelarHabilitarCurso()"><b class="linear1">Não</b></button>
-        <button id="btnConfirmarHabilitarCurso" onclick="habilitarCurso()"><b style="color: white;">Habilitar</b></button>
+    <div id="divBotoesReativarCurso">
+        <button id="btnIgnorarReativarCurso" onclick="cancelarReativarCurso()"><b class="linear1">Não</b></button>
+        <button id="btnConfirmarReativarCurso" onclick="reativarCurso()"><b style="color: white;">Reativar</b></button>
     </div>
 </div>
 
@@ -84,10 +84,10 @@
         if ('@IcFinalizado' == 'True') {
             if (window.matchMedia("(max-width: 1200px)").matches) {
                 $('#divBotoesEditarMobile').hide();
-                $('#divBotaoHabilitarCursoMobile').show();
+                $('#divBotaoReativarCursoMobile').show();
             } else {
                 $('#divBotoesEditar').hide();
-                $('#divBotaoHabilitarCurso').show();
+                $('#divBotaoReativarCurso').show();
             }
         } else {
             $('#divDataFinalizacao').css('display', 'none');

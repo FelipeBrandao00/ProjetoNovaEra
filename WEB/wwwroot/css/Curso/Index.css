@@ -129,7 +129,7 @@ input:focus, button:focus {
     gap: 10px;
 }
 
-#divBotaoHabilitarCurso {
+#divBotaoReativarCurso {
     display: none;
     text-align: center;
     width: 100%;
@@ -138,7 +138,7 @@ input:focus, button:focus {
     justify-content: center;
 }
 
-#btnHabilitarCurso {
+#btnReativarCurso {
     margin-top: 5px;
     height: 30px;
     font-size: 14px;
@@ -152,7 +152,7 @@ input:focus, button:focus {
     background: white;
 }
 
-#divHabilitarCurso {
+#divReativarCurso {
     display: none;
     background-color: white;
     padding: 15px;
@@ -166,7 +166,7 @@ input:focus, button:focus {
     font-size: 14px;
 }
 
-#btnIgnorarHabilitarCurso, #btnConfirmarHabilitarCurso {
+#btnIgnorarReativarCurso, #btnConfirmarReativarCurso {
     margin-top: 5px;
     height: 30px;
     font-size: 14px;
@@ -176,7 +176,7 @@ input:focus, button:focus {
     padding: 5px 10px 5px 10px;
 }
 
-#btnConfirmarHabilitarCurso {
+#btnConfirmarReativarCurso {
     margin-top: 5px;
     height: 30px;
     font-size: 14px;
@@ -190,19 +190,19 @@ input:focus, button:focus {
     background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
 }
 
-#btnIgnorarHabilitarCurso {
+#btnIgnorarReativarCurso {
     background-color: white;
     padding: 5px 10px 5px 10px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
 }
 
-#btnDesabilitarCurso {
+#btnFinalizarCurso {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
     background: rgb(126,6,6);
     background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
 }
 
-#divDesabilitarCurso {
+#divFinalizarCurso {
     display: none;
     background-color: white;
     padding: 15px;
@@ -216,7 +216,7 @@ input:focus, button:focus {
     font-size: 14px;
 }
 
-#btnIgnorarDesabilitarCurso, #btnDesabilitarCurso {
+#btnIgnorarFinalizarCurso, #btnFinalizarCurso {
     margin-top: 5px;
     height: 30px;
     font-size: 14px;
@@ -226,13 +226,13 @@ input:focus, button:focus {
     padding: 5px 10px 5px 10px;
 }
 
-#btnIgnorarDesabilitarCurso {
+#btnIgnorarFinalizarCurso {
     background-color: white;
     padding: 5px 10px 5px 10px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
 }
 
-#btnDesabilitarCurso {
+#btnFinalizarCurso {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
     background: rgb(126,6,6);
     background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
@@ -248,7 +248,7 @@ input:focus, button:focus {
 }
 
 /* Escondidos na versão PC */
-#divBotoesEditarMobile, #divBotoesEdicaoMobile, #divDesabilitarCursoMobile, #divBotaoHabilitarCursoMobile, #divHabilitarCursoMobile, #divBotaoAdicionarMobile, #btnAdicionarMobile {
+#divBotoesEditarMobile, #divBotoesEdicaoMobile, #divFinalizarCursoMobile, #divBotaoReativarCursoMobile, #divReativarCursoMobile, #divBotaoAdicionarMobile, #btnAdicionarMobile {
     display: none;
 }
 
@@ -376,7 +376,7 @@ input:focus, button:focus {
         background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
     }
 
-    #btnDesativarMobile {
+    #btnFinalizarMobile {
         height: 45px;
         font-size: 14px;
         width: 50%;
@@ -411,7 +411,7 @@ input:focus, button:focus {
         background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     }
 
-    #divBotaoHabilitarCursoMobile {
+    #divBotaoReativarCursoMobile {
         display: none;
         text-align: center;
         width: 100%;
@@ -419,7 +419,7 @@ input:focus, button:focus {
         justify-content: center;
     }
 
-    #btnHabilitarCursoMobile {
+    #btnReativarCursoMobile {
         height: 45px;
         font-size: 16px;
         width: 100%;
@@ -430,7 +430,7 @@ input:focus, button:focus {
         background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
     }
 
-    #divHabilitarCursoMobile, #divDesabilitarCursoMobile {
+    #divReativarCursoMobile, #divFinalizarCursoMobile {
         display: none;
         background-color: white;
         padding: 15px;
@@ -443,7 +443,7 @@ input:focus, button:focus {
         font-size: 14px;
     }
 
-    #btnIgnorarDesabilitarCursoMobile, #btnDesabilitarCursoMobile, #btnIgnorarHabilitarCursoMobile, #btnConfirmarHabilitarCursoMobile {
+    #btnIgnorarFinalizarCursoMobile, #btnFinalizarCursoMobile, #btnIgnorarReativarCursoMobile, #btnConfirmarReativarCursoMobile {
         margin-top: 5px;
         height: 30px;
         font-size: 14px;
@@ -453,19 +453,19 @@ input:focus, button:focus {
         padding: 5px 10px 5px 10px;
     }
 
-    #btnIgnorarDesabilitarCursoMobile, #btnIgnorarHabilitarCursoMobile {
+    #btnIgnorarFinalizarCursoMobile, #btnIgnorarReativarCursoMobile {
         background-color: white;
         padding: 5px 10px 5px 10px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
     }
 
-    #btnDesabilitarCursoMobile {
+    #btnFinalizarCursoMobile {
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
         background: rgb(126,6,6);
         background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
     }
 
-    #btnConfirmarHabilitarCursoMobile {
+    #btnConfirmarReativarCursoMobile {
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
         background: rgb(126,6,6);
         background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);

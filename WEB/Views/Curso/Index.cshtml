@@ -87,7 +87,7 @@
             </div>
 
             <div id="divBotoesEditarMobile">
-                <button id="btnDesativarMobile" onclick="carregarDesabilitarCurso(true)"><b style="color: white;">Desativar curso</b></button>
+                <button id="btnFinalizarMobile" onclick="carregarFinalizarCurso(true)"><b style="color: white;">Finalizar curso</b></button>
                 <button id="btnEditarMobile" onclick="carregarEdicaoCurso(true)"><b class="linear1">Editar curso</b></button>
             </div>
 
@@ -96,27 +96,27 @@
                 <button id="btnSalvarMobile" onclick="salvarInfoCurso(true)"><b>Salvar</b></button>
             </div>
 
-            <div id="divDesabilitarCursoMobile">
-                <b class="linear1">Tem certeza que deseja desabilitar o curso:</b>
+            <div id="divFinalizarCursoMobile">
+                <b class="linear1">Tem certeza que deseja finalizar o curso:</b>
                 <b class="linear1" id="nmCurso"></b>
                 <b class="linear1">Não será possível vinculá-lo à nenhuma turma.</b>
-                <div id="divBotoesDesabilitarCursoMobile">
-                    <button id="btnIgnorarDesabilitarCursoMobile" onclick="cancelarDesabilitarCurso(true)"><b class="linear1">Não</b></button>
-                    <button id="btnDesabilitarCursoMobile" onclick="desabilitarCurso(true)"><b style="color: white;">Desabilitar</b></button>
+                <div id="divBotoesFinalizarCursoMobile">
+                    <button id="btnIgnorarFinalizarCursoMobile" onclick="cancelarFinalizarCurso(true)"><b class="linear1">Não</b></button>
+                    <button id="btnFinalizarCursoMobile" onclick="finalizarCurso(true)"><b style="color: white;">Finalizar</b></button>
                 </div>
             </div>
 
-            <div id="divBotaoHabilitarCursoMobile">
-                <button id="btnHabilitarCursoMobile" onclick="carregarHabilitarCurso(true)"><b class="linear1">Habilitar curso</b></button>
+            <div id="divBotaoReativarCursoMobile">
+                <button id="btnReativarCursoMobile" onclick="carregarReativarCurso(true)"><b class="linear1">Reativar curso</b></button>
             </div>
 
-            <div id="divHabilitarCursoMobile">
-                <b class="linear1">Tem certeza que deseja habilitar o curso:</b>
+            <div id="divReativarCursoMobile">
+                <b class="linear1">Tem certeza que deseja reativar o curso:</b>
                 <b class="linear1" id="nmCursoHab"></b>
                 <b class="linear1">O curso poderá ser vinculado em turmas novamente.</b>
-                <div id="divBotoesHabilitarCursoMobile">
-                    <button id="btnIgnorarHabilitarCursoMobile" onclick="cancelarHabilitarCurso(true)"><b class="linear1">Não</b></button>
-                    <button id="btnConfirmarHabilitarCursoMobile" onclick="habilitarCurso(true)"><b style="color: white;">Habilitar</b></button>
+                <div id="divBotoesReativarCursoMobile">
+                    <button id="btnIgnorarReativarCursoMobile" onclick="cancelarReativarCurso(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarReativarCursoMobile" onclick="reativarCurso(true)"><b style="color: white;">Reativar</b></button>
                 </div>
             </div>
         </div>
@@ -202,9 +202,9 @@
             $('#backgroundModal').css('display', 'block');
             $('#divBotoesEditarMobile').css('display', 'flex');
             $('#divBotoesEdicaoMobile').css('display', 'none');
-            $('#divDesabilitarCursoMobile').css('display', 'none');
-            $('#divBotaoHabilitarCursoMobile').css('display', 'none');
-            $('#divHabilitarCursoMobile').css('display', 'none');
+            $('#divFinalizarCursoMobile').css('display', 'none');
+            $('#divBotaoReativarCursoMobile').css('display', 'none');
+            $('#divReativarCursoMobile').css('display', 'none');
             $('#divBotaoAdicionarMobile').css('display', 'none');
         }
 
@@ -236,9 +236,9 @@
 
             $('#divBotoesEditarMobile').css('display', 'none');
             $('#divBotoesEdicaoMobile').css('display', 'none');
-            $('#divDesabilitarCursoMobile').css('display', 'none');
-            $('#divBotaoHabilitarCursoMobile').css('display', 'none');
-            $('#divHabilitarCursoMobile').css('display', 'none');
+            $('#divFinalizarCursoMobile').css('display', 'none');
+            $('#divBotaoReativarCursoMobile').css('display', 'none');
+            $('#divReativarCursoMobile').css('display', 'none');
             $('#divBotaoAdicionarMobile').css('display', 'flex');
         }
 
@@ -368,57 +368,57 @@
         });
     }
 
-    function carregarDesabilitarCurso(mobile = false) {
+    function carregarFinalizarCurso(mobile = false) {
         if (mobile) {
             $("#nmCurso").text($('#txtNomeCurso').val());
             $('#divBotoesEditarMobile').css('display', 'none');
-            $('#divDesabilitarCursoMobile').css('display', 'flex');
+            $('#divFinalizarCursoMobile').css('display', 'flex');
         } else {
             $('#divBotoesEditar').css('display', 'none');
-            $('#divDesabilitarCurso').css('display', 'flex');
-            window.location.hash = '#divDesabilitarCurso';
+            $('#divFinalizarCurso').css('display', 'flex');
+            window.location.hash = '#divFinalizarCurso';
         }
     }
 
-    function cancelarDesabilitarCurso(mobile = false) {
+    function cancelarFinalizarCurso(mobile = false) {
         if (mobile) {
             $('#divBotoesEditarMobile').css('display', 'flex');
-            $('#divDesabilitarCursoMobile').css('display', 'none');
+            $('#divFinalizarCursoMobile').css('display', 'none');
         } else {
             $('#divBotoesEditar').css('display', 'flex');
-            $('#divDesabilitarCurso').css('display', 'none');
+            $('#divFinalizarCurso').css('display', 'none');
             window.location.hash = '';
         }
     }
 
-    function carregarHabilitarCurso(mobile = false) {
+    function carregarReativarCurso(mobile = false) {
         if (mobile) {
             $("#nmCursoHab").text($('#txtNomeCurso').val());
-            $('#divBotaoHabilitarCursoMobile').css('display', 'none');
-            $('#divHabilitarCursoMobile').css('display', 'flex');
+            $('#divBotaoReativarCursoMobile').css('display', 'none');
+            $('#divReativarCursoMobile').css('display', 'flex');
         } else {
-            $('#divBotaoHabilitarCurso').css('display', 'none');
-            $('#divHabilitarCurso').css('display', 'flex');
-            window.location.hash = '#divHabilitarCurso';
+            $('#divBotaoReativarCurso').css('display', 'none');
+            $('#divReativarCurso').css('display', 'flex');
+            window.location.hash = '#divReativarCurso';
         }
     }
 
-    function cancelarHabilitarCurso(mobile = false) {
+    function cancelarReativarCurso(mobile = false) {
         if (mobile) {
-            $('#divBotaoHabilitarCursoMobile').css('display', 'flex');
-            $('#divHabilitarCursoMobile').css('display', 'none');
+            $('#divBotaoReativarCursoMobile').css('display', 'flex');
+            $('#divReativarCursoMobile').css('display', 'none');
         } else {
-            $('#divBotaoHabilitarCurso').css('display', 'flex');
-            $('#divHabilitarCurso').css('display', 'none');
+            $('#divBotaoReativarCurso').css('display', 'flex');
+            $('#divReativarCurso').css('display', 'none');
             window.location.hash = '';
         }
     }
 
-    function desabilitarCurso(mobile = false) {
+    function finalizarCurso(mobile = false) {
         let cdCurso = $('#CdCurso').val();
 
         $.ajax({
-            url: '@Url.Action("DesabilitarCurso", "Curso")',
+            url: '@Url.Action("FinalizarCurso", "Curso")',
             type: 'POST',
             async: true,
             data: {
@@ -426,41 +426,42 @@
             },
             success: function (data) {
                 if (mobile) {
-                    $('#divBotaoHabilitarCursoMobile').css('display', 'flex');
-                    $('#divDesabilitarCursoMobile').css('display', 'none');
+                    $('#divBotaoReativarCursoMobile').css('display', 'flex');
+                    $('#divFinalizarCursoMobile').css('display', 'none');
                 }
                 else {
-                    $('#divBotaoHabilitarCurso').css('display', 'flex');
-                    $('#divDesabilitarCurso').css('display', 'none');
+                    $('#divBotaoReativarCurso').css('display', 'flex');
+                    $('#divFinalizarCurso').css('display', 'none');
                     window.location.hash = '';
                 }
 
+                $('#divDataFinalizacao').css('display', 'unset');
                 carregarListaCursos(false);
             }
         });
     }
 
-    function habilitarCurso(mobile = false) {
-        let cdCurso = $('#CdUsuario').val();
+    function reativarCurso(mobile = false) {
+        let cdCurso = $('#CdCurso').val();
 
         $.ajax({
-            url: '@Url.Action("HabilitarCurso", "Curso")',
+            url: '@Url.Action("ReativarCurso", "Curso")',
             type: 'POST',
             async: true,
             data: {
-                CdUsuario: cdCurso
+                CdCurso: cdCurso
             },
             success: function (data) {
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
-                    $('#divHabilitarCursoMobile').css('display', 'none');
+                    $('#divReativarCursoMobile').css('display', 'none');
                 }
                 else {
                     $('#divBotoesEditar').css('display', 'flex');
-                    $('#divHabilitarCurso').css('display', 'none');
+                    $('#divReativarCurso').css('display', 'none');
                     window.location.hash = '';
                 }
-
+                $('#divDataFinalizacao').css('display', 'none');
                 carregarListaCursos(false);
             }
         });
