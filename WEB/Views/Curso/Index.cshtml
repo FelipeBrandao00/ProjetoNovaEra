@@ -434,11 +434,6 @@
                     $('#divDesabilitarCurso').css('display', 'none');
                     window.location.hash = '';
                 }
-                // $('#divImgCurso > div:last-child').css('display', 'none');
-
-                // $('#txtNomeCurso, #txtEmailCurso, #txtGeneroCurso, #txtNascimentoCurso, #txtTelefoneCurso')
-                //     .css('background-color', '#DBD8D8')
-                //     .attr('disabled', true);
 
                 carregarListaCursos(false);
             }
@@ -472,14 +467,25 @@
     }
 
     function cancelarEdicaoCurso(mobile = false) {
-        $('#divInfoCurso').hide();
-        $('#divInfoCurso').empty();
-        $('#msgInfoCurso').show();
+        event.preventDefault();
 
-        if (window.matchMedia("(max-width: 1200px)").matches) {
-            $('#paginaDireita').css('display', 'none');
-            $('#backgroundModal').css('display', 'none');
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
         }
+        else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divBotoesEdicao').css('display', 'none');
+        }
+
+        $('#txtNomeCurso, #txtDescricaoCurso, #txtCriacao, #txtFinalizacao')
+            .css('background-color', '#DBD8D8')
+            .attr('disabled', true);
+
+        $('#txtNomeCurso').val(infoCursoTemp.NmCurso);
+        $('#txtDescricaoCurso').val(infoCursoTemp.DsCurso);
+        $('#txtCriacao').val(infoCursoTemp.DtCriacao);
+        $('#txtFinalizacao').val(infoCursoTemp.DtNascimento);
     }
 
     function voltarMobile() {
