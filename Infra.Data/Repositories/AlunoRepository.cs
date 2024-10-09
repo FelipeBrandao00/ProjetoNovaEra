@@ -23,6 +23,7 @@ public class AlunoRepository(ApplicationDbContext _context) : IAlunoRepository
             _context.Turma_Alunos
                 .Where(x => x.CdAluno == cdUsuario && x.IcAprovado == null)
                 .Include(aluno => aluno.Turma)
+                .Include(aluno => aluno.Turma.Curso)
                 .OrderByDescending(x => x.CdTurma)
                 .FirstOrDefaultAsync();
     }
