@@ -109,7 +109,7 @@ input:focus, button:focus {
 }
 
 #divInfoCurso {
-    padding-top: 5vh;
+    padding-top: 3vh;
 }
 
     #divInfoCurso label {
@@ -324,7 +324,7 @@ input:focus, button:focus {
 
     #divInfoCurso {
         min-height: 100%;
-        padding: 5vh 4vw;
+        padding: 1vh 4vw;
         box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
     }
 
