@@ -45,4 +45,18 @@ public class CursoController(ICursoService cursoService) : ControllerBase {
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }
+
+    [HttpPost("api/[controller]/DesativarCurso")]
+    public async Task<ActionResult> DesativarCurso([FromBody] FinishCursoByidRequest request) {
+        var result = await cursoService.FinalizarCurso(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
+
+    [HttpPost("api/[controller]/ReativarCurso")]
+    public async Task<ActionResult> ReativarCurso([FromBody] ReactivateCursoByidRequest request) {
+        var result = await cursoService.ReativarCurso(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
 }
