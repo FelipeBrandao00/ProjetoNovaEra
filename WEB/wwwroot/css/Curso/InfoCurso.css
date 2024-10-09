@@ -1,75 +1,25 @@
 ﻿/* Folha de estilos: Curso */
 
 /* IDs */
-#divImgCurso {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-    #divImgCurso > img {
-        background-color: #DBD8D8;
-        border: none;
-        border-radius: 10px;
-        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
-    }
-
-    #divImgCurso > div:last-child {
-        display: none;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
-
-#btnTrocarFoto {
-    width: 100px;
-    font-size: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: white;
-    padding: 5px 10px 5px 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-}
-
-#btnExcluirFoto {
-    color: #FFFFFF;
-    width: 100px;
-    font-size: 12px;
-    border: none;
-    border-radius: 6px;
-    padding: 5px 10px 5px 10px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-    background: linear-gradient(0deg, rgba(218,53,53,1) 0%, rgba(126,6,6,1) 100%);
-}
 
 #divNomeCurso {
     margin-top: 3vh;
 }
 
-#divEmailCurso {
-    margin-top: 1vh;
+#txtDescricaoCurso {
+    min-height: 300px;
 }
 
-#divGrupoPC1 {
-    margin-top: 1vh;
+#divDatas {
     display: flex;
-    gap: 15px;
-}
-
-    #divGrupoPC1 > div {
-        width: 33.3%;
-    }
-
-#divGrupoPC2 {
-    gap: 15px;
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    margin-top: 3vh;
 }
 
-    #divGrupoPC2 > div {
-        width: 50%;
-    }
+#divDataCriacao, #divDataFinalizacao {
+    width: 45%;
+}
+
 
 #divBotoesEditar {
     display: flex;
@@ -157,17 +107,6 @@
 
 /* Responsivo MOBILE */
 @media (max-width: 1200px) {
-    #divGrupoPC1, #divGrupoPC2 {
-        gap: 1vh;
-        display: flex;
-        margin-top: 1vh;
-        flex-direction: column;
-    }
-
-        #divGrupoPC1 > div, #divGrupoPC2 > div {
-            width: 100%;
-        }
-
     #divBotoesEditar, #divBotoesEdicao {
         display: none;
     }

@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Application.Responses;
 using System.ComponentModel.DataAnnotations;
-using WEB.Models.Response;
 
 namespace WEB.Models.Shared
 {

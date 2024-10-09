@@ -4,9 +4,9 @@ using System.Net.Http.Headers;
 namespace WEB.Models.Shared {
     public class listarCursoViewModel : ListarPadraoViewModel {
         public override string TipoItem { get; set; } = "Curso";
-        public DateTime? dtInicial { get; set; }
-        public DateTime? dtFinal { get; set; }
-        public bool? icFinalizado { get; set; }
+        public DateTime? DtInicial { get; set; }
+        public DateTime? DtFinal { get; set; }
+        public bool? IcFinalizado { get; set; }
 
         public override async Task<bool> GerarLista(IConfiguration configuration) {
             using (var client = new HttpClient()) {
@@ -16,14 +16,14 @@ namespace WEB.Models.Shared {
                 if (!string.IsNullOrEmpty(this.Busca)) {
                     url += $"nome={this.Busca}&";
                 }
-                if (this.dtInicial != null) {
-                    url += $"dtInicial={this.dtInicial}&";
+                if (this.DtInicial != null) {
+                    url += $"dtInicial={String.Format("{0:MM-dd-yyyy}", this.DtInicial)}&";
                 }
-                if (this.dtFinal != null) {
-                    url += $"dtFinal={this.dtFinal}&";
+                if (this.DtFinal != null) {
+                    url += $"dtInicial={String.Format("{0:MM-dd-yyyy}", this.DtFinal)}&";
                 }
-                if (this.icFinalizado != null) {
-                    url += $"icFinalizado={this.icFinalizado}&";
+                if (this.IcFinalizado != null) {
+                    url += $"icFinalizado={this.IcFinalizado}&";
                 }
                 url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
 

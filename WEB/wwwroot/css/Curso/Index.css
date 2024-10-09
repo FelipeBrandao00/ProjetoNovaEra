@@ -38,7 +38,12 @@ input:focus, button:focus {
     justify-content: space-between;
 }
 
-#btnPesquisar {
+#divPesquisar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#btnPesquisar, #btnFiltrosMobile {
     width: 100px;
     font-size: 12px;
     border: none;
@@ -48,6 +53,10 @@ input:focus, button:focus {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
 }
 
+#btnFiltrosMobile {
+    display: none;
+}
+
 #txtBusca {
     width: 100%;
     border: none;
@@ -55,6 +64,48 @@ input:focus, button:focus {
     font-size: 12px;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+#idCheckbox {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    width: 50%;
+}
+
+#divInputCheckbox {
+    font-size: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+#divInputCheckbox > label {
+    width: 150px;
+}
+
+#idData {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 5px;
+    width: 50%;
+}
+
+#divInputData {
+    font-size: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#divInputData > input {
+    width: 50%;
+}
+
+#divInputData > label {
+    width: 30px;
 }
 
 #divInfoCurso {
@@ -201,8 +252,55 @@ input:focus, button:focus {
     display: none;
 }
 
+@media (max-width: 500px) {
+    #divFiltros {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #idCheckbox {
+        width: 100%;
+    }
+
+    #idData {
+        width: 100%;
+    }
+}
+
 /* Responsivo MOBILE */
 @media (max-width: 1200px) {
+    #divPesquisar {
+        justify-content: space-between;
+    }
+
+    #divFiltros {
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        max-height: 500px; /* Adjust based on your content size */
+        opacity: 1;
+        overflow: hidden;
+    }
+
+        #divFiltros.hidden {
+            max-height: 0;
+            opacity: 0;
+        }
+
+    #btnFiltrosMobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #arrowIcon {
+        margin-left: 5px; /* Space between text and arrow */
+        transition: transform 0.5s ease;
+    }
+
+        #arrowIcon.up {
+            transform: rotate(180deg); /* Rotate the arrow when the filter is closed */
+        }
+
     #btnAdicionar {
         display: none;
     }

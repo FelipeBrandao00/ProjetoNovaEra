@@ -4,6 +4,7 @@ using WEB.Models;
 using WEB.Models.CargoUsuario;
 using WEB.Models.Professor;
 using WEB.Models.Shared;
+using WEB.Models.Curso;
 
 namespace WEB.Controllers {
     public class CursoCOntroller(IConfiguration configuration) : Controller {
@@ -29,9 +30,9 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarInfoCurso(UsuarioViewModel UsuarioViewModel) {
+        public async Task<IActionResult> CarregarInfoCurso(CursoViewModel CursoViewModel) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await UsuarioViewModel.BuscarInfo(configuration);
+            var response = await CursoViewModel.BuscarInfo(configuration);
             return PartialView("_InfoCurso", response.Data);
         }
 
@@ -39,32 +40,31 @@ namespace WEB.Controllers {
             return PartialView("_AdicionarCurso", null);
         }
 
-        public async Task<IActionResult> AdicionarCurso(ResponseModelUsuario ResponseModelUsuario) {
+        public async Task<IActionResult> AdicionarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var responseAdd = await new UsuarioViewModel().Adicionar(configuration, ResponseModelUsuario);
-            var resposeCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, responseAdd.Data.CdUsuario, 2);
+            var responseAdd = await new CursoViewModel().Adicionar(configuration, ResponseModelCurso);
 
             return PartialView("_InfoCurso", responseAdd.Data);
         }
 
         [HttpPost]
-        public async Task<bool> AtualizarInfoCurso(ResponseModelUsuario ResponseModelUsuario) {
+        public async Task<bool> AtualizarInfoCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);
+            var response = await new CursoViewModel().AtualizarInfo(configuration, ResponseModelCurso);
             return response.IsSuccess;
         }
 
         [HttpPost]
-        public async Task<bool> HabilitarCurso(ResponseModelUsuario ResponseModelUsuario) {
+        public async Task<bool> HabilitarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new ProfessorViewModel().Habilitar(configuration, ResponseModelUsuario);
+            var response = await new CursoViewModel().Habilitar(configuration, ResponseModelCurso);
             return response.IsSuccess;
         }
 
         [HttpPost]
-        public async Task<bool> DesabilitarCurso(ResponseModelUsuario ResponseModelUsuario) {
+        public async Task<bool> DesabilitarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new ProfessorViewModel().Desabilitar(configuration, ResponseModelUsuario);
+            var response = await new CursoViewModel().Desabilitar(configuration, ResponseModelCurso);
             return response.IsSuccess;
         }
     }
