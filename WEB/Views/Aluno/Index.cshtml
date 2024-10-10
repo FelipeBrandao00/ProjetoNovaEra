@@ -9,6 +9,21 @@
 <link rel="stylesheet" href="~/css/Aluno/Index.css">
 <link rel="stylesheet" href="~/css/Shared/Livro.css">
 
+<!-- CROP DA IMAGEM -->
+
+<link rel="stylesheet" href="~/css/Shared/Crop.css">
+<link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+<script src="https://unpkg.com/cropperjs"></script>
+
+<div id="modalRecorteImagem">
+    <div id="conteudoModelRecorteImagem">
+        <span class="linear1">Recortar Imagem</span>
+        <div><img id="imgParaRecorte" /></div>
+        <button id="btnCancelarCorte" onclick="FecharModal()">Cancelar corte</button>
+        <button id="btnConfirmarCorte" onclick="ConfirmarCorte()">Confirmar corte</button>
+    </div>
+</div>
+
 <!-- LIVRO -->
 
 <div id="divLivro">
@@ -62,6 +77,9 @@
 </div>
 
 <script type="text/javascript">
+
+    let cropper;
+    let imagemBase64 = '';
 
     let infoAlunoTemp;
 
@@ -176,24 +194,70 @@
         $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
     }
 
+    function base64ToBytes(base64) {
+        let binaryString = atob(base64.split(',')[1]);
+        let len = binaryString.length;
+        let bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return bytes;
+    }
+
+    function base64ToBlob(base64) {
+        const binaryString = atob(base64.split(',')[1]);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return new Blob([bytes], { type: 'image/jpeg' });
+    }
+
     function salvarInfoAluno(mobile = false) {
         event.preventDefault();
 
-        infoAlunoTemp = {
-            CdUsuario: $('#CdUsuario').val(),
-            DsCpf: $('#DsCpf').val(),
-            NmUsuario: $('#txtNomeAluno').val(),
-            DsEmail: $('#txtEmailAluno').val(),
-            DsGenero: $('#txtGeneroAluno').val(),
-            DtNascimento: $('#txtNascimentoAluno').val(),
-            DsTelefone: $('#txtTelefoneAluno').val()
-        }
+        let formData = new FormData();
 
+        const fotoBlob = base64ToBlob(imagemBase64);
+        formData.append('DsFoto', fotoBlob, 'foto.jpeg');
+        formData.append('CdUsuario', $('#CdUsuario').val());
+        formData.append('NmUsuario', $('#txtNomeAluno').val());
+        formData.append('DsEmail', $('#txtEmailAluno').val());
+        formData.append('DsCpf', $('#DsCpf').val());
+        formData.append('DsTelefone', $('#txtTelefoneAluno').val());
+        formData.append('DsGenero', parseInt($('#txtGeneroAluno').val()));
+        formData.append('StrDsGenero', $('#txtGeneroAluno option:selected').text());
+        formData.append('DtNascimento', $('#txtNascimentoAluno').val());
+
+        //const fotoEmBytes = base64ToBytes(imagemBase64);
+
+        // infoAlunoTemp = {
+        //     CdUsuario: $('#CdUsuario').val(),
+        //     DsCpf: $('#DsCpf').val(),
+        //     NmUsuario: $('#txtNomeAluno').val(),
+        //     DsEmail: $('#txtEmailAluno').val(),
+        //     DsGenero: parseInt($('#txtGeneroAluno').val()),
+        //     DtNascimento: $('#txtNascimentoAluno').val(),
+        //     DsTelefone: $('#txtTelefoneAluno').val(),
+        //     DsFoto: imagemBase64
+        // }
+        
         $.ajax({
             url: '@Url.Action("AtualizarInfoAluno", "Aluno")',
             type: 'POST',
+
+            processData: false,
+            contentType: false,
+            data: formData,
+
             async: true,
-            data: infoAlunoTemp,
+
+            //contentType: 'application/json',
+            //data: JSON.stringify(infoAlunoTemp),
+
+            //data: infoAlunoTemp,
+
             success: function (data) {
                 if (mobile) {
                     $('#divBotaoEditarMobile').css('display', 'flex');
@@ -220,6 +284,111 @@
 
         $('#paginaDireita').css('display', 'none');
         $('#backgroundModal').css('display', 'none');
+    }
+
+    /* PRIMEIRA VERSÃO DE CORTE AUTOMÁTICO.
+
+    function TrocarFoto() {
+        document.getElementById('inputTrocarFoto').click();
+        document.getElementById('inputTrocarFoto').onchange = function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+
+                    img.onload = function () {
+                        const finalSize = 122;
+
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+
+                        const squareSize = Math.min(img.width, img.height);
+                        const sourceX = (img.width - squareSize) / 2;
+                        const sourceY = (img.height - squareSize) / 2;
+
+                        canvas.width = finalSize;
+                        canvas.height = finalSize;
+
+                        ctx.drawImage(img, sourceX, sourceY, squareSize, squareSize, 0, 0, finalSize, finalSize);
+
+                        const imgAluno = document.getElementById('imgAluno');
+                        imgAluno.src = canvas.toDataURL();
+                        imgAluno.style.display = 'block';
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+    }
+
+    function ExcluirFoto() {
+        const img = document.getElementById('imgAluno');
+        img.removeAttribute('src');
+        img.style.display = 'none';
+        document.getElementById('inputTrocarFoto').value = '';
+    }
+    */
+
+    function TrocarFoto() {
+        document.getElementById('inputTrocarFoto').click();
+
+        document.getElementById('inputTrocarFoto').onchange = function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imgParaRecorte = document.getElementById('imgParaRecorte');
+                    imgParaRecorte.src = e.target.result;
+
+                    document.getElementById('modalRecorteImagem').style.display = 'flex';
+                                        
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    cropper = new Cropper(imgParaRecorte, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        zoomable: false,
+                    });
+
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+    }
+
+    function ConfirmarCorte() {
+        const canvas = cropper.getCroppedCanvas({
+            width: 122,
+            height: 122,
+        });
+
+        const imgAluno = document.getElementById('imgAluno');
+        imgAluno.src = canvas.toDataURL();
+        imgAluno.style.display = 'block';
+
+        imagemBase64 = canvas.toDataURL('image/jpeg');
+
+        FecharModal();
+    }
+
+    function FecharModal() {
+        document.getElementById('modalRecorteImagem').style.display = 'none';
+        document.getElementById('inputTrocarFoto').value = '';
+        cropper.destroy();
+    }
+
+    function ExcluirFoto() {
+        const imgAluno = document.getElementById('imgAluno');
+        imgAluno.removeAttribute('src');
+        imgAluno.style.display = 'none';
+        document.getElementById('inputTrocarFoto').value = '';
+
+        if (cropper)
+            cropper.destroy();
     }
 
 </script>

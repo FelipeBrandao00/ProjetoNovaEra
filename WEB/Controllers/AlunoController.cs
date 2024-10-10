@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using WEB.Models;
+using WEB.Models.Aluno;
 using WEB.Models.EsqueciSenha;
+using WEB.Models.Genero;
 using WEB.Models.Shared;
+using WEB.Models.Usuario;
 
 namespace WEB.Controllers
 {
@@ -18,8 +21,8 @@ namespace WEB.Controllers
             }
 
             var dados = JwtToken.DescriptografarJwt(token);
-            ViewBag.Role = dados.role[0];
-            ViewBag.Nome = dados.role[1];
+            ViewBag.Role = String.Join(" | ", dados.role);
+            ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
             return View();
         }
 
@@ -35,15 +38,28 @@ namespace WEB.Controllers
         public async Task<IActionResult> CarregarInfoAluno(UsuarioViewModel UsuarioViewModel)
         {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await UsuarioViewModel.BuscarInfo(configuration);
+            var InfoUsuario = await UsuarioViewModel.BuscarInfo(configuration);
 
-            //Busca a turma que ele ta...
+            if(InfoUsuario.Data != null)
+            {
+                var AlunoViewModel = new AlunoViewModel();
+                var TurmaAtual = await AlunoViewModel.BuscarTurmaAtual(configuration, InfoUsuario.Data);
 
-            return PartialView("_InfoAluno", response.Data);
+                if(TurmaAtual.Data != null) {
+                    ViewBag.NmTurma = TurmaAtual.Data.DsTurma;
+                    ViewBag.NmCurso = TurmaAtual.Data.NmCurso;
+                }
+            }
+
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
+            return PartialView("_InfoAluno", InfoUsuario.Data);
         }
 
         [HttpPost]
-        public async Task<bool> AtualizarInfoAluno(ResponseModelUsuario ResponseModelUsuario)
+        public async Task<bool> AtualizarInfoAluno([FromForm] ResponseModelUsuario ResponseModelUsuario)
         {
             configuration["JwtToken"] = Request.Cookies["Token"];
             var response = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);

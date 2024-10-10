@@ -36,10 +36,10 @@ input:focus, button:focus {
     padding-top: 5vh;
 }
 
-    #divInfoAluno label {
-        font-weight: 700;
-        font-size: 12px;
-    }
+#divInfoAluno label {
+    font-weight: 700;
+    font-size: 12px;
+}
 
 #msgListaAluno {
     padding-bottom: 62px;

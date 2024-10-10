@@ -8,18 +8,27 @@
     gap: 20px;
 }
 
-    #divImgAluno > img {
-        background-color: #DBD8D8;
-        border: none;
-        border-radius: 10px;
-        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
-    }
+#quadroImgAluno {
+    height: 122px;
+    width: 122px;
+    background-color: #DBD8D8;
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
 
-    #divImgAluno > div:last-child {
-        display: none;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
+#quadroImgAluno > img {
+    /*max-width: 100%;
+    max-height: 100%;*/
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+#divImgAluno > div:last-child {
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
 
 #btnTrocarFoto {
     width: 100px;

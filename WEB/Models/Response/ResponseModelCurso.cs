@@ -2,7 +2,8 @@
 
 namespace Application.Responses;
 
-public class ResponseModelCurso {
+public class ResponseModelCurso
+{
     public int CdCurso { get; init; }
     public string NmCurso { get; init; }
     public string DsCurso { get; init; }
