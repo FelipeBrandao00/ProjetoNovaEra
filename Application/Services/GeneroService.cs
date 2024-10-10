@@ -27,7 +27,7 @@ namespace Application.Services {
                 if(genero.Key == 0 || string.IsNullOrEmpty(genero.Value)) return new Response<GeneroDto>(null, 500, "O genero informado não existe.");
 
                 var dto = new GeneroDto { CdGenero = genero.Key, NmGenero = genero.Value };
-                return new Response<GeneroDto>(dto, 200, "Curso encontrado!");
+                return new Response<GeneroDto>(dto, 200, "Genero encontrado!");
             }
             catch (Exception e) {
                 return new Response<GeneroDto>(null, 500, "Algo deu errado tentando buscar o genero.");
