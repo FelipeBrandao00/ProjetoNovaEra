@@ -1,0 +1,74 @@
+﻿/* Folha de estilos: Permissao */
+
+input:focus, button:focus {
+    outline: none;
+}
+
+/* IDs */
+#divInfoCargo {
+    padding-top: 5vh;
+}
+
+    #divInfoCargo label {
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+#divListaCargoPermissao {
+    display: flex;
+    min-height: 172px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Classes */
+.divMsgSelecione {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100% !important;
+}
+
+/* Escondidos na versão PC */
+#divTitInfoCargoPermissao, #btnSalvarMobile {
+    display: none;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #divTitInfoCargoPermissao, #btnSalvarMobile {
+        display: unset;
+    }
+
+    #divInfoCargo {
+        min-height: 100%;
+        padding: 5vh 4vw;
+        /* border-radius: 0px !important; */
+        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    }
+    #btnSalvarMobile {
+        height: 45px;
+        color: #FFFFFF;
+        width: 100%;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+}
+
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #divBusca {
+        margin-top: 10px;
+    }
+
+    #divInfoCargo {
+        padding-top: 15px;
+    }
+}

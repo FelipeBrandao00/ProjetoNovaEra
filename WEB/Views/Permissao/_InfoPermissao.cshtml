@@ -1,0 +1,36 @@
+﻿@model Application.Responses.ResponseModelUsuario
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/Permissao/InfoPermissao.css">
+
+@Html.HiddenFor(model => model.CdUsuario)
+@Html.HiddenFor(model => model.DsCpf)
+
+
+<div id="divNomeCargo">
+    <h5 class="linear1"><b>ADM</b></h5><br />
+</div>
+
+<br />
+<label id="lblListaPermissao" for="listaPermisso" class="linear1">Cargo(s):</label>
+<div id="listaPermissao">
+    <div>
+        Master
+        <input type="checkbox" />
+    </div>
+    <div>
+        ADM
+        <input type="checkbox" />
+    </div>
+    <div>
+        Professor
+        <input type="checkbox" />
+    </div>
+</div>
+
+<div id="divBotaoSalvar">
+    <button id="btnSalvar" onclick="salvarInfoCargo()"><b>Salvar</b></button>
+</div>

@@ -1,0 +1,59 @@
+﻿/* Folha de estilos: Aluno */
+
+/* IDs */
+#divBotaoSalvar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#btnSalvar {
+    margin-top: 20px;
+    color: #FFFFFF;
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#listaPermissao > div {
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    color: #989898;
+    padding: 10px 20px;
+    border: 1px solid #AEAEAE;
+    background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px inset;
+    display: flex;
+    justify-content: space-between;
+}
+
+    #listaPermissao > div:first-child {
+        border-radius: 5px 5px 0 0;
+    }
+
+    #listaPermissao > div:last-child {
+        border-radius: 0 0 5px 5px;
+    }
+
+@media (max-width: 1200px) {
+    #btnSalvar {
+        display: none;
+    }
+
+    #divTitInfoCargoPermissao {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 20px;
+        height: 40px;
+        gap: 4vw;
+    }
+
+        #divTitInfoCargoPermissao > span {
+            font-weight: 700;
+        }
+}
