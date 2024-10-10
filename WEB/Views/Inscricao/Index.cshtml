@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inscrição - Nova Era</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Inscricao/Index.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <!-- MONTSERRAT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="logoNovaEra">
+        <img src="~/img/logo_inscricao.png" alt="Logo do Nova Era"/>
+    </div>
+
+    <div id="divForm">
+        <h2 class="linear1">Inscrição</h2>
+
+        <div id="divNome">
+            <label for="divNome" class="linear1">Nome:</label><br />
+            <input id="txtNome" class="txtInfo" type="text" placeholder="Digite o nome..." />
+        </div>
+
+        <div id="divGrupo">
+            <div id="divEmail">
+                <label for="divEmail" class="linear1">Email:</label><br />
+                <input id="txtEmail" class="txtInfo" type="text" placeholder="Digite o e-mail..." />
+            </div>
+
+            <div id="divCPF">
+                <label for="divCPF" class="linear1">CPF:</label><br />
+                <input id="txtCPF" class="txtInfo" type="text" placeholder="Digite o CPF..." />
+            </div>
+        </div>
+
+        <div id="divGrupo2">
+            <div id="divGenero">
+                <label for="txtGenero" class="linear1">Gênero:</label><br />
+                <select id="txtGenero" class="txtInfo">
+                    <option value="0">Selecione</option>
+                    <option value="1">Feminino</option>
+                    <option value="2">Masculino</option>
+                </select>
+            </div>
+
+            <div id="divNascimento">
+                <label for="divNascimento" class="linear1">Nascimento:</label><br />
+                <input id="txtNascimento" class="txtInfo" type="date" />
+            </div>
+
+            <div id="divTelefone">
+                <label for="divTelefone" class="linear1">Telefone:</label><br />
+                <input id="txtTelefone" class="txtInfo" type="text" placeholder="Digite o telefone..." />
+            </div>
+        </div>
+
+        <div id="divLinha">
+        </div>
+
+        *A inscrição não confirma matrícula!
+        <div id="divCurso">
+            <label for="divCurso" class="linear1">Curso que queira fazer:</label><br />
+            <select id="txtCurso" class="txtInfo">
+                <option value="0">Selecione</option>
+                <option value="1">Informatica</option>
+                <option value="2">Ingles</option>
+            </select>
+        </div>
+
+        <div id="divBotaoInscrever">
+            <button id="btnInscrever" onclick="realizarInscricao()">Inscrever</button>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        function realizarInscricao() {
+            if (!validarCampos()) {
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("ConfirmarInscricao", "Inscricao")',
+                type: 'POST',
+                async: true,
+                data: {
+                    DsNome: $('#txtNome').val(),
+                    DsEmail: $('#txtEmail').val(),
+                    DsCPF: $('#txtCPF').val(),
+                    CdGenero: $('#txtGenero').val(),
+                    DtNascimento: $('#txtNascimento').val(),
+                    DsTelefone: $('#txtTelefone').val(),
+                    CdCurso: $('#txtCurso').val()
+                },
+                success: function () {
+                    alert('Inscrição feita com sucesso');
+                }
+            });
+        }
+
+        function validarCampos() {
+            if ($('#txtNome').val().length == 0) {
+                alert('O nome é obrigatório!');
+                return false;
+            }
+
+            if ($('#txtEmail').val().length == 0) {
+                alert('O e-mail é obrigatório!');
+                return false;
+            }
+
+            if ($('#txtCPF').val().length != 11) {
+                alert('O CPF é obrigatório e precisa ser válido!');
+                return false;
+            }
+
+            if ($('#txtGenero').find(":selected").val() == 0) {
+                alert('Selecione um gênero!');
+                return false;
+            }
+
+            if (!$('#txtNascimento').val()) {
+                alert('A data é obrigatória!');
+                return false;
+            }
+
+            if ($('#txtTelefone').val().length == 0) {
+                alert('O telefone é obrigatório!');
+                return false;
+            }
+
+            if ($('#txtCurso').find(":selected").val() == 0) {
+                alert('Selecione um curso!');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
