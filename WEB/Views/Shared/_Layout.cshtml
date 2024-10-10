@@ -521,8 +521,8 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapSistema">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar usuário</button>
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar usuários</button>
+                    <button onclick="redirecionarParaAdicionarUsuario()"><i class="fa-solid fa-circle-plus"></i> Adicionar usuário</button>
+                    <button onclick="redirecionarParaListarUsuarios()"><i class="fa-solid fa-rectangle-list"></i> Listar usuários</button>
                     <button><i class="fa-solid fa-trophy"></i>Gerenciar permissões</button>
                 </div>
             </div>
@@ -677,6 +677,16 @@
         function redirecionarParaAdicionarCurso() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Curso", new { icAdicionar = true })';
+        }
+
+        function redirecionarParaAdicionarUsuario() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Sistema", new { icAdicionar = true })';
+        }
+
+        function redirecionarParaListarUsuarios() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Sistema")';
         }
     </script>
 

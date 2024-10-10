@@ -1,0 +1,573 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listar usuários";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Sistema";
+}
+
+<link rel="stylesheet" href="~/css/Sistema/Index.css">
+<link rel="stylesheet" href="~/css/Shared/Livro.css">
+
+<!-- LIVRO -->
+
+<div id="divLivro">
+    <div id="capaLivro" class="MobileInvisible">
+        <div id="paginaEsquerda" class="MobileInvisible">
+
+            <div id="conteudoPagEsq" class="MobileInvisible">
+                <div id="divTopo">
+                    <div id="marcadorPagina"></div>
+                    <button id="btnAdicionar" onclick="carregarAdicionarUsuario(false)"><b class="linear1">Adicionar usuário</b></button>
+                    <button id="btnAdicionarMobile" onclick="carregarAdicionarUsuario(true)"><b class="linear1">Adicionar usuário</b></button>
+                </div>
+
+                <div id="divBusca">
+                    <input id="txtBusca" type="text" placeholder="Digite o nome do usuário..." />
+
+                    <div id="divFiltros">
+                        <div id="idCheckbox">
+                            <div id="divInputCheckbox">
+                                <label for="chkProfessor">Professor</label>
+                                <input id="chkProfessor" type="checkbox" checked />
+                            </div>
+                            <div id="divInputCheckbox">
+                                <label for="chkADM">ADM</label>
+                                <input id="chkADM" type="checkbox" checked />
+                            </div>
+                        </div>
+
+                        <div id="idCheckbox">
+                            <div id="divInputCheckbox">
+                                <label for="chkAtivos">Ativos</label>
+                                <input id="chkAtivos" type="checkbox" checked />
+                            </div>
+                            <div id="divInputCheckbox">
+                                <label for="chkInativos">Inativos</label>
+                                <input id="chkInativos" type="checkbox" checked />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divPesquisar">
+                        <button id="btnFiltrosMobile" onclick="toggleFiltros()">
+                            <b class="linear1">Filtros</b>
+                            <i id="arrowIcon" class="fa fa-angles-up"></i>
+                        </button>
+                        <button id="btnPesquisar" onclick="carregarListaUsuarios()"><b class="linear1">Pesquisar</b></button>
+                    </div>
+                </div>
+
+                <div id="msgListaUsuario" class="divMsgSelecione">
+                    <span class="linear1">Digite o nome do usuário e aperte em “Pesquisar!”</span>
+                </div>
+
+                <div id="divListaUsuario"></div>
+            </div>
+
+        </div>
+        <div id="paginaDireita" class="MobileInvisible">
+
+            <div id="divTitInfoUsuario">
+                <button id="btnVoltarModal" onclick="voltarMobile()">
+                    <i class="fa-solid fa-angle-left arrow-icon"></i>
+                </button>
+                <span class="linear1">Informações do usuário</span>
+            </div>
+
+            <div id="conteudoPagDir" class="MobileInvisible">
+                <div id="msgInfoUsuario" class="divMsgSelecione">
+                    <span class="linear1">Selecione um usuário para ver suas informações!</span>
+                </div>
+
+                <div id="divInfoUsuario" style="display:none;"></div>
+            </div>
+
+            <div id="divBotaoAdicionarMobile">
+                <button id="btnConfirmarAdicionarMobile" onclick="adicionarUsuario(true)"><b style="color: white;">Adicionar usuário</b></button>
+            </div>
+
+            <div id="divBotoesEditarMobile">
+                <button id="btnInativarMobile" onclick="carregarInativarUsuario(true)"><b style="color: white;">Inativar usuário</b></button>
+                <button id="btnEditarMobile" onclick="carregarEdicaoUsuario(true)"><b class="linear1">Editar usuário</b></button>
+            </div>
+
+            <div id="divBotoesEdicaoMobile">
+                <button id="btnCancelarMobile" onclick="cancelarEdicaoUsuario(true)"><b class="linear1">Cancelar edição</b></button>
+                <button id="btnSalvarMobile" onclick="salvarInfoUsuario(true)"><b>Salvar</b></button>
+            </div>
+
+            <div id="divInativarUsuarioMobile">
+                <b class="linear1">Tem certeza que deseja inativar o usuário:</b>
+                <b class="linear1" id="nmUsuario"></b>
+                <div id="divBotoesInativarUsuarioMobile">
+                    <button id="btnIgnorarInativarUsuarioMobile" onclick="cancelarInativarUsuario(true)"><b class="linear1">Não</b></button>
+                    <button id="btnInativarUsuarioMobile" onclick="inativarUsuario(true)"><b style="color: white;">Inativar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoAtivarUsuarioMobile">
+                <button id="btnAtivarUsuarioMobile" onclick="carregarAtivarUsuario(true)"><b class="linear1">Ativar usuário</b></button>
+            </div>
+
+            <div id="divAtivarUsuarioMobile">
+                <b class="linear1">Tem certeza que deseja ativar o usuário:</b>
+                <b class="linear1" id="nmUsuarioHab"></b>
+                <div id="divBotoesAtivarUsuarioMobile">
+                    <button id="btnIgnorarAtivarUsuarioMobile" onclick="cancelarAtivarUsuario(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarAtivarUsuarioMobile" onclick="ativarUsuario(true)"><b style="color: white;">Ativar</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.location.hash = '';
+    let infoUsuarioTemp;
+
+    document.addEventListener("DOMContentLoaded", carregarListaUsuarios);
+    document.addEventListener("DOMContentLoaded", checkAdicionar);
+
+    function toggleFiltros() {
+        const filtros = document.getElementById('divFiltros');
+        filtros.classList.toggle('hidden');
+        arrowIcon.classList.toggle('up');
+    }
+
+    function checkAdicionar() {
+        if ('@ViewBag.IcAdicionar' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                carregarAdicionarUsuario(true);
+            } else {
+                carregarAdicionarUsuario();
+            }
+        }
+    }
+
+    function carregarListaUsuarios(atualizarInfoUsuario = true) {
+        event.preventDefault();
+
+        if (atualizarInfoUsuario) {
+            $('#divInfoUsuario').empty();
+            $('#divInfoUsuario').hide();
+            $('#msgInfoUsuario').show();
+        }
+
+        $('#divListaUsuario').empty();
+        $('#msgListaUsuario').show();
+
+        let Busca = $('#txtBusca').val();
+
+        let IcHabilitadoTurma = null;
+        if (!$('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            alert('Selecione ao menos um filtro dos ativos/inativos!');
+            return;
+        }
+
+        if (!$('#chkADM').is(":checked") && !$('#chkProfessor').is(":checked")) {
+            alert('Selecione ao menos um filtro dos cargos!');
+            return;
+        }
+
+
+        if (!$('#chkAtivos').is(":checked") && $('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = true;
+        }
+        if ($('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = false;
+        }
+
+        $.ajax({
+            url: '@Url.Action("ListarUsuarios", "Sistema")',
+            type: 'GET',
+            async: true,
+            data: {
+                Busca: Busca,
+                IcHabilitadoTurma: IcHabilitadoTurma
+            },
+            success: function (data) {
+                $('#msgListaUsuario').hide();
+                $('#divListaUsuario').html(data);
+            }
+        });
+    }
+
+    function carregarInfoPadrao(param) {
+        event.preventDefault();
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divInativarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'none');
+            $('#divAtivarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#divInfoUsuario').empty();
+        $('#divInfoUsuario').hide();
+        $('#msgInfoUsuario').show();
+
+        let Busca = $('#txtBusca').val();
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoUsuario", "Sistema")',
+            type: 'GET',
+            async: true,
+            data: {
+                DsCpf: param
+            },
+            success: function (data) {
+                $('#msgInfoUsuario').hide();
+                $('#divInfoUsuario').html(data);
+                $('#divInfoUsuario').show();
+            }
+        });
+    }
+
+    function carregarAdicionarUsuario(mobile = false) {
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex')
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divInativarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'none');
+            $('#divAtivarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'flex');
+        }
+
+
+        $.ajax({
+            url: '@Url.Action("CarregarAdicionarUsuario", "Sistema")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#msgInfoUsuario').hide();
+                $('#divInfoUsuario').html(data);
+                $('#divInfoUsuario').show();
+
+                if (mobile) {
+                    $('#divBotaoAdicionar').css('display', 'none');
+                } else {
+                    $('#divBotaoAdicionar').css('display', 'flex');
+                }
+
+                $('#divBotoesEditar').css('display', 'none');
+
+                $('#divCargosUsuario').css('display', 'none');
+                $('#lblListaCargo').css('display', 'unset');
+                $('#listaCargo').css('display', 'unset');
+
+                $('#divImgUsuario > div:last-child').css('display', 'flex');
+
+                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario, #txtSituacaoUsuario')
+                    .css('background-color', '#FFFFFF')
+            }
+        });
+    }
+
+    function adicionarUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (!validarCampos()) {
+            return;
+        }
+
+        if ($('#txtSituacaoUsuario').find(":selected").val() == -1) {
+            alert('Selecione sua situação!');
+            return false;
+        }
+
+        let Habilitado = ($('#txtSituacaoUsuario').find(":selected").val() == 1) ? 'True' : 'False';
+
+        let infoAdd = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
+            NmUsuario: $('#txtNomeUsuario').val(),
+            DsEmail: $('#txtEmailUsuario').val(),
+            DsCpf: $('#txtCPFUsuario').val(),
+            DsGenero: $('#txtGeneroUsuario').find(":selected").val(),
+            DtNascimento: $('#txtNascimentoUsuario').val(),
+            DsTelefone: $('#txtTelefoneUsuario').val(),
+            IcHabilitadoTurma: Habilitado
+        }
+
+        $.ajax({
+            url: '@Url.Action("AdicionarUsuario", "Sistema")',
+            type: 'POST',
+            async: true,
+            data: infoAdd,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotaoAdicionarMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotaoAdicionar').css('display', 'none');
+                }
+
+                $('#divImgUsuario > div:last-child').css('display', 'none');
+
+                $('#divCargosUsuario').css('display', 'unset');
+                $('#lblListaCargo').css('display', 'none');
+                $('#listaCargo').css('display', 'none');
+
+
+                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario, #txtSituacaoUsuario')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarListaUsuarios(false);
+            }
+        });
+    }
+
+    function carregarEdicaoUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'flex');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divBotoesEdicao').css('display', 'flex');
+        }
+
+        $('#divCargosUsuario').css('display', 'none');
+        $('#lblListaCargo').css('display', 'unset');
+        $('#listaCargo').css('display', 'unset');
+
+        $('#divImgUsuario > div:last-child').css('display', 'flex');
+
+        $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
+            .css('background-color', '#FFFFFF')
+            .removeAttr('disabled');
+
+        infoUsuarioTemp = {
+            NmUsuario: $('#txtNomeUsuario').val(),
+            DsEmail: $('#txtEmailUsuario').val(),
+            DsGenero: $('#txtGeneroUsuario').val(),
+            DtNascimento: $('#txtNascimentoUsuario').val(),
+            DsTelefone: $('#txtTelefoneUsuario').val()
+        }
+    }
+
+    function cancelarEdicaoUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divBotoesEdicao').css('display', 'none');
+        }
+
+        $('#divCargosUsuario').css('display', 'unset');
+        $('#lblListaCargo').css('display', 'none');
+        $('#listaCargo').css('display', 'none');
+
+        $('#divImgUsuario > div:last-child').css('display', 'none');
+
+        $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
+            .css('background-color', '#DBD8D8')
+            .attr('disabled', true);
+
+        $('#txtNomeUsuario').val(infoUsuarioTemp.NmUsuario);
+        $('#txtEmailUsuario').val(infoUsuarioTemp.DsEmail);
+        $('#txtGeneroUsuario').val(infoUsuarioTemp.DsGenero);
+        $('#txtNascimentoUsuario').val(infoUsuarioTemp.DtNascimento);
+        $('#txtTelefoneUsuario').val(infoUsuarioTemp.DsTelefone);
+    }
+
+    function salvarInfoUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (!validarCampos()) {
+            return;
+        }
+
+        infoUsuarioTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
+            NmUsuario: $('#txtNomeUsuario').val(),
+            DsEmail: $('#txtEmailUsuario').val(),
+            DsCpf: $('#txtCPFUsuario').val(),
+            DsGenero: $('#txtGeneroUsuario').find(":selected").val(),
+            DtNascimento: $('#txtNascimentoUsuario').val(),
+            DsTelefone: $('#txtTelefoneUsuario').val()
+        }
+
+        $.ajax({
+            url: '@Url.Action("AtualizarInfoUsuario", "Sistema")',
+            type: 'POST',
+            async: true,
+            data: infoUsuarioTemp,
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotoesEdicaoMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotoesEdicao').css('display', 'none');
+                }
+
+                $('#divCargosUsuario').css('display', 'unset');
+                $('#lblListaCargo').css('display', 'none');
+                $('#listaCargo').css('display', 'none');
+
+                $('#divImgUsuario > div:last-child').css('display', 'none');
+
+                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarListaUsuarios(false);
+            }
+        });
+    }
+
+    function carregarInativarUsuario(mobile = false) {
+        if (mobile) {
+            $("#nmUsuario").text($('#txtNomeUsuario').val());
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divInativarUsuarioMobile').css('display', 'flex');
+        } else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divInativarUsuario').css('display', 'flex');
+            window.location.hash = '#divInativarUsuario';
+        }
+    }
+
+    function cancelarInativarUsuario(mobile = false) {
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divInativarUsuarioMobile').css('display', 'none');
+        } else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divInativarUsuario').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function carregarAtivarUsuario(mobile = false) {
+        if (mobile) {
+            $("#nmUsuarioHab").text($('#txtNomeUsuario').val());
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'none');
+            $('#divAtivarUsuarioMobile').css('display', 'flex');
+        } else {
+            $('#divBotaoAtivarUsuario').css('display', 'none');
+            $('#divAtivarUsuario').css('display', 'flex');
+            window.location.hash = '#divAtivarUsuario';
+        }
+    }
+
+    function cancelarAtivarUsuario(mobile = false) {
+        if (mobile) {
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'flex');
+            $('#divAtivarUsuarioMobile').css('display', 'none');
+        } else {
+            $('#divBotaoAtivarUsuario').css('display', 'flex');
+            $('#divAtivarUsuario').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function inativarUsuario(mobile = false) {
+        let cdUsuario = $('#CdUsuario').val();
+
+        $.ajax({
+            url: '@Url.Action("InativarUsuario", "Sistema")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdUsuario: cdUsuario
+            },
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotaoAtivarUsuarioMobile').css('display', 'flex');
+                    $('#divInativarUsuarioMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotaoAtivarUsuario').css('display', 'flex');
+                    $('#divInativarUsuario').css('display', 'none');
+                    window.location.hash = '';
+                }
+                $("#txtSituacaoUsuario").val("Desabilitado");
+
+                carregarListaUsuarios(false);
+            }
+        });
+    }
+
+    function ativarUsuario(mobile = false) {
+        let cdUsuario = $('#CdUsuario').val();
+
+        $.ajax({
+            url: '@Url.Action("AtivarUsuario", "Sistema")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdUsuario: cdUsuario
+            },
+            success: function (data) {
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divAtivarUsuarioMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divAtivarUsuario').css('display', 'none');
+                    window.location.hash = '';
+                }
+                $("#txtSituacaoUsuario").val("Habilitado");
+
+                carregarListaUsuarios(false);
+            }
+        });
+    }
+
+    function voltarMobile() {
+        event.preventDefault();
+
+        $('#paginaDireita').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
+
+    function validarCampos() {
+        if ($('#txtCPFUsuario').val().length != 11) {
+            alert('O CPF é obrigatório e precisa ser válido!');
+            return false;
+        }
+
+        if ($('#txtNomeUsuario').val().length == 0) {
+            alert('O nome é obrigatório!');
+            return false;
+        }
+
+        if ($('#txtEmailUsuario').val().length == 0) {
+            alert('O e-mail é obrigatório!');
+            return false;
+        }
+
+        if ($('#txtGeneroUsuario').find(":selected").val() == 0) {
+            alert('Selecione um gênero!');
+            return false;
+        }
+
+        if (!$('#txtNascimentoUsuario').val()) {
+            alert('A data é obrigatória!');
+            return false;
+        }
+        return true;
+    }
+
+</script>
