@@ -5,7 +5,7 @@
     Layout = null;
     var NmCurso = ViewBag.NmCurso ?? String.Empty;
     var NmTurma = ViewBag.NmTurma ?? String.Empty;
-    var ImgSrc = (Model.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+    var ImgSrc = (Model.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
     var ImgAlunoDisplay = !String.IsNullOrEmpty(ImgSrc) ? "display: block" : "display: none";
     var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
 }
@@ -27,8 +27,6 @@
         <button id="btnExcluirFoto" onclick="ExcluirFoto()"><b>Excluir foto</b></button>
     </div>
 </div>
-
-<canvas id="canvasRecortado" style="display:none;"></canvas>
 
 <div id="divNomeAluno">
     <label for="divNomeAluno" class="linear1">Nome:</label><br />
@@ -85,3 +83,24 @@
     <button id="btnCancelar" onclick="cancelarEdicaoAluno()"><b class="linear1">Cancelar edição</b></button>
     <button id="btnSalvar" onclick="salvarInfoAluno()"><b>Salvar</b></button>
 </div>
+
+<script src="~/js/jquery.mask.min.js"></script>
+
+<script type="text/javascript">
+
+    //CPF
+    //.mask('000.000.000-00');
+
+    $(document).ready(function () {
+        var phoneMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00000';
+        };
+        var options = {
+            onKeyPress: function (val, e, field, options) {
+                field.mask(phoneMaskBehavior.apply({}, arguments), options);
+            }
+        };
+        $('#txtTelefoneAluno').mask(phoneMaskBehavior, options);
+    });
+
+</script>

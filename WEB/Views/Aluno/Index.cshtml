@@ -24,6 +24,8 @@
     </div>
 </div>
 
+<canvas id="canvasRecortado" style="display:none;"></canvas>
+
 <!-- LIVRO -->
 
 <div id="divLivro">
@@ -79,7 +81,7 @@
 <script type="text/javascript">
 
     let cropper;
-    let imagemBase64 = '';
+    let imagemBase64 = null;
 
     let infoAlunoTemp;
 
@@ -142,6 +144,16 @@
         });
     }
 
+    function extrairBase64DeImagem(elementoImagem) {
+        const src = elementoImagem.src;
+        if (src.startsWith('data:image/')) {
+            return src;
+        } else {
+            console.error('A imagem não está em formato base64.');
+            return null;
+        }
+    }
+
     function carregarEdicaoAluno(mobile = false) {
         event.preventDefault();
 
@@ -160,12 +172,30 @@
             .css('background-color', '#FFFFFF')
             .removeAttr('disabled');
 
+        // infoAlunoTemp = {
+        //     NmUsuario: $('#txtNomeAluno').val(),
+        //     DsEmail: $('#txtEmailAluno').val(),
+        //     DsGenero: $('#txtGeneroAluno').val(),
+        //     DtNascimento: $('#txtNascimentoAluno').val(),
+        //     DsTelefone: $('#txtTelefoneAluno').val()
+        // }
+
+        const imagem = document.getElementById('imgAluno');
+        const base64 = extrairBase64DeImagem(imagem);
+
+        if (base64) {
+            imagemBase64 = base64;
+        }
+
         infoAlunoTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
             NmUsuario: $('#txtNomeAluno').val(),
             DsEmail: $('#txtEmailAluno').val(),
-            DsGenero: $('#txtGeneroAluno').val(),
+            DsGenero: parseInt($('#txtGeneroAluno').val()),
             DtNascimento: $('#txtNascimentoAluno').val(),
-            DsTelefone: $('#txtTelefoneAluno').val()
+            DsTelefone: $('#txtTelefoneAluno').val(),
+            DsFoto: imagemBase64
         }
     }
 
@@ -187,13 +217,24 @@
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
+
+
         $('#txtNomeAluno').val(infoAlunoTemp.NmUsuario);
         $('#txtEmailAluno').val(infoAlunoTemp.DsEmail);
         $('#txtGeneroAluno').val(infoAlunoTemp.DsGenero);
         $('#txtNascimentoAluno').val(infoAlunoTemp.DtNascimento);
         $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
+        
+        if (!!infoAlunoTemp.DsFoto) {
+            console.log('Tem foto no objeto.');
+
+            const imgAluno = document.getElementById('imgAluno');
+            imgAluno.src = infoAlunoTemp.DsFoto;
+            imgAluno.style.display = 'block';
+        }
     }
 
+    /*
     function base64ToBytes(base64) {
         let binaryString = atob(base64.split(',')[1]);
         let len = binaryString.length;
@@ -203,6 +244,7 @@
         }
         return bytes;
     }
+    */
 
     function base64ToBlob(base64) {
         const binaryString = atob(base64.split(',')[1]);
@@ -211,26 +253,28 @@
         for (let i = 0; i < len; i++) {
             bytes[i] = binaryString.charCodeAt(i);
         }
-        return new Blob([bytes], { type: 'image/jpeg' });
+        return new Blob([bytes], { type: 'image/png' });
     }
 
     function salvarInfoAluno(mobile = false) {
         event.preventDefault();
 
-        let formData = new FormData();
+        let ResponseModelUsuario = new FormData();
+        
+        if (!!imagemBase64) {
+            const fotoBlob = base64ToBlob(imagemBase64);
+            ResponseModelUsuario.append('DsFoto', fotoBlob, 'foto.png');
+        }
 
-        const fotoBlob = base64ToBlob(imagemBase64);
-        formData.append('DsFoto', fotoBlob, 'foto.jpeg');
-        formData.append('CdUsuario', $('#CdUsuario').val());
-        formData.append('NmUsuario', $('#txtNomeAluno').val());
-        formData.append('DsEmail', $('#txtEmailAluno').val());
-        formData.append('DsCpf', $('#DsCpf').val());
-        formData.append('DsTelefone', $('#txtTelefoneAluno').val());
-        formData.append('DsGenero', parseInt($('#txtGeneroAluno').val()));
-        formData.append('StrDsGenero', $('#txtGeneroAluno option:selected').text());
-        formData.append('DtNascimento', $('#txtNascimentoAluno').val());
+        ResponseModelUsuario.append('CdUsuario', infoAlunoTemp.CdUsuario);
+        ResponseModelUsuario.append('NmUsuario', infoAlunoTemp.NmUsuario);
+        ResponseModelUsuario.append('DsEmail', infoAlunoTemp.DsEmail);
+        ResponseModelUsuario.append('DsCpf', infoAlunoTemp.DsCpf);
+        ResponseModelUsuario.append('DsTelefone', infoAlunoTemp.DsTelefone);
+        ResponseModelUsuario.append('DsGenero', infoAlunoTemp.DsGenero);
+        ResponseModelUsuario.append('DtNascimento', infoAlunoTemp.DtNascimento);
 
-        //const fotoEmBytes = base64ToBytes(imagemBase64);
+        //ResponseModelUsuario.append('StrDsGenero', $('#txtGeneroAluno option:selected').text());
 
         // infoAlunoTemp = {
         //     CdUsuario: $('#CdUsuario').val(),
@@ -249,15 +293,8 @@
 
             processData: false,
             contentType: false,
-            data: formData,
-
+            data: ResponseModelUsuario,
             async: true,
-
-            //contentType: 'application/json',
-            //data: JSON.stringify(infoAlunoTemp),
-
-            //data: infoAlunoTemp,
-
             success: function (data) {
                 if (mobile) {
                     $('#divBotaoEditarMobile').css('display', 'flex');
@@ -339,6 +376,7 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
+
                     const imgParaRecorte = document.getElementById('imgParaRecorte');
                     imgParaRecorte.src = e.target.result;
 
@@ -370,7 +408,7 @@
         imgAluno.src = canvas.toDataURL();
         imgAluno.style.display = 'block';
 
-        imagemBase64 = canvas.toDataURL('image/jpeg');
+        imagemBase64 = canvas.toDataURL('image/png');
 
         FecharModal();
     }
@@ -386,6 +424,7 @@
         imgAluno.removeAttribute('src');
         imgAluno.style.display = 'none';
         document.getElementById('inputTrocarFoto').value = '';
+        imagemBase64 = null;
 
         if (cropper)
             cropper.destroy();

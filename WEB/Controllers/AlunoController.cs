@@ -59,8 +59,23 @@ namespace WEB.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> AtualizarInfoAluno([FromForm] ResponseModelUsuario ResponseModelUsuario)
+        public async Task<bool> AtualizarInfoAluno([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto)
         {
+            //Validação da imagem
+            if (DsFoto != null)
+            {
+                if (!DsFoto.ContentType.StartsWith("image/"))
+                    return false;
+
+                // Salvando a imagem
+                using (var memoryStream = new MemoryStream()) {
+                    await DsFoto.CopyToAsync(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
+                    ResponseModelUsuario.DsFoto = imageBytes;
+                }
+            }
+
+            //Atualiza as informações de fato
             configuration["JwtToken"] = Request.Cookies["Token"];
             var response = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);
             return response.IsSuccess;

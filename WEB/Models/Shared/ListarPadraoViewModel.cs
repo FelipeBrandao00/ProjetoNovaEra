@@ -35,21 +35,4 @@ public abstract class ListarPadraoViewModel
         public int pageSize { get; set; }
         public int totalPages { get; set; }
     }
-
-    //Arrumar isso depois VVVV
-
-    public class ResponseModelListaPadrao : Response<List<ResponseModelUsuario>?>
-    {
-        public int currentPage { get; set; }
-        public int totalCount { get; set; }
-        public int pageSize { get; set; }
-        public int totalPages { get; set; }
-    }
-
-    public class ResponseModelListaCurso : Response<List<ResponseModelCurso>?> {
-        public int currentPage { get; set; }
-        public int totalCount { get; set; }
-        public int pageSize { get; set; }
-        public int totalPages { get; set; }
-    }
 }
