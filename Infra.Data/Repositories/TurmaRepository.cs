@@ -10,13 +10,6 @@ namespace Infra.Data.Repositories {
             await _context.SaveChangesAsync();
             return turma;
         }
-
-        public async Task<Turma> DeleteTurma(Turma turma) {
-            _context.Turmas.Remove(turma);
-            await _context.SaveChangesAsync();
-            return turma;
-        }
-
         public async Task<Turma> FinalizarTurma(int CdTurma) {
             var turma = await GetTurmaById(CdTurma);
 
@@ -31,8 +24,26 @@ namespace Infra.Data.Repositories {
             return await _context.Turmas.Where(x => x.CdTurma == CdTurma).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Turma>> GetTurmas() {
-            return await _context.Turmas.ToListAsync();
+        public async Task<List<Turma>> GetTurmas(string nome, DateTime? dtInicial = null, DateTime? dtFinal = null, bool? icFinalizado = null, int? cursoId = null) {
+            IQueryable<Turma> turmas = _context.Turmas;
+
+            if (!string.IsNullOrEmpty(nome)) {
+                turmas = turmas.Where(x => x.DsTurma.Contains(nome));
+            }
+
+            if (dtInicial != null)
+                turmas = turmas.Where(x => x.DtInicio >= dtInicial.Value);
+
+            if (dtFinal != null)
+                turmas = turmas.Where(x => x.DtInicio <= dtFinal.Value);
+
+            if (icFinalizado != null)
+                turmas = (icFinalizado == true) ? turmas.Where(x => x.DtFim != null) : turmas.Where(x => x.DtFim == null);
+
+            if (cursoId != null)
+                turmas = turmas.Where(x => x.CdCurso == cursoId);
+
+            return await turmas.ToListAsync();
         }
 
         public async Task<Turma> ReativarTurma(int CdTurma) {

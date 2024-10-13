@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Requests.Aluno;
 using Application.Requests.Cargos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,14 @@ namespace API.Controllers {
         public async Task<ActionResult> GetAlunoByLikedName([FromQuery] string nome = "", [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             var request = new GetAlunoByLikedNameRequest(nome, pageNumber, pageSize);
             var result = await alunoService.GetAlunoByLikedName(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
+
+        [HttpGet("api/[controller]/GetAlunosByTurmaId")]
+        public async Task<ActionResult> GetAlunosByTurmaId([FromBody] int turmaId,[FromQuery] string nome = "", [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+            var request = new GetAlunosByTurmaIdRequest(turmaId, pageNumber, pageSize);
+            var result = await alunoService.GetAlunosByTurmaId(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }

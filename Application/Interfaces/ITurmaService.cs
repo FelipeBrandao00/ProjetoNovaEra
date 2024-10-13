@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 namespace Application.Interfaces {
     public interface ITurmaService {
         Task<Response<TurmaDto>> AddTurma(AddTurmaRequest request);
-        Task<Response<TurmaDto>> DeleteTurma(DeleteTurmaRequest request);
         Task<Response<TurmaDto>> UpdateTurma(UpdateTurmaRequest request);
         Task<PagedResponse<List<TurmaDto>>> GetTurmas(GetTurmasRequest request); //falta os filtros
         Task<Response<TurmaDto?>> GetTurmaById(GetTurmaByIdRequest request);

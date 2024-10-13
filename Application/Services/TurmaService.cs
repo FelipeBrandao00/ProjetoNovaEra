@@ -30,11 +30,6 @@ namespace Application.Services {
                     "Não foi possível criar a turma");
             }
         }
-
-        public async Task<Response<TurmaDto>> DeleteTurma(DeleteTurmaRequest request) {
-            throw new NotImplementedException();
-        }
-
         public async Task<Response<TurmaDto>> FinalizarTurma(FinalizarTurmaRequest request) {
             try {
                 var retorno = await _turmaRepository.FinalizarTurma(request.CdTurma);
@@ -63,7 +58,7 @@ namespace Application.Services {
 
         public async Task<PagedResponse<List<TurmaDto>>> GetTurmas(GetTurmasRequest request) {
             try {
-                List<Turma> query = await _turmaRepository.GetTurmas();
+                List<Turma> query = await _turmaRepository.GetTurmas(request.Nome,request.DtInicial,request.DtFinal,request.IcFinalizado,request.CursoId);
 
                 var usuarios = query
                     .Skip((request.PageNumber - 1) * request.PageSize)
@@ -82,7 +77,7 @@ namespace Application.Services {
                     request.PageSize);
             }
             catch (Exception e) {
-                return new PagedResponse<List<TurmaDtos>>(null, 500, "Não foi possível consultar as turmas");
+                return new PagedResponse<List<TurmaDto>>(null, 500, "Não foi possível consultar as turmas");
             }
         }
 

@@ -7,7 +7,6 @@ namespace Domain.Entities
         [Key]
         [Required]
         public int CdTurma { get; set; }
-
         public string? DsTurma { get; set; }
         public DateTime DtInicio { get; set; }
         public DateTime? DtFim { get; set; }

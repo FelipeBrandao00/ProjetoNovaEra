@@ -1,7 +1,5 @@
 ﻿using Application.Interfaces;
-using Application.Requests.Curso;
 using Application.Requests.Turma;
-using Application.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +16,7 @@ namespace API.Controllers {
 
         [HttpPut("api/[controller]/{id:int}")]
         public async Task<ActionResult> UpdateTurma(int id, UpdateTurmaRequest request) {
-            if (id != request.CdCurso) return new BadRequestResult();
+            if (id != request.CdTurma) return new BadRequestResult();
             var result = await turmaService.UpdateTurma(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
@@ -33,19 +31,19 @@ namespace API.Controllers {
         }
 
         [HttpGet("api/[controller]")]
-        public async Task<ActionResult> GetTurmas([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
-            var request = new GetTurmasRequest(pageNumber, pageSize);
+        public async Task<ActionResult> GetTurmas(
+            [FromQuery] string nome = "", 
+            [FromQuery] DateTime? dtInicial = null, 
+            [FromQuery] DateTime? dtFinal = null, 
+            [FromQuery] bool? icFinalizado = null, 
+            [FromQuery] int? cursoId = null, 
+            [FromQuery] int? pageNumber = null,
+            [FromQuery] int? pageSize = null) {
+            var request = new GetTurmasRequest(nome,pageNumber,pageSize,dtInicial,dtFinal,icFinalizado,cursoId);
             var result = await turmaService.GetTurmas(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
-
-        //[HttpDelete("api/[controller]")]
-        //public async Task<ActionResult> DeleteCurso([FromBody] DeleteCursoRequest request) {
-        //    var result = await turmaService.DeleteCurso(request);
-        //    if (!result.IsSuccess) return BadRequest(result);
-        //    return Ok(result);
-        //}
 
         [HttpPost("api/[controller]/DesativarTurma")]
         public async Task<ActionResult> DesativarTurma([FromBody] FinalizarTurmaRequest request) {
