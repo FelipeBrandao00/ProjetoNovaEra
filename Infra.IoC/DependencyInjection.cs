@@ -56,6 +56,8 @@ namespace Infra.IoC {
             services.AddScoped<ITurmaRepository, TurmaRepository>();
             services.AddScoped<ITurmaService, TurmaService>();
 
+            services.AddScoped<ITurmaAlunoRepository, TurmaAlunoRepository>();
+            services.AddScoped<ITurmaAlunoService, TurmaAlunoService>();
 
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
