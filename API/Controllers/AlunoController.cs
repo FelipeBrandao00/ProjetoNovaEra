@@ -8,6 +8,7 @@ namespace API.Controllers {
     [Authorize(Roles = "Administrador")]
     [ApiController]
     public class AlunoController(IAlunoService alunoService) : ControllerBase {
+
         [HttpGet("api/[controller]/GetAllTurmasByUsuarioId/{cdUsuario:guid}")]
         public async Task<ActionResult> GetAllTurmasByUsuarioId(Guid cdUsuario, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             var request = new GetAllTurmasByUsuarioIdRequest(cdUsuario, pageNumber, pageSize);

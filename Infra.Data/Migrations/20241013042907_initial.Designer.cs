@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240901184822_Change Password")]
-    partial class ChangePassword
+    [Migration("20241013042907_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,10 +28,16 @@ namespace Infra.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Aula", b =>
                 {
                     b.Property<int>("CdAula")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CdAula"));
 
                     b.Property<int>("CdTurma")
                         .HasColumnType("int");
+
+                    b.Property<string>("DsAula")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DtAula")
                         .HasColumnType("datetime2");
@@ -182,6 +188,9 @@ namespace Infra.Data.Migrations
                     b.Property<DateTime>("DtCriacao")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DtFinalizacao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NmCurso")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -256,6 +265,9 @@ namespace Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DtTrocaSenha")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DtValidade")
                         .HasColumnType("datetime2");
 
@@ -281,7 +293,7 @@ namespace Infra.Data.Migrations
                     b.Property<string>("DsTurma")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DtFim")
+                    b.Property<DateTime?>("DtFim")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DtInicio")

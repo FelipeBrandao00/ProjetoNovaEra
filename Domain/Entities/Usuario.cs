@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Domain.Entities {
     public class Usuario {
         [Key]
+        [Required]
         public Guid CdUsuario { get; set; }
         public required string NmUsuario { get; set; }
         public required string DsEmail { get; set; }

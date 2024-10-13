@@ -25,10 +25,16 @@ namespace Infra.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Aula", b =>
                 {
                     b.Property<int>("CdAula")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CdAula"));
 
                     b.Property<int>("CdTurma")
                         .HasColumnType("int");
+
+                    b.Property<string>("DsAula")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DtAula")
                         .HasColumnType("datetime2");
