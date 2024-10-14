@@ -27,8 +27,11 @@
 #conteudoPagEsq {
     height: 100%;
     padding: 0 2vw 3vh 2vw;
-    display: grid;
-    grid-template-rows: max-content;
+    /*display: grid;
+    grid-template-rows: max-content;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 10px;
 }
 
