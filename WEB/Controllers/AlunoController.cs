@@ -67,7 +67,6 @@ namespace WEB.Controllers
                 if (!DsFoto.ContentType.StartsWith("image/"))
                     return false;
 
-                // Salvando a imagem
                 using (var memoryStream = new MemoryStream()) {
                     await DsFoto.CopyToAsync(memoryStream);
                     byte[] imageBytes = memoryStream.ToArray();

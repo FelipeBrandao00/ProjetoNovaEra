@@ -81,8 +81,7 @@
 <script type="text/javascript">
 
     let cropper;
-    let imagemBase64 = null;
-
+    let imagemBase64;
     let infoAlunoTemp;
 
     document.addEventListener("DOMContentLoaded", carregarListaAlunos);
@@ -146,12 +145,10 @@
 
     function extrairBase64DeImagem(elementoImagem) {
         const src = elementoImagem.src;
-        if (src.startsWith('data:image/')) {
+        if (src.startsWith('data:image/'))
             return src;
-        } else {
-            console.error('A imagem não está em formato base64.');
+        else
             return null;
-        }
     }
 
     function carregarEdicaoAluno(mobile = false) {
@@ -171,14 +168,6 @@
         $('#txtNomeAluno, #txtEmailAluno, #txtGeneroAluno, #txtNascimentoAluno, #txtTelefoneAluno')
             .css('background-color', '#FFFFFF')
             .removeAttr('disabled');
-
-        // infoAlunoTemp = {
-        //     NmUsuario: $('#txtNomeAluno').val(),
-        //     DsEmail: $('#txtEmailAluno').val(),
-        //     DsGenero: $('#txtGeneroAluno').val(),
-        //     DtNascimento: $('#txtNascimentoAluno').val(),
-        //     DsTelefone: $('#txtTelefoneAluno').val()
-        // }
 
         const imagem = document.getElementById('imgAluno');
         const base64 = extrairBase64DeImagem(imagem);
@@ -217,8 +206,6 @@
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
-
-
         $('#txtNomeAluno').val(infoAlunoTemp.NmUsuario);
         $('#txtEmailAluno').val(infoAlunoTemp.DsEmail);
         $('#txtGeneroAluno').val(infoAlunoTemp.DsGenero);
@@ -226,25 +213,14 @@
         $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
         
         if (!!infoAlunoTemp.DsFoto) {
-            console.log('Tem foto no objeto.');
-
             const imgAluno = document.getElementById('imgAluno');
             imgAluno.src = infoAlunoTemp.DsFoto;
             imgAluno.style.display = 'block';
         }
-    }
-
-    /*
-    function base64ToBytes(base64) {
-        let binaryString = atob(base64.split(',')[1]);
-        let len = binaryString.length;
-        let bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
+        else {
+            ExcluirFoto();
         }
-        return bytes;
     }
-    */
 
     function base64ToBlob(base64) {
         const binaryString = atob(base64.split(',')[1]);
@@ -259,6 +235,18 @@
     function salvarInfoAluno(mobile = false) {
         event.preventDefault();
 
+        //Atualiza os valores pós edição
+        infoAlunoTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
+            NmUsuario: $('#txtNomeAluno').val(),
+            DsEmail: $('#txtEmailAluno').val(),
+            DsGenero: parseInt($('#txtGeneroAluno').val()),
+            DtNascimento: $('#txtNascimentoAluno').val(),
+            DsTelefone: $('#txtTelefoneAluno').val(),
+            DsFoto: imagemBase64
+        }
+
         let ResponseModelUsuario = new FormData();
         
         if (!!imagemBase64) {
@@ -270,22 +258,9 @@
         ResponseModelUsuario.append('NmUsuario', infoAlunoTemp.NmUsuario);
         ResponseModelUsuario.append('DsEmail', infoAlunoTemp.DsEmail);
         ResponseModelUsuario.append('DsCpf', infoAlunoTemp.DsCpf);
-        ResponseModelUsuario.append('DsTelefone', infoAlunoTemp.DsTelefone);
+        ResponseModelUsuario.append('DsTelefone', infoAlunoTemp.DsTelefone.replace(/\D/g, ''));
         ResponseModelUsuario.append('DsGenero', infoAlunoTemp.DsGenero);
         ResponseModelUsuario.append('DtNascimento', infoAlunoTemp.DtNascimento);
-
-        //ResponseModelUsuario.append('StrDsGenero', $('#txtGeneroAluno option:selected').text());
-
-        // infoAlunoTemp = {
-        //     CdUsuario: $('#CdUsuario').val(),
-        //     DsCpf: $('#DsCpf').val(),
-        //     NmUsuario: $('#txtNomeAluno').val(),
-        //     DsEmail: $('#txtEmailAluno').val(),
-        //     DsGenero: parseInt($('#txtGeneroAluno').val()),
-        //     DtNascimento: $('#txtNascimentoAluno').val(),
-        //     DsTelefone: $('#txtTelefoneAluno').val(),
-        //     DsFoto: imagemBase64
-        // }
         
         $.ajax({
             url: '@Url.Action("AtualizarInfoAluno", "Aluno")',
@@ -322,51 +297,6 @@
         $('#paginaDireita').css('display', 'none');
         $('#backgroundModal').css('display', 'none');
     }
-
-    /* PRIMEIRA VERSÃO DE CORTE AUTOMÁTICO.
-
-    function TrocarFoto() {
-        document.getElementById('inputTrocarFoto').click();
-        document.getElementById('inputTrocarFoto').onchange = function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const img = new Image();
-                    img.src = e.target.result;
-
-                    img.onload = function () {
-                        const finalSize = 122;
-
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-
-                        const squareSize = Math.min(img.width, img.height);
-                        const sourceX = (img.width - squareSize) / 2;
-                        const sourceY = (img.height - squareSize) / 2;
-
-                        canvas.width = finalSize;
-                        canvas.height = finalSize;
-
-                        ctx.drawImage(img, sourceX, sourceY, squareSize, squareSize, 0, 0, finalSize, finalSize);
-
-                        const imgAluno = document.getElementById('imgAluno');
-                        imgAluno.src = canvas.toDataURL();
-                        imgAluno.style.display = 'block';
-                    };
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-    }
-
-    function ExcluirFoto() {
-        const img = document.getElementById('imgAluno');
-        img.removeAttribute('src');
-        img.style.display = 'none';
-        document.getElementById('inputTrocarFoto').value = '';
-    }
-    */
 
     function TrocarFoto() {
         document.getElementById('inputTrocarFoto').click();
