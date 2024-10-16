@@ -9,13 +9,13 @@ namespace API.Controllers {
     [Authorize(Roles = "Administrador")]
     public class TurmaAlunoController(ITurmaAlunoService turmaAlunoService) : ControllerBase {
         [HttpPost("api/[controller]")]
-        public async Task<ActionResult> AddCargoUsuario(AddTurmaAlunoRequest request) {
+        public async Task<ActionResult> AddTurmaAluno(AddTurmaAlunoRequest request) {
             var result = await turmaAlunoService.AddTurmaAluno(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
         [HttpDelete("api/[controller]")]
-        public async Task<ActionResult> DeleteCargoUsuario(DeleteTurmaAlunoRequest request) {
+        public async Task<ActionResult> DeleteTurmaAluno(DeleteTurmaAlunoRequest request) {
             var result = await turmaAlunoService.DeleteTurmaAluno(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
