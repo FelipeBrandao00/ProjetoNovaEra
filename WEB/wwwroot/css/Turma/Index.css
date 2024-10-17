@@ -1,0 +1,413 @@
+﻿/* Folha de estilos: Turma */
+
+input:focus, button:focus {
+    outline: none;
+}
+
+article {
+    justify-content: flex-start !important;
+}
+
+/* IDs */
+#divPagina {
+    overflow-y: auto;
+}
+
+#divInicioPagina {
+    width: 60%;
+}
+
+#btnAdicionar, #btnAdicionarMobile {
+    height: 30px;
+    width: 150px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    margin-top: 20px;
+}
+
+#divTopo {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#divBusca {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#divFiltros {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#divPesquisar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#btnPesquisar, #btnFiltrosMobile {
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnFiltrosMobile {
+    display: none;
+}
+
+#txtBusca {
+    border: none;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+#idCheckbox, #idData, #idDropdown {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px 5px;
+    width: 100%;
+}
+
+#divInputCheckbox, #divInputData {
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+#divInputDropdown {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    #divInputCheckbox > label {
+        width: 85%;
+    }
+
+    #divInputData > input {
+        width: 50%;
+    }
+
+    #divInputData > label {
+        width: 20%;
+    }
+
+    #divInputDropdown > label, #divInputDropdown > select {
+        width: 80%;
+    }
+
+#divInfoTurma {
+    padding-top: 3vh;
+}
+
+    #divInfoTurma label {
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+#msgListaTurma {
+    padding-bottom: 62px;
+}
+
+#divListaTurma {
+    display: flex;
+    min-height: 172px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+
+
+#divOrganizarMensagem {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#conteudoModal {
+    display: none;
+    z-index: 5;
+    width: 67vw;
+    padding: 2vh 2vw !important;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 80%;
+    position: fixed;
+    top: 10%;
+}
+
+#divInfoModal {
+    overflow-y: scroll;
+    max-height: 80%;
+}
+
+#divTitInfoTurma {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    height: 40px;
+    gap: 4vw;
+    margin-bottom: 20px;
+}
+
+    #divTitInfoTurma > span {
+        font-weight: 700;
+    }
+
+/* Escondidos na versão PC */
+#divBotoesEditarMobile, #divBotoesEdicaoMobile, #divFinalizarTurmaMobile, #divBotaoReativarTurmaMobile, #divReativarTurmaMobile, #divBotaoAdicionarMobile, #btnAdicionarMobile, #divBotaoNovaAulaMobile {
+    display: none;
+}
+
+#btnVoltarModal {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px 3px 15px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+#divRelevo {
+    border-radius: 10px;
+    background-color: #EAEAEA;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+/* Classes */
+.divMsgSelecione {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100% !important;
+}
+
+@media (max-width: 800px) {
+    #divFiltros {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #idCheckbox {
+        width: 100%;
+    }
+
+    #idData {
+        width: 100%;
+    }
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #divInicioPagina {
+        width: 100%;
+    }
+
+    #txtBusca {
+        width: 100%;
+    }
+
+    #divPesquisar {
+        justify-content: space-between;
+    }
+
+    #idCheckbox, #idData, #idDropdown {
+        padding: 10px;
+    }
+
+    #divInputCheckbox > label {
+        width: 70%;
+    }
+
+    #divInputData > label {
+        width: 20%;
+    }
+
+    #divInputDropdown > label, #divInputDropdown > select {
+        width: 75%;
+    }
+
+    #divFiltros {
+        width: 100%;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        max-height: 500px;
+        opacity: 1;
+        overflow: hidden;
+    }
+
+        #divFiltros.hidden {
+            max-height: 0;
+            opacity: 0;
+        }
+
+    #btnFiltrosMobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #arrowIcon {
+        margin-left: 5px; /* Space between text and arrow */
+        transition: transform 0.5s ease;
+    }
+
+        #arrowIcon.up {
+            transform: rotate(180deg); /* Rotate the arrow when the filter is closed */
+        }
+
+    #btnAdicionar {
+        display: none;
+    }
+
+    #btnAdicionarMobile {
+        display: unset;
+    }
+
+    #divTitInfoTurma {
+        margin-bottom: 0px !important;
+        justify-content: flex-start;
+    }
+
+    #divInfoTurma {
+        overflow-y: scroll;
+        margin-bottom: 2vh;
+    }
+
+    #divTopo {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    #divBotaoAdicionarMobile {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin: 0px;
+    }
+
+    #btnConfirmarAdicionarMobile {
+        height: 45px;
+        color: #FFFFFF;
+        width: 100%;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #divBotaoReativarTurmaMobile {
+        display: none;
+        text-align: center;
+        width: 100%;
+        font-size: 14px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    #btnReativarTurmaMobile {
+        height: 45px;
+        font-size: 16px;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #divReativarTurmaMobile, #divFinalizarTurmaMobile {
+        display: none;
+        background-color: white;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px inset;
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    #btnIgnorarFinalizarTurmaMobile, #btnFinalizarTurmaMobile, #btnIgnorarReativarTurmaMobile, #btnConfirmarReativarTurmaMobile {
+        margin-top: 5px;
+        height: 30px;
+        font-size: 14px;
+        width: 45%;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+    }
+
+    #btnIgnorarFinalizarTurmaMobile, #btnIgnorarReativarTurmaMobile {
+        background-color: white;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    }
+
+    #btnFinalizarTurmaMobile {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    }
+
+    #btnConfirmarReativarTurmaMobile {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #divOrganizarMensagem {
+        display: none;
+    }
+
+    #conteudoModal {
+        width: 94vw !important;
+        position: absolute !important;
+        top: 13vh !important;
+        bottom: 3vh !important;
+        left: 3vw !important;
+        right: 3vw !important;
+        gap: 15px;
+        padding: 2vh 3vw !important;
+    }
+
+    #divInfoModal {
+        max-height: 100%;
+        padding: 6px;
+    }
+}
+
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #divBusca {
+        margin-top: 10px;
+    }
+
+    #divInfoTurma {
+        padding-top: 15px;
+    }
+}

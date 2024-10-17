@@ -1,0 +1,248 @@
+﻿@model Application.Responses.ResponseModelCurso
+
+@{
+    bool icAdicionar = Model is null;
+
+    Layout = null;
+    var nmTurma = Model?.NmCurso;
+    var IcFinalizado = Model?.DtFinalizacao != null;
+
+    if (!icAdicionar) {
+        nmTurma = Model?.NmCurso ?? String.Empty;
+    }
+}
+
+<link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
+
+@Html.HiddenFor(model => model.CdCurso)
+
+<div id="backgroundConteudoModal"></div>
+<div id="divInformacoesTurma">
+    <div id="TituloInfo">
+        <h3 class="linear1"><b>Informações </b></h3>
+        <button id="btnEditar" onclick="carregarEdicaoTurma()"><b class="linear1">Editar curso</b></button>
+        <div id="divBotoesEdicao">
+            <button id="btnCancelar" onclick="cancelarEdicaoTurma()"><b class="linear1">Cancelar edição</b></button>
+            <button id="btnSalvar" onclick="salvarInfoTurma()"><b>Salvar</b></button>
+        </div>
+    </div>
+
+    <div id="divRelevo">
+        <div id="divNomeTurma">
+            <label for="divNomeTurma" class="linear1">Nome:</label><br />
+            <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmCurso" type="text" placeholder="Digite o nome da turma..." disabled />
+        </div>
+
+        <div id="divDescricaoTurma">
+            <label for="txtDescricaoTurma" class="linear1">Descrição:</label><br />
+            <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsCurso" type="text" placeholder="Digite a descrição da turma..." disabled></textarea>
+        </div>
+
+        <div id="divDatas">
+            <div id="divDataCriacao">
+                <label for="txtCriacao" class="linear1">Data de início:</label><br />
+                <input id="txtCriacao" class="txtInfoTurma" asp-for="DtCriacao" type="date" disabled />
+            </div>
+
+            <div id="divDataFinalizacao">
+                <label for="txtFinalizacao" class="linear1">Data de finalização:</label><br />
+                <input id="txtFinalizacao" class="txtInfoTurma" asp-for="DtFinalizacao" type="date" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div id="divBotoesEditarMobile">
+        <button id="btnFinalizarMobile" onclick="carregarFinalizarTurma(true)"><b style="color: white;">Finalizar turma</b></button>
+        <button id="btnEditarMobile" onclick="carregarEdicaoTurma(true)"><b class="linear1">Editar turma</b></button>
+    </div>
+
+    <div id="divBotoesEdicaoMobile">
+        <button id="btnCancelarMobile" onclick="cancelarEdicaoTurma(true)"><b class="linear1">Cancelar edição</b></button>
+        <button id="btnSalvarMobile" onclick="salvarInfoTurma(true)"><b>Salvar</b></button>
+    </div>
+
+    <div id="divBotaoReativarTurmaMobile">
+        <button id="btnReativarTurmaMobile" onclick="carregarReativarTurma(true)"><b class="linear1">Reativar turma</b></button>
+    </div>
+</div>
+
+<div id="divAulasTurma">
+    <div id="TituloInfoAula">
+        <div id="TituloBotaoAula">
+            <h3 class="linear1"><b>Aulas </b></h3>
+            <button id="btnNovaAula" onclick="carregarNovaAula()"><b class="linear1">Nova aula</b></button>
+        </div>
+        <span id="msgAula" class="linear1"><b>Clique na aula para ver suas informações!</b></span>
+        <span id="msgMobileAula" class="linear1"><b>Aperte na aula para ver suas informações!</b></span>
+    </div>
+
+    <div id="divRelevo">
+        <div id="divAulas">
+            <div id="divAula">
+                <div id="topoAula">
+                    <div id="infoAula">
+                        <h3 class="linear1"><b>Aula 01</b></h3>
+                        <h5 class="linear1"><b>21/01/2024</b></h5>
+                    </div>
+
+                    <div id="infoArquivos">
+                        <div id="divArquivos" class="comDoc">C/Arquivo</div>
+                        <div id="divChamadas" class="semDoc">S/Chamada</div>
+                    </div>
+                </div>
+
+                <div id="descAula" class="linear1">
+                   Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+                </div>
+
+            </div>
+
+            <div id="divAula">
+                <div id="topoAula">
+                    <div id="infoAula">
+                        <h4 class="linear1"><b>Aula 01</b></h4>
+                        <h5 class="linear1"><b>21/01/2024</b></h5>
+                    </div>
+
+                    <div id="infoArquivos">
+                        <div id="divArquivos" class="comDoc">C/Arquivo</div>
+                        <div id="divChamadas" class="semDoc">S/Chamada</div>
+                    </div>
+                </div>
+
+                <div id="descAula" class="linear1">
+                   Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+                </div>
+
+            </div>
+
+            <div id="divAula">
+                <div id="topoAula">
+                    <div id="infoAula">
+                        <h3 class="linear1"><b>Aula 01</b></h3>
+                        <h5 class="linear1"><b>21/01/2024</b></h5>
+                    </div>
+
+                    <div id="infoArquivos">
+                        <div id="divArquivos" class="comDoc">C/Arquivo</div>
+                        <div id="divChamadas" class="semDoc">S/Chamada</div>
+                    </div>
+                </div>
+
+                <div id="descAula" class="linear1">
+                   Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="divBotaoNovaAulaMobile">
+        <button id="btnNovaAulaMobile" onclick="carregarNovaAula(true)"><b class="linear1">Nova aula</b></button>
+    </div>
+</div>
+
+<div id="divAlunosTurma">
+    <div id="TituloInfoAula">
+        <div id="TituloBotaoAula">
+            <h3 class="linear1"><b>Alunos </b></h3>
+        </div>
+        <span id="msgAluno" class="linear1"><b>Clique no aluno para ver suas informações!</b></span>
+        <span id="msgMobileAluno" class="linear1"><b>Aperte no aluno para ver suas informações!</b></span>
+    </div>
+
+    <div id="divListaAlunoTurma">
+        <div id="listaAlunos">
+            <div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+                <div>
+                    Matheus
+                    <button id="btnDesvincular">Desvincular</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divFinalizarTurma">
+    <b class="linear1">Tem certeza que deseja finalizar a turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <b class="linear1">Não será possível utilizá-la.</b>
+    <div id="divBotoesFinalizarTurma">
+        <button id="btnIgnorarFinalizarTurma" onclick="cancelarFinalizarTurma()"><b class="linear1">Não</b></button>
+        <button id="btnFinalizarTurma" onclick="finalizarTurma()"><b style="color: white;">Finalizar</b></button>
+    </div>
+</div>
+
+
+<div id="divReativarTurma">
+    <b class="linear1">Tem certeza que deseja reativar a turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <b class="linear1">A turma poderá ser utilizada novamente.</b>
+    <div id="divBotoesReativarTurma">
+        <button id="btnIgnorarReativarTurma" onclick="cancelarReativarTurma()"><b class="linear1">Não</b></button>
+        <button id="btnConfirmarReativarTurma" onclick="reativarTurma()"><b style="color: white;">Reativar</b></button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    atualizarBotoes();
+
+    function atualizarBotoes() {
+        if ('@IcFinalizado' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotoesEditarMobile').hide();
+                $('#divBotaoReativarTurmaMobile').show();
+            } else {
+                $('#btnFinalizar').hide();
+                $('#btnReativar').css("display", "unset");
+            }
+        } else {
+            $('#divDataFinalizacao').css('display', 'none');
+        }
+    }
+</script>
