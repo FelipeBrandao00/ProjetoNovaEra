@@ -10,6 +10,7 @@ namespace Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CdAula { get; set; }
         public DateTime DtAula { get; set; }
+        public required string NmAula { get; set; }
         public string? DsAula { get; set; }
 
         public int CdTurma { get; set; }
