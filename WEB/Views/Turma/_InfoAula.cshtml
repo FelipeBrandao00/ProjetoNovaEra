@@ -1,0 +1,117 @@
+﻿<link rel="stylesheet" href="~/css/Turma/InfoAula.css">
+
+<div id="divInformacaoAula">
+    <div id="divTituloAula">
+        <button id="btnVoltarModal" onclick="voltarAula()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Turma: </b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoAula">
+@*         <div id="divNomeAula">
+            <label for="txtTituloAula" class="linear1">Título:</label><br />
+            <input id="txtTituloAula" class="txtInfoTurma" type="text" disabled /><br />
+
+            <label for="txtDtAula" class="linear1">Data de criação:</label><br />
+            <input id="txtDtAula" class="txtInfoTurma" type="date" disabled />
+        </div>
+ *@
+        <div id="divStatusAula">
+            <div id="divArquivos" class="comDoc large">C/Arquivo</div>
+            <div id="divChamadas" class="semDoc large">S/Chamada</div>
+        </div>
+
+        <div id="divDescricaoAula">
+            <label for="txtDescricaoAula" class="linear1">Descrição:</label><br />
+            <textarea id="txtDescricaoAula" class="txtInfoTurma" type="text" placeholder="Digite a descrição da aula..." disabled></textarea>
+        </div>
+
+        <div id="divBotoesAulaMobile">
+            <button id="btnEditarAulaMobile" onclick="carregarEdicaoAula(true)"><b class="linear1">Editar</b></button>
+            <button id="btnExcluirAulaMobile" onclick="excluirAula()"><b>Excluir</b></button>
+
+            <button id="btnCancelarEdicaoAulaMobile" onclick="cancelarEdicaoAula(true)"><b class="linear1">Cancelar</b></button>
+            <button id="btnSalvarEdicaoAulaMobile" onclick="editarAula()"><b>Salvar</b></button>
+        </div>
+
+        <div id="divBotoesAulaDesktop">
+            <button id="btnEditarAula" onclick="carregarEdicaoAula()"><b class="linear1">Editar</b></button>
+            <button id="btnExcluirAula" onclick="excluirAula()"><b>Excluir</b></button>
+
+            <button id="btnCancelarEdicaoAula" onclick="cancelarEdicaoAula()"><b class="linear1">Cancelar</b></button>
+            <button id="btnSalvarEdicaoAula" onclick="editarAula()"><b>Salvar</b></button>
+        </div>
+
+        <div id="divBotoesAulaOuter">
+            <button id="btnRegistrarConteudo" onclick="redirecionarConteudo()"><b class="linear1">Registrar conteúdo</b> <i class="fa fa-external-link"></i></button>
+            <button id="btnChamada" onclick="redirecionarChamada()"><b class="linear1">Chamada</b> <i class="fa fa-external-link"></i></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // let infoAulaTemp;
+
+    function carregarEdicaoAula(mobile = false) {
+        infoAulaTemp = {
+            NmAula: $('#txtTituloAula').val(),
+            DtAula: $('#txtDtAula').val(),
+            DsAula: $('#txtDescricaoAula').val(),
+        }
+
+        if (mobile) {
+            $('#btnEditarAulaMobile').css('display', 'none');
+            $('#btnExcluirAulaMobile').css('display', 'none');
+
+            $('#btnCancelarEdicaoAulaMobile').css('display', 'unset');
+            $('#btnSalvarEdicaoAulaMobile').css('display', 'unset');
+        } else {
+            $('#btnEditarAula').css('display', 'none');
+            $('#btnExcluirAula').css('display', 'none');
+
+            $('#btnCancelarEdicaoAula').css('display', 'unset');
+            $('#btnSalvarEdicaoAula').css('display', 'unset');
+        }
+
+        $('#txtDescricaoAula, #txtTituloAula, #txtDtAula')
+            .css('background-color', '#FFFFFF')
+            .attr('disabled', false);
+    }
+
+    function cancelarEdicaoAula(mobile = false) {
+        if (mobile) {
+            $('#btnEditarAulaMobile').css('display', 'flex');
+            $('#btnExcluirAulaMobile').css('display', 'flex');
+
+            $('#btnCancelarEdicaoAulaMobile').css('display', 'none');
+            $('#btnSalvarEdicaoAulaMobile').css('display', 'none');
+        }
+        else {
+            $('#btnEditarAula').css('display', 'unset');
+            $('#btnExcluirAula').css('display', 'unset');
+
+            $('#btnCancelarEdicaoAula').css('display', 'none');
+            $('#btnSalvarEdicaoAula').css('display', 'none');
+        }
+
+        $('#txtDescricaoAula, #txtTituloAula, #txtDtAula')
+            .css('background-color', '#DBD8D8')
+            .attr('disabled', true);
+
+        window.location.hash = '';
+
+        $('#txtDescricaoAula').val(infoAulaTemp.DsAula);
+        $('#txtDtAula').val(infoAulaTemp.DtAula);
+        $('#txtTituloAula').val(infoAulaTemp.NmAula);
+    }
+
+    function editarAula() {
+        alert('editar');
+    }
+
+    function excluirAula() {
+        alert('excluir');
+    }
+</script>

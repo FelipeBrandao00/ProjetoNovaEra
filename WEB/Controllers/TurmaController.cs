@@ -65,5 +65,12 @@ namespace WEB.Controllers {
             var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
             return response.IsSuccess;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CarregarAula() {
+            //configuration["JwtToken"] = Request.Cookies["Token"];
+            //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
+            return PartialView("_InfoAula");
+        }
     }
 }

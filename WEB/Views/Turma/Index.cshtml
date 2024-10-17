@@ -16,7 +16,7 @@
     </div>
 
     <div id="divBusca">
-        <input id="txtBusca" type="text" placeholder="Digite o nome do curso..." />
+        <input id="txtBusca" type="text" placeholder="Digite o nome da turma..." />
 
         <div id="divFiltros">
             <div id="idData">
@@ -317,6 +317,7 @@
             $('#btnEditar').css('display', 'none');
             $('#divBotoesEdicao').css('display', 'unset');
         }
+        window.location.hash = '#divInformacoesTurma';
 
         $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao')
             .css('background-color', '#FFFFFF')
@@ -361,6 +362,7 @@
                     $('#divBotoesEdicao').css('display', 'none');
                 }
 
+                window.location.hash = '';
                 $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao')
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
@@ -480,7 +482,9 @@
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
-        $('#txtNomeTurma').val(infoTurmaTemp.nmTurma);
+        window.location.hash = '';
+
+        $('#txtNomeTurma').val(infoTurmaTemp.NmCurso);
         $('#txtDescricaoTurma').val(infoTurmaTemp.DsCurso);
         $('#txtCriacao').val(infoTurmaTemp.DtCriacao);
         $('#txtFinalizacao').val(infoTurmaTemp.DtNascimento);
@@ -491,6 +495,36 @@
 
         $('#conteudoModal').css('display', 'none');
         $('#backgroundModal').css('display', 'none');
+    }
+
+    function carregarNovaAula() {
+        $.ajax({
+            url: '@Url.Action("CarregarAula", "Turma")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divInfoAula').html(data);
+
+                $('#backgroundConteudoModal').css('display', 'block');
+                $('#divInformacaoAula').css('display', 'flex');
+
+                // if (mobile) {
+                //     $("#nmTurma").text($('#txtNomeTurma').val());
+                // } else {
+                //     window.location.hash = '#divInformacaoAula';
+                // }
+                $('#msgListaTurma').hide();
+                $('#divListaTurma').html(data);
+            }
+        });
+
+    }
+
+    function voltarAula() {
+        event.preventDefault();
+
+        $('#backgroundConteudoModal').css('display', 'none');
+        $('#divInformacaoAula').css('display', 'none');
     }
 
     function validarCampos() {

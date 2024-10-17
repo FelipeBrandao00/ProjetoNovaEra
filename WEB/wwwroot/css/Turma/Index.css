@@ -14,7 +14,7 @@ article {
 }
 
 #divInicioPagina {
-    width: 60%;
+    width: 100%;
 }
 
 #btnAdicionar, #btnAdicionarMobile {
@@ -112,7 +112,7 @@ article {
     }
 
 #divInfoTurma {
-    padding-top: 3vh;
+    padding: 3vh 1vw;
 }
 
     #divInfoTurma label {
@@ -132,7 +132,9 @@ article {
     gap: 10px;
 }
 
-
+#divOrganizarLista {
+    margin-top: 40px;
+}
 
 #divOrganizarMensagem {
     display: flex;
