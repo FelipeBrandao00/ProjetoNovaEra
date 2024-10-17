@@ -9,14 +9,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nova Era</title>
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css">
+    
     <!-- MONTSERRAT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- ÍCONES -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/Toastr/toastr.css" />
+    <link rel="stylesheet" href="~/css/Toastr/toastr.min.css" />
 
     <style type="text/css">
 
@@ -438,6 +444,14 @@
 
     </style>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true">    </script>
+    <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="~/js/toastr.js"></script>
+    <script src="~/js/toastr.min.js"></script>
 </head>
 <body>
 
@@ -608,13 +622,32 @@
         </article>
     </main>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>    
-    @await RenderSectionAsync("Scripts", required: false)
-
     <script type="text/javascript">
+
+        toastr.options = {
+            "timeOut": "5000",
+            "positionClass": "toast-top-center",
+            "closeButton": true,
+            "progressBar": true
+        };
+
+        function ExibirSucesso(message, titulo) {
+            toastr.success(message, titulo, {
+                timeOut: 3000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
+
+        function ExibirErro(message, titulo) {
+            toastr.error(message, titulo, {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
 
         function toggleUser() {
             var userData = document.getElementById('userData');

@@ -41,10 +41,6 @@ input:focus, button:focus {
     font-size: 12px;
 }
 
-#msgListaAluno {
-    padding-bottom: 62px;
-}
-
 #divListaAluno {
     display: flex;
     min-height: 172px;
@@ -53,6 +49,14 @@ input:focus, button:focus {
     gap: 10px;
     height: 100%;
     margin-top: 2vh;
+}
+
+#msgListaAluno {
+    padding-bottom: 62px;
+}
+
+#msgListaAlunoMobile {
+    display: none;
 }
 
 /* Classes */
@@ -122,6 +126,26 @@ input:focus, button:focus {
         padding: 5px 10px 5px 10px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
         background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #divListaAluno {
+        margin-top: 0px;
+    }
+
+    #divBusca {
+        margin-top: 0px;
+    }
+
+    #msgListaAluno {
+        display: none;
+    }
+
+    #msgListaAlunoMobile {
+        width: 100%;
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        margin-top: 2vh;
     }
 }
 

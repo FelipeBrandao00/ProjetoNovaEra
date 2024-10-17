@@ -8,10 +8,9 @@
 
 <link rel="stylesheet" href="~/css/Aluno/Index.css">
 <link rel="stylesheet" href="~/css/Shared/Livro.css">
+<link rel="stylesheet" href="~/css/Shared/Crop.css">
 
 <!-- CROP DA IMAGEM -->
-
-<link rel="stylesheet" href="~/css/Shared/Crop.css">
 <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
 <script src="https://unpkg.com/cropperjs"></script>
 
@@ -42,6 +41,10 @@
 
                 <div id="msgListaAluno" class="divMsgSelecione">
                     <span class="linear1">Digite o nome do aluno e aperte em “Pesquisar!”</span>
+                </div>
+
+                <div id="msgListaAlunoMobile">
+                    <span>Aperte no Aluno para ver suas informações!</span>
                 </div>
 
                 <div id="divListaAluno"></div>
@@ -83,6 +86,24 @@
     let cropper;
     let imagemBase64;
     let infoAlunoTemp;
+
+    function extrairBase64DeImagem(elementoImagem) {
+        const src = elementoImagem.src;
+        if (src.startsWith('data:image/'))
+            return src;
+        else
+            return null;
+    }
+
+    function base64ToBlob(base64) {
+        const binaryString = atob(base64.split(',')[1]);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return new Blob([bytes], { type: 'image/png' });
+    }
 
     document.addEventListener("DOMContentLoaded", carregarListaAlunos);
 
@@ -143,14 +164,6 @@
         });
     }
 
-    function extrairBase64DeImagem(elementoImagem) {
-        const src = elementoImagem.src;
-        if (src.startsWith('data:image/'))
-            return src;
-        else
-            return null;
-    }
-
     function carregarEdicaoAluno(mobile = false) {
         event.preventDefault();
 
@@ -206,30 +219,24 @@
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
-        $('#txtNomeAluno').val(infoAlunoTemp.NmUsuario);
-        $('#txtEmailAluno').val(infoAlunoTemp.DsEmail);
-        $('#txtGeneroAluno').val(infoAlunoTemp.DsGenero);
-        $('#txtNascimentoAluno').val(infoAlunoTemp.DtNascimento);
-        $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
-        
-        if (!!infoAlunoTemp.DsFoto) {
-            const imgAluno = document.getElementById('imgAluno');
-            imgAluno.src = infoAlunoTemp.DsFoto;
-            imgAluno.style.display = 'block';
-        }
-        else {
-            ExcluirFoto();
-        }
-    }
+        if (infoAlunoTemp) {
+            $('#txtNomeAluno').val(infoAlunoTemp.NmUsuario);
+            $('#txtEmailAluno').val(infoAlunoTemp.DsEmail);
+            $('#txtGeneroAluno').val(infoAlunoTemp.DsGenero);
+            $('#txtNascimentoAluno').val(infoAlunoTemp.DtNascimento);
+            $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
 
-    function base64ToBlob(base64) {
-        const binaryString = atob(base64.split(',')[1]);
-        const len = binaryString.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-            bytes[i] = binaryString.charCodeAt(i);
+            if (!!infoAlunoTemp.DsFoto) {
+                const imgAluno = document.getElementById('imgAluno');
+                imgAluno.src = infoAlunoTemp.DsFoto;
+                imgAluno.style.display = 'block';
+            }
+            else {
+                ExcluirFoto();
+            }
+
+            infoAlunoTemp = null;
         }
-        return new Blob([bytes], { type: 'image/png' });
     }
 
     function salvarInfoAluno(mobile = false) {
@@ -265,12 +272,21 @@
         $.ajax({
             url: '@Url.Action("AtualizarInfoAluno", "Aluno")',
             type: 'POST',
-
             processData: false,
             contentType: false,
             data: ResponseModelUsuario,
+            dataType: 'JSON',
             async: true,
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotaoEditarMobile').css('display', 'flex');
                     $('#divBotoesEdicaoMobile').css('display', 'none');
@@ -287,6 +303,12 @@
                     .attr('disabled', true);
 
                 carregarListaAlunos(false);
+                infoAlunoTemp = null;
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
             }
         });
     }
@@ -296,6 +318,8 @@
 
         $('#paginaDireita').css('display', 'none');
         $('#backgroundModal').css('display', 'none');
+
+        cancelarEdicaoAluno(true);
     }
 
     function TrocarFoto() {
