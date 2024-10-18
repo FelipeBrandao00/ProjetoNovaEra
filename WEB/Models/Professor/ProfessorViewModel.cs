@@ -2,9 +2,10 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using WEB.Models.Shared;
+using WEB.Models.Usuario;
 
-namespace WEB.Models.Professor {
+namespace WEB.Models.Professor
+{
     public class ProfessorViewModel : UsuarioViewModel {
         public async Task<Response<ResponseModelUsuario>> Habilitar(IConfiguration configuration, ResponseModelUsuario responseModelUsuario) {
             using (var client = new HttpClient()) {

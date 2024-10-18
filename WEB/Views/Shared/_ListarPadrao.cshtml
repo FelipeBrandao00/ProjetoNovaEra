@@ -6,9 +6,9 @@
 
 <link rel="stylesheet" href="~/css/Shared/ListarPadrao.css">
 
-<div id="msgListaPadraoMobile">
+@* <div id="msgListaPadraoMobile">
     <span>Aperte no @Html.Raw(Model.TipoItem) para ver suas informações!</span>
-</div>
+</div> *@
 
 <div id="listaPadrao">
     <div>
@@ -23,7 +23,7 @@
         else
         {
             <div style="text-align: center; width: 100%">
-                <span class="linear1">Não há @Html.Raw(Model.TipoItem)s.</span>
+                <span class="linear1">Não há @Html.Raw(Model.TipoItem).</span>
             </div>
         }
 

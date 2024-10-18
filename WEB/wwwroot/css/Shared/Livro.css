@@ -27,8 +27,11 @@
 #conteudoPagEsq {
     height: 100%;
     padding: 0 2vw 3vh 2vw;
-    display: grid;
-    grid-template-rows: max-content;
+    /*display: grid;
+    grid-template-rows: max-content;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     gap: 10px;
 }
 
@@ -115,6 +118,14 @@
         padding: 10px 15px 3px 15px;
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
         background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #divLivro {
+        overflow-y: unset;
+    }
+
+    #capaLivro {
+        height: 70vh;
     }
 }
 
