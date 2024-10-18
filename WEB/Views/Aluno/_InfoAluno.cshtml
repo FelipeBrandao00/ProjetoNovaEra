@@ -5,8 +5,8 @@
     Layout = null;
     var NmCurso = ViewBag.NmCurso ?? String.Empty;
     var NmTurma = ViewBag.NmTurma ?? String.Empty;
-    var ImgSrc = (Model.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
-    var ImgAlunoDisplay = !String.IsNullOrEmpty(ImgSrc) ? "display: block" : "display: none";
+    var ImgSrc = (Model?.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+    var ImgUserDisplay = !String.IsNullOrEmpty(ImgSrc) ? "display: block" : "display: none";
     var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
 }
 
@@ -17,7 +17,7 @@
 
 <div id="divImgAluno">
     <div id="quadroImgAluno">
-        <img id="imgAluno" height="122" width="122" src="@ImgSrc" alt="Foto do Aluno" style="@Html.Raw(ImgAlunoDisplay)" />
+        <img id="imgAluno" height="122" width="122" src="@ImgSrc" alt="Foto do Aluno" style="@Html.Raw(ImgUserDisplay)" />
     </div>
 
     <input id="inputTrocarFoto" type="file" style="display:none;" accept="image/*" />
@@ -30,12 +30,12 @@
 
 <div id="divNomeAluno">
     <label for="divNomeAluno" class="linear1">Nome:</label><br />
-    <input id="txtNomeAluno" class="txtInfoAluno" asp-for="NmUsuario" type="text" placeholder="" disabled />
+    <input id="txtNomeAluno" class="txtInfoAluno" asp-for="NmUsuario" type="text" placeholder="Digite o nome..." disabled />
 </div>
 
 <div id="divEmailAluno">
     <label for="divEmailAluno" class="linear1">Email:</label><br />
-    <input id="txtEmailAluno" class="txtInfoAluno" asp-for="DsEmail" type="text" placeholder="" disabled />
+    <input id="txtEmailAluno" class="txtInfoAluno" asp-for="DsEmail" type="text" placeholder="Digite o e-mail..." disabled />
 </div>
 
 <div id="divGrupoPC1">
@@ -59,7 +59,7 @@
 
     <div id="divTelefoneAluno">
         <label for="divTelefoneAluno" class="linear1">Telefone:</label><br />
-        <input id="txtTelefoneAluno" class="txtInfoAluno" asp-for="DsTelefone" type="text" placeholder="" disabled />
+        <input id="txtTelefoneAluno" class="txtInfoAluno" asp-for="DsTelefone" type="text" placeholder="Digite o telefone..." disabled />
     </div>
 </div>
 

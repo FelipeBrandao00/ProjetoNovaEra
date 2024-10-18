@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
 using WEB.Models.CargoUsuario;
 using WEB.Models.Professor;
+using WEB.Models.Genero;
 using WEB.Models.Shared;
 using WEB.Models.Usuario;
 
@@ -34,10 +35,19 @@ namespace WEB.Controllers
         public async Task<IActionResult> CarregarInfoProfessor(UsuarioViewModel UsuarioViewModel) {
             configuration["JwtToken"] = Request.Cookies["Token"];
             var response = await UsuarioViewModel.BuscarInfo(configuration);
+
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
             return PartialView("_InfoProfessor", response.Data);
         }
 
         public async Task<IActionResult> CarregarAdicionarProfessor() {
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
             return PartialView("_AdicionarProfessor", null);
         }
 
@@ -45,6 +55,10 @@ namespace WEB.Controllers
             configuration["JwtToken"] = Request.Cookies["Token"];
             var responseAdd = await new UsuarioViewModel().Adicionar(configuration, ResponseModelUsuario);
             var resposeCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, responseAdd.Data.CdUsuario, 2);
+
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
 
             return PartialView("_InfoProfessor", responseAdd.Data);
         }
