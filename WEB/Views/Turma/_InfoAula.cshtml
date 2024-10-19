@@ -10,17 +10,17 @@
     </div>
 
     <div id="divConteudoAula">
-@*         <div id="divNomeAula">
-            <label for="txtTituloAula" class="linear1">Título:</label><br />
-            <input id="txtTituloAula" class="txtInfoTurma" type="text" disabled /><br />
-
-            <label for="txtDtAula" class="linear1">Data de criação:</label><br />
-            <input id="txtDtAula" class="txtInfoTurma" type="date" disabled />
-        </div>
- *@
         <div id="divStatusAula">
             <div id="divArquivos" class="comDoc large">C/Arquivo</div>
             <div id="divChamadas" class="semDoc large">S/Chamada</div>
+        </div>
+
+        <div id="divNomeAula">
+            <label for="txtAula" class="linear1">Título:</label><br />
+            <input id="txtAula" class="txtInfoTurma" type="text" placholder="Digite o nome da aula..."/><br />
+
+            <label for="txtDtAula" class="linear1">Data de criação:</label><br />
+            <input id="txtDtAula" class="txtInfoTurma" type="date" disabled />
         </div>
 
         <div id="divDescricaoAula">
@@ -52,11 +52,11 @@
 </div>
 
 <script type="text/javascript">
-    // let infoAulaTemp;
+    let infoAulaTemp;
 
     function carregarEdicaoAula(mobile = false) {
         infoAulaTemp = {
-            NmAula: $('#txtTituloAula').val(),
+            NmAula: $('#txtAula').val(),
             DtAula: $('#txtDtAula').val(),
             DsAula: $('#txtDescricaoAula').val(),
         }
@@ -75,15 +75,15 @@
             $('#btnSalvarEdicaoAula').css('display', 'unset');
         }
 
-        $('#txtDescricaoAula, #txtTituloAula, #txtDtAula')
+        $('#txtDescricaoAula, #txtAula, #txtDtAula')
             .css('background-color', '#FFFFFF')
             .attr('disabled', false);
     }
 
     function cancelarEdicaoAula(mobile = false) {
         if (mobile) {
-            $('#btnEditarAulaMobile').css('display', 'flex');
-            $('#btnExcluirAulaMobile').css('display', 'flex');
+            $('#btnEditarAulaMobile').css('display', 'unset');
+            $('#btnExcluirAulaMobile').css('display', 'unset');
 
             $('#btnCancelarEdicaoAulaMobile').css('display', 'none');
             $('#btnSalvarEdicaoAulaMobile').css('display', 'none');
@@ -96,7 +96,7 @@
             $('#btnSalvarEdicaoAula').css('display', 'none');
         }
 
-        $('#txtDescricaoAula, #txtTituloAula, #txtDtAula')
+        $('#txtDescricaoAula, #txtAula, #txtDtAula')
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
@@ -104,7 +104,7 @@
 
         $('#txtDescricaoAula').val(infoAulaTemp.DsAula);
         $('#txtDtAula').val(infoAulaTemp.DtAula);
-        $('#txtTituloAula').val(infoAulaTemp.NmAula);
+        $('#txtAula').val(infoAulaTemp.NmAula);
     }
 
     function editarAula() {
@@ -114,4 +114,5 @@
     function excluirAula() {
         alert('excluir');
     }
+
 </script>

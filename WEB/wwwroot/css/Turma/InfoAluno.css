@@ -1,0 +1,124 @@
+#divInformacaoAluno {
+    z-index: 9;
+    display: none;
+    padding: 15px;
+    padding-bottom: 0px;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    gap: 5px;
+    width: 30vw;
+    font-size: 14px;
+    position: fixed;
+    top: 8%;
+    max-height: 80%;
+    left: 38%;
+}
+
+#divTituloAluno {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+    #divTituloAluno > h5 {
+        margin-top: 8px;
+    }
+
+
+#divConteudoAluno {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1vw 3vh;
+    overflow-y: scroll;
+}
+
+#divNomeAluno {
+    margin-bottom: 10px;
+}
+
+label {
+    float: left;
+}
+
+#divBotoesAlunoMobile {
+    display: none;
+}
+
+#divBotoesAlunoDesktop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#divDesvincularAluno {
+    z-index: 7;
+    display: none;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
+    flex-direction: column;
+    gap: 5px;
+    width: 25vw;
+    margin-top: 50px;
+    font-size: 14px;
+    position: fixed;
+    top: 35%;
+    left: 41%;
+}
+
+.txtInfoTurma {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #DBD8D8;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+.txtInfoAlunoAdd {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #FFFFFF;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    label {
+        float: left;
+    }
+
+    #divInformacaoAluno {
+        overflow-y: scroll;
+        max-height: 80%;
+        width: 84vw;
+        top: 15%;
+        left: 8%;
+    }
+
+    #divConteudoAluno {
+        padding: 3vw 1vh;
+    }
+
+    #divDesvincularAluno {
+        left: 8%;
+        width: 84vw;
+    }
+}

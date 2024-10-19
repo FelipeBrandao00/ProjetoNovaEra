@@ -176,7 +176,7 @@
         let dtFinal = $("#txtFinal").val();
 
         $.ajax({
-            url: '@Url.Action("ListarCursos", "Turma")',
+            url: '@Url.Action("ListarTurmas", "Turma")',
             type: 'GET',
             async: true,
             data: {
@@ -198,6 +198,9 @@
         $('#backgroundModal').css('display', 'block');
         $('#btnFinalizar').css('display', 'flex');
         $('#divBotoesEditarMobile').css('display', 'none');
+        $('#divTitInfoTurma').css('justify-content', 'space-between');
+        $('#divTitInfoTurma > span').html("Informação da turma");
+
 
         if (window.matchMedia("(max-width: 1200px)").matches) {
             $('#divBotoesEditarMobile').css('display', 'flex');
@@ -217,7 +220,7 @@
         let Busca = $('#txtBusca').val();
 
         $.ajax({
-            url: '@Url.Action("CarregarInfoCurso", "Turma")',
+            url: '@Url.Action("CarregarInfoTurma", "Turma")',
             type: 'GET',
             async: true,
             data: {
@@ -245,7 +248,7 @@
         }
 
         $.ajax({
-            url: '@Url.Action("CarregarAdicionarCurso", "Turma")',
+            url: '@Url.Action("CarregarAdicionarTurma", "Turma")',
             type: 'GET',
             async: true,
             success: function (data) {
@@ -283,24 +286,13 @@
         }
 
         $.ajax({
-            url: '@Url.Action("AdicionarCurso", "Turma")',
+            url: '@Url.Action("AdicionarTurma", "Turma")',
             type: 'POST',
             async: true,
             data: infoAdd,
             success: function (data) {
-                if (mobile) {
-                    $('#divBotoesEditarMobile').css('display', 'flex');
-                    $('#divBotaoAdicionarMobile').css('display', 'none');
-                }
-                else {
-                    $('#divBotoesEditar').css('display', 'flex');
-                    $('#divBotaoAdicionar').css('display', 'none');
-                }
-
-                $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao')
-                    .css('background-color', '#DBD8D8')
-                    .attr('disabled', true);
-
+                $('#conteudoModal').css('display', 'none');
+                $('#backgroundModal').css('display', 'none');
                 carregarListaTurmas(false);
             }
         });
@@ -348,7 +340,7 @@
         }
 
         $.ajax({
-            url: '@Url.Action("AtualizarInfoCurso", "Turma")',
+            url: '@Url.Action("AtualizarInfoTurma", "Turma")',
             type: 'POST',
             async: true,
             data: infoTurmaTemp,
@@ -412,7 +404,7 @@
         let cdCurso = $('#CdCurso').val();
 
         $.ajax({
-            url: '@Url.Action("FinalizarCurso", "Turma")',
+            url: '@Url.Action("FinalizarTurma", "Turma")',
             type: 'POST',
             async: true,
             data: {
@@ -442,7 +434,7 @@
         let cdCurso = $('#CdCurso').val();
 
         $.ajax({
-            url: '@Url.Action("ReativarCurso", "Turma")',
+            url: '@Url.Action("ReativarTurma", "Turma")',
             type: 'POST',
             async: true,
             data: {
@@ -491,15 +483,13 @@
     }
 
     function voltarMobile() {
-        event.preventDefault();
-
         $('#conteudoModal').css('display', 'none');
         $('#backgroundModal').css('display', 'none');
     }
 
     function carregarNovaAula() {
         $.ajax({
-            url: '@Url.Action("CarregarAula", "Turma")',
+            url: '@Url.Action("AdicionarAula", "Turma")',
             type: 'GET',
             async: true,
             success: function (data) {
@@ -507,24 +497,39 @@
 
                 $('#backgroundConteudoModal').css('display', 'block');
                 $('#divInformacaoAula').css('display', 'flex');
-
-                // if (mobile) {
-                //     $("#nmTurma").text($('#txtNomeTurma').val());
-                // } else {
-                //     window.location.hash = '#divInformacaoAula';
-                // }
-                $('#msgListaTurma').hide();
-                $('#divListaTurma').html(data);
             }
         });
-
     }
 
     function voltarAula() {
-        event.preventDefault();
-
-        $('#backgroundConteudoModal').css('display', 'none');
         $('#divInformacaoAula').css('display', 'none');
+        $('#backgroundConteudoModal').css('display', 'none');
+    }
+
+    function voltarAluno() {
+        $('#divInformacaoAluno').css('display', 'none');
+        $('#backgroundConteudoModal').css('display', 'none');
+    }
+    
+     function carregarDesvincularAluno() {
+        //eu odeio minha vida...
+        $('#backgroundConteudoModal').css('display', 'block');
+        $('#divDesvincularAluno').css('display', 'flex');
+        
+        $("#nmAlunoDesvincular").text('nome do aluno aqui');
+        window.location.hash = '#divDesvincularAluno';
+        //$('#divInformacaoAluno').css('display', 'none');
+    }
+
+    function cancelarDesvincularAluno() {
+        $('#backgroundConteudoModal').css('display', 'none');
+        $('#divDesvincularAluno').css('display', 'none');
+        
+        window.location.hash = '';
+    }
+
+    function desvincularAluno() {
+        alert('desvincular');
     }
 
     function validarCampos() {
