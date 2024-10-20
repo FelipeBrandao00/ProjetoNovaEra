@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.TurmaAluno;
+using Application.Requests.TurmaAluno;
 using AutoMapper;
 using Domain.Entities;
 
@@ -12,5 +13,9 @@ public class TurmaAlunoMapping : Profile
            .ForMember(dest => dest.DsTurma, opt => opt.MapFrom(src => src.Turma.DsTurma))
            .ForMember(dest => dest.NmCurso, opt => opt.MapFrom(src => src.Turma.Curso.DsCurso))
            .ForMember(dest => dest.CdCurso, opt => opt.MapFrom(src => src.Turma.Curso.CdCurso));
+
+        CreateMap<AddTurmaAlunoRequest, Turma_Aluno>().ReverseMap();
+        CreateMap<DeleteTurmaAlunoRequest, Turma_Aluno>().ReverseMap();
+
     }
 }

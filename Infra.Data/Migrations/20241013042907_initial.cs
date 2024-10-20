@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,7 +34,8 @@ namespace Infra.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NmCurso = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DsCurso = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DtCriacao = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DtCriacao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DtFinalizacao = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,6 +53,22 @@ namespace Infra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Permissoes", x => x.CdPermissao);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RequestsChangePassword",
+                columns: table => new
+                {
+                    CdRequest = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CdUsuario = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DsCodigoRedefinicao = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DtValidade = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DtTrocaSenha = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestsChangePassword", x => x.CdRequest);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,7 +147,7 @@ namespace Infra.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DsTurma = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DtInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DtFim = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DtFim = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CdProfessor = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CdCurso = table.Column<int>(type: "int", nullable: false)
                 },
@@ -154,9 +171,11 @@ namespace Infra.Data.Migrations
                 name: "Aulas",
                 columns: table => new
                 {
-                    CdAula = table.Column<int>(type: "int", nullable: false),
+                    CdAula = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CdTurma = table.Column<int>(type: "int", nullable: false),
-                    DtAula = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DtAula = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DsAula = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -352,6 +371,9 @@ namespace Infra.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Permissao_Cargos");
+
+            migrationBuilder.DropTable(
+                name: "RequestsChangePassword");
 
             migrationBuilder.DropTable(
                 name: "Turma_Alunos");

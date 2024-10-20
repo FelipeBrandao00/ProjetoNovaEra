@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240926002024_adição de propriedade curso")]
-    partial class adiçãodepropriedadecurso
+    [Migration("20241017180616_titulo aula required")]
+    partial class tituloaularequired
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,13 +28,23 @@ namespace Infra.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Aula", b =>
                 {
                     b.Property<int>("CdAula")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CdAula"));
 
                     b.Property<int>("CdTurma")
                         .HasColumnType("int");
 
+                    b.Property<string>("DsAula")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DtAula")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("NmAula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CdAula", "CdTurma");
 
@@ -182,7 +192,7 @@ namespace Infra.Data.Migrations
                     b.Property<DateTime>("DtCriacao")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DtFinalizacao")
+                    b.Property<DateTime?>("DtFinalizacao")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("NmCurso")
@@ -287,7 +297,7 @@ namespace Infra.Data.Migrations
                     b.Property<string>("DsTurma")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DtFim")
+                    b.Property<DateTime?>("DtFim")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DtInicio")

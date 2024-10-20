@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
 {
@@ -6,8 +7,8 @@ namespace Domain.Entities
     {
         [Key]
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CdTurma { get; set; }
-
         public string? DsTurma { get; set; }
         public DateTime DtInicio { get; set; }
         public DateTime? DtFim { get; set; }
