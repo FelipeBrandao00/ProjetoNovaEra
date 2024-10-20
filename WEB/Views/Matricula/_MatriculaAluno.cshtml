@@ -1,0 +1,61 @@
+﻿@model Application.Responses.ResponseModelUsuario
+
+@{
+    Layout = null;
+    var NmCurso = ViewBag.NmCurso ?? String.Empty;
+    var NmTurma = ViewBag.NmTurma ?? String.Empty;
+    // var imgSrc = (Model.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+    var imgSrc = String.Empty;
+}
+
+@* @Html.HiddenFor(model => model.CdUsuario)
+@Html.HiddenFor(model => model.DsCpf)
+ *@
+
+<link rel="stylesheet" href="~/css/Aluno/InfoAluno.css">
+<link rel="stylesheet" href="~/css/Matricula/InfoMatricula.css">
+
+<div id="divMatriculaAluno">
+    <div id="divTituloAluno">
+        <button id="btnVoltarModal" onclick="voltarMatricula()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Matricula: </b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoMatricula">
+        <p class="linear1"><b>ALUNO(A): Matheus</b></p> <button id="btnInfo" onclick="carregarInfoAluno(null, true)"><b class="linear1">Info</b></button>
+        <p class="linear1"><b>CURSO: Informática</b></p>
+
+
+        <div id="divTurmaAluno">
+            <label for="ddlTurmaAluno" class="linear1">Selecione a turma:</label><br />
+            <select id="ddlTurmaAluno" class="txtInfoAluno">
+                <option value="0">Selecione</option>
+                <option value="1">1N1</option>
+                <option value="2">2N1</option>
+                <option value="2">3N1</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="divBotaoMatricularTurma">
+        <button id="btnMatricularAluno" onclick="matricularTurma()"><b>Matricular</b></button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if (!window.matchMedia("(max-width: 1200px)").matches) {
+        $('#btnInfo').css('display', 'none');
+    }
+
+    function voltarMatricula() {
+        $('#backgroundModal').css('display', 'none');
+        $('#divMatriculaAluno').css('display', 'none');
+    }
+
+    function matricularTurma() {
+        alert('MATRICULAR');
+    }
+</script>

@@ -1,0 +1,70 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Matrícula";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Matrícula";
+}
+
+<link rel="stylesheet" href="~/css/Matricula/Index.css">
+<link rel="stylesheet" href="~/css/Matricula/InfoMatricula.css">
+
+<div id="divInicioPagina">
+    <div id="divTopo">
+        <h5 class="linear1"><b>Página de inscrição:</b></h5>
+        <div id="divInputCopiar">
+            <input type="text" id="txtPagina" value="link da pagina de inscricao aqui" disabled />
+            <button type="button" id="btnCopiar" onclick="copiar()"><i class="fa fa-copy"></i></button>
+        </div>
+    </div>
+</div>
+
+<div id="divPagina">
+    <div id="_divListaMatriculados"></div>
+    <div id="_divListaNaoMatriculados"></div>
+
+    <div id="divInfoModal">
+        <div id="_divInfoAluno"></div>
+        <div id="_divMatriculaAluno"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", carregarListaMatriculados);
+    document.addEventListener("DOMContentLoaded", carregarListaNaoMatriculados);
+
+    function carregarListaMatriculados() {
+        $.ajax({
+            url: '@Url.Action("ListarMatriculados", "Matricula")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divListaMatriculados').html(data);
+            }
+        });
+    }
+
+    function carregarListaNaoMatriculados() {
+        event.preventDefault();
+
+        $.ajax({
+            url: '@Url.Action("ListarNaoMatriculados", "Matricula")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divListaNaoMatriculados').html(data);
+            }
+        });
+    }
+    
+    function copiar() {
+        alert('copiar');
+    }
+
+     function voltarAluno() {
+        $('#divInformacaoAluno').css('display', 'none');
+        if (!window.matchMedia("(max-width: 1200px)").matches) {
+            $('#backgroundModal').css('display', 'none');
+        }
+    }
+</script>

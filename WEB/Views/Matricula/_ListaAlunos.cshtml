@@ -1,0 +1,71 @@
+﻿<link rel="stylesheet" href="~/css/Matricula/InfoAluno.css">
+
+<div id="divAlunosTurma">
+    <div id="TituloInfoAula">
+        <div id="TituloBotaoAula">
+            <h5 class="linear1"><b>@ViewBag.DsTabela</b></h5>
+        </div>
+    </div>
+
+    <table id="listaAlunos">
+        <thead>
+            <tr>
+                <th id="nmAlunoLista">Nome</th>
+                <th id="nmCursoLista">Curso</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td id="nmCelulaNome" onclick="carregarInfoAluno()">Matheus Ladislau</td>
+                <td id="nmCelulaCurso">Informatica</td>
+                <td id="divBotao">
+                    <button id="btnMatricular" onclick="carregarMatriculaAluno()">Matricular</button>
+                </td>
+            </tr>
+            <tr>
+                <td id="nmCelulaNome">Matheus Ladislau</td>
+                <td id="nmCelulaCurso">Informatica</td>
+                <td id="divBotao">
+                    <button id="btnMatricular" onclick="carregarMatriculaAluno()">Matricular</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    function carregarInfoAluno(param, icAbrir) {
+        if (window.matchMedia("(max-width: 1200px)").matches && !icAbrir) {
+            carregarMatriculaAluno();
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAluno", "Matricula")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divInfoAluno').html(data);
+
+                $('#backgroundModal').css('display', 'block');
+                $('#divInformacaoAluno').css('display', 'flex');
+            }
+        });
+    }
+
+    function carregarMatriculaAluno() {
+            $.ajax({
+                url: '@Url.Action("CarregarMatriculaAluno", "Matricula")',
+                type: 'GET',
+                async: true,
+                success: function (data) {
+                    $('#_divMatriculaAluno').html(data);
+
+                    $('#backgroundModal').css('display', 'block');
+                    $('#divMatriculaAluno').css('display', 'flex');
+                }
+            });
+    }
+</script>

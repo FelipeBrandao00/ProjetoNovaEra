@@ -1,0 +1,107 @@
+﻿/* Folha de estilos: Matricula */
+
+input:focus, button:focus {
+    outline: none;
+}
+
+article {
+    justify-content: flex-start !important;
+}
+
+/* IDs */
+
+#divPagina {
+    overflow-y: scroll;
+}
+
+#divInicioPagina {
+    width: 100%;
+}
+
+#divTopo {
+    margin-top: 60px;
+}
+
+#btnCopiar {
+    height: 37px;
+    width: 37px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#txtPagina {
+    border: none;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    background-color: #DBD8D8;
+    width: 40%;
+}
+
+#_divInfoAluno, #_divMatriculaAluno {
+    padding: 3vh 1vw;
+}
+
+    #_divInfoAluno label, #_divMatriculaAluno label {
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+/*#conteudoModal {
+    display: none;
+    z-index: 5;
+    width: 67vw;
+    padding: 2vh 2vw !important;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 80%;
+    position: fixed;
+    top: 10%;
+}
+
+*/ #divInfoModal {
+    overflow-y: scroll;
+    max-height: 80%;
+}
+
+#divRelevo {
+    border-radius: 10px;
+    background-color: #EAEAEA;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+#_divListaMatriculados, #_divListaNaoMatriculados {
+    margin-top: 40px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #conteudoModal {
+        width: 94vw !important;
+        position: absolute !important;
+        top: 13vh !important;
+        bottom: 3vh !important;
+        left: 3vw !important;
+        right: 3vw !important;
+        gap: 15px;
+        padding: 2vh 3vw !important;
+    }
+
+    #divInfoModal {
+        max-height: 100%;
+        padding: 6px;
+    }
+
+    #txtPagina {
+        width: 80%;
+    }
+}
