@@ -34,7 +34,7 @@ namespace WEB.Models.Shared
 
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<ResponseModelListaPadrao>(responseBody, options);
+                    var responseData = JsonSerializer.Deserialize<ResponseModelListaPadrao<ResponseModelUsuario>>(responseBody, options);
 
                     if (responseData == null || !responseData.IsSuccess)
                         return false;

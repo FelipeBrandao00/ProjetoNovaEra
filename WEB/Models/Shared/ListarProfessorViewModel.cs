@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Net.Http.Headers;
+using Application.Responses;
 
 namespace WEB.Models.Shared {
     public class ListarProfessorViewModel : ListarPadraoViewModel {
@@ -33,7 +34,7 @@ namespace WEB.Models.Shared {
 
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<ResponseModelListaPadrao>(responseBody, options);
+                    var responseData = JsonSerializer.Deserialize<ResponseModelListaPadrao<ResponseModelUsuario>>(responseBody, options);
 
                     if (responseData == null || !responseData.IsSuccess)
                         return false;

@@ -4,8 +4,10 @@ using WEB.Models;
 using WEB.Models.CargoUsuario;
 using WEB.Models.Professor;
 using WEB.Models.Shared;
+using WEB.Models.Usuario;
 
-namespace WEB.Controllers {
+namespace WEB.Controllers
+{
     public class ProfessorController(IConfiguration configuration) : Controller {
         public IActionResult Index(bool icAdicionar = false) {
             string? token = Request.Cookies["Token"];
@@ -14,8 +16,8 @@ namespace WEB.Controllers {
             }
 
             var dados = JwtToken.DescriptografarJwt(token);
-            ViewBag.Role = dados.role[0];
-            ViewBag.Nome = dados.role[1];
+            ViewBag.Role = String.Join(" | ", dados.role);
+            ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
 
             ViewBag.IcAdicionar = icAdicionar;
             return View();

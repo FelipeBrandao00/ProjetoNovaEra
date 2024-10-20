@@ -31,9 +31,9 @@
     border-radius: 0 0 5px 5px;
 }
 
-#msgListaPadraoMobile {
+/*#msgListaPadraoMobile {
     display: none;
-}
+}*/
 
 #barraListaPadrao {
     display: flex;
@@ -58,13 +58,13 @@
 
 /* Responsivo MOBILE */
 @media (max-width: 1200px) {
-    #msgListaPadraoMobile {
+    /*#msgListaPadraoMobile {
         width: 100%;
         display: block;
         text-align: center;
         font-size: 12px;
         margin-top: 2vh;
-    }
+    }*/
 
     #listaPadrao div:first-child {
         /*margin-top: 1vh;*/
