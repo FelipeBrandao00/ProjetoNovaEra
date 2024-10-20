@@ -1,0 +1,433 @@
+﻿ #divInformacaoAula {
+    z-index: 5;
+    display: none;
+    padding: 15px;
+    padding-bottom: 0px;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    gap: 5px;
+    width: 65vw;
+    font-size: 14px;
+    position: fixed;
+    top: 8%;
+    max-height: 80%;
+}
+
+#btnVoltarModal {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px 3px 15px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+#divAlunosTurma {
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+#TituloInfoAula {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 50px;
+}
+
+#TituloBotaoAula {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#TituloBotaoAula div{
+    width: 50%;
+}
+
+#divTituloAula, #divTituloModal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+    #divTituloAula, #divTituloModal > h5 {
+        margin-top: 8px;
+    }
+
+
+#divConteudoAula, #divConteudoModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 3vh 1vw;
+    overflow-y: auto;
+}
+
+#divDesvincularAluno {
+    z-index: 7;
+    display: none;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
+    flex-direction: column;
+    gap: 5px;
+    width: 25vw;
+    margin-top: 50px;
+    font-size: 14px;
+    position: fixed;
+    top: 35%;
+    left: 41%;
+}
+
+
+#divFooterPagina {
+    margin-top: 30px;
+}
+
+#btnCriarAula, #btnAdicionarArquivo {
+    color: rgb(131 131 131);
+    border-radius: 10px;
+    width: 187px;
+    height: 50px;
+    background: rgb(250,250,250);
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnSalvarArquivo {
+    color: white;
+    border-radius: 10px;
+    width: 187px;
+    height: 50px;
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#backgroundConteudoModal {
+    display: none;
+    z-index: 6;
+    position: absolute;
+    background-color: black;
+    opacity: 30%;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
+
+/* AULAS */
+#divAulas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 2vh 2vw;
+}
+
+#divAula {
+    width: 48%;
+    height: 170px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    padding: 20px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+#txtTituloAula, #descAula, #infoAula > h5{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#infoAula {
+    width: 70%;
+    overflow: hidden;
+}
+
+#topoAula {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+    gap: 10px;
+}
+
+#InfoNumeroArquivo {
+    text-align: center;
+    border-radius: 10px;
+}
+
+#infoArquivos {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.comDoc, .semDoc {
+    padding: 2px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 10px;
+}
+
+.comDoc {
+    background: rgb(181,185,228);
+    background: linear-gradient(180deg, rgba(181,185,228,1) 0%, rgba(126,126,126,1) 100%);
+}
+
+.semDoc {
+    background: rgb(228,12,81);
+    background: linear-gradient(180deg, rgba(228,12,81,1) 0%, rgba(126,126,126,1) 100%);
+}
+
+#descAulaTip {
+    font-size: 15px;
+    text-align: right;
+    font-weight: 500;
+}
+
+#divTituloConteudoAula {
+    text-align: left;
+}
+
+#divFooterModal {
+    display: flex;
+    justify-content: flex-end;
+    margin: 1vw;
+}
+
+#listaArquivos {
+    width: 100%;
+}
+
+    #listaArquivos > tbody > tr > td {
+        font-size: 15px;
+        font-weight: 600;
+        text-align: left;
+        color: #989898;
+        padding: 10px 8px 10px 8px;
+        border: 1px solid #aeaeae;
+        background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px inset;
+    }
+
+     #listaArquivos > thead > tr {
+         text-align: left;
+     }
+
+#nmArquivo {
+    width: 60%;
+}
+
+
+#btnMatricular, #btnDeletar, #btnInfo {
+    margin: auto;
+    display: block;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#nmCelulaNome {
+    cursor: pointer;
+}
+
+#divDeletarArquivo {
+    z-index: 6;
+    display: none;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
+    flex-direction: column;
+    gap: 5px;
+    width: 62vw;
+    margin-top: 50px;
+    font-size: 14px;
+    position: fixed;
+    top: 35%;
+}
+
+#btnIgnorarDeletarArquivo, #btnDeletarArquivo {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+}
+
+#btnIgnorarDeletarArquivo {
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnDeletarArquivo {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+}
+
+#divModalAdicionar {
+    z-index: 6;
+    display: none;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
+    flex-direction: column;
+    gap: 5px;
+    width: 66vw;
+    margin-top: 50px;
+    font-size: 14px;
+    position: fixed;
+    top: 1%;
+}
+
+    #divModalAdicionar > #divConteudoModal > label {
+        font-weight: 700;
+        font-size: 12px;
+        text-align: left;
+    }
+
+    #divModalAdicionar > #divConteudoModal > input {
+        margin-bottom: 10px;
+    }
+
+    #divModalAdicionar > #divConteudoModal > textarea {
+        height: 300px;
+        overflow-y: auto;
+    }
+
+input[type="file"] {
+    display: none;
+}
+
+#btnFile {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #divInformacaoAula {
+        overflow-y: scroll;
+        max-height: 80%;
+        width: 85vw;
+        top: 13%;
+        left: 6%;
+    }
+
+    #divConteudoAula, #divConteudoModal {
+        padding: 3vw 1vh;
+    }
+
+    #divAula {
+        width: 100%;
+    }
+
+    #descAulaTip {
+        font-size: 10px;
+    }
+
+    #divAlunosTurma {
+        max-height: 40vh;
+    }
+
+    #nmTipo, #nmTamanho, #CelulaTipo, #CelulaTamanho {
+        display: none;
+    }
+
+    #Info, #CelulaInfo {
+        display: flex !important;
+    }
+
+    #btnAdicionarArquivo, #btnSalvarArquivo {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #divDeletarArquivo {
+        left: 17%;
+    }
+
+    #divModalInfoMobile {
+        z-index: 6;
+        display: none;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
+        flex-direction: column;
+        gap: 5px;
+        width: 83vw;
+        margin-top: 50px;
+        font-size: 14px;
+        position: fixed;
+        top: 11%;
+        left: 7%;
+    }
+
+        #divModalInfoMobile > #divConteudoModal > label {
+            font-weight: 700;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        #divModalInfoMobile > #divConteudoModal > input {
+            margin-bottom: 10px;
+        }
+
+        #divModalInfoMobile > #divConteudoModal > textarea {
+            height: 300px;
+            overflow-y: auto;
+        }
+
+
+    #divModalAdicionar {
+        width: 78vw;
+        margin-top: 50px;
+        font-size: 14px;
+        position: fixed;
+        top: 6%;
+        left: 9%;
+    }
+}
+
+@media (max-height: 600px) {
+    #divAlunosTurma {
+        max-height: 30vh;
+    }
+}
+

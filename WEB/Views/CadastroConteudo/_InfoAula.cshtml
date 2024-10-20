@@ -1,0 +1,146 @@
+﻿<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
+<link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
+
+
+<div id="backgroundConteudoModal"></div>
+<div id="divInformacaoAula">
+    <div id="divTituloAula">
+        <button id="btnVoltarModal" onclick="voltarAula()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Lista de arquivos</b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoAula">
+        <div id="divTituloConteudoAula">
+            <h3 class="linear1"><b>Aula 01</b></h3>
+            <h5 class="linear1"><b>21/01/2024</b></h5>
+        </div>
+
+        <table id="listaArquivos">
+            <thead>
+                <tr>
+                    <th id="nmArquivo">Nome</th>
+                    <th id="nmTipo">Extensão</th>
+                    <th id="nmTamanho">Tamanho</th>
+                    <th id="Info" style="display: none">Info</th>
+                    <th id="baixar"></th>
+                    <th id="deletar"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 10; i++) {
+                    <tr>
+                        <td id="CelulaArquivo">Aula 01</td>
+                        <td id="CelulaTipo">PDF</td>
+                        <td id="CelulaTamanho">20MB</td>
+                        <td id="CelulaInfo" style="display: none">
+                            <button id="btnInfo" onclick="carregarInfoModal()"><i class="fa fa-info"></i></button>
+                        </td>
+                        <td id="CelulaBaixar">
+                            <button id="btnMatricular" onclick="downloadArquivo()"><i class="fa fa-download"></i></button>
+                        </td>
+                        <td id="CelulaDeletar">
+                            <button id="btnDeletar" onclick="carregarDeletarArquivo()"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="divFooterModal">
+        <button type="button" id="btnAdicionarArquivo" onclick="carregarAdicionarArquivo()">Adicionar arquivo</button>
+    </div>
+</div>
+
+<div id="divDeletarArquivo">
+    <b class="linear1">Tem certeza que deseja excluir o arquivo:</b>
+    <b id="nmArquivoDeletar" class="linear1"></b>
+    <div id="divBotoesDeletarArquivo">
+        <button id="btnIgnorarDeletarArquivo" onclick="cancelarDeletarArquivo()"><b class="linear1">Não</b></button>
+        <button id="btnDeletarArquivo" onclick="deletarArquivo()"><b style="color: white;">Deletar</b></button>
+    </div>
+</div>
+
+<div id="divModalInfoMobile" style="display: none">
+    <div id="divTituloModal">
+        <button id="btnVoltarModal" onclick="voltarModalInfo()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Informação do arquivo</b></h5>
+        <p> </p>
+    </div>
+
+
+    <div id="divConteudoModal">
+        <label for="txtNomeArquivoModal" class="linear1">Nome:</label>
+        <input type="text" id="txtNomeArquivoModal" class="txtFormato" disabled />
+
+        <label for="txtTipoArquivoModal" class="linear1">Tipo:</label>
+        <input type="text" id="txtTipoArquivoModal" class="txtFormato" disabled />
+
+        <label for="txtTamanhoArquivoModal" class="linear1">Tamanho:</label>
+        <input type="text" id="txtTamanhoArquivoModal" class="txtFormato" disabled />
+
+        <label for="txtDescricaoArquivoModal" class="linear1">Descrição:</label>
+        <textarea type="text" id="txtDescricaoArquivoModal" class="txtFormato" disabled></textarea>
+    </div>
+</div>
+
+<div id="_divAdicionarArquivo"></div>
+
+<script type="text/javascript">
+    function downloadArquivo() {
+        alert('baixar');
+    }
+    
+    function carregarDeletarArquivo() {
+        $('#backgroundConteudoModal').css('display', 'block');
+        $('#divDeletarArquivo').css('display', 'flex');
+
+        $("#nmArquivoDeletar").text("nome do arquivo");
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            window.location.hash = '#divDeletarArquivo';
+        }
+    }
+
+    function cancelarDeletarArquivo() {
+        $('#backgroundConteudoModal').css('display', 'none');
+
+        $('#divDeletarArquivo').css('display', 'none');
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            window.location.hash = '';
+        }
+    }
+
+    function carregarInfoModal() {
+        $('#backgroundConteudoModal').css('display', 'block');
+        $('#divModalInfoMobile').css('display', 'flex');
+
+        $('#txtNomeArquivoModal, #txtTipoArquivoModal, #txtTamanhoArquivoModal, #txtDescricaoArquivoModal')
+            .css('background-color', '#DBD8D8')
+    }
+
+    function deletarArquivo() {
+        alert('deletar');
+    }
+
+    function carregarAdicionarArquivo() {
+        $.ajax({
+            url: '@Url.Action("CarregarAdicionarArquivo", "CadastroConteudo")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divAdicionarArquivo').html(data);
+
+                $('#backgroundConteudoModal').css('display', 'block');
+                $('#divModalAdicionar').css('display', 'flex');
+
+                $('#txtNomeArquivoModal, #txtTipoArquivoModal, #txtTamanhoArquivoModal')
+                    .css('background-color', '#DBD8D8')
+            }
+        });
+    }
+</script>
