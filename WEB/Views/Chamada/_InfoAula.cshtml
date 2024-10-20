@@ -1,0 +1,94 @@
+﻿<link rel="stylesheet" href="~/css/Chamada/InfoAula.css">
+<link rel="stylesheet" href="~/css/Chamada/Index.css">
+
+
+<div id="backgroundConteudoModal" onclick="sumir()"></div>
+<div id="divInformacaoAula">
+    <div id="divTituloAula">
+        <button id="btnVoltarModal" onclick="voltarAula()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Lista de chamada</b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoAula">
+        <div id="divTituloConteudoAula">
+            <div>
+                <h3 class="linear1"><b>Aula 01</b></h3>
+                <h5 class="linear1"><b>21/01/2024</b></h5>
+            </div>
+            <div id="chks">
+                <div id="divCheck">
+                    <label for="chkPresenca" class="linear1"><b>Presente</b></label>
+                    <div id="chkPresenca"></div>
+                </div>
+                <div id="divCheck">
+                    <label for="chkAusente" class="linear1"><b>Ausente</b></label>
+                    <div id="chkAusente"></div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <p class="linear1" style="text-align: left;"><b>Clique no nome do aluno para alterar seu status!</b></p>
+
+        <table id="listaChamada">
+            <thead>
+                <tr>
+                    <th id="foto">Foto</th>
+                    <th id="nmAluno">Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 10; i++) {
+                    <tr>
+                        <td class="clsAusente" onclick="visualizarFoto()"><img id="fotoAluno" src="https://i.ytimg.com/vi/rj-1egNPnaY/hqdefault.jpg"/></td>
+                        <td class="clsAusente" onclick="alterarStatusAluno(this)">Matheus Ladislau</td> 
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="divFooterModal">
+        <button type="button" id="btnSalvarChamada" onclick="confirmarChamada()">Confirmar</button>
+    </div>
+</div>
+
+
+<div id="divModalFoto">
+    <img id="fotoModal" src="https://i.ytimg.com/vi/rj-1egNPnaY/hqdefault.jpg"/>
+</div>
+
+<script type="text/javascript">
+    function alterarStatusAluno(aluno) {
+        if ($(aluno).hasClass('clsPresente')) {
+            $(aluno).addClass('clsAusente');
+            $(aluno).removeClass('clsPresente');
+
+            $(aluno).prev().addClass('clsAusente');
+            $(aluno).prev().removeClass('clsPresente');
+            return;
+        }
+        
+        $(aluno).addClass('clsPresente');
+        $(aluno).removeClass('clsAusente');
+
+        $(aluno).prev().addClass('clsPresente');
+        $(aluno).prev().removeClass('clsAusente');
+    }
+    
+    function visualizarFoto() {
+        $('#divModalFoto').css('display', 'flex');
+        $('#backgroundConteudoModal').css('display', 'block');
+    }
+    
+    function sumir() {
+        $('#divModalFoto').css('display', 'none');
+        $('#backgroundConteudoModal').css('display', 'none');
+    }
+
+    function confirmarChamada() {
+        alert('OI');
+    }
+</script>
