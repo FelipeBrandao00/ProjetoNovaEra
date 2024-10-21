@@ -7,6 +7,7 @@ using WEB.Models.Usuario;
 namespace WEB.Models.Professor
 {
     public class ProfessorViewModel : UsuarioViewModel {
+
         public async Task<Response<ResponseModelUsuario>> Habilitar(IConfiguration configuration, ResponseModelUsuario responseModelUsuario) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
@@ -74,5 +75,6 @@ namespace WEB.Models.Professor
                 }
             }
         }
+
     }
 }

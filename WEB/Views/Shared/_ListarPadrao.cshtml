@@ -38,7 +38,7 @@
         </button>
     }
     else {
-        <button id="btnListPrev" class="btnControlList">
+        <button id="btnListPrev" class="btnControlList" onclick="carregarListaPadrao(true, @Html.Raw(Model.PaginaAtual - 1))">
             <i class="fa-solid fa-angle-left arrow-icon"></i>
         </button>
     }
@@ -51,7 +51,7 @@
         </button>
     }
     else {
-        <button id="btnListNext" class="btnControlList">
+        <button id="btnListNext" class="btnControlList" onclick="carregarListaPadrao(true, @Html.Raw(Model.PaginaAtual + 1))">
             <i class="fa-solid fa-angle-right arrow-icon"></i>
         </button>
     }
