@@ -12,7 +12,7 @@ namespace Domain.Entities
         public int CdConteudo { get; set; }
         public required string DsConteudo { get; set; }
         public required string NmArquivo { get; set; }
-        public Extensao DsExtencao { get; set; }
+        public string DsExtensao { get; set; }
 
         [Required]
         public virtual int CdAula { get; set; }

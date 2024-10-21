@@ -160,8 +160,9 @@ namespace Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DsExtencao")
-                        .HasColumnType("int");
+                    b.Property<string>("DsExtensao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NmArquivo")
                         .IsRequired()

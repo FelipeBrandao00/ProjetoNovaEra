@@ -65,6 +65,10 @@ namespace Infra.IoC {
             services.AddScoped<IFrequenciaRepository, FrequenciaRepository>();
             services.AddScoped<IFrequenciaService, FrequenciaService>();
 
+            services.AddScoped<IConteudoRepository, ConteudoRepository>();
+            services.AddScoped<IConteudoService, ConteudoService>();
+
+            services.AddScoped<IFileService, FileService>();
 
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
@@ -77,6 +81,7 @@ namespace Infra.IoC {
             services.AddAutoMapper(typeof(TurmaMapping));
             services.AddAutoMapper(typeof(AulaMapping));
             services.AddAutoMapper(typeof(FrequenciaMapping));
+            services.AddAutoMapper(typeof(ConteudoMapping));
 
             return services;
         }
