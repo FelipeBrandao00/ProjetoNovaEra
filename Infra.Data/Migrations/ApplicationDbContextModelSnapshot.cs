@@ -25,13 +25,23 @@ namespace Infra.Data.Migrations
             modelBuilder.Entity("Domain.Entities.Aula", b =>
                 {
                     b.Property<int>("CdAula")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CdAula"));
 
                     b.Property<int>("CdTurma")
                         .HasColumnType("int");
 
+                    b.Property<string>("DsAula")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("DtAula")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("NmAula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CdAula", "CdTurma");
 
@@ -150,8 +160,9 @@ namespace Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DsExtencao")
-                        .HasColumnType("int");
+                    b.Property<string>("DsExtensao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NmArquivo")
                         .IsRequired()

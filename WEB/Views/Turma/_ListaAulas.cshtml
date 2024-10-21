@@ -1,0 +1,93 @@
+﻿<link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
+
+<div id="divAulasTurma">
+    <div id="TituloInfoAula">
+        <div id="TituloBotaoAula">
+            <h3 class="linear1"><b>Aulas </b></h3>
+            <button id="btnNovaAula" onclick="carregarNovaAula()"><b class="linear1">Nova aula</b></button>
+        </div>
+        <span id="msgAula" class="linear1"><b>Clique na aula para ver suas informações!</b></span>
+        <span id="msgMobileAula" class="linear1"><b>Aperte na aula para ver suas informações!</b></span>
+    </div>
+
+    <div id="divRelevo" style="max-height: 400px; overflow-y: scroll;">
+        <div id="divAulas">
+            <div id="divAula" onclick="verInfoAula()">
+                <div id="topoAula">
+                    <div id="infoAula">
+                        <h5 class="linear1"><b>Aula 01</b></h5>
+                        <p class="linear1"><b>21/01/2024</b></p>
+                    </div>
+
+                    <div id="infoArquivos">
+                        <div id="divArquivos" class="comDoc small">C/Arquivo</div>
+                        <div id="divChamadas" class="semDoc small">S/Chamada</div>
+                    </div>
+                </div>
+
+                <div id="descAula" class="linear1">
+                    Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+                </div>
+
+            </div>
+
+            <div id="divAula">
+                <div id="topoAula">
+                    <div id="infoAula">
+                        <h5 id="txtTituloAula" class="linear1"><b>Aula 0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1</b></h5>
+                        <p class="linear1"><b>21/01/2024</b></p>
+                    </div>
+
+                    <div id="infoArquivos">
+                        <div id="divArquivos" class="comDoc small">C/Arquivo</div>
+                        <div id="divChamadas" class="semDoc small">S/Chamada</div>
+                    </div>
+                </div>
+
+                <div id="descAula" class="linear1">
+                    Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+                </div>
+
+            </div>
+
+            <div id="divAula">
+                <div id="topoAula">
+                    <div id="infoAula">
+                        <h5 class="linear1"><b>Aula 01</b></h5>
+                        <p class="linear1"><b>21/01/2024</b></p>
+                    </div>
+
+                    <div id="infoArquivos">
+                        <div id="divArquivos" class="comDoc small">C/Arquivo</div>
+                        <div id="divChamadas" class="semDoc small">S/Chamada</div>
+                    </div>
+                </div>
+
+                <div id="descAula" class="linear1">
+                    Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="divBotaoNovaAulaMobile">
+        <button id="btnNovaAulaMobile" onclick="carregarNovaAula(true)"><b class="linear1">Nova aula</b></button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function verInfoAula() {
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAula", "Turma")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divInfoAula').html(data);
+
+                $('#backgroundConteudoModal').css('display', 'block');
+                $('#divInformacaoAula').css('display', 'flex');
+            }
+        });
+    }
+</script>
