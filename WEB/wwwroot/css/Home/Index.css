@@ -1,4 +1,5 @@
 ﻿#Container {
+    gap: 5px;
     height: 74vh;
     padding-top: 40px;
     border-radius: 5px;
@@ -8,6 +9,7 @@
 }
 
 #Container > #secDdl {
+    gap: 5px;
     width: 100%;
     display: flex;
     flex-direction: row;

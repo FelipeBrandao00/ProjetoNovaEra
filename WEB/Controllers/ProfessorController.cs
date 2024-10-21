@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
 using WEB.Models.CargoUsuario;
 using WEB.Models.Professor;
+using WEB.Models.Genero;
 using WEB.Models.Shared;
 using WEB.Models.Usuario;
 
@@ -34,40 +35,85 @@ namespace WEB.Controllers
         public async Task<IActionResult> CarregarInfoProfessor(UsuarioViewModel UsuarioViewModel) {
             configuration["JwtToken"] = Request.Cookies["Token"];
             var response = await UsuarioViewModel.BuscarInfo(configuration);
+
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
             return PartialView("_InfoProfessor", response.Data);
         }
 
         public async Task<IActionResult> CarregarAdicionarProfessor() {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
             return PartialView("_AdicionarProfessor", null);
         }
 
-        public async Task<IActionResult> AdicionarProfessor(ResponseModelUsuario ResponseModelUsuario) {
+        [HttpPost]
+        public async Task<IActionResult> AdicionarProfessor([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto) {
+            
+            //Validação da imagem
+            if (DsFoto != null)
+            {
+                if (!DsFoto.ContentType.StartsWith("image/"))
+                    return Json(new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no formato da foto enviada." });
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    await DsFoto.CopyToAsync(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
+                    ResponseModelUsuario.DsFoto = imageBytes;
+                }
+            }
+
+            //Adiciona o professor de fato
             configuration["JwtToken"] = Request.Cookies["Token"];
             var responseAdd = await new UsuarioViewModel().Adicionar(configuration, ResponseModelUsuario);
-            var resposeCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, responseAdd.Data.CdUsuario, 2);
+            if (!responseAdd.IsSuccess)
+                return Json(responseAdd);
 
-            return PartialView("_InfoProfessor", responseAdd.Data);
+            var resposeCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, (responseAdd.Data?.CdUsuario ?? new Guid()), 2);
+            if (!resposeCargo.IsSuccess)
+                return Json(resposeCargo);
+
+            return Json(responseAdd);
         }
 
         [HttpPost]
-        public async Task<bool> AtualizarInfoProfessor(ResponseModelUsuario ResponseModelUsuario) {
+        public async Task<IActionResult> AtualizarInfoProfessor([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto) {
+
+            //Validação da imagem
+            if (DsFoto != null)
+            {
+                if (!DsFoto.ContentType.StartsWith("image/"))
+                    return Json(new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no formato da foto enviada." });
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    await DsFoto.CopyToAsync(memoryStream);
+                    byte[] imageBytes = memoryStream.ToArray();
+                    ResponseModelUsuario.DsFoto = imageBytes;
+                }
+            }
+
+            //Atualiza as informações de fato
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);
-            return response.IsSuccess;
+            return Json(await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario));
         }
 
         [HttpPost]
-        public async Task<bool> HabilitarProfessor(ResponseModelUsuario ResponseModelUsuario) {
+        public async Task<IActionResult> HabilitarProfessor(ResponseModelUsuario ResponseModelUsuario) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new ProfessorViewModel().Habilitar(configuration, ResponseModelUsuario);
-            return response.IsSuccess;
+            return Json(await new ProfessorViewModel().Habilitar(configuration, ResponseModelUsuario));
         }
 
         [HttpPost]
-        public async Task<bool> DesabilitarProfessor(ResponseModelUsuario ResponseModelUsuario) {
+        public async Task<IActionResult> DesabilitarProfessor(ResponseModelUsuario ResponseModelUsuario) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new ProfessorViewModel().Desabilitar(configuration, ResponseModelUsuario);
-            return response.IsSuccess;
+            return Json(await new ProfessorViewModel().Desabilitar(configuration, ResponseModelUsuario));
         }
     }
 }

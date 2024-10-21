@@ -94,7 +94,7 @@ public class UsuarioViewModel
                 dsGenero = responseModelUsuario.DsGenero,
                 dtNascimento = responseModelUsuario.DtNascimento,
                 icHabilitadoTurma = responseModelUsuario.IcHabilitadoTurma,
-                dsFoto = "",
+                dsFoto = responseModelUsuario.DsFoto,
                 dsTelefone = responseModelUsuario.DsTelefone
             };
             var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
