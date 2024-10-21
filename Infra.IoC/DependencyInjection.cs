@@ -52,7 +52,24 @@ namespace Infra.IoC {
             services.AddScoped<IProfessorService, ProfessorService>();
           
             services.AddScoped<IGeneroService, GeneroService>();
-            
+
+            services.AddScoped<ITurmaRepository, TurmaRepository>();
+            services.AddScoped<ITurmaService, TurmaService>();
+
+            services.AddScoped<ITurmaAlunoRepository, TurmaAlunoRepository>();
+            services.AddScoped<ITurmaAlunoService, TurmaAlunoService>();
+
+            services.AddScoped<IAulaRepository, AulaRepository>();
+            services.AddScoped<IAulaService, AulaService>();
+
+            services.AddScoped<IFrequenciaRepository, FrequenciaRepository>();
+            services.AddScoped<IFrequenciaService, FrequenciaService>();
+
+            services.AddScoped<IConteudoRepository, ConteudoRepository>();
+            services.AddScoped<IConteudoService, ConteudoService>();
+
+            services.AddScoped<IFileService, FileService>();
+
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
             services.AddAutoMapper(typeof(CargoUsuarioMapping));
@@ -61,8 +78,11 @@ namespace Infra.IoC {
             services.AddAutoMapper(typeof(PermissaoCargoMapping));
             services.AddAutoMapper(typeof(TurmaAlunoMapping));
             services.AddAutoMapper(typeof(CursoMapping));
+            services.AddAutoMapper(typeof(TurmaMapping));
+            services.AddAutoMapper(typeof(AulaMapping));
+            services.AddAutoMapper(typeof(FrequenciaMapping));
+            services.AddAutoMapper(typeof(ConteudoMapping));
 
-            
             return services;
         }
     }

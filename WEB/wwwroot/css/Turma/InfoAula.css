@@ -1,0 +1,307 @@
+﻿#divInformacaoAula {
+    z-index: 9;
+    display: none;
+    padding: 15px;
+    padding-bottom: 0px;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    gap: 5px;
+    width: 40vw;
+    font-size: 14px;
+    position: fixed;
+    top: 8%;
+    max-height: 80%;
+    left: 32%;
+}
+
+#divTituloAula {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+    #divTituloAula > h5 {
+        margin-top: 8px;
+    }
+
+
+#divConteudoAula {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1vw 3vh;
+    overflow-y: scroll;
+}
+
+#divNomeAula {
+    margin-bottom: 10px;
+}
+
+    #divNomeAula > label {
+        float: left;
+    }
+
+
+#divNomeAula > h4, #divNomeAula > h2 {
+    font-weight: 700;
+    text-align: left;
+}
+
+#divDescricaoAula > label {
+    float: left;
+}
+
+#divDescricaoAula > textarea {
+    min-height: 300px;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+#divBotoesAulaMobile {
+    display: none;
+}
+
+#divBotoesAulaDesktop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#btnEditarAula {
+    width: 15%;
+    height: 35px;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+#btnExcluirAula {
+    color: white;
+    width: 15%;
+    height: 35px;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+}
+
+#btnCancelarEdicaoAula {
+    display: none;
+    width: 15%;
+    height: 35px;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+#btnSalvarEdicaoAula {
+    display: none;
+    width: 15%;
+    height: 35px;
+    color: #FFFFFF;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#btnAdicionarAula {
+    width: 15%;
+    height: 35px;
+    color: #FFFFFF;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    margin-top: 20px;
+}
+
+#divBotoesAulaOuter {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#btnRegistrarConteudo, #btnChamada {
+    width: 50%;
+    height: 45px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+#divStatusAula {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.large {
+    padding: 2px;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+/* Classes */
+.txtInfoTurma {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #DBD8D8;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+.txtInfoAulaAdd {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #FFFFFF;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #btnAdicionarAula {
+        display: none;
+    }
+
+    #divInformacaoAula {
+        overflow-y: scroll;
+        max-height: 80%;
+        width: 84vw;
+        top: 15%;
+        left: 8%;
+    }
+
+    #divBotoesAulaMobile {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    #btnEditarAula, #btnExcluirAula {
+        display: none;
+    }
+
+    #btnEditarAulaMobile {
+        width: 50%;
+        height: 45px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #btnExcluirAulaMobile {
+        color: white;
+        width: 50%;
+        height: 45px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    }
+
+    #btnCancelarEdicaoAulaMobile {
+        display: none;
+        width: 50%;
+        height: 45px;
+        font-size: 15px;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #btnSalvarEdicaoAulaMobile {
+        display: none;
+        width: 50%;
+        height: 45px;
+        color: #FFFFFF;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #btnAdicionarAulaMobile {
+        width: 100%;
+        height: 45px;
+        color: #FFFFFF;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+        margin-top: 20px;
+    }
+
+    #divBotoesAulaOuter {
+        flex-direction: column;
+    }
+
+    #btnRegistrarConteudo, #btnChamada {
+        width: 100%;
+    }
+
+    #divConteudoAula {
+        padding: 3vw 1vh;
+    }
+
+    #divNomeAula > h4, #divNomeAula > h2 {
+        font-weight: 700;
+        text-align: left;
+        font-size: 18px;
+    }
+}

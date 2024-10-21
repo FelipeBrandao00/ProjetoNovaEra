@@ -1,0 +1,147 @@
+﻿@model Application.Responses.ResponseModelCurso
+
+@{
+    bool icAdicionar = Model is null;
+
+    Layout = null;
+    var nmTurma = Model?.NmCurso;
+    var IcFinalizado = Model?.DtFinalizacao != null;
+
+    if (!icAdicionar) {
+        nmTurma = Model?.NmCurso ?? String.Empty;
+    }
+}
+
+<link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
+
+@Html.HiddenFor(model => model.CdCurso)
+
+<div id="backgroundConteudoModal"></div>
+
+<div id="divInformacoesTurma">
+    <div id="TituloInfo">
+        <h3 class="linear1"><b>Informações </b></h3>
+        <button id="btnEditar" onclick="carregarEdicaoTurma()"><b class="linear1">Editar informações</b></button>
+        <div id="divBotoesEdicao">
+            <button id="btnCancelar" onclick="cancelarEdicaoTurma()"><b class="linear1">Cancelar edição</b></button>
+            <button id="btnSalvar" onclick="salvarInfoTurma()"><b>Salvar</b></button>
+        </div>
+    </div>
+
+    <div id="divRelevo">
+        <div id="divNomeTurma">
+            <label for="divNomeTurma" class="linear1">Nome:</label><br />
+            <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmCurso" type="text" placeholder="Digite o nome da turma..." disabled />
+        </div>
+
+        <div id="divDescricaoTurma">
+            <label for="txtDescricaoTurma" class="linear1">Descrição:</label><br />
+            <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsCurso" type="text" placeholder="Digite a descrição da turma..." disabled></textarea>
+        </div>
+
+        <div id="divDatas">
+            <div id="divDataCriacao">
+                <label for="txtCriacao" class="linear1">Data de início:</label><br />
+                <input id="txtCriacao" class="txtInfoTurma" asp-for="DtCriacao" type="date" disabled />
+            </div>
+
+            <div id="divDataFinalizacao">
+                <label for="txtFinalizacao" class="linear1">Data de finalização:</label><br />
+                <input id="txtFinalizacao" class="txtInfoTurma" asp-for="DtFinalizacao" type="date" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div id="divBotoesEditarMobile">
+        <button id="btnEditarMobile" onclick="carregarEdicaoTurma(true)"><b class="linear1">Editar turma</b></button>
+        <button id="btnFinalizarMobile" onclick="carregarFinalizarTurma(true)"><b style="color: white;">Finalizar turma</b></button>
+    </div>
+
+    <div id="divBotoesEdicaoMobile">
+        <button id="btnCancelarMobile" onclick="cancelarEdicaoTurma(true)"><b class="linear1">Cancelar edição</b></button>
+        <button id="btnSalvarMobile" onclick="salvarInfoTurma(true)"><b>Salvar</b></button>
+    </div>
+
+    <div id="divBotaoReativarTurmaMobile">
+        <button id="btnReativarTurmaMobile" onclick="carregarReativarTurma(true)"><b class="linear1">Reativar turma</b></button>
+    </div>
+</div>
+
+<div id="_divListaAulas"></div>
+
+<div id="_divListaAlunos"></div>
+
+<div id="_divInfoAula"></div>
+<div id="_divInfoAluno"></div>
+
+<div id="divFinalizarTurma">
+    <b class="linear1">Tem certeza que deseja finalizar a turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <b class="linear1">Não será possível utilizá-la.</b>
+    <div id="divBotoesFinalizarTurma">
+        <button id="btnIgnorarFinalizarTurma" onclick="cancelarFinalizarTurma()"><b class="linear1">Não</b></button>
+        <button id="btnFinalizarTurma" onclick="finalizarTurma()"><b style="color: white;">Finalizar</b></button>
+    </div>
+</div>
+
+<div id="divReativarTurma">
+    <b class="linear1">Tem certeza que deseja reativar a turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <b class="linear1">A turma poderá ser utilizada novamente.</b>
+    <div id="divBotoesReativarTurma">
+        <button id="btnIgnorarReativarTurma" onclick="cancelarReativarTurma()"><b class="linear1">Não</b></button>
+        <button id="btnConfirmarReativarTurma" onclick="reativarTurma()"><b style="color: white;">Reativar</b></button>
+    </div>
+</div>
+
+<div id="divDesvincularAluno">
+    <b class="linear1">Tem certeza que deseja desvincular o aluno:</b>
+    <b id="nmAlunoDesvincular" class="linear1"></b>
+    <b class="linear1">Não será possível vinculá-lo(a) novamente.</b>
+    <div id="divBotoesFinalizarTurma">
+        <button id="btnIgnorarFinalizarTurma" onclick="cancelarDesvincularAluno()"><b class="linear1">Não</b></button>
+        <button id="btnFinalizarTurma" onclick="desvincularAluno()"><b style="color: white;">Desvincular</b></button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    atualizarBotoes();
+    carregarAulasTurma();
+    carregarAlunosTurma();
+
+    function atualizarBotoes() {
+        if ('@IcFinalizado' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotoesEditarMobile').hide();
+                $('#divBotaoReativarTurmaMobile').show();
+            } else {
+                $('#btnFinalizar').hide();
+                $('#btnReativar').css("display", "unset");
+            }
+        } else {
+            $('#divDataFinalizacao').css('display', 'none');
+        }
+    }
+
+    function carregarAulasTurma() {
+        $.ajax({
+            url: '@Url.Action("CarregarAulasTurma", "Turma")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divListaAulas').html(data);
+            }
+        });
+    }
+
+    function carregarAlunosTurma() {
+        $.ajax({
+            url: '@Url.Action("CarregarAlunosTurma", "Turma")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divListaAlunos').html(data);
+            }
+        });
+    }
+</script>

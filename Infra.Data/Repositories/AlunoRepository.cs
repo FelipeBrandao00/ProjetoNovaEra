@@ -44,4 +44,17 @@ public class AlunoRepository(ApplicationDbContext _context) : IAlunoRepository
 
         return await alunos.ToListAsync();
     }
+
+    public async Task<List<Usuario?>> GetAlunosByTurmaId(int turmaId) {
+        var alunos =
+              (from u in _context.Usuarios
+               join cu in _context.Cargo_Usuarios on u.CdUsuario equals cu.CdUsuario
+               join c in _context.Cargos on cu.CdCargo equals c.CdCargo
+               join ta in _context.Turma_Alunos on u.CdUsuario equals ta.CdAluno
+               join t in _context.Turmas on ta.CdTurma equals t.CdTurma
+               where c.DsCargo == "Aluno" && t.CdTurma == turmaId
+               select u);
+
+        return await alunos.ToListAsync();
+    }
 }

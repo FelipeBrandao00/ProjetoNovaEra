@@ -1,0 +1,63 @@
+﻿<link rel="stylesheet" href="~/css/Turma/InfoAluno.css">
+
+<div id="divAlunosTurma">
+    <div id="TituloInfoAula">
+        <div id="TituloBotaoAula">
+            <h3 class="linear1"><b>Alunos </b></h3>
+        </div>
+        <span id="msgAluno" class="linear1"><b>Clique no aluno para ver suas informações!</b></span>
+        <span id="msgMobileAluno" class="linear1"><b>Aperte no aluno para ver suas informações!</b></span>
+    </div>
+
+    <div id="divListaAlunoTurma">
+        <div id="listaAlunos">
+            <div>
+                <div>
+                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
+                    <div id="divBotaoAluno">
+                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
+                    </div>
+                </div>
+                <div>
+                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
+                    <div id="divBotaoAluno">
+                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
+                    </div>
+                </div>
+                <div>
+                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
+                    <div id="divBotaoAluno">
+                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
+                    </div>
+                </div>
+                <div>
+                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
+                    <div id="divBotaoAluno">
+                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
+                    </div>
+                </div>
+                <div>
+                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
+                    <div id="divBotaoAluno">
+                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function verInfoAluno() {
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAluno", "Turma")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divInfoAluno').html(data);
+
+                $('#backgroundConteudoModal').css('display', 'block');
+                $('#divInformacaoAluno').css('display', 'flex');
+            }
+        });
+    }
+</script>
