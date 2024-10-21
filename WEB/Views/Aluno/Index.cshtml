@@ -36,7 +36,7 @@
 
                 <div id="divBusca">
                     <input id="txtBusca" type="text" placeholder="Digite o nome do aluno..." />
-                    <button id="btnPesquisar" onclick="carregarListaAlunos()"><b class="linear1">Pesquisar</b></button>
+                    <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
                 </div>
 
                 <div id="msgListaAluno" class="divMsgSelecione">
@@ -105,12 +105,12 @@
         return new Blob([bytes], { type: 'image/png' });
     }
 
-    document.addEventListener("DOMContentLoaded", carregarListaAlunos);
+    document.addEventListener("DOMContentLoaded", carregarListaPadrao);
 
-    function carregarListaAlunos(atualizarInfoAluno = true) {
+    function carregarListaPadrao(atualizarInfo = true, PaginaAtual = 1) { //Implementando a função de carregamento de lista dos alunos
         event.preventDefault();
 
-        if (atualizarInfoAluno) {
+        if (atualizarInfo) {
             $('#divInfoAluno').empty();
             $('#divInfoAluno').hide();
             $('#msgInfoAluno').show();
@@ -126,6 +126,7 @@
             type: 'GET',
             async: true,
             data: {
+                PaginaAtual: PaginaAtual,
                 Busca: Busca
             },
             success: function (data) {
@@ -137,6 +138,14 @@
 
     function carregarInfoPadrao(param) { //Implementando a função de carregamento de informação do aluno
         event.preventDefault();
+
+        const inputTrocarFoto = document.getElementById('inputTrocarFoto');
+        if (inputTrocarFoto)
+            document.getElementById('inputTrocarFoto').value = '';
+        if (infoAlunoTemp)
+            infoAlunoTemp = null;
+        if (imagemBase64)
+            imagemBase64 = null;
 
         if (window.matchMedia("(max-width: 1200px)").matches) {
             $('#paginaDireita').css('display', 'flex');
@@ -242,6 +251,10 @@
     function salvarInfoAluno(mobile = false) {
         event.preventDefault();
 
+        if (!validarCampos()) {
+            return false;
+        }
+
         //Atualiza os valores pós edição
         infoAlunoTemp = {
             CdUsuario: $('#CdUsuario').val(),
@@ -302,7 +315,7 @@
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
-                carregarListaAlunos(false);
+                carregarListaPadrao(false);
                 infoAlunoTemp = null;
             },
             error: function (xhr, status, error) {
@@ -311,6 +324,30 @@
                 return;
             }
         });
+    }
+
+    function validarCampos() {
+        if ($('#txtNomeAluno').val().length == 0) {
+            ExibirInfo('O nome é obrigatório!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtEmailAluno').val().length == 0) {
+            ExibirInfo('O e-mail é obrigatório!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtGeneroAluno').find(":selected").val() == 0) {
+            ExibirInfo('Selecione um gênero!', 'Atenção!');
+            return false;
+        }
+
+        if (!$('#txtNascimentoAluno').val()) {
+            ExibirInfo('A data é obrigatória!', 'Atenção!');
+            return false;
+        }
+
+        return true;
     }
 
     function voltarMobile() {

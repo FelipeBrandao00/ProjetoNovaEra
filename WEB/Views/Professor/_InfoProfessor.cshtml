@@ -22,6 +22,7 @@
 
 <link rel="stylesheet" href="~/css/Professor/InfoProfessor.css">
 
+@Html.HiddenFor(model => model.IcHabilitadoTurma)
 @Html.HiddenFor(model => model.CdUsuario)
 @Html.HiddenFor(model => model.DsCpf)
 
@@ -42,7 +43,6 @@
     <label for="divNomeProfessor" class="linear1">Nome:</label><br />
     <input id="txtNomeProfessor" class="txtInfoProfessor" asp-for="NmUsuario" type="text" placeholder="Digite o nome..." disabled />
 </div>
-
 
 <div id="divEmailProfessor">
     <label for="divEmailProfessor" class="linear1">Email:</label><br />
@@ -157,4 +157,28 @@
             $("#txtSituacaoProfessor").val(txt);
         }
     }
+</script>
+
+<script src="~/js/jquery.mask.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //Aplica a máscara de Telefone
+        var phoneMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00000';
+        };
+        var options = {
+            onKeyPress: function (val, e, field, options) {
+                field.mask(phoneMaskBehavior.apply({}, arguments), options);
+            }
+        };
+        $('#txtTelefoneProfessor').mask(phoneMaskBehavior, options);
+
+        //Aplica a máscara de CPF
+        $('#txtCPFProfessor').mask('000.000.000-00');
+
+    });
+
 </script>

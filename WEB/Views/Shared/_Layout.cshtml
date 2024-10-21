@@ -631,6 +631,15 @@
             "progressBar": true
         };
 
+        function ExibirInfo(message, titulo) {
+            toastr.info(message, titulo, {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
+
         function ExibirSucesso(message, titulo) {
             toastr.success(message, titulo, {
                 timeOut: 3000,

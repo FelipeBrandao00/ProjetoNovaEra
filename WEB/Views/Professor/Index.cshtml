@@ -49,7 +49,7 @@
                             <label for="chkInativos">Desabilitados</label>
                             <input id="chkInativos" type="checkbox" checked/>
                         </div>
-                        <button id="btnPesquisar" onclick="carregarListaProfessores()"><b class="linear1">Pesquisar</b></button>
+                        <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
                     </div>
                     
                 </div>
@@ -124,7 +124,7 @@
     window.location.hash = '';
     let infoProfessorTemp;
     
-    document.addEventListener("DOMContentLoaded", carregarListaProfessores);
+    document.addEventListener("DOMContentLoaded", carregarListaPadrao);
     document.addEventListener("DOMContentLoaded", checkAdicionar);
 
     function checkAdicionar() {
@@ -134,14 +134,13 @@
             } else {
                 carregarAdicionarProfessor();
             }
-            
         }
     }
     
-    function carregarListaProfessores(atualizarInfoProfessor = true) {
+    function carregarListaPadrao(atualizarInfo = true, PaginaAtual = 1) {
         event.preventDefault();
 
-        if (atualizarInfoProfessor) {
+        if (atualizarInfo) {
             $('#divInfoProfessor').empty();
             $('#divInfoProfessor').hide();
             $('#msgInfoProfessor').show();
@@ -154,7 +153,7 @@
 
         let IcHabilitadoTurma = null;
         if (!$('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
-            alert('Selecione ao menos um filtro!');
+            ExibirInfo('Selecione ao menos um filtro!', 'Atenção!');
             return;
         }
 
@@ -170,6 +169,7 @@
             type: 'GET',
             async: true,
             data: {
+                PaginaAtual: PaginaAtual,
                 Busca: Busca,
                 IcHabilitadoTurma: IcHabilitadoTurma
             },
@@ -182,6 +182,14 @@
 
     function carregarInfoPadrao(param) {
         event.preventDefault();
+
+        const inputTrocarFoto = document.getElementById('inputTrocarFoto');
+        if (inputTrocarFoto)
+            document.getElementById('inputTrocarFoto').value = '';
+        if (infoProfessorTemp)
+            infoProfessorTemp = null;
+        if (imagemBase64)
+            imagemBase64 = null;
 
         if (window.matchMedia("(max-width: 1200px)").matches) {
             $('#paginaDireita').css('display', 'flex');
@@ -257,34 +265,50 @@
         event.preventDefault();
         
         if (!validarCampos()) {
-            return;
+            return false;
         }
 
         if ($('#txtSituacaoProfessor').find(":selected").val() == -1) {
-            alert('Selecione sua situação!');
+            ExibirInfo('Selecione sua situação!', 'Atenção!');
             return false;
         }
 
         let Habilitado = ($('#txtSituacaoProfessor').find(":selected").val() == 1) ? 'True' : 'False';
 
-        let infoAdd = {
-            CdUsuario: $('#CdUsuario').val(),
-            DsCpf: $('#DsCpf').val(),
-            NmUsuario: $('#txtNomeProfessor').val(),
-            DsEmail: $('#txtEmailProfessor').val(),
-            DsCpf: $('#txtCPFProfessor').val(),
-            DsGenero: $('#txtGeneroProfessor').find(":selected").val(),
-            DtNascimento: $('#txtNascimentoProfessor').val(),
-            DsTelefone: $('#txtTelefoneProfessor').val(),
-            IcHabilitadoTurma: Habilitado
+        let ResponseModelUsuario = new FormData();
+
+        if (!!imagemBase64) {
+            const fotoBlob = base64ToBlob(imagemBase64);
+            ResponseModelUsuario.append('DsFoto', fotoBlob, 'foto.png');
         }
+
+        ResponseModelUsuario.append('CdUsuario', $('#CdUsuario').val());
+        ResponseModelUsuario.append('NmUsuario', $('#txtNomeProfessor').val());
+        ResponseModelUsuario.append('DsEmail', $('#txtEmailProfessor').val());
+        ResponseModelUsuario.append('DsCpf', $('#txtCPFProfessor').val().replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsTelefone', $('#txtTelefoneProfessor').val().replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsGenero', parseInt($('#txtGeneroProfessor').val()));
+        ResponseModelUsuario.append('DtNascimento', $('#txtNascimentoProfessor').val());
+        ResponseModelUsuario.append('IcHabilitadoTurma', Habilitado);
 
         $.ajax({
             url: '@Url.Action("AdicionarProfessor", "Professor")',
             type: 'POST',
+            processData: false,
+            contentType: false,
+            data: ResponseModelUsuario,
+            dataType: 'JSON',
             async: true,
-            data: infoAdd,
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
                     $('#divBotaoAdicionarMobile').css('display', 'none');
@@ -300,7 +324,15 @@
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
-                carregarListaProfessores(false);
+                carregarListaPadrao(false);
+
+                if (data.data.dsCpf != null && data.data.dsCpf != '')
+                    carregarInfoPadrao(data.data.dsCpf);
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
             }
         });
     }
@@ -323,12 +355,22 @@
             .css('background-color', '#FFFFFF')
             .removeAttr('disabled');
 
+        const imagem = document.getElementById('imgUser');
+        const base64 = extrairBase64DeImagem(imagem);
+
+        if (base64) {
+            imagemBase64 = base64;
+        }
+
         infoProfessorTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#txtCPFProfessor').val(),
             NmUsuario: $('#txtNomeProfessor').val(),
             DsEmail: $('#txtEmailProfessor').val(),
-            DsGenero: $('#txtGeneroProfessor').val(),
+            DsGenero: parseInt($('#txtGeneroProfessor').val()),
             DtNascimento: $('#txtNascimentoProfessor').val(),
-            DsTelefone: $('#txtTelefoneProfessor').val()
+            DsTelefone: $('#txtTelefoneProfessor').val(),
+            DsFoto: imagemBase64
         }
     }
 
@@ -350,40 +392,82 @@
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
-        $('#txtNomeProfessor').val(infoProfessorTemp.NmUsuario);
-        $('#txtEmailProfessor').val(infoProfessorTemp.DsEmail);
-        $('#txtGeneroProfessor').val(infoProfessorTemp.DsGenero);
-        $('#txtNascimentoProfessor').val(infoProfessorTemp.DtNascimento);
-        $('#txtTelefoneProfessor').val(infoProfessorTemp.DsTelefone);
-    }
+        if (infoProfessorTemp) {
+            $('#txtNomeProfessor').val(infoProfessorTemp.NmUsuario);
+            $('#txtCPFProfessor').val(infoProfessorTemp.DsCpf);
+            $('#txtEmailProfessor').val(infoProfessorTemp.DsEmail);
+            $('#txtGeneroProfessor').val(infoProfessorTemp.DsGenero);
+            $('#txtNascimentoProfessor').val(infoProfessorTemp.DtNascimento);
+            $('#txtTelefoneProfessor').val(infoProfessorTemp.DsTelefone);
 
-    /* Tentativa falhada de passar a model como parâmetro na função */
-    //function salvarInfoProfessor(infoProfessorJson, mobile = false) {
+            if (!!infoProfessorTemp.DsFoto) {
+                const imgUser = document.getElementById('imgUser');
+                imgUser.src = infoProfessorTemp.DsFoto;
+                imgUser.style.display = 'block';
+            }
+            else {
+                ExcluirFoto();
+            }
+
+            infoProfessorTemp = null;
+        }
+    }
 
     function salvarInfoProfessor(mobile = false) {
         event.preventDefault();
 
         if (!validarCampos()) {
-            return;
+            return false;
         }
 
+        //Atualiza os valores pós edição
         infoProfessorTemp = {
             CdUsuario: $('#CdUsuario').val(),
-            DsCpf: $('#DsCpf').val(),
             NmUsuario: $('#txtNomeProfessor').val(),
             DsEmail: $('#txtEmailProfessor').val(),
             DsCpf: $('#txtCPFProfessor').val(),
-            DsGenero: $('#txtGeneroProfessor').find(":selected").val(),
+            DsGenero: parseInt($('#txtGeneroProfessor').val()),
             DtNascimento: $('#txtNascimentoProfessor').val(),
-            DsTelefone: $('#txtTelefoneProfessor').val()
+            DsTelefone: $('#txtTelefoneProfessor').val(),
+            DsFoto: imagemBase64
         }
+
+        let Habilitado = $('#IcHabilitadoTurma').val();
+
+        let ResponseModelUsuario = new FormData();
+
+        if (!!imagemBase64) {
+            const fotoBlob = base64ToBlob(imagemBase64);
+            ResponseModelUsuario.append('DsFoto', fotoBlob, 'foto.png');
+        }
+
+        ResponseModelUsuario.append('CdUsuario', infoProfessorTemp.CdUsuario);
+        ResponseModelUsuario.append('NmUsuario', infoProfessorTemp.NmUsuario);
+        ResponseModelUsuario.append('DsEmail', infoProfessorTemp.DsEmail);
+        ResponseModelUsuario.append('DsCpf', infoProfessorTemp.DsCpf.replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsTelefone', infoProfessorTemp.DsTelefone.replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsGenero', infoProfessorTemp.DsGenero);
+        ResponseModelUsuario.append('DtNascimento', infoProfessorTemp.DtNascimento);
+        ResponseModelUsuario.append('IcHabilitadoTurma', Habilitado);
 
         $.ajax({
             url: '@Url.Action("AtualizarInfoProfessor", "Professor")',
             type: 'POST',
+            processData: false,
+            contentType: false,
+            data: ResponseModelUsuario,
+            dataType: 'JSON',
             async: true,
-            data: infoProfessorTemp,
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
                     $('#divBotoesEdicaoMobile').css('display', 'none');
@@ -399,7 +483,13 @@
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
-                carregarListaProfessores(false);
+                carregarListaPadrao(false);
+                infoProfessorTemp = null;
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
             }
         });
     }
@@ -460,7 +550,17 @@
             data: {
                 CdUsuario: cdProfessor
             },
+            dataType: 'JSON',
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotaoHabilitarProfessorMobile').css('display', 'flex');
                     $('#divDesabilitarProfessorMobile').css('display', 'none');
@@ -478,7 +578,12 @@
                 //     .css('background-color', '#DBD8D8')
                 //     .attr('disabled', true);
 
-                carregarListaProfessores(false);
+                carregarListaPadrao(false);
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
             }
         });
     }
@@ -493,7 +598,17 @@
             data: {
                 CdUsuario: cdProfessor
             },
+            dataType: 'JSON',
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
                     $('#divHabilitarProfessorMobile').css('display', 'none');
@@ -511,7 +626,12 @@
                 //     .css('background-color', '#DBD8D8')
                 //     .attr('disabled', true);
 
-                carregarListaProfessores(false);
+                carregarListaPadrao(false);
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
             }
         });
     }
@@ -524,30 +644,31 @@
     }
 
     function validarCampos() {
-        if ($('#txtCPFProfessor').val().length != 11) {
-            alert('O CPF é obrigatório e precisa ser válido!');
+        if ($('#txtCPFProfessor').val().replace(/\D/g, '').length != 11) {
+            ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção!');
             return false;
         }
 
         if ($('#txtNomeProfessor').val().length == 0) {
-            alert('O nome é obrigatório!');
+            ExibirInfo('O nome é obrigatório!', 'Atenção!');
             return false;
         }
 
         if ($('#txtEmailProfessor').val().length == 0) {
-            alert('O e-mail é obrigatório!');
+            ExibirInfo('O e-mail é obrigatório!', 'Atenção!');
             return false;
         }
 
         if ($('#txtGeneroProfessor').find(":selected").val() == 0) {
-            alert('Selecione um gênero!');
+            ExibirInfo('Selecione um gênero!', 'Atenção!');
             return false;
         }
 
         if (!$('#txtNascimentoProfessor').val()) {
-            alert('A data é obrigatória!');
+            ExibirInfo('A data é obrigatória!', 'Atenção!');
             return false;
         }
+
         return true;
     }
 
@@ -592,7 +713,7 @@
             height: 122,
         });
 
-            const imgUser = document.getElementById('imgUser');
+        const imgUser = document.getElementById('imgUser');
         imgUser.src = canvas.toDataURL();
         imgUser.style.display = 'block';
 
