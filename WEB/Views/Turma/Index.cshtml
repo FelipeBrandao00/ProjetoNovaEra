@@ -1,9 +1,12 @@
-﻿@{
+﻿@using WEB.Models.Curso
+@{
     Layout = "_Layout";
     ViewData["Title"] = "Listar turmas";
 
     ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
     ViewData["Page"] = "Turmas";
+
+    var ListaCurso = ViewBag.ListaCurso ?? new List<CursoViewModel.ItemListaCurso>();
 }
 
 <link rel="stylesheet" href="~/css/Turma/Index.css">
@@ -45,9 +48,10 @@
                 <div id="divInputDropdown">
                     <label for="divCursoTurma">Curso:</label>
                     <select id="divCursoTurma" class="txtInfoCurso">
-                        <option value="0">Selecione</option>
-                        <option value="1">Feminino</option>
-                        <option value="2">Masculino</option>
+                         <option value="0">Selecione</option>
+                         @foreach (CursoViewModel.ItemListaCurso item in ListaCurso) {
+                            <option value="@item.cdCurso">@item.nmCurso</option>
+                         }
                     </select>
                 </div>
             </div>
@@ -57,7 +61,7 @@
                 <b class="linear1">Filtros</b>
                 <i id="arrowIcon" class="fa fa-angles-up"></i>
             </button>
-            <button id="btnPesquisar" onclick="carregarListaTurmas()"><b class="linear1">Pesquisar</b></button>
+            <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
         </div>
     </div>
 </div>
@@ -126,7 +130,7 @@
     window.location.hash = '';
     let infoTurmaTemp;
 
-    document.addEventListener("DOMContentLoaded", carregarListaTurmas);
+    document.addEventListener("DOMContentLoaded", carregarListaPadrao);
     document.addEventListener("DOMContentLoaded", checkAdicionar);
 
     function toggleFiltros() {
@@ -145,7 +149,7 @@
         }
     }
 
-    function carregarListaTurmas(atualizarInfoTurma = true) {
+    function carregarListaPadrao(atualizarInfoTurma = true, PaginaAtual = 1) {
         event.preventDefault();
 
         if (atualizarInfoTurma) {
@@ -174,16 +178,27 @@
 
         let dtInicial = $("#txtInicio").val();
         let dtFinal = $("#txtFinal").val();
+        let cursoId = $('#divCursoTurma').val();
+        if (cursoId == 0) {
+            cursoId = null;
+        }
+
+        console.log(dtInicial);
+        console.log(dtFinal);
+        console.log(cursoId);
+        console.log(IcFinalizado);
 
         $.ajax({
             url: '@Url.Action("ListarTurmas", "Turma")',
             type: 'GET',
             async: true,
             data: {
+                PaginaAtual: PaginaAtual,
                 Busca: Busca,
                 IcFinalizado: IcFinalizado,
                 DtInicial: dtInicial,
-                DtFinal: dtFinal
+                DtFinal: dtFinal,
+                CursoId: cursoId
             },
             success: function (data) {
                 $('#msgListaTurma').hide();
@@ -264,7 +279,7 @@
 
                 $('#divBotoesEditar').css('display', 'none');
 
-                $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao')
+                $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #ddlCurso, #ddlProfessor')
                     .css('background-color', '#FFFFFF')
             }
         });
@@ -277,23 +292,34 @@
             return;
         }
 
-        let infoAdd = {
-            CdCurso: $('#CdCurso').val(),
-            nmTurma: $('#txtNomeTurma').val(),
-            DsCurso: $('#txtDescricaoTurma').val(),
-            DtCriacao: $('#txtCriacao').val(),
-            DtFinalizacao: $('#txtFinalizacao').val(),
-        }
+        let ResponseModelTurma = new FormData();
+        ResponseModelTurma.append('DsTurma', $('#txtNomeTurma').val());
+        ResponseModelTurma.append('DtInicio', $('#txtCriacao').val());
+        ResponseModelTurma.append('CdProfessor', $('#ddlProfessor').val());
+        ResponseModelTurma.append('CdCurso', parseInt($('#ddlCurso').val()));
+        console.log(ResponseModelTurma);
 
         $.ajax({
             url: '@Url.Action("AdicionarTurma", "Turma")',
             type: 'POST',
+            processData: false,
+            contentType: false,
+            data: ResponseModelTurma,
+            dataType: 'JSON',
             async: true,
-            data: infoAdd,
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 $('#conteudoModal').css('display', 'none');
                 $('#backgroundModal').css('display', 'none');
-                carregarListaTurmas(false);
+                carregarListaPadrao(false);
             }
         });
     }
@@ -359,7 +385,7 @@
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
-                carregarListaTurmas(false);
+                carregarListaPadrao(false);
             }
         });
     }
@@ -425,7 +451,7 @@
                 $('#backgroundConteudoModal').css('display', 'none');
 
                 $('#divDataFinalizacao').css('display', 'unset');
-                carregarListaTurmas(false);
+                carregarListaPadrao(false);
             }
         });
     }
@@ -453,7 +479,7 @@
                 $('#backgroundConteudoModal').css('display', 'none');
 
                 $('#divDataFinalizacao').css('display', 'none');
-                carregarListaTurmas(false);
+                carregarListaPadrao(false);
             }
         });
     }
@@ -534,17 +560,27 @@
 
     function validarCampos() {
         if ($('#txtNomeTurma').val().length == 0) {
-            alert('O nome é obrigatório!');
+            ExibirInfo('O nome da turma é obrigatório!', 'Atenção!');
             return false;
         }
 
         if ($('#txtDescricaoTurma').val().length == 0) {
-            alert('A descrição é obrigatória!');
+            ExibirInfo('A descrição é obrigatória!', 'Atenção!');
             return false;
         }
 
         if (!$('#txtCriacao').val()) {
-            alert('A data de criação é obrigatória!');
+            ExibirInfo('A data de criação é obrigatória!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#ddlCurso').find(":selected").val() == 0) {
+            ExibirInfo('Selecione um curso!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#ddlProfessor').find(":selected").val() == 0) {
+            ExibirInfo('Selecione um professor!', 'Atenção!');
             return false;
         }
         return true;

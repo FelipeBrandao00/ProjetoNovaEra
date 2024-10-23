@@ -3,25 +3,31 @@ using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
 using WEB.Models.Shared;
 using WEB.Models.Curso;
+using WEB.Models.Professor;
+using WEB.Models.Turma;
 
 namespace WEB.Controllers {
     public class TurmaController(IConfiguration configuration) : Controller {
-        public IActionResult Index(bool icAdicionar = false) {
+        public async Task<IActionResult> Index(bool icAdicionar = false) {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token)) {
                 return RedirectToAction("Index", "Login");
             }
 
             var dados = JwtToken.DescriptografarJwt(token);
-            ViewBag.Role = dados.role[0];
-            ViewBag.Nome = dados.role[1];
+            ViewBag.Role = String.Join(" | ", dados.role);
+            ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
 
             ViewBag.IcAdicionar = icAdicionar;
+
+            var CursoViewModel = new CursoViewModel();
+            var ListaCurso = await CursoViewModel.GerarLista(configuration);
+            ViewBag.ListaCurso = ListaCurso.Data;
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListarTurmas(listarCursoViewModel model) {
+        public async Task<IActionResult> ListarTurmas(ListarTurmaViewModel model) {
             configuration["JwtToken"] = Request.Cookies["Token"];
             await model.GerarLista(configuration);
             return PartialView("_ListarPadrao", model);
@@ -35,14 +41,22 @@ namespace WEB.Controllers {
         }
 
         public async Task<IActionResult> CarregarAdicionarTurma() {
-            return PartialView("_AdicionarTurma", null);
+            var ProfessorViewModel = new ProfessorViewModel();
+            var ListaProfessor = await ProfessorViewModel.GerarLista(configuration);
+            ViewBag.ListaProfessor = ListaProfessor.Data;
+
+            var CursoViewModel = new CursoViewModel();
+            var ListaCurso = await CursoViewModel.GerarLista(configuration);
+            ViewBag.ListaCurso = ListaCurso.Data;
+
+            return PartialView("_AdicionarTurma");
         }
 
-        public async Task<IActionResult> AdicionarTurma(ResponseModelCurso ResponseModelCurso) {
+        public async Task<JsonResult> AdicionarTurma(ResponseModelTurma ResponseModelTurma) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var responseAdd = await new CursoViewModel().Adicionar(configuration, ResponseModelCurso);
+            var responseAdd = await new TurmaViewModel().Adicionar(configuration, ResponseModelTurma);
 
-            return PartialView("_InfoTurma", responseAdd.Data);
+            return Json(responseAdd);
         }
 
         [HttpPost]

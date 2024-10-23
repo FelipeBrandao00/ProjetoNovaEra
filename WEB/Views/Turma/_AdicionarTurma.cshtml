@@ -1,27 +1,53 @@
-﻿@model Application.Responses.ResponseModelCurso
+﻿@using WEB.Models.Professor
+@using WEB.Models.Curso
+@model Application.Responses.ResponseModelCurso
 
 @{
     Layout = null;
+
+    var ListaProfessor = ViewBag.ListaProfessor ?? new List<ProfessorViewModel.ItemListaProfessor>();
+    var ListaCurso = ViewBag.ListaCurso ?? new List<CursoViewModel.ItemListaCurso>();
 }
 
 <link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
 
 <div id="divNomeTurma">
     <label for="divNomeTurma" class="linear1">Nome:</label><br />
-    <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmCurso" type="text" placeholder="Digite o nome da turma..." />
+    <input id="txtNomeTurma" class="txtInfoTurma" type="text" placeholder="Digite o nome da turma..." />
 </div>
 
 <div id="divDescricaoTurma">
     <label for="txtDescricaoTurma" class="linear1">Descrição:</label><br />
-    <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsCurso" type="text" placeholder="Digite a descrição da turma..."></textarea>
+    <textarea id="txtDescricaoTurma" class="txtInfoTurma" type="text" placeholder="Digite a descrição da turma..."></textarea>
 </div>
 
 <div id="divDatas">
     <div id="divDataCriacao">
         <label for="txtCriacao" class="linear1">Data de criação:</label><br />
-        <input id="txtCriacao" class="txtInfoTurma" asp-for="DtCriacao" type="date" />
+        <input id="txtCriacao" class="txtInfoTurma" type="date" />
+    </div>
+
+    <div id="divCursoAdicionar">
+        <label for="divCursoAdicionar" class="linear1">Curso:</label><br />
+        <select id="ddlCurso" class="txtInfoTurma">
+            <option value="0">Selecione</option>
+            @foreach (CursoViewModel.ItemListaCurso item in ListaCurso) {
+                <option value="@item.cdCurso">@item.nmCurso</option>
+            }
+        </select>
     </div>
 </div>
+
+<div id="divProfessor">
+    <label for="divProfessor" class="linear1">Professor:</label><br />
+    <select id="ddlProfessor" class="txtInfoTurma">
+        <option value="0">Selecione</option>
+        @foreach (ProfessorViewModel.ItemListaProfessor item in ListaProfessor) {
+            <option value="@item.cdUsuario">@item.nmUsuario</option>
+        }
+    </select>
+</div>
+
 
 <div id="divBotaoAdicionar">
     <button id="btnConfirmarAdicionar" onclick="adicionarTurma()"><b style="color: white;">Adicionar turma</b></button>

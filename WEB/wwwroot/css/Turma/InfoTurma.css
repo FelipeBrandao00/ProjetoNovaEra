@@ -1,10 +1,6 @@
 ﻿/* Folha de estilos: Turma */
 
 /* IDs */
-/*#listaPadrao {
-    min-height: 400px !important;
-}*/
-
 #txtDescricaoTurma {
     min-height: 300px;
 }
@@ -15,10 +11,9 @@
     justify-content: space-between;
 }
 
-#divDataCriacao, #divDataFinalizacao {
-    width: 45%;
+#divDataCriacao, #divDataFinalizacao, #divCursoAdicionar {
+    width: 45% !important;
 }
-
 
 #divBotoesEditar {
     display: flex;

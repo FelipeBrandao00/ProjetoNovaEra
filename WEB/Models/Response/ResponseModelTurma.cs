@@ -1,13 +1,9 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿namespace Application.Responses;
 
-namespace Application.Responses;
-
-public class ResponseModelTurma
-{
-    public Guid CdAluno { get; init; }
+public class ResponseModelTurma {
     public int CdTurma { get; init; }
-    public bool? IcAprovado { get; init; }
     public string DsTurma { get; init; }
+    public DateTime DtInicio { get; init; }
     public int CdCurso { get; init; }
-    public string NmCurso { get; init; }
+    public Guid CdProfessor { get; init; }
 }

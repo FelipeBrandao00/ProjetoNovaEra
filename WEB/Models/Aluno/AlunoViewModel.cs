@@ -7,7 +7,7 @@ namespace WEB.Models.Aluno;
 
 public class AlunoViewModel
 {
-    public async Task<Response<ResponseModelTurma>> BuscarTurmaAtual(IConfiguration configuration, ResponseModelUsuario responseModelUsuario)
+    public async Task<Response<ResponseModelTurmaAluno>> BuscarTurmaAtual(IConfiguration configuration, ResponseModelUsuario responseModelUsuario)
     {
         using (var client = new HttpClient())
         {
@@ -22,21 +22,21 @@ public class AlunoViewModel
             {
                 var response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
-                    return new Response<ResponseModelTurma> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
+                    return new Response<ResponseModelTurmaAluno> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
 
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var responseData = JsonSerializer.Deserialize<Response<ResponseModelTurma>>(responseBody, options);
+                var responseData = JsonSerializer.Deserialize<Response<ResponseModelTurmaAluno>>(responseBody, options);
 
                 if (responseData == null || !responseData.IsSuccess)
-                    return new Response<ResponseModelTurma> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
+                    return new Response<ResponseModelTurmaAluno> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
 
                 return responseData;
             }
             catch (Exception ex)
             {
                 while (ex.InnerException != null) { ex = ex.InnerException; }
-                return new Response<ResponseModelTurma> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
+                return new Response<ResponseModelTurmaAluno> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
             }
         }
     }
