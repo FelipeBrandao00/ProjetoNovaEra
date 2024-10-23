@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
 using WEB.Models.Shared;
+using WEB.Models.Usuario;
 
 namespace WEB.Controllers {
     public class PermissaoController(IConfiguration configuration) : Controller {

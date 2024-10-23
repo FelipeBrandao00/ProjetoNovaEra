@@ -8,18 +8,25 @@
     gap: 20px;
 }
 
-    #divImgUsuario > img {
-        background-color: #DBD8D8;
-        border: none;
+#quadroImgUser {
+    height: 122px;
+    width: 122px;
+    background-color: #DBD8D8;
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+    #quadroImgUser > img {
         border-radius: 10px;
-        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+        object-fit: contain;
     }
 
-    #divImgUsuario > div:last-child {
-        display: none;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
+#divImgUsuario > div:last-child {
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
 
 #btnTrocarFoto {
     width: 100px;
@@ -143,23 +150,8 @@
     margin-top: 11vh;
 }
 
-#divCargosUsuario {
-    margin-top: 5px;
-}
-
-#divCargos {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#divCargos > input {
-    width: calc(33.33% - 10px) !important; /* Ajusta a largura para 1/3 da linha, com margem */
-    margin: 5px; /* Espaço entre os inputs */
-    box-sizing: border-box; /* Para garantir que padding e margin não aumentem o tamanho */
-}
-
-#listaCargo, #lblListaCargo {
-    display: none;
+#lblListaCargo {
+    margin-top: 15px;
 }
 
 #listaCargo > div {

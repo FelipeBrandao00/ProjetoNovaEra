@@ -36,6 +36,7 @@ input:focus, button:focus {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    max-height: 80px;
 }
 
 #divPesquisar {
@@ -57,24 +58,37 @@ input:focus, button:focus {
     display: none;
 }
 
-#idCheckbox {
+#idCheckboxProfessor {
+    width: 50%;
+    display: none;
+}
+
+#idCheckboxProfessor, #idCheckboxCargos {
     border: 1px solid grey;
     border-radius: 10px;
     padding: 10px;
-    width: 50%;
+    overflow-y: auto;
 }
 
-#divInputCheckbox {
-    font-size: 15px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
+#idCheckboxCargos {
+    width: 100%;
 }
 
-    #divInputCheckbox > label {
-        width: 150px;
+    #idCheckboxCargos > #divInputCheckbox, #idCheckboxProfessor > #divInputCheckbox {
+        flex-direction: column;
+        align-items: center;
+        display: block;
+        padding-top: 2px;
+        border-bottom: 1px solid lightgrey;
     }
+
+        #idCheckboxCargos > #divInputCheckbox:last-child, #idCheckboxProfessor > #divInputCheckbox:last-child {
+            border: none;
+        }
+
+        #idCheckboxCargos > #divInputCheckbox > div > label, #idCheckboxProfessor > #divInputCheckbox > label {
+            width: 80%;
+        }
 
 #txtBusca {
     width: 100%;
@@ -104,6 +118,8 @@ input:focus, button:focus {
     flex-direction: column;
     justify-content: space-between;
     gap: 10px;
+    height: 100%;
+    margin-top: 2vh;
 }
 
 #divBotaoAtivarUsuario {
@@ -238,8 +254,10 @@ input:focus, button:focus {
         justify-content: center;
     }
 
-    #idCheckbox {
+    #idCheckboxProfessor, #idCheckboxCargos {
         width: 100%;
+        overflow-x: auto;
+        max-height: 120px;
     }
 }
 
