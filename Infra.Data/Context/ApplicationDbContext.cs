@@ -159,8 +159,9 @@ namespace API_NOVA_ERA.Database {
                 {
                     CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"),
                     NmUsuario = "Master",
-                    DsEmail = "master@mail.com",
-                    DsSenha = Password.EncodePassword("1234")
+                    DsEmail = "master@gmail.com",
+                    DsSenha = Password.EncodePassword("1234"),
+                    DsCpf = "00000000000"
                 }
             );
 
