@@ -8,6 +8,8 @@ using WEB.Models.Usuario;
 using WEB.Models.Genero;
 using WEB.Models.Cargo;
 using WEB.Models.Response;
+using WEB.Models.Curso;
+using System.Text.Json;
 
 namespace WEB.Controllers {
     public class SistemaController(IConfiguration configuration) : Controller {
@@ -31,9 +33,16 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListarUsuarios(ListarProfessorViewModel model) {
+        public async Task<IActionResult> ListarUsuarios(ListarUsuarioViewModel model, string LstCursos) {
             configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var cursos = new List<CursoViewModel.ItemListaCursos>();
+            if (!string.IsNullOrEmpty(LstCursos)) {
+                cursos = JsonSerializer.Deserialize<List<CursoViewModel.ItemListaCursos>>(LstCursos);
+            }
+
             await model.GerarLista(configuration);
+
             return PartialView("_ListarPadrao", model);
         }
 
@@ -93,7 +102,7 @@ namespace WEB.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> AtualizarInfoUsuario([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto, List<ResponseModelCargoUsuario> ResponseModelCargoUsuario) {
+        public async Task<IActionResult> AtualizarInfoUsuario([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto, string LstCursos) {
             if (DsFoto != null) {
                 if (!DsFoto.ContentType.StartsWith("image/"))
                     return Json(new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no formato da foto enviada." });
@@ -105,9 +114,23 @@ namespace WEB.Controllers {
                 }
             }
 
-            //Atualiza as informações de fato
+            var cursos = new List<ResponseModelCargoUsuario>();
+            if (!string.IsNullOrEmpty(LstCursos)) {
+                cursos = JsonSerializer.Deserialize<List<ResponseModelCargoUsuario>>(LstCursos);
+            }
+
             configuration["JwtToken"] = Request.Cookies["Token"];
-            return Json(await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario));
+            var responseAdd = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);
+            if (!responseAdd.IsSuccess)
+                return Json(responseAdd);
+
+            //var responseCargo = new Response<ResponseModelUsuario>(); foreach (var item in cursos) {
+            //    responseCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, responseAdd.Data.CdUsuario, item.CdCargo);
+            //    if (!responseCargo.IsSuccess)
+            //        return Json(responseAdd);
+            //}
+
+            return Json(responseAdd);
         }
 
         [HttpPost]

@@ -6,6 +6,15 @@ using WEB.Models.Shared;
 
 namespace WEB.Models.Curso {
     public class CursoViewModel {
+        public class ItemListaCurso {
+            public int cdCurso { get; set; }
+            public string nmCurso { get; set; }
+        }
+
+        public class ItemListaCursos {
+            public string cdCurso { get; set; }
+            public string nmCurso { get; set; }
+        }
         public int id { get; set; }
 
         public async Task<Response<ResponseModelCurso>> BuscarInfo(IConfiguration configuration) {

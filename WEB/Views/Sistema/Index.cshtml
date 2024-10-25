@@ -158,7 +158,7 @@
     document.addEventListener("DOMContentLoaded", carregarListaPadrao);
     document.addEventListener("DOMContentLoaded", checkAdicionar);
 
-    $("#2").change(function () {
+    $("#k2").change(function () {
         if (this.checked) {
             $('#idCheckboxProfessor').css('display', 'unset');
             if (window.matchMedia("(max-width: 1200px)").matches) {
@@ -183,8 +183,8 @@
             const label = document.querySelector(`label[for="${checkbox.id}"]`);
             if (label) {
                 cursos.push({
-                    CdCurso: checkbox.id,
-                    NmCurso: label.textContent
+                    cdCurso: checkbox.id,
+                    nmCurso: label.textContent
                 });
             }
 
@@ -232,8 +232,8 @@
 
         let Busca = $('#txtBusca').val();
 
-        let lstCursos = coletarCursos();
-        if (lstCursos == null) {
+        let LstCursos = coletarCursos();
+        if (LstCursos == null) {
             return;
         }
 
@@ -260,6 +260,8 @@
             IcHabilitadoTurma = true;
         }
 
+        console.log(LstCursos);
+
         $.ajax({
             url: '@Url.Action("ListarUsuarios", "Sistema")',
             type: 'GET',
@@ -267,7 +269,8 @@
             data: {
                 PaginaAtual: PaginaAtual,
                 Busca: Busca,
-                IcHabilitadoTurma: IcHabilitadoTurma
+                IcHabilitadoTurma: IcHabilitadoTurma,
+                LstCursos: JSON.stringify(LstCursos)
             },
             success: function (data) {
                 $('#msgListaUsuario').hide();
@@ -530,11 +533,18 @@
             infoUsuarioTemp = null;
         }
 
-        if (infoCargoUsuarioTemp) {
-            infoCargoUsuarioTemp.forEach(item => {
-                $('#' + item.codigo).prop('checked', item.checked);
-            });
+        console.log(infoCargoUsuarioTemp);
 
+        if (infoCargoUsuarioTemp) {
+            const checkboxes = document.querySelectorAll('#listaCargo div input[type="checkbox"]');
+
+            checkboxes.forEach(checkbox => {
+                const cargoInfo = infoCargoUsuarioTemp.find(info => info.codigo === checkbox.id);
+
+                if (cargoInfo) {
+                    checkbox.checked = cargoInfo.checked;
+                }
+            });
             infoCargoUsuarioTemp = [];
         }
 
@@ -543,12 +553,11 @@
             const checkbox = item.querySelector('input[type="checkbox"]');
             if (checkbox) {
                 checkbox.disabled = true;
-                if (!checkbox.checked) {
+                if (checkbox.checked == false) {
                     item.style.display = 'none';
                 }
             }
         });
-
     }
 
     function salvarInfoUsuario(mobile = false) {
@@ -597,12 +606,16 @@
         infoCargoUsuarioTemp = [];
         const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
-            infoCargoUsuarioTemp.push({
-                cargo: checkbox.previousElementSibling.textContent.trim(),
-                codigo: checkbox.id,
-                checked: checkbox.checked
-            });
+            if (checkbox && checkbox.checked) {
+                infoCargoUsuarioTemp.push({
+                    cdCurso: checkbox.previousElementSibling.textContent.trim(),
+                    cdCurso: checkbox.id
+                });
+            }
         });
+
+        console.log(infoCargoUsuarioTemp);
+        return;
 
         listaCargo.forEach(item => {
             const checkbox = item.querySelector('input[type="checkbox"]');
