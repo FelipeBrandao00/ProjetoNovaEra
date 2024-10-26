@@ -58,4 +58,14 @@ public class UsuarioRepository(ApplicationDbContext _context) : IUsuarioReposito
         await _context.SaveChangesAsync();
         return usuario;
     }
+
+    public async Task<List<Usuario>> GetUsuariosByCargos(int[] cdCargos) {
+        return await
+                  (from u in _context.Usuarios
+                   join cu in _context.Cargo_Usuarios on u.CdUsuario equals cu.CdUsuario
+                   join c in _context.Cargos on cu.CdCargo equals c.CdCargo
+                   where cdCargos.Contains(c.CdCargo)
+                   select u)
+                  .ToListAsync();
+    }
 }
