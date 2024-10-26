@@ -10,5 +10,6 @@ namespace Domain.Interfaces {
         Task<List<Usuario>> GetUsuariosByCargo(int cdCargo);
         Task<Usuario?> GetUsuarioByEmail(string email);
         Task<Usuario?> UpdatePasswordUsuario(Guid cdUsuario, string newPassword);
+        Task<List<Usuario>> GetUsuariosByCargos(int[] cdCargos);
     }
 }

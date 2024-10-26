@@ -34,5 +34,12 @@ namespace API.Controllers
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
+
+        [HttpPost("api/[controller]/AddCargosUsuario")]
+        public async Task<ActionResult> AddCargosUsuario(AddCargosUsuarioRequest request) {
+            var result = await cargoUsuarioService.AddCargosUsuario(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }

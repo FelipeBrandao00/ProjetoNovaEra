@@ -61,6 +61,9 @@ namespace Application.Services {
             try {
 
                 var entity = await _conteudoRepository.GetConteudoById(request.CdConteudo);
+
+                if (entity == null) return new Response<ConteudoDto>(null, 500, "Não foi possível encontrar o conteudo");
+
                 var result = mapper.Map<ConteudoDto>(entity);
                 var path = $"Turmas/Turma{entity.CdTurma}/Aula{entity.CdAula}/";
                 var fileName = $"{entity.NmArquivo}{entity.DsExtensao}";

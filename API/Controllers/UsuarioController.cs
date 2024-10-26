@@ -54,5 +54,13 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase 
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }
+
+    [HttpGet("api/[controller]/getByCargos")]
+    public async Task<ActionResult> GetUsuariosByCargos([FromQuery] int[] cdCargo, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+        var request = new GetUsuariosByCargosRequest(cdCargo, pageNumber, pageSize);
+        var result = await usuarioService.GetUsuariosByCargos(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
 }
 
