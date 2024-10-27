@@ -16,6 +16,16 @@ namespace Infra.Data.Repositories {
             return frequencia;
         }
 
+        public async Task<List<Frequencia>> AddFrequencias(int cdAula, List<Frequencia> frequencias) {
+            _context.Frequencias.RemoveRange(_context.Frequencias.Where(x => x.CdAula == cdAula));
+
+            foreach (var frequencia in frequencias) {
+                _context.Frequencias.Add(frequencia);
+            }
+            await _context.SaveChangesAsync();
+            return await GetFrequenciasByAulaId(cdAula);
+        }
+
         public async Task<Frequencia> DeleteFrequencia(Frequencia frequencia) {
             _context.Frequencias.Remove(frequencia);
             await _context.SaveChangesAsync();

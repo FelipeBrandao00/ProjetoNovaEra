@@ -12,6 +12,7 @@ namespace Domain.Entities
         public DateTime DtAula { get; set; }
         public required string NmAula { get; set; }
         public string? DsAula { get; set; }
+        public bool IsChamada { get; set; } = false;
 
         public int CdTurma { get; set; }
         public virtual required Turma Turma { get; set; }

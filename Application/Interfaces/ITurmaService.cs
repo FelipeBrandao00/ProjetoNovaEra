@@ -12,9 +12,11 @@ namespace Application.Interfaces {
     public interface ITurmaService {
         Task<Response<TurmaDto>> AddTurma(AddTurmaRequest request);
         Task<Response<TurmaDto>> UpdateTurma(UpdateTurmaRequest request);
-        Task<PagedResponse<List<TurmaDto>>> GetTurmas(GetTurmasRequest request); //falta os filtros
+        Task<PagedResponse<List<TurmaDto>>> GetTurmas(GetTurmasRequest request); 
         Task<Response<TurmaDto?>> GetTurmaById(GetTurmaByIdRequest request);
         Task<Response<TurmaDto>> FinalizarTurma(FinalizarTurmaRequest request);
         Task<Response<TurmaDto>> ReativarTurma(ReativarTurmaRequest request);
+        Task<Response<TurmaDto>> HabilitarMatricula(HabilitarMatriculaRequest request);
+        Task<Response<TurmaDto>> EncerrarMatricula(EncerrarMatriculaRequest request);
     }
 }
