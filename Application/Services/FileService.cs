@@ -59,5 +59,22 @@ namespace Application.Services {
                 throw new Exception("Erro ao buscar o arquivo.", ex);
             }
         }
+
+        public int GetFileCountInDirectory(string relativePath) {
+            try {
+                string directoryPath = Path.Combine(_baseDirectory, relativePath);
+
+                if (Directory.Exists(directoryPath)) {
+                    return Directory.GetFiles(directoryPath).Length;
+                }
+                else {
+                    throw new DirectoryNotFoundException("Pasta não encontrada.");
+                }
+            }
+            catch (Exception ex) {
+                throw new Exception("Erro ao obter a contagem de arquivos na pasta.", ex);
+            }
+        }
+
     }
 }

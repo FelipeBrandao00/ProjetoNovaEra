@@ -10,6 +10,14 @@ namespace Infra.Data.Repositories {
             await _context.SaveChangesAsync();
             return turma;
         }
+
+        public async Task<Turma> EncerrarMatricula(int CdTurma) {
+            var turma = await GetTurmaById(CdTurma);
+            turma.IcAbertaMatricula = false;
+            await _context.SaveChangesAsync();
+            return turma;
+        }
+
         public async Task<Turma> FinalizarTurma(int CdTurma) {
             var turma = await GetTurmaById(CdTurma);
 
@@ -44,6 +52,13 @@ namespace Infra.Data.Repositories {
                 turmas = turmas.Where(x => x.CdCurso == cursoId);
 
             return await turmas.ToListAsync();
+        }
+
+        public async Task<Turma> HabilitarMatricula(int CdTurma) {
+            var turma = await GetTurmaById(CdTurma);
+            turma.IcAbertaMatricula = true;
+            await _context.SaveChangesAsync();
+            return turma;
         }
 
         public async Task<Turma> ReativarTurma(int CdTurma) {

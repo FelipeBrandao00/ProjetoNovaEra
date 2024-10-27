@@ -30,6 +30,23 @@ namespace Application.Services {
                     "Não foi possível criar a turma");
             }
         }
+
+        public async Task<Response<TurmaDto>> EncerrarMatricula(EncerrarMatriculaRequest request) {
+            try {
+                var retorno = await _turmaRepository.EncerrarMatricula(request.CdTurma);
+                return new Response<TurmaDto>(
+                    mapper.Map<TurmaDto>(retorno),
+                    200,
+                    "Matricula encerrada com sucesso!");
+            }
+            catch (Exception e) {
+                return new Response<TurmaDto>(
+                    null,
+                    500,
+                    "Não foi possível encerrar a matricula");
+            }
+        }
+
         public async Task<Response<TurmaDto>> FinalizarTurma(FinalizarTurmaRequest request) {
             try {
                 var retorno = await _turmaRepository.FinalizarTurma(request.CdTurma);
@@ -78,6 +95,22 @@ namespace Application.Services {
             }
             catch (Exception e) {
                 return new PagedResponse<List<TurmaDto>>(null, 500, "Não foi possível consultar as turmas");
+            }
+        }
+
+        public async Task<Response<TurmaDto>> HabilitarMatricula(HabilitarMatriculaRequest request) {
+            try {
+                var retorno = await _turmaRepository.HabilitarMatricula(request.CdTurma);
+                return new Response<TurmaDto>(
+                    mapper.Map<TurmaDto>(retorno),
+                    200,
+                    "Matricula habilitada com sucesso!");
+            }
+            catch (Exception e) {
+                return new Response<TurmaDto>(
+                    null,
+                    500,
+                    "Não foi possível habilitar a matricula");
             }
         }
 
