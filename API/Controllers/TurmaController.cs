@@ -72,5 +72,15 @@ namespace API.Controllers {
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
+
+
+        [HttpGet("api/[controller]/GetTurmasAbertaMatricula")]
+        public async Task<ActionResult> GetTurmasAbertaMatricula()
+        {
+            var request = new GetTurmasAbertaMatriculaRequest() { };
+            var result = await turmaService.GetTurmasAbertaMatricula(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }

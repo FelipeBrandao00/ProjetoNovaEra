@@ -28,9 +28,7 @@ namespace Infra.Data.Repositories {
             return turma;
         }
 
-        public async Task<Turma?> GetTurmaById(int CdTurma) {
-            return await _context.Turmas.Where(x => x.CdTurma == CdTurma).FirstOrDefaultAsync();
-        }
+        public async Task<Turma?> GetTurmaById(int CdTurma) => await _context.Turmas.Where(x => x.CdTurma == CdTurma).FirstOrDefaultAsync();
 
         public async Task<List<Turma>> GetTurmas(string nome, DateTime? dtInicial = null, DateTime? dtFinal = null, bool? icFinalizado = null, int? cursoId = null) {
             IQueryable<Turma> turmas = _context.Turmas;
@@ -53,6 +51,8 @@ namespace Infra.Data.Repositories {
 
             return await turmas.ToListAsync();
         }
+
+        public async Task<List<Turma>> GetTurmasAbertaMatricula() => await _context.Turmas.Where(x => x.IcAbertaMatricula).ToListAsync();
 
         public async Task<Turma> HabilitarMatricula(int CdTurma) {
             var turma = await GetTurmaById(CdTurma);

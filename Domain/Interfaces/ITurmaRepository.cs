@@ -15,6 +15,6 @@ namespace Domain.Interfaces {
         Task<Turma> ReativarTurma(int CdTurma);
         Task<Turma> HabilitarMatricula(int CdTurma);
         Task<Turma> EncerrarMatricula(int CdTurma);
-
+        Task<List<Turma>> GetTurmasAbertaMatricula();
     }
 }
