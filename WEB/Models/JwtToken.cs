@@ -6,6 +6,7 @@ namespace WEB.Models {
         public string alg { get; set; }
         public string typ { get; set; }
         public string email { get; set; }
+        public string unique_name { get; set; }
         public List<string> role { get; set; }
         public int nbf { get; set; }
         public int exp { get; set; }

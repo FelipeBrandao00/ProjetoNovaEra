@@ -9,6 +9,22 @@
 <link rel="stylesheet" href="~/css/Aluno/Index.css">
 <link rel="stylesheet" href="~/css/Shared/Livro.css">
 
+<!-- CROP DA IMAGEM -->
+<link rel="stylesheet" href="~/css/Shared/Crop.css">
+<link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+<script src="https://unpkg.com/cropperjs"></script>
+
+<div id="modalRecorteImagem">
+    <div id="conteudoModelRecorteImagem">
+        <span class="linear1">Recortar Imagem</span>
+        <div><img id="imgParaRecorte" /></div>
+        <button id="btnCancelarCorte" onclick="FecharModal()">Cancelar corte</button>
+        <button id="btnConfirmarCorte" onclick="ConfirmarCorte()">Confirmar corte</button>
+    </div>
+</div>
+
+<canvas id="canvasRecortado" style="display:none;"></canvas>
+
 <!-- LIVRO -->
 
 <div id="divLivro">
@@ -20,11 +36,15 @@
 
                 <div id="divBusca">
                     <input id="txtBusca" type="text" placeholder="Digite o nome do aluno..." />
-                    <button id="btnPesquisar" onclick="carregarListaAlunos()"><b class="linear1">Pesquisar</b></button>
+                    <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
                 </div>
 
                 <div id="msgListaAluno" class="divMsgSelecione">
                     <span class="linear1">Digite o nome do aluno e aperte em “Pesquisar!”</span>
+                </div>
+
+                <div id="msgListaAlunoMobile">
+                    <span>Aperte no Aluno para ver suas informações!</span>
                 </div>
 
                 <div id="divListaAluno"></div>
@@ -63,14 +83,34 @@
 
 <script type="text/javascript">
 
+    let cropper;
+    let imagemBase64;
     let infoAlunoTemp;
 
-    document.addEventListener("DOMContentLoaded", carregarListaAlunos);
+    function extrairBase64DeImagem(elementoImagem) {
+        const src = elementoImagem.src;
+        if (src.startsWith('data:image/'))
+            return src;
+        else
+            return null;
+    }
 
-    function carregarListaAlunos(atualizarInfoAluno = true) {
+    function base64ToBlob(base64) {
+        const binaryString = atob(base64.split(',')[1]);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return new Blob([bytes], { type: 'image/png' });
+    }
+
+    document.addEventListener("DOMContentLoaded", carregarListaPadrao);
+
+    function carregarListaPadrao(atualizarInfo = true, PaginaAtual = 1) { //Implementando a função de carregamento de lista dos alunos
         event.preventDefault();
 
-        if (atualizarInfoAluno) {
+        if (atualizarInfo) {
             $('#divInfoAluno').empty();
             $('#divInfoAluno').hide();
             $('#msgInfoAluno').show();
@@ -86,6 +126,7 @@
             type: 'GET',
             async: true,
             data: {
+                PaginaAtual: PaginaAtual,
                 Busca: Busca
             },
             success: function (data) {
@@ -97,6 +138,14 @@
 
     function carregarInfoPadrao(param) { //Implementando a função de carregamento de informação do aluno
         event.preventDefault();
+
+        const inputTrocarFoto = document.getElementById('inputTrocarFoto');
+        if (inputTrocarFoto)
+            document.getElementById('inputTrocarFoto').value = '';
+        if (infoAlunoTemp)
+            infoAlunoTemp = null;
+        if (imagemBase64)
+            imagemBase64 = null;
 
         if (window.matchMedia("(max-width: 1200px)").matches) {
             $('#paginaDireita').css('display', 'flex');
@@ -142,12 +191,22 @@
             .css('background-color', '#FFFFFF')
             .removeAttr('disabled');
 
+        const imagem = document.getElementById('imgAluno');
+        const base64 = extrairBase64DeImagem(imagem);
+
+        if (base64) {
+            imagemBase64 = base64;
+        }
+
         infoAlunoTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
             NmUsuario: $('#txtNomeAluno').val(),
             DsEmail: $('#txtEmailAluno').val(),
-            DsGenero: $('#txtGeneroAluno').val(),
+            DsGenero: parseInt($('#txtGeneroAluno').val()),
             DtNascimento: $('#txtNascimentoAluno').val(),
-            DsTelefone: $('#txtTelefoneAluno').val()
+            DsTelefone: $('#txtTelefoneAluno').val(),
+            DsFoto: imagemBase64
         }
     }
 
@@ -169,32 +228,78 @@
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
-        $('#txtNomeAluno').val(infoAlunoTemp.NmUsuario);
-        $('#txtEmailAluno').val(infoAlunoTemp.DsEmail);
-        $('#txtGeneroAluno').val(infoAlunoTemp.DsGenero);
-        $('#txtNascimentoAluno').val(infoAlunoTemp.DtNascimento);
-        $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
+        if (infoAlunoTemp) {
+            $('#txtNomeAluno').val(infoAlunoTemp.NmUsuario);
+            $('#txtEmailAluno').val(infoAlunoTemp.DsEmail);
+            $('#txtGeneroAluno').val(infoAlunoTemp.DsGenero);
+            $('#txtNascimentoAluno').val(infoAlunoTemp.DtNascimento);
+            $('#txtTelefoneAluno').val(infoAlunoTemp.DsTelefone);
+
+            if (!!infoAlunoTemp.DsFoto) {
+                const imgAluno = document.getElementById('imgAluno');
+                imgAluno.src = infoAlunoTemp.DsFoto;
+                imgAluno.style.display = 'block';
+            }
+            else {
+                ExcluirFoto();
+            }
+
+            infoAlunoTemp = null;
+        }
     }
 
     function salvarInfoAluno(mobile = false) {
         event.preventDefault();
 
+        if (!validarCampos()) {
+            return false;
+        }
+
+        //Atualiza os valores pós edição
         infoAlunoTemp = {
             CdUsuario: $('#CdUsuario').val(),
             DsCpf: $('#DsCpf').val(),
             NmUsuario: $('#txtNomeAluno').val(),
             DsEmail: $('#txtEmailAluno').val(),
-            DsGenero: $('#txtGeneroAluno').val(),
+            DsGenero: parseInt($('#txtGeneroAluno').val()),
             DtNascimento: $('#txtNascimentoAluno').val(),
-            DsTelefone: $('#txtTelefoneAluno').val()
+            DsTelefone: $('#txtTelefoneAluno').val(),
+            DsFoto: imagemBase64
         }
 
+        let ResponseModelUsuario = new FormData();
+        
+        if (!!imagemBase64) {
+            const fotoBlob = base64ToBlob(imagemBase64);
+            ResponseModelUsuario.append('DsFoto', fotoBlob, 'foto.png');
+        }
+
+        ResponseModelUsuario.append('CdUsuario', infoAlunoTemp.CdUsuario);
+        ResponseModelUsuario.append('NmUsuario', infoAlunoTemp.NmUsuario);
+        ResponseModelUsuario.append('DsEmail', infoAlunoTemp.DsEmail);
+        ResponseModelUsuario.append('DsCpf', infoAlunoTemp.DsCpf);
+        ResponseModelUsuario.append('DsTelefone', infoAlunoTemp.DsTelefone.replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsGenero', infoAlunoTemp.DsGenero);
+        ResponseModelUsuario.append('DtNascimento', infoAlunoTemp.DtNascimento);
+        
         $.ajax({
             url: '@Url.Action("AtualizarInfoAluno", "Aluno")',
             type: 'POST',
+            processData: false,
+            contentType: false,
+            data: ResponseModelUsuario,
+            dataType: 'JSON',
             async: true,
-            data: infoAlunoTemp,
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotaoEditarMobile').css('display', 'flex');
                     $('#divBotoesEdicaoMobile').css('display', 'none');
@@ -210,9 +315,39 @@
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
-                carregarListaAlunos(false);
+                carregarListaPadrao(false);
+                infoAlunoTemp = null;
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
             }
         });
+    }
+
+    function validarCampos() {
+        if ($('#txtNomeAluno').val().length == 0) {
+            ExibirInfo('O nome é obrigatório!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtEmailAluno').val().length == 0) {
+            ExibirInfo('O e-mail é obrigatório!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtGeneroAluno').find(":selected").val() == 0) {
+            ExibirInfo('Selecione um gênero!', 'Atenção!');
+            return false;
+        }
+
+        if (!$('#txtNascimentoAluno').val()) {
+            ExibirInfo('A data é obrigatória!', 'Atenção!');
+            return false;
+        }
+
+        return true;
     }
 
     function voltarMobile() {
@@ -220,6 +355,70 @@
 
         $('#paginaDireita').css('display', 'none');
         $('#backgroundModal').css('display', 'none');
+
+        cancelarEdicaoAluno(true);
+    }
+
+    function TrocarFoto() {
+        document.getElementById('inputTrocarFoto').click();
+
+        document.getElementById('inputTrocarFoto').onchange = function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+
+                    const imgParaRecorte = document.getElementById('imgParaRecorte');
+                    imgParaRecorte.src = e.target.result;
+
+                    document.getElementById('modalRecorteImagem').style.display = 'flex';
+                                        
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    cropper = new Cropper(imgParaRecorte, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        zoomable: false,
+                    });
+
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+    }
+
+    function ConfirmarCorte() {
+        const canvas = cropper.getCroppedCanvas({
+            width: 122,
+            height: 122,
+        });
+
+        const imgAluno = document.getElementById('imgAluno');
+        imgAluno.src = canvas.toDataURL();
+        imgAluno.style.display = 'block';
+
+        imagemBase64 = canvas.toDataURL('image/png');
+
+        FecharModal();
+    }
+
+    function FecharModal() {
+        document.getElementById('modalRecorteImagem').style.display = 'none';
+        document.getElementById('inputTrocarFoto').value = '';
+        cropper.destroy();
+    }
+
+    function ExcluirFoto() {
+        const imgAluno = document.getElementById('imgAluno');
+        imgAluno.removeAttribute('src');
+        imgAluno.style.display = 'none';
+        document.getElementById('inputTrocarFoto').value = '';
+        imagemBase64 = null;
+
+        if (cropper)
+            cropper.destroy();
     }
 
 </script>

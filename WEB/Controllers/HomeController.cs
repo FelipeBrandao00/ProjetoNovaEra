@@ -21,8 +21,8 @@ public class HomeController : Controller
         }
 
         var dados = JwtToken.DescriptografarJwt(token);
-        ViewBag.Role = dados.role[0];
-        ViewBag.Nome = dados.role[1];
+        ViewBag.Role = String.Join(" | ", dados.role);
+        ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
         return View();
     }
 

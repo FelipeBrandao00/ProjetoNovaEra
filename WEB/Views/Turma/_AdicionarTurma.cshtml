@@ -1,0 +1,35 @@
+﻿@model Application.Responses.ResponseModelCurso
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
+
+<div id="divNomeTurma">
+    <label for="divNomeTurma" class="linear1">Nome:</label><br />
+    <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmCurso" type="text" placeholder="Digite o nome da turma..." />
+</div>
+
+<div id="divDescricaoTurma">
+    <label for="txtDescricaoTurma" class="linear1">Descrição:</label><br />
+    <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsCurso" type="text" placeholder="Digite a descrição da turma..."></textarea>
+</div>
+
+<div id="divDatas">
+    <div id="divDataCriacao">
+        <label for="txtCriacao" class="linear1">Data de criação:</label><br />
+        <input id="txtCriacao" class="txtInfoTurma" asp-for="DtCriacao" type="date" />
+    </div>
+</div>
+
+<div id="divBotaoAdicionar">
+    <button id="btnConfirmarAdicionar" onclick="adicionarTurma()"><b style="color: white;">Adicionar turma</b></button>
+</div>
+
+<script type="text/javascript">
+    $('#divTitInfoTurma').css('justify-content', 'flex-start');
+    $('#divTitInfoTurma > span').html("Adicionar turma");
+    $('#btnFinalizar').css('display', 'none');
+    $('#btnReativar').css('display', 'none');
+</script>
