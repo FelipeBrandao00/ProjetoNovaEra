@@ -18,5 +18,6 @@ namespace Application.Interfaces {
         Task<Response<TurmaDto>> ReativarTurma(ReativarTurmaRequest request);
         Task<Response<TurmaDto>> HabilitarMatricula(HabilitarMatriculaRequest request);
         Task<Response<TurmaDto>> EncerrarMatricula(EncerrarMatriculaRequest request);
+        Task<PagedResponse<List<TurmaDto>>> GetTurmasAbertaMatricula(GetTurmasAbertaMatriculaRequest request);
     }
 }

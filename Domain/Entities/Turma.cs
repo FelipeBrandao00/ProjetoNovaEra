@@ -22,5 +22,6 @@ namespace Domain.Entities
 
         public virtual ICollection<Aula>? Aulas { get; set; }
         public virtual ICollection<Turma_Aluno>? TurmaAluno { get; set; }
+        public virtual ICollection<Matricula>? Matriculas { get; set; }
     }
 }
