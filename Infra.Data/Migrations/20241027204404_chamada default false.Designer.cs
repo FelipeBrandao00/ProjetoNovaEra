@@ -4,6 +4,7 @@ using API_NOVA_ERA.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241027204404_chamada default false")]
+    partial class chamadadefaultfalse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -222,48 +225,6 @@ namespace Infra.Data.Migrations
                     b.HasIndex("CdAluno");
 
                     b.ToTable("Frequencias");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Matricula", b =>
-                {
-                    b.Property<int>("CdMatricula")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CdMatricula"));
-
-                    b.Property<int>("CdTurma")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DsCpf")
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("DsEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("DsFoto")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<int?>("DsGenero")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DsTelefone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DtNascimento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("NmUsuario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CdMatricula");
-
-                    b.HasIndex("CdTurma");
-
-                    b.ToTable("Matriculas");
                 });
 
             modelBuilder.Entity("Domain.Entities.Permissao", b =>
@@ -504,17 +465,6 @@ namespace Infra.Data.Migrations
                     b.Navigation("Aula");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Matricula", b =>
-                {
-                    b.HasOne("Domain.Entities.Turma", "Turma")
-                        .WithMany("Matriculas")
-                        .HasForeignKey("CdTurma")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Turma");
-                });
-
             modelBuilder.Entity("Domain.Entities.Permissao_Cargos", b =>
                 {
                     b.HasOne("Domain.Entities.Cargo", "Cargo")
@@ -601,8 +551,6 @@ namespace Infra.Data.Migrations
                     b.Navigation("Aulas");
 
                     b.Navigation("Certificado");
-
-                    b.Navigation("Matriculas");
 
                     b.Navigation("TurmaAluno");
                 });

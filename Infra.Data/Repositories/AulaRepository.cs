@@ -17,12 +17,30 @@ namespace Infra.Data.Repositories {
             return aula;
         }
 
+        public async Task<Aula?> EfetuarChamada(int aulaId) {
+            var aula = await GetAulaById(aulaId);
+
+            if (aula == null) { return null; }
+            aula.IsChamada = true;
+            await _context.SaveChangesAsync();
+            return aula;
+        }
+
         public async Task<Aula?> GetAulaById(int aulaId) {
             return await _context.Aulas.Where(x => x.CdAula == aulaId).FirstOrDefaultAsync();
         }
 
         public async Task<List<Aula>> GetAulasByTurmaId(int turmaId) {
             return await _context.Aulas.Where(x => x.CdTurma == turmaId).ToListAsync(); 
+        }
+
+        public async Task<int> GetTotalPresencasAulaById(int aulaId) {
+
+            var aula = await GetAulaById(aulaId);
+            var totalAlunos = _context.Turma_Alunos.Where(x => x.CdTurma == aula.CdTurma).Count();
+            var totalFaltas = _context.Frequencias.Where(x => x.CdAula == aula.CdAula).Count();
+
+            return totalAlunos - totalFaltas;
         }
 
         public async Task<Aula> UpdateAula(Aula aula) {
