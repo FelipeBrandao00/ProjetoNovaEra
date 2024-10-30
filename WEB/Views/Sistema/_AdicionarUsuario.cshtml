@@ -1,9 +1,11 @@
-﻿@using WEB.Models.Genero
+﻿@using WEB.Models.Cargo
+@using WEB.Models.Genero
 @model Application.Responses.ResponseModelUsuario
 
 @{
     Layout = null;
     var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
+    var ListaCargo = ViewBag.ListaCargos ?? new List<CargoViewModel.ItemListaCargo>();
 }
 
 <link rel="stylesheet" href="~/css/Sistema/InfoUsuario.css">
@@ -60,48 +62,31 @@
 
 <div id="divSituacaoProfessor">
     <label for="txtSituacaoUsuario" class="linear1">Situação:</label><br />
-    <select id="txtSituacaoUsuario" class="txtInfoUsuario">
+    <select id="txtSituacaoUsuario" class="txtInfoUsuario" disabled>
         <option value="-1">Selecione</option>
         <option value="0">Desabilitado</option>
         <option value="1">Hablitado</option>
     </select>
 </div>
 
-<div id="divCargosUsuario">
-    <label for="txtCargoUsuario" class="linear1">Cargo(s):</label>
-    <div id="divCargos">
-        <input id="txtCargoUsuario" class="txtInfoUsuario" type="text" value="Professor" disabled />
-        <input id="txtCargoUsuario" class="txtInfoUsuario" type="text" value="Professor" disabled />
-    </div>
-</div>
-
 <br/>
 <label id="lblListaCargo" for="listaCargo" class="linear1">Cargo(s):</label>
 <div id="listaCargo">
-    <div>
-        Master
-        <input type="checkbox" />
-    </div>
-    <div>
-        ADM
-        <input type="checkbox" />
-    </div>
-    <div>
-        Professor
-        <input type="checkbox" />
-    </div>
+    @foreach (CargoViewModel.ItemListaCargo item in ListaCargo) {
+        <div>
+            <div id="dsCargo">@item.DsCargo</div>
+            <input type="checkbox" id="@item.CdCargo"/>
+        </div>
+    }
 </div>
 
 <div id="divBotaoAdicionar">
     <button id="btnConfirmarAdicionar" onclick="adicionarUsuario()"><b style="color: white;">Adicionar usuário</b></button>
 </div>
-
 <script src="~/js/jquery.mask.min.js"></script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
-
         //Aplica a máscara de Telefone
         var phoneMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00000';
@@ -115,6 +100,17 @@
 
         //Aplica a máscara de CPF
         $('#txtCPFUsuario').mask('000.000.000-00');
+        
+        $("#2").change(function () {
+            if (this.checked) {
+                $('#txtSituacaoUsuario').attr("disabled", false)
+                    .css('background-color', '#FFFFFF');
+            } else {
+                $('#txtSituacaoUsuario').attr("disabled", true)
+                    .css('background-color', '#DBD8D8');
+                $('#txtSituacaoUsuario').val(-1);
+            }
+        });
     });
 
 </script>

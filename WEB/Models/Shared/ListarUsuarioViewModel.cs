@@ -5,13 +5,17 @@ using System.Text.Json;
 namespace WEB.Models.Shared {
     public class ListarUsuarioViewModel : ListarPadraoViewModel {
         public override string TipoItem { get; set; } = "Usuário";
+        public List<int> LstCargos { get; set; }
 
         public override async Task<bool> GerarLista(IConfiguration configuration) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/Usuario?";
+                var url = $"{baseUrl}/Usuario/getByCargos?";
 
-                //url += $"cdCargo={cdCargo}&";
+                foreach (var item in LstCargos) {
+                    url += $"cdCargo={item}&";
+                }
+
                 url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
 
                 var token = configuration["JwtToken"];

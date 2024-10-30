@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using WEB.Models.Response;
 using static WEB.Models.Cargo.CargoViewModel;
 using static WEB.Models.Shared.ListarPadraoViewModel;
 
@@ -12,14 +13,14 @@ namespace WEB.Models.CargoUsuario {
             public required string DsCargo { get; set; }
 
         }
-        public async Task<Response<ResponseModelUsuario>> AddCargoUsuario(IConfiguration configuration, Guid cdUsuario, int cdCargo) {
+        public async Task<Response<List<ResponseModelCargoUsuario>>> AddCargosUsuario(IConfiguration configuration, Guid cdUsuario, int[] cdCargos) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
-                var url = $"{baseUrl}/CargoUsuario";
+                var url = $"{baseUrl}/CargoUsuario/AddCargosUsuario";
 
                 var Body = new {
                     CdUsuario = cdUsuario,
-                    CdCargo = cdCargo
+                    CdCargos = cdCargos
                 };
                 var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
 
@@ -30,19 +31,19 @@ namespace WEB.Models.CargoUsuario {
                 try {
                     var response = await client.PostAsync(url, content);
                     if (!response.IsSuccessStatusCode)
-                        return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
+                        return new Response<List<ResponseModelCargoUsuario>> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
 
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<Response<ResponseModelUsuario>>(responseBody, options);
+                    var responseData = JsonSerializer.Deserialize<Response<List<ResponseModelCargoUsuario>>>(responseBody, options);
 
                     if (responseData == null || !responseData.IsSuccess)
-                        return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
+                        return new Response<List<ResponseModelCargoUsuario>> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
 
                     return responseData;
                 } catch (Exception ex) {
                     while (ex.InnerException != null) { ex = ex.InnerException; }
-                    return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
+                    return new Response<List<ResponseModelCargoUsuario>> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
                 }
             }
         }

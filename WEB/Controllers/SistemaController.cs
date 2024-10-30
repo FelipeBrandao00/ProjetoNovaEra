@@ -10,6 +10,8 @@ using WEB.Models.Cargo;
 using WEB.Models.Response;
 using WEB.Models.Curso;
 using System.Text.Json;
+using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WEB.Controllers {
     public class SistemaController(IConfiguration configuration) : Controller {
@@ -33,13 +35,10 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListarUsuarios(ListarUsuarioViewModel model, string LstCursos) {
+        public async Task<IActionResult> ListarUsuarios(ListarUsuarioViewModel model, string StrCargos) {
             configuration["JwtToken"] = Request.Cookies["Token"];
 
-            var cursos = new List<CursoViewModel.ItemListaCursos>();
-            if (!string.IsNullOrEmpty(LstCursos)) {
-                cursos = JsonSerializer.Deserialize<List<CursoViewModel.ItemListaCursos>>(LstCursos);
-            }
+            model.LstCargos = JsonSerializer.Deserialize<string[]>(StrCargos.Replace("ck", "")).Select(int.Parse).ToList();
 
             await model.GerarLista(configuration);
 
@@ -63,20 +62,26 @@ namespace WEB.Controllers {
             var ListaCargos = await CargoViewModel.GerarLista(configuration);
             ViewBag.ListaCargos = ListaCargos.Data;
 
+            ViewBag.IcProfessor = ListaCargos.Data.Any(x => x.CdCargo == 2);
+
             return PartialView("_InfoUsuario", response.Data);
         }
 
         public async Task<IActionResult> CarregarAdicionarUsuario() {
             configuration["JwtToken"] = Request.Cookies["Token"];
+
             var GeneroViewModel = new GeneroViewModel();
             var ListaGenero = await GeneroViewModel.GerarLista(configuration);
             ViewBag.ListaGenero = ListaGenero.Data;
 
+            var CargoViewModel = new CargoViewModel();
+            var ListaCargos = await CargoViewModel.GerarLista(configuration);
+            ViewBag.ListaCargos = ListaCargos.Data;
+
             return PartialView("_AdicionarUsuario", null);
         }
 
-        public async Task<IActionResult> AdicionarUsuario([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto) {
-            //Validação da imagem
+        public async Task<IActionResult> AdicionarUsuario([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto, string StrCargos) {
             if (DsFoto != null) {
                 if (!DsFoto.ContentType.StartsWith("image/"))
                     return Json(new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no formato da foto enviada." });
@@ -88,13 +93,14 @@ namespace WEB.Controllers {
                 }
             }
 
-            //Adiciona o usuário de fato
+            int[] cargosArray = JsonSerializer.Deserialize<string[]>(StrCargos).Select(int.Parse).ToArray();
+
             configuration["JwtToken"] = Request.Cookies["Token"];
             var responseAdd = await new UsuarioViewModel().Adicionar(configuration, ResponseModelUsuario);
             if (!responseAdd.IsSuccess)
                 return Json(responseAdd);
 
-            var resposeCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, (responseAdd.Data?.CdUsuario ?? new Guid()), 2);
+            var resposeCargo = await new CargoUsuarioViewModel().AddCargosUsuario(configuration, responseAdd.Data.CdUsuario, cargosArray);
             if (!resposeCargo.IsSuccess)
                 return Json(resposeCargo);
 
@@ -102,7 +108,7 @@ namespace WEB.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> AtualizarInfoUsuario([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto, string LstCursos) {
+        public async Task<IActionResult> AtualizarInfoUsuario([FromForm] ResponseModelUsuario ResponseModelUsuario, IFormFile DsFoto, string StrCargos) {
             if (DsFoto != null) {
                 if (!DsFoto.ContentType.StartsWith("image/"))
                     return Json(new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no formato da foto enviada." });
@@ -114,21 +120,16 @@ namespace WEB.Controllers {
                 }
             }
 
-            var cursos = new List<ResponseModelCargoUsuario>();
-            if (!string.IsNullOrEmpty(LstCursos)) {
-                cursos = JsonSerializer.Deserialize<List<ResponseModelCargoUsuario>>(LstCursos);
-            }
+            int[] cargosArray = JsonSerializer.Deserialize<string[]>(StrCargos).Select(int.Parse).ToArray();
 
             configuration["JwtToken"] = Request.Cookies["Token"];
             var responseAdd = await new UsuarioViewModel().AtualizarInfo(configuration, ResponseModelUsuario);
             if (!responseAdd.IsSuccess)
                 return Json(responseAdd);
 
-            //var responseCargo = new Response<ResponseModelUsuario>(); foreach (var item in cursos) {
-            //    responseCargo = await new CargoUsuarioViewModel().AddCargoUsuario(configuration, responseAdd.Data.CdUsuario, item.CdCargo);
-            //    if (!responseCargo.IsSuccess)
-            //        return Json(responseAdd);
-            //}
+            var responseCargo = await new CargoUsuarioViewModel().AddCargosUsuario(configuration, responseAdd.Data.CdUsuario, cargosArray);
+            if (!responseCargo.IsSuccess)
+                return Json(responseAdd);
 
             return Json(responseAdd);
         }

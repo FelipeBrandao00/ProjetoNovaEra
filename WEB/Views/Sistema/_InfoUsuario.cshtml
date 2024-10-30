@@ -164,13 +164,18 @@
             let txt = ('@Model?.IcHabilitadoTurma' == 'True') ? 'Habilitado' : 'Desabilitado';
             $("#txtSituacaoUsuario").val(txt);
         }
+
+        if ('@ViewBag.IcProfessor' == 'true') {
+            $("#txtSituacaoUsuario").css('display', 'none');
+        } else {
+            $("#txtSituacaoUsuario").css('display', 'unset');
+        }
     }
 </script>
 
 <script src="~/js/jquery.mask.min.js"></script>
 
 <script type="text/javascript">
-
     $(document).ready(function () {
 
         //Aplica a máscara de Telefone
@@ -186,7 +191,5 @@
 
         //Aplica a máscara de CPF
         $('#txtCPFUsuario').mask('000.000.000-00');
-
     });
-
 </script>

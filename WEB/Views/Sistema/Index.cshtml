@@ -47,18 +47,19 @@
                     <div id="divFiltros">
                         <div id="idCheckboxCargos">
                             @foreach (CargoViewModel.ItemListaCargo item in ListaCargo) {
+                                string id = $"ck{item.CdCargo}";
                                 if (item.DsCargo == "Administrador" || item.DsCargo == "Master") {
                                     <div id="divInputCheckbox">
                                         <div>
-                                            <label for="@item.CdCargo">@item.DsCargo</label>
-                                            <input id="@item.CdCargo" type="checkbox" checked/>
+                                            <label for="@id">@item.DsCargo</label>
+                                            <input id="@id" type="checkbox" checked/>
                                         </div>
                                     </div>
                                 } else {
                                     <div id="divInputCheckbox">
                                         <div>
-                                            <label for="@item.CdCargo">@item.DsCargo</label>
-                                            <input id="@item.CdCargo" type="checkbox"/>
+                                            <label for="@id">@item.DsCargo</label>
+                                            <input id="@id" type="checkbox"/>
                                         </div>
                                     </div>
                                 }
@@ -158,7 +159,7 @@
     document.addEventListener("DOMContentLoaded", carregarListaPadrao);
     document.addEventListener("DOMContentLoaded", checkAdicionar);
 
-    $("#k2").change(function () {
+    $("#ck2").change(function () {
         if (this.checked) {
             $('#idCheckboxProfessor').css('display', 'unset');
             if (window.matchMedia("(max-width: 1200px)").matches) {
@@ -173,7 +174,8 @@
         }
     });
 
-    function coletarCursos() {
+
+    function coletarCargos() {
         const checkboxes = document.querySelectorAll('#idCheckboxCargos input[type="checkbox"]');
         const cursos = [];
 
@@ -181,15 +183,9 @@
 
         checkboxes.forEach(checkbox => {
             const label = document.querySelector(`label[for="${checkbox.id}"]`);
-            if (label) {
-                cursos.push({
-                    cdCurso: checkbox.id,
-                    nmCurso: label.textContent
-                });
-            }
-
             if (checkbox.checked) {
                 todosDesmarcados = false;
+                cursos.push(checkbox.id);
             }
         });
 
@@ -232,20 +228,10 @@
 
         let Busca = $('#txtBusca').val();
 
-        let LstCursos = coletarCursos();
-        if (LstCursos == null) {
+        let LstCargos = coletarCargos();
+        if (LstCargos == null) {
             return;
         }
-
-        infoCargoUsuarioTemp = [];
-        const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
-        checkboxes.forEach(checkbox => {
-            infoCargoUsuarioTemp.push({
-                cargo: checkbox.previousElementSibling.textContent.trim(),
-                codigo: checkbox.id,
-                checked: checkbox.checked
-            });
-        });
 
         let IcHabilitadoTurma = null;
         if (!$('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
@@ -260,7 +246,6 @@
             IcHabilitadoTurma = true;
         }
 
-        console.log(LstCursos);
 
         $.ajax({
             url: '@Url.Action("ListarUsuarios", "Sistema")',
@@ -270,7 +255,7 @@
                 PaginaAtual: PaginaAtual,
                 Busca: Busca,
                 IcHabilitadoTurma: IcHabilitadoTurma,
-                LstCursos: JSON.stringify(LstCursos)
+                StrCargos: JSON.stringify(LstCargos)
             },
             success: function (data) {
                 $('#msgListaUsuario').hide();
@@ -355,7 +340,7 @@
 
                 $('#divImgUsuario > div:last-child').css('display', 'flex');
 
-                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario, #txtSituacaoUsuario')
+                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
                     .css('background-color', '#FFFFFF')
             }
         });
@@ -368,13 +353,10 @@
             return;
         }
 
-        if ($('#txtSituacaoUsuario').find(":selected").val() == -1) {
-            alert('Selecione sua situação!');
-            return false;
+        let Habilitado = null;
+        if ($('#txtSituacaoUsuario').find(":selected").val() != -1 && !$('#txtSituacaoUsuario').is(':disabled')) {
+            Habilitado = ($('#txtSituacaoUsuario').find(":selected").val() == 1) ? 'True' : 'False';
         }
-
-        //todo: fazer aparecer somente quando não for professor
-        let Habilitado = ($('#txtSituacaoUsuario').find(":selected").val() == 1) ? 'True' : 'False';
 
         let ResponseModelUsuario = new FormData();
 
@@ -382,6 +364,14 @@
             const fotoBlob = base64ToBlob(imagemBase64);
             ResponseModelUsuario.append('DsFoto', fotoBlob, 'foto.png');
         }
+
+        infoCargoUsuarioTemp = [];
+        const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (checkbox && checkbox.checked) {
+                infoCargoUsuarioTemp.push(checkbox.id);
+            }
+        });
 
         ResponseModelUsuario.append('CdUsuario', $('#CdUsuario').val());
         ResponseModelUsuario.append('NmUsuario', $('#txtNomeUsuario').val());
@@ -391,6 +381,7 @@
         ResponseModelUsuario.append('DsGenero', parseInt($('#txtGeneroUsuario').val()));
         ResponseModelUsuario.append('DtNascimento', $('#txtNascimentoUsuario').val());
         ResponseModelUsuario.append('IcHabilitadoTurma', Habilitado);
+        ResponseModelUsuario.append('StrCargos', JSON.stringify(infoCargoUsuarioTemp));
 
         $.ajax({
             url: '@Url.Action("AdicionarUsuario", "Sistema")',
@@ -607,15 +598,9 @@
         const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             if (checkbox && checkbox.checked) {
-                infoCargoUsuarioTemp.push({
-                    cdCurso: checkbox.previousElementSibling.textContent.trim(),
-                    cdCurso: checkbox.id
-                });
+                infoCargoUsuarioTemp.push(checkbox.id);
             }
         });
-
-        console.log(infoCargoUsuarioTemp);
-        return;
 
         listaCargo.forEach(item => {
             const checkbox = item.querySelector('input[type="checkbox"]');
@@ -635,6 +620,7 @@
         ResponseModelUsuario.append('DsGenero', infoUsuarioTemp.DsGenero);
         ResponseModelUsuario.append('DtNascimento', infoUsuarioTemp.DtNascimento);
         ResponseModelUsuario.append('IcHabilitadoTurma', Habilitado);
+        ResponseModelUsuario.append('StrCargos', JSON.stringify(infoCargoUsuarioTemp));
 
         $.ajax({
             url: '@Url.Action("AtualizarInfoUsuario", "Sistema")',
@@ -838,6 +824,11 @@
 
         if (!$('#txtNascimentoUsuario').val()) {
             ExibirInfo('A data é obrigatória!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtSituacaoUsuario').find(":selected").val() == -1 && !$('#txtSituacaoUsuario').prop('disabled')) {
+            ExibirInfo('Selecione a situação!', 'Atenção!');
             return false;
         }
         return true;

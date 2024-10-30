@@ -66,6 +66,7 @@ public class UsuarioRepository(ApplicationDbContext _context) : IUsuarioReposito
                    join c in _context.Cargos on cu.CdCargo equals c.CdCargo
                    where cdCargos.Contains(c.CdCargo)
                    select u)
+                  .Distinct()
                   .ToListAsync();
     }
 }
