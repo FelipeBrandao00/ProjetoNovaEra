@@ -111,8 +111,8 @@
 </div>
 
 <div id="divBotoesEditar">
-    <button id="btnInativar" onclick="carregarInativarUsuario()"><b style="color: white;">Inativar usuário</b></button>
-    <button id="btnEditar" onclick="carregarEdicaoUsuario()"><b class="linear1">Editar usuário</b></button>
+@*     <button id="btnInativar" onclick="carregarInativarUsuario()"><b style="color: white;">Inativar usuário</b></button>
+ *@    <button id="btnEditar" onclick="carregarEdicaoUsuario()"><b class="linear1">Editar usuário</b></button>
 </div>
 
 <div id="divBotoesEdicao">
@@ -144,31 +144,25 @@
 
 
 <script type="text/javascript">
-    atualizarBotoes();
+    // atualizarBotoes();
     atualizarSituacao();
 
-    function atualizarBotoes() {
-        if ('@Model?.IcHabilitadoTurma' == 'False') {
-            if (window.matchMedia("(max-width: 1200px)").matches) {
-                $('#divBotoesEditarMobile').hide();
-                $('#divBotaoAtivarUsuarioMobile').show();
-            } else {
-                $('#divBotoesEditar').hide();
-                $('#divBotaoAtivarUsuario').show();
-            }
-        }
-    }
+    // function atualizarBotoes() {
+    //     if ('@Model?.IcHabilitadoTurma' == 'False') {
+    //         if (window.matchMedia("(max-width: 1200px)").matches) {
+    //             $('#divBotoesEditarMobile').hide();
+    //             $('#divBotaoAtivarUsuarioMobile').show();
+    //         } else {
+    //             $('#divBotoesEditar').hide();
+    //             $('#divBotaoAtivarUsuario').show();
+    //         }
+    //     }
+    // }
 
     function atualizarSituacao() {
         if ('@Model?.IcHabilitadoTurma' != 'Null') {
             let txt = ('@Model?.IcHabilitadoTurma' == 'True') ? 'Habilitado' : 'Desabilitado';
             $("#txtSituacaoUsuario").val(txt);
-        }
-
-        if ('@ViewBag.IcProfessor' == 'true') {
-            $("#txtSituacaoUsuario").css('display', 'none');
-        } else {
-            $("#txtSituacaoUsuario").css('display', 'unset');
         }
     }
 </script>

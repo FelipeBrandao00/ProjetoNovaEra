@@ -62,8 +62,6 @@ namespace WEB.Controllers {
             var ListaCargos = await CargoViewModel.GerarLista(configuration);
             ViewBag.ListaCargos = ListaCargos.Data;
 
-            ViewBag.IcProfessor = ListaCargos.Data.Any(x => x.CdCargo == 2);
-
             return PartialView("_InfoUsuario", response.Data);
         }
 

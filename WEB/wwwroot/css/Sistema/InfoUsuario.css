@@ -167,12 +167,16 @@
     justify-content: space-between;
 }
 
-#listaPadrao > div:first-child {
-    border-radius: 5px 5px 0 0;
+#listaCargo > div:only-of-type {
+    border-radius: 5px !important;
 }
 
-#listaPadrao > div:first-child {
-    border-radius: 0 0 5px 5px;
+#listaCargo > div:first-child {
+    border-radius: 5px 5px 0 0 !important;
+}
+
+#listaCargo > div:last-child {
+    border-radius: 0 0 5px 5px !important;
 }
 
 /* Classes */
