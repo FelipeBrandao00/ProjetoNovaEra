@@ -1,36 +1,43 @@
-﻿@model Application.Responses.ResponseModelUsuario
+﻿@using WEB.Models.Response
+
+@model Application.Responses.ResponseModelUsuario
 
 @{
     Layout = null;
+    var ListaPermissoesCargo = (List<ResponseModelPermissaoCargo>)ViewBag.ListaPermissoesCargo;
+    var ListaPermissoes = (List<ResponseModelPermissao>)ViewBag.ListaPermissoes;
 }
 
 <link rel="stylesheet" href="~/css/Permissao/InfoPermissao.css">
 
-@Html.HiddenFor(model => model.CdUsuario)
-@Html.HiddenFor(model => model.DsCpf)
-
-
 <div id="divNomeCargo">
-    <h5 class="linear1"><b>ADM</b></h5><br />
+    <h5 class="linear1"><b>@ViewBag.NmCargo</b></h5><br />
 </div>
 
 <br />
 <label id="lblListaPermissao" for="listaPermisso" class="linear1">Cargo(s):</label>
 <div id="listaPermissao">
-    <div>
-        Master
-        <input type="checkbox" />
-    </div>
-    <div>
-        ADM
-        <input type="checkbox" />
-    </div>
-    <div>
-        Professor
-        <input type="checkbox" />
-    </div>
+    @foreach (var item in ListaPermissoes) {
+        bool icChecked = ListaPermissoesCargo.Any(x => x.NmPermissao.Contains(item.NmPermissao));
+        if (icChecked) {
+            <div>
+                <div id="dsCargo">@item.NmPermissao</div>
+                <input type="checkbox" id="@item.CdPermissao" checked />
+            </div>
+        } else {
+            <div>
+                <div id="dsCargo">@item.NmPermissao</div>
+                <input type="checkbox" id="@item.CdPermissao"/>
+            </div>
+        }
+    }
 </div>
 
 <div id="divBotaoSalvar">
-    <button id="btnSalvar" onclick="salvarInfoCargo()"><b>Salvar</b></button>
+    <button id="btnSalvar" onclick="salvarPermissoesCargo(false, '@ViewBag.CdCargo')"><b>Salvar</b></button>
 </div>
+
+
+<script type="text/javascript">
+    $('#cdCargo').html('@ViewBag.CdCargo');
+</script>

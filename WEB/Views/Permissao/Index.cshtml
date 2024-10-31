@@ -11,6 +11,8 @@
 
 <!-- LIVRO -->
 
+<p hidden id="cdCargo"></p>
+
 <div id="divLivro">
     <div id="capaLivro" class="MobileInvisible">
         <div id="paginaEsquerda" class="MobileInvisible">
@@ -38,15 +40,15 @@
 
                 <div id="divInfoCargo" style="display:none;"></div>
             </div>
-            <button id="btnSalvarMobile" onclick="salvarInfoCargo(true)"><b>Salvar</b></button>
+            <button id="btnSalvarMobile" onclick="salvarPermissoesCargo(true, parseInt($('#cdCargo').html()))"><b>Salvar</b></button>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", carregarListaCargos);
+    document.addEventListener("DOMContentLoaded", carregarListaPadrao);
 
-    function carregarListaCargos(atualizarInfoCargo = true) {
+    function carregarListaPadrao(atualizarInfoCargo = true, PaginaAtual = 1) {
         event.preventDefault();
 
         if (atualizarInfoCargo) {
@@ -58,14 +60,12 @@
         $('#divListaCargoPermissao').empty();
         $('#msgInfoCargo').show();
 
-        let Busca = $('#txtBusca').val();
-
         $.ajax({
             url: '@Url.Action("ListarCargos", "Permissao")',
             type: 'GET',
             async: true,
             data: {
-                Busca: Busca
+                PaginaAtual: PaginaAtual,
             },
             success: function (data) {
                 $('#msgInfoCargo').hide();
@@ -86,33 +86,56 @@
         $('#divInfoCargo').hide();
         $('#msgInfoCargo').show();
 
-        let Busca = $('#txtBusca').val();
-
         $.ajax({
-            url: '@Url.Action("CarregarInfoCargo", "Permissao")',
+            url: '@Url.Action("CarregarInfoCargo", "Permissao")' + '?CdCargo=' + parseInt(param),
             type: 'GET',
+            dataType: 'html',
             async: true,
-            data: {
-                DsCpf: param
-            },
             success: function (data) {
                 $('#msgInfoCargo').hide();
                 $('#divInfoCargo').html(data);
                 $('#divInfoCargo').show();
             }
         });
+
     }
 
-    function salvarInfoCargo(mobile = false) {
+    function salvarPermissoesCargo(mobile = false, cdCargo) {
         event.preventDefault();
 
+        let infoPermissaoCargoTemp = [];
+        let icAlgumaPermissao = false;
+        const checkboxes = document.querySelectorAll('#listaPermissao input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (checkbox && checkbox.checked) {
+                icAlgumaPermissao = true;
+                infoPermissaoCargoTemp.push(checkbox.id);
+            }
+        });
+
+        if (icAlgumaPermissao == false) {
+            ExibirInfo('Selecione ao menos uma permissão!', 'Atenção!');
+            return false;
+        }
+
         $.ajax({
-            url: '@Url.Action("AtualizarInfoCargo", "Permissao")',
+            url: '@Url.Action("AtualizarPermissoesCargo", "Permissao")',
             type: 'POST',
+            dataType: 'json',
             async: true,
-            data: null,
+            data: {
+                StrPermissao: JSON.stringify(infoPermissaoCargoTemp),
+                CdCargo: parseInt(cdCargo)
+            },
             success: function (data) {
-                carregarListaCargos(false);
+                if (data.isSuccess) {
+                    ExibirSucesso('Cargo atualizado com sucesso.', 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
             }
         });
     }
