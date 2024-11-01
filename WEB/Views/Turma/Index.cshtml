@@ -183,11 +183,6 @@
             cursoId = null;
         }
 
-        console.log(dtInicial);
-        console.log(dtFinal);
-        console.log(cursoId);
-        console.log(IcFinalizado);
-
         $.ajax({
             url: '@Url.Action("ListarTurmas", "Turma")',
             type: 'GET',
@@ -226,6 +221,7 @@
             $('#divBotaoAdicionarMobile').css('display', 'none');
             $('#btnFinalizar').css('display', 'none');
             $('#btnReativar').css('display', 'none');
+            $('#divTitInfoTurma').css('justify-content', 'flex-start');
         }
 
         $('#divInfoTurma').empty();
@@ -293,11 +289,11 @@
         }
 
         let ResponseModelTurma = new FormData();
-        ResponseModelTurma.append('DsTurma', $('#txtNomeTurma').val());
-        ResponseModelTurma.append('DtInicio', $('#txtCriacao').val());
+        ResponseModelTurma.append('NmTurma', $('#txtNomeTurma').val());
+        ResponseModelTurma.append('DsTurma', $('#txtDescricaoTurma').val());
+        // ResponseModelTurma.append('DtInicio', $('#txtCriacao').val());
         ResponseModelTurma.append('CdProfessor', $('#ddlProfessor').val());
         ResponseModelTurma.append('CdCurso', parseInt($('#ddlCurso').val()));
-        console.log(ResponseModelTurma);
 
         $.ajax({
             url: '@Url.Action("AdicionarTurma", "Turma")',
@@ -337,16 +333,18 @@
         }
         window.location.hash = '#divInformacoesTurma';
 
-        $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao')
+        $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao, #ddlProfessor, #ddlCurso')
             .css('background-color', '#FFFFFF')
             .removeAttr('disabled');
 
         infoTurmaTemp = {
-            CdCurso: $('#CdCurso').val(),
-            NmCurso: $('#txtNomeTurma').val(),
-            DsCurso: $('#txtDescricaoTurma').val(),
-            DtCriacao: $('#txtCriacao').val(),
+            CdTurma: $('#CdTurma').val(),
+            NmTurma: $('#txtNomeTurma').val(),
+            DsTurma: $('#txtDescricaoTurma').val(),
+            DtInicio: $('#txtCriacao').val(),
             DtFinalizacao: $('#txtFinalizacao').val(),
+            CdProfessor: $('#ddlProfessor').val(),
+            CdCurso: $('#ddlCurso').val(),
         }
     }
 
@@ -358,10 +356,13 @@
         }
 
         infoTurmaTemp = {
-            CdCurso: $('#CdCurso').val(),
-            NmCurso: $('#txtNomeTurma').val(),
-            DsCurso: $('#txtDescricaoTurma').val(),
-            DtCriacao: $('#txtCriacao').val(),
+            CdTurma: $('#CdTurma').val(),
+            NmTurma: $('#txtNomeTurma').val(),
+            DsTurma: $('#txtDescricaoTurma').val(),
+            DtInicio: $('#txtCriacao').val(),
+            DtFinalizacao: $('#txtFinalizacao').val(),
+            CdProfessor: $('#ddlProfessor').val(),
+            CdCurso: $('#ddlCurso').val(),
             DtFinalizacao: $('#txtFinalizacao').val(),
         }
 
@@ -381,7 +382,7 @@
                 }
 
                 window.location.hash = '';
-                $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao')
+                $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao, #ddlProfessor, #ddlCurso')
                     .css('background-color', '#DBD8D8')
                     .attr('disabled', true);
 
@@ -496,16 +497,18 @@
             $('#divBotoesEdicao').css('display', 'none');
         }
 
-        $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao')
+        $('#txtNomeTurma, #txtDescricaoTurma, #txtCriacao, #txtFinalizacao, #ddlProfessor, #ddlCurso')
             .css('background-color', '#DBD8D8')
             .attr('disabled', true);
 
         window.location.hash = '';
 
-        $('#txtNomeTurma').val(infoTurmaTemp.NmCurso);
-        $('#txtDescricaoTurma').val(infoTurmaTemp.DsCurso);
-        $('#txtCriacao').val(infoTurmaTemp.DtCriacao);
-        $('#txtFinalizacao').val(infoTurmaTemp.DtNascimento);
+        $('#txtNomeTurma').val(infoTurmaTemp.NmTurma);
+        $('#txtDescricaoTurma').val(infoTurmaTemp.DsTurma);
+        $('#txtCriacao').val(infoTurmaTemp.DtInicio);
+        $('#txtFinalizacao').val(infoTurmaTemp.DtFinalizacao);
+        $('#ddlProfessor').val(infoTurmaTemp.CdProfessor);
+        $('#ddlCurso').val(infoTurmaTemp.CdCurso);
     }
 
     function voltarMobile() {
@@ -569,10 +572,10 @@
             return false;
         }
 
-        if (!$('#txtCriacao').val()) {
-            ExibirInfo('A data de criação é obrigatória!', 'Atenção!');
-            return false;
-        }
+        // if (!$('#txtCriacao').val()) {
+        //     ExibirInfo('A data de criação é obrigatória!', 'Atenção!');
+        //     return false;
+        // }
 
         if ($('#ddlCurso').find(":selected").val() == 0) {
             ExibirInfo('Selecione um curso!', 'Atenção!');

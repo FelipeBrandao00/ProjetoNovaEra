@@ -22,9 +22,19 @@
 </div>
 
 <div id="divDatas">
-    <div id="divDataCriacao">
+@*     <div id="divDataCriacao">
         <label for="txtCriacao" class="linear1">Data de criação:</label><br />
         <input id="txtCriacao" class="txtInfoTurma" type="date" />
+    </div>
+ *@
+    <div id="divProfessor">
+        <label for="divProfessor" class="linear1">Professor:</label><br />
+        <select id="ddlProfessor" class="txtInfoTurma">
+            <option value="0">Selecione</option>
+            @foreach (ProfessorViewModel.ItemListaProfessor item in ListaProfessor) {
+                <option value="@item.cdUsuario">@item.nmUsuario</option>
+            }
+        </select>
     </div>
 
     <div id="divCursoAdicionar">
@@ -38,15 +48,6 @@
     </div>
 </div>
 
-<div id="divProfessor">
-    <label for="divProfessor" class="linear1">Professor:</label><br />
-    <select id="ddlProfessor" class="txtInfoTurma">
-        <option value="0">Selecione</option>
-        @foreach (ProfessorViewModel.ItemListaProfessor item in ListaProfessor) {
-            <option value="@item.cdUsuario">@item.nmUsuario</option>
-        }
-    </select>
-</div>
 
 
 <div id="divBotaoAdicionar">

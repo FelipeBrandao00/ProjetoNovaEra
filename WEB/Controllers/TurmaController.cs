@@ -34,13 +34,24 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarInfoTurma(CursoViewModel CursoViewModel) {
+        public async Task<IActionResult> CarregarInfoTurma(TurmaViewModel TurmaViewModel) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await CursoViewModel.BuscarInfo(configuration);
+            var response = await TurmaViewModel.BuscarInfo(configuration);
+
+            var ProfessorViewModel = new ProfessorViewModel();
+            var ListaProfessor = await ProfessorViewModel.GerarLista(configuration);
+            ViewBag.ListaProfessor = ListaProfessor.Data;
+
+            var CursoViewModel = new CursoViewModel();
+            var ListaCurso = await CursoViewModel.GerarLista(configuration);
+            ViewBag.ListaCurso = ListaCurso.Data;
+
             return PartialView("_InfoTurma", response.Data);
         }
 
         public async Task<IActionResult> CarregarAdicionarTurma() {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
             var ProfessorViewModel = new ProfessorViewModel();
             var ListaProfessor = await ProfessorViewModel.GerarLista(configuration);
             ViewBag.ListaProfessor = ListaProfessor.Data;
@@ -60,9 +71,9 @@ namespace WEB.Controllers {
         }
 
         [HttpPost]
-        public async Task<bool> AtualizarInfoTurma(ResponseModelCurso ResponseModelCurso) {
+        public async Task<bool> AtualizarInfoTurma(ResponseModelTurma ResponseModelTurma) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().AtualizarInfo(configuration, ResponseModelCurso);
+            var response = await new TurmaViewModel().AtualizarInfo(configuration, ResponseModelTurma);
             return response.IsSuccess;
         }
 

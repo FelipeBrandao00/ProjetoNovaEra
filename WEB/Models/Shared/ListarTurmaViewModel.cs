@@ -54,7 +54,7 @@ namespace WEB.Models.Shared {
                     this.TotalItens = responseData.totalCount;
                     this.ItensLista = responseData.Data?.Select(turma => new ItemListaPadrao {
                         Id = turma.CdTurma.ToString(),
-                        Text = turma.DsTurma
+                        Text = turma.NmTurma
                     }).ToList() ?? new List<ItemListaPadrao>();
 
                     return true;

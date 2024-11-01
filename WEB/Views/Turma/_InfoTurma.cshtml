@@ -1,20 +1,25 @@
-﻿@model Application.Responses.ResponseModelCurso
+﻿@using WEB.Models.Professor
+@using WEB.Models.Curso
+@model Application.Responses.ResponseModelTurma
 
 @{
     bool icAdicionar = Model is null;
 
     Layout = null;
-    var nmTurma = Model?.NmCurso;
-    var IcFinalizado = Model?.DtFinalizacao != null;
+    var nmTurma = Model?.NmTurma;
+    var IcFinalizado = Model?.DtFim != null;
 
     if (!icAdicionar) {
-        nmTurma = Model?.NmCurso ?? String.Empty;
+        nmTurma = Model?.NmTurma ?? String.Empty;
     }
+
+    var ListaProfessor = ViewBag.ListaProfessor ?? new List<ProfessorViewModel.ItemListaProfessor>();
+    var ListaCurso = ViewBag.ListaCurso ?? new List<CursoViewModel.ItemListaCurso>();
 }
 
 <link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
 
-@Html.HiddenFor(model => model.CdCurso)
+@Html.HiddenFor(model => model.CdTurma)
 
 <div id="backgroundConteudoModal"></div>
 
@@ -31,25 +36,55 @@
     <div id="divRelevo">
         <div id="divNomeTurma">
             <label for="divNomeTurma" class="linear1">Nome:</label><br />
-            <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmCurso" type="text" placeholder="Digite o nome da turma..." disabled />
+            <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmTurma" type="text" placeholder="Digite o nome da turma..." disabled />
         </div>
 
         <div id="divDescricaoTurma">
             <label for="txtDescricaoTurma" class="linear1">Descrição:</label><br />
-            <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsCurso" type="text" placeholder="Digite a descrição da turma..." disabled></textarea>
+            <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsTurma" type="text" placeholder="Digite a descrição da turma..." disabled></textarea>
         </div>
 
         <div id="divDatas">
             <div id="divDataCriacao">
                 <label for="txtCriacao" class="linear1">Data de início:</label><br />
-                <input id="txtCriacao" class="txtInfoTurma" asp-for="DtCriacao" type="date" disabled />
+                <input id="txtCriacao" class="txtInfoTurma" asp-for="DtInicio" type="date" disabled />
             </div>
 
             <div id="divDataFinalizacao">
                 <label for="txtFinalizacao" class="linear1">Data de finalização:</label><br />
-                <input id="txtFinalizacao" class="txtInfoTurma" asp-for="DtFinalizacao" type="date" disabled />
+                <input id="txtFinalizacao" class="txtInfoTurma" asp-for="DtFim" type="date" disabled />
             </div>
         </div>
+
+        <div id="divDatas">
+            <div id="divProfessor">
+                <label for="divProfessor" class="linear1">Professor:</label><br />
+                <select id="ddlProfessor" class="txtInfoTurma" asp-for="CdProfessor" disabled>
+                    <option value="0">Selecione</option>
+                    @foreach (ProfessorViewModel.ItemListaProfessor item in ListaProfessor) {
+                        if (item.cdUsuario == Model?.CdProfessor) {
+                            <option value="@item.cdUsuario" selected>@item.nmUsuario</option>
+                        } else {
+                            <option value="@item.cdUsuario">@item.nmUsuario</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div id="divCursoAdicionar">
+                <label for="divCursoAdicionar" class="linear1">Curso:</label><br />
+                <select id="ddlCurso" class="txtInfoTurma" asp-for="CdCurso" disabled>
+                    <option value="0">Selecione</option>
+                    @foreach (CursoViewModel.ItemListaCurso item in ListaCurso) {
+                        if (item.cdCurso == Model?.CdCurso) {
+                            <option value="@item.cdCurso" selected>@item.nmCurso</option>
+                        } else {
+                            <option value="@item.cdCurso">@item.nmCurso</option>
+                        }
+                    }
+                </select>
+            </div>
+         </div>
     </div>
 
     <div id="divBotoesEditarMobile">
@@ -120,6 +155,7 @@
             }
         } else {
             $('#divDataFinalizacao').css('display', 'none');
+            $('#btnReativar').css('display', 'none');
         }
     }
 
