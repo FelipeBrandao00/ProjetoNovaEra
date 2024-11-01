@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Services {
-    public class AulaService(IAulaRepository aulaRepository, IMapper mapper) : IAulaService {
+    public class AulaService(IAulaRepository aulaRepository, IMapper mapper, IFileService fileService) : IAulaService {
         public async Task<Response<AulaDto>> AddAula(AddAulaRequest request) {
             try {
                 var Entity = mapper.Map<Aula>(request);
@@ -52,7 +52,16 @@ namespace Application.Services {
 
         public async Task<Response<AulaDto?>> GetAulaById(GetAulaByIdRequest request) {
             try {
-                var result = mapper.Map<AulaDto>(await aulaRepository.GetAulaById(request.CdAula));
+                var entity = await aulaRepository.GetAulaById(request.CdAula);
+                var result = mapper.Map<AulaDto>(entity);
+                if(result.IsChamada)
+                    result.QtPresencas = await aulaRepository.GetTotalPresencasAulaById(request.CdAula);
+
+                var path = $"Turmas/Turma{entity.CdTurma}/Aula{result.CdAula}/";
+
+                result.QtArquivos = fileService.GetFileCountInDirectory(path);
+                result.IsArquivo = result.QtArquivos > 0;
+
                 return new Response<AulaDto?>(result, 200, "Aula encontrada!");
             }
             catch (Exception e) {

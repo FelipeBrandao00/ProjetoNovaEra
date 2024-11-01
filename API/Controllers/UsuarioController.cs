@@ -39,7 +39,7 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase 
         return Ok(result);
     }
 
-    [HttpGet("api/[controller]/{cdCargo:int}")]
+    [HttpGet("api/[controller]/getByCargo/{cdCargo:int}")]
     public async Task<ActionResult> GetUsuariosByCargo(int cdCargo, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
         var request = new GetAllUsuariosByCargoRequest(cdCargo, pageNumber, pageSize);
         var result = await usuarioService.GetUsuariosByCargo(request);
@@ -51,6 +51,14 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase 
     [HttpPatch("api/[controller]")]
     public async Task<ActionResult> UpdateUsuario(UpdateUsuarioPasswordRequest request) {
         var result = await usuarioService.UpdatePasswordUsuario(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
+
+    [HttpGet("api/[controller]/getByCargos")]
+    public async Task<ActionResult> GetUsuariosByCargos([FromQuery] int[] cdCargo, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+        var request = new GetUsuariosByCargosRequest(cdCargo, pageNumber, pageSize);
+        var result = await usuarioService.GetUsuariosByCargos(request);
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }

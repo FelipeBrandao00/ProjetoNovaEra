@@ -10,5 +10,6 @@ namespace Application.Interfaces {
         Task SaveFileAsync(IFormFile file, string relativePath);
         void DeleteFile(string relativePath, string fileName);
         Task<byte[]> GetFileAsync(string relativePath, string fileName);
+        public int GetFileCountInDirectory(string relativePath);
     }
 }

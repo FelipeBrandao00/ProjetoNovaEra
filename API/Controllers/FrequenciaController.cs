@@ -30,5 +30,12 @@ namespace API.Controllers {
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
+
+        [HttpPost("api/[controller]/AddFrequencias")]
+        public async Task<ActionResult> AddFrequencias(AddFrequenciasRequest request) {
+            var result = await frequenciaService.AddFrequencias(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }

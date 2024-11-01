@@ -58,5 +58,29 @@ namespace API.Controllers {
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
+
+        [HttpPost("api/[controller]/HabilitarMatricula")]
+        public async Task<ActionResult> HabilitarMatricula([FromBody] HabilitarMatriculaRequest request) {
+            var result = await turmaService.HabilitarMatricula(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
+
+        [HttpPost("api/[controller]/EncerrarMatricula")]
+        public async Task<ActionResult> EncerrarMatricula([FromBody] EncerrarMatriculaRequest request) {
+            var result = await turmaService.EncerrarMatricula(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
+
+
+        [HttpGet("api/[controller]/GetTurmasAbertaMatricula")]
+        public async Task<ActionResult> GetTurmasAbertaMatricula()
+        {
+            var request = new GetTurmasAbertaMatriculaRequest() { };
+            var result = await turmaService.GetTurmasAbertaMatricula(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
     }
 }

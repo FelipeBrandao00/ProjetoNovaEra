@@ -70,6 +70,12 @@ namespace Infra.IoC {
 
             services.AddScoped<IFileService, FileService>();
 
+            services.AddScoped<ICertificadoRepository, CertificadoRepository>();
+            services.AddScoped<ICertificadoService, CertificadoService>();
+
+            services.AddScoped<IMatriculaRepository, MatriculaRepository>();
+            services.AddScoped<IMatriculaService, MatriculaService>();
+
             services.AddAutoMapper(typeof(UsuarioMapping));
             services.AddAutoMapper(typeof(CargoMapping));
             services.AddAutoMapper(typeof(CargoUsuarioMapping));
@@ -82,6 +88,8 @@ namespace Infra.IoC {
             services.AddAutoMapper(typeof(AulaMapping));
             services.AddAutoMapper(typeof(FrequenciaMapping));
             services.AddAutoMapper(typeof(ConteudoMapping));
+            services.AddAutoMapper(typeof(CertificadoMapping));
+            services.AddAutoMapper(typeof(MatriculaMapping));
 
             return services;
         }
