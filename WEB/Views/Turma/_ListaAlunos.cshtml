@@ -1,4 +1,7 @@
-﻿<link rel="stylesheet" href="~/css/Turma/InfoAluno.css">
+﻿@{
+    var ListaAlunos = ViewBag.ListaAlunos ?? new List<Application.Responses.ResponseModelUsuario>();
+}
+<link rel="stylesheet" href="~/css/Turma/InfoAluno.css">
 
 <div id="divAlunosTurma">
     <div id="TituloInfoAula">
@@ -12,36 +15,19 @@
     <div id="divListaAlunoTurma">
         <div id="listaAlunos">
             <div>
-                <div>
-                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
-                    <div id="divBotaoAluno">
-                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
+                @foreach (Application.Responses.ResponseModelUsuario item in ListaAlunos) {
+                    <div>
+                        <div id="nmAlunoLista" onclick="verInfoAluno('@item.CdUsuario')">@item.NmUsuario</div>
+                        <div id="divBotaoAluno">
+                            <button id="btnDesvincular" onclick="carregarDesvincularAluno('@item.CdUsuario', '@item.NmUsuario')">Desvincular</button>
+                        </div>
                     </div>
-                </div>
-                <div>
-                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
-                    <div id="divBotaoAluno">
-                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
-                    </div>
-                </div>
-                <div>
-                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
-                    <div id="divBotaoAluno">
-                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
-                    </div>
-                </div>
-                <div>
-                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
-                    <div id="divBotaoAluno">
-                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
-                    </div>
-                </div>
-                <div>
-                    <div id="nmAlunoLista" onclick="verInfoAluno()">MMatheusMatheusMatheusMatheusatheus</div>
-                    <div id="divBotaoAluno">
-                        <button id="btnDesvincular" onclick="carregarDesvincularAluno()">Desvincular</button>
-                    </div>
-                </div>
+                }
+
+                @if (ViewBag.ListaAlunos.Count == 0) {
+                    <p class="linear1"><b>Não há alunos na turma.</b></p>
+                }
+            </div>
         </div>
     </div>
 </div>

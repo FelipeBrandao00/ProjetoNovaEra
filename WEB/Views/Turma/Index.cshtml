@@ -634,12 +634,14 @@
         $('#backgroundConteudoModal').css('display', 'none');
     }
     
-     function carregarDesvincularAluno() {
+     function carregarDesvincularAluno(cd, nome) {
         //eu odeio minha vida...
         $('#backgroundConteudoModal').css('display', 'block');
         $('#divDesvincularAluno').css('display', 'flex');
         
-        $("#nmAlunoDesvincular").text('nome do aluno aqui');
+        $('#cdAlunoDesvincular').text(cd)
+        $("#nmAlunoDesvincular").text(nome);
+
         window.location.hash = '#divDesvincularAluno';
         //$('#divInformacaoAluno').css('display', 'none');
     }
@@ -647,12 +649,45 @@
     function cancelarDesvincularAluno() {
         $('#backgroundConteudoModal').css('display', 'none');
         $('#divDesvincularAluno').css('display', 'none');
+
+        $('#cdAlunoDesvincular').text('')
+        $("#nmAlunoDesvincular").text('');
         
         window.location.hash = '';
     }
 
     function desvincularAluno() {
-        alert('desvincular');
+        let cdTurma = $('#CdTurma').val();
+        let cdAluno = $('#cdAlunoDesvincular').text();
+
+        let TurmaAlunoViewModel = new FormData();
+        TurmaAlunoViewModel.append('CdTurma', cdTurma);
+        TurmaAlunoViewModel.append('CdAluno', cdAluno);
+
+        $.ajax({
+            url: '@Url.Action("DesvincularAluno", "Turma")',
+            type: 'DELETE',
+            async: true,
+            processData: false,
+            contentType: false,
+            data: TurmaAlunoViewModel,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                    carregarAulasTurma();
+                    carregarAlunosTurma();
+                    $('#cdAlunoDesvincular').text('')
+                    $("#nmAlunoDesvincular").text('');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                carregarListaPadrao(false);
+            }
+        });    
     }
 
     function cancelarRetomarInscricoes(mobile = false) {

@@ -145,6 +145,7 @@
 <div id="divDesvincularAluno">
     <b class="linear1">Tem certeza que deseja desvincular o aluno:</b>
     <b id="nmAlunoDesvincular" class="linear1"></b>
+    <b id="cdAlunoDesvincular" hidden></b>
     <b class="linear1">Não será possível vinculá-lo(a) novamente.</b>
     <div id="divBotoesFinalizarTurma">
         <button id="btnIgnorarFinalizarTurma" onclick="cancelarDesvincularAluno()"><b class="linear1">Não</b></button>
@@ -224,10 +225,15 @@
     }
 
     function carregarAlunosTurma() {
+        let cdTurma = $('#CdTurma').val();
+
         $.ajax({
             url: '@Url.Action("CarregarAlunosTurma", "Turma")',
             type: 'GET',
             async: true,
+            data: {
+                CdTurma: cdTurma
+            },
             success: function (data) {
                 $('#_divListaAlunos').html(data);
             }

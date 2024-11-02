@@ -5,6 +5,8 @@ using WEB.Models.Shared;
 using WEB.Models.Curso;
 using WEB.Models.Professor;
 using WEB.Models.Turma;
+using WEB.Models.Aluno;
+using WEB.Models.TurmaAluno;
 
 namespace WEB.Controllers {
     public class TurmaController(IConfiguration configuration) : Controller {
@@ -116,9 +118,13 @@ namespace WEB.Controllers {
         }
         
         [HttpGet]
-        public async Task<IActionResult> CarregarAlunosTurma() {
-            //configuration["JwtToken"] = Request.Cookies["Token"];
-            //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
+        public async Task<IActionResult> CarregarAlunosTurma(ResponseModelTurma ResponseModelTurma) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var AlunoViewModel = new AlunoViewModel();
+            var ListaAlunos = await AlunoViewModel.BuscarPorTurma(configuration, ResponseModelTurma);
+            ViewBag.ListaAlunos = ListaAlunos.Data;
+
             return PartialView("_ListaAlunos");
         }
 
@@ -134,6 +140,12 @@ namespace WEB.Controllers {
             //configuration["JwtToken"] = Request.Cookies["Token"];
             //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
             return PartialView("_AdicionarAula");
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DesvincularAluno(TurmaAlunoViewModel TurmaAlunoViewModel) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            return Json(await TurmaAlunoViewModel.DesvincularAluno(configuration));
         }
 
         [HttpGet]
