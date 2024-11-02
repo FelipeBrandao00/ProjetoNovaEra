@@ -12,8 +12,12 @@ namespace Infra.Data.Repositories
 {
     public class MatriculaRepository(ApplicationDbContext _context) : IMatriculaRepository
     {
-        public async Task<Matricula> AddMatricula(Matricula matricula)
+        public async Task<Matricula?> AddMatricula(Matricula matricula)
         {
+            if (_context.Matriculas.Where(x => x.DsCpf == matricula.DsCpf && x.CdTurma == matricula.CdTurma).Any()) {
+                return null;
+            }
+
             _context.Matriculas.Add(matricula);
             await _context.SaveChangesAsync();
             return matricula;

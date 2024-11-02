@@ -12,6 +12,7 @@ namespace API.Controllers
     [Authorize(Roles = "Administrador")]
     public class MatriculaController(IMatriculaService matriculaService) : ControllerBase
     {
+        [AllowAnonymous]
         [HttpPost("api/[controller]")]
         public async Task<ActionResult> AddMatricula([FromBody] AddMatriculaRequest request)
         {

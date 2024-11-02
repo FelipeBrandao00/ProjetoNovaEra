@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using WEB.Models.Genero
+@using WEB.Models.Shared
+@{
+    Layout = null;
+    var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
+    var ListaTurmas = ViewBag.ListaTurmas ?? new List<ListarPadraoViewModel.ItemListaPadrao>();
+
+}
+
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="utf-8" />
@@ -11,6 +20,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- ÍCONES -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/Toastr/toastr.css" />
+    <link rel="stylesheet" href="~/css/Toastr/toastr.min.css" />
 </head>
 <body>
 
@@ -43,8 +58,9 @@
                 <label for="txtGenero" class="linear1">Gênero:</label><br />
                 <select id="txtGenero" class="txtInfo">
                     <option value="0">Selecione</option>
-                    <option value="1">Feminino</option>
-                    <option value="2">Masculino</option>
+                    @foreach (GeneroViewModel.ItemListaGenero item in ListaGenero) {
+                        <option value="@item.CdGenero">@item.NmGenero</option>
+                    }
                 </select>
             </div>
 
@@ -64,11 +80,12 @@
 
         *A inscrição não confirma matrícula!
         <div id="divCurso">
-            <label for="divCurso" class="linear1">Curso que queira fazer:</label><br />
+            <label for="divCurso" class="linear1">Turma que queira fazer:</label><br />
             <select id="txtCurso" class="txtInfo">
                 <option value="0">Selecione</option>
-                <option value="1">Informatica</option>
-                <option value="2">Ingles</option>
+                @foreach (ListarPadraoViewModel.ItemListaPadrao item in ListaTurmas) {
+                    <option value="@item.Id">@item.Text</option>
+                }
             </select>
         </div>
 
@@ -81,8 +98,45 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>
+    <script src="~/js/toastr.js"></script>
+    <script src="~/js/toastr.min.js"></script>
 
     <script type="text/javascript">
+
+        toastr.options = {
+            "timeOut": "5000",
+            "positionClass": "toast-top-center",
+            "closeButton": true,
+            "progressBar": true
+        };
+
+        function ExibirInfo(message, titulo) {
+            toastr.info(message, titulo, {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
+
+        function ExibirSucesso(message, titulo) {
+            toastr.success(message, titulo, {
+                timeOut: 3000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
+
+        function ExibirErro(message, titulo) {
+            toastr.error(message, titulo, {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
+
         function realizarInscricao() {
             if (!validarCampos()) {
                 return;
@@ -99,51 +153,58 @@
                     CdGenero: $('#txtGenero').val(),
                     DtNascimento: $('#txtNascimento').val(),
                     DsTelefone: $('#txtTelefone').val(),
-                    CdCurso: $('#txtCurso').val()
+                    CdTurma: $('#txtCurso').val()
                 },
-                success: function () {
-                    alert('Inscrição feita com sucesso');
+                success: function (data) {
+                    console.log(data)
+                    if (data.isSuccess) {
+                        ExibirSucesso(data.message, 'Parabéns!');
+                    }else{
+                        ExibirErro(data.message, 'Atenção!');
+                    }
                 }
             });
         }
 
         function validarCampos() {
             if ($('#txtNome').val().length == 0) {
-                alert('O nome é obrigatório!');
+                ExibirInfo('O nome é obrigatório!','Atenção');
                 return false;
             }
 
             if ($('#txtEmail').val().length == 0) {
-                alert('O e-mail é obrigatório!');
+                ExibirInfo('O e-mail é obrigatório!', 'Atenção');
                 return false;
             }
 
             if ($('#txtCPF').val().length != 11) {
-                alert('O CPF é obrigatório e precisa ser válido!');
+                ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção');
                 return false;
             }
 
             if ($('#txtGenero').find(":selected").val() == 0) {
-                alert('Selecione um gênero!');
+                ExibirInfo('Selecione um gênero!', 'Atenção');
                 return false;
             }
 
             if (!$('#txtNascimento').val()) {
-                alert('A data é obrigatória!');
+                ExibirInfo('A data é obrigatória!', 'Atenção');
                 return false;
             }
 
             if ($('#txtTelefone').val().length == 0) {
-                alert('O telefone é obrigatório!');
+                ExibirInfo('O telefone é obrigatório!', 'Atenção');
                 return false;
             }
 
             if ($('#txtCurso').find(":selected").val() == 0) {
-                alert('Selecione um curso!');
+                ExibirInfo('Selecione uma turma!', 'Atenção');
                 return false;
             }
             return true;
         }
+
+
     </script>
 </body>
 </html>
