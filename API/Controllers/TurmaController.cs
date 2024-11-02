@@ -52,7 +52,7 @@ namespace API.Controllers {
             return Ok(result);
         }
 
-        [HttpPost("api/[controller]/ReativarCurso")]
+        [HttpPost("api/[controller]/ReativarTurma")]
         public async Task<ActionResult> ReativarTurma([FromBody] ReativarTurmaRequest request) {
             var result = await turmaService.ReativarTurma(request);
             if (!result.IsSuccess) return BadRequest(result);

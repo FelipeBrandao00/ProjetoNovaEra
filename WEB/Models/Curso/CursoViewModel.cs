@@ -3,9 +3,16 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text;
 using WEB.Models.Shared;
+using static WEB.Models.Professor.ProfessorViewModel;
+using static WEB.Models.Shared.ListarPadraoViewModel;
 
 namespace WEB.Models.Curso {
     public class CursoViewModel {
+        public class ItemListaCurso {
+            public required int cdCurso { get; set; }
+            public required string nmCurso { get; set; }
+        }
+
         public int id { get; set; }
 
         public async Task<Response<ResponseModelCurso>> BuscarInfo(IConfiguration configuration) {
@@ -168,6 +175,35 @@ namespace WEB.Models.Curso {
                 } catch (Exception ex) {
                     while (ex.InnerException != null) { ex = ex.InnerException; }
                     return new Response<ResponseModelCurso> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
+                }
+            }
+        }
+
+        public async Task<ResponseModelListaPadrao<ItemListaCurso>> GerarLista(IConfiguration configuration) {
+            using (var client = new HttpClient()) {
+                var baseUrl = configuration["BaseRequest"];
+                var url = $"{baseUrl}/Curso?icFinalizado=false";
+
+                var token = configuration["JwtToken"];
+                if (!string.IsNullOrEmpty(token))
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                try {
+                    var response = await client.GetAsync(url);
+                    if (!response.IsSuccessStatusCode)
+                        return new ResponseModelListaPadrao<ItemListaCurso> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
+
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    var responseData = JsonSerializer.Deserialize<ResponseModelListaPadrao<ItemListaCurso>>(responseBody, options);
+
+                    if (responseData == null || !responseData.IsSuccess)
+                        return new ResponseModelListaPadrao<ItemListaCurso> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
+
+                    return responseData;
+                } catch (Exception ex) {
+                    while (ex.InnerException != null) { ex = ex.InnerException; }
+                    return new ResponseModelListaPadrao<ItemListaCurso> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
                 }
             }
         }
