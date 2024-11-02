@@ -22,7 +22,6 @@ namespace Domain.Entities
         public string? DsCpf { get; set; }
         public Genero? DsGenero { get; set; }
         public DateTime? DtNascimento { get; set; }
-        public byte[]? DsFoto { get; set; }
         public string? DsTelefone { get; set; }
         public int CdTurma { get; set; }
         public virtual required Turma Turma { get; set; }
