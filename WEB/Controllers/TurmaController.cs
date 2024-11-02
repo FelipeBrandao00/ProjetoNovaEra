@@ -78,20 +78,37 @@ namespace WEB.Controllers {
         }
 
         [HttpPost]
-        public async Task<bool> ReativarTurma(ResponseModelCurso ResponseModelCurso) {
+        public async Task<ActionResult> ReativarTurma(ResponseModelTurma ResponseModelTurma) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().Reativar(configuration, ResponseModelCurso);
-            return response.IsSuccess;
+            return Json(await new TurmaViewModel().Reativar(configuration, ResponseModelTurma));
         }
 
         [HttpPost]
-        public async Task<bool> FinalizarTurma(ResponseModelCurso ResponseModelCurso) {
+        public async Task<ActionResult> DesativarTurma(ResponseModelTurma ResponseModelTurma) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
-            return response.IsSuccess;
+
+            var response = await new TurmaViewModel().Desativar(configuration, ResponseModelTurma);
+
+            var TurmaViewModel = new TurmaViewModel();
+            TurmaViewModel.id = ResponseModelTurma.CdTurma;
+            var infoTurma = await TurmaViewModel.BuscarInfo(configuration);
+
+            return Json(new { response, infoTurma });
         }
 
-        [HttpGet]
+        [HttpPost]
+        public async Task<ActionResult> RetomarInscricao(ResponseModelTurma ResponseModelTurma) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            return Json(await new TurmaViewModel().RetomarInscricao(configuration, ResponseModelTurma));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PararInscricao(ResponseModelTurma ResponseModelTurma) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            return Json(await new TurmaViewModel().PararInscricao(configuration, ResponseModelTurma));
+        }
+
+
         public async Task<IActionResult> CarregarAulasTurma() {
             //configuration["JwtToken"] = Request.Cookies["Token"];
             //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);

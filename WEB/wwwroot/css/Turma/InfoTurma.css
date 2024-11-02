@@ -144,7 +144,7 @@
     padding: 5px 10px 5px 10px;
 }
 
-#btnConfirmarReativarTurma {
+#btnConfirmarReativarTurma, #btnRetomarInscricao {
     margin-top: 5px;
     height: 30px;
     font-size: 14px;
@@ -165,13 +165,13 @@
 }
 
 
-#btnFinalizarTurma {
+#btnFinalizarTurma, #btnPararInscricao {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
     background: rgb(126,6,6);
     background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
 }
 
-#divFinalizarTurma, #divReativarTurma {
+#divFinalizarTurma, #divReativarTurma, #divRetomarInscricao, #divPararInscricao {
     z-index: 7;
     display: none;
     padding: 15px;
@@ -188,7 +188,7 @@
     top: 35%;
 }
 
-#btnIgnorarFinalizarTurma, #btnFinalizarTurma {
+#btnIgnorarFinalizarTurma, #btnFinalizarTurma, #btnIgnorarRetomarInscricao, #btnPararInscricao {
     margin-top: 5px;
     height: 30px;
     font-size: 14px;
@@ -198,16 +198,10 @@
     padding: 5px 10px 5px 10px;
 }
 
-#btnIgnorarFinalizarTurma, #btnReativarTurma {
+#btnIgnorarFinalizarTurma, #btnReativarTurma, #btnIgnorarRetomarInscricao {
     background-color: white;
     padding: 5px 10px 5px 10px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-}
-
-#btnFinalizarTurma {
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-    background: rgb(126,6,6);
-    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
 }
 
 
@@ -216,7 +210,7 @@
     flex-direction: row;
     justify-content: flex-start;
     width: 100%;
-    gap: 50px;
+    gap: 40px;
     margin-bottom: 10px;
 }
 
@@ -495,7 +489,7 @@
         padding: 4vh 4vw;
     }
 
-    #divFinalizarTurma, #divReativarTurma, #divInformacaoAula {
+    #divFinalizarTurma, #divReativarTurma, #divInformacaoAula, #divRetomarInscricao, #divPararInscricao {
         width: 84vw;
     }
 

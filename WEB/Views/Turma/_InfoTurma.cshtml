@@ -8,6 +8,7 @@
     Layout = null;
     var nmTurma = Model?.NmTurma;
     var IcFinalizado = Model?.DtFim != null;
+    var IcPermitir = Model?.IcAbertaMatricula;
 
     if (!icAdicionar) {
         nmTurma = Model?.NmTurma ?? String.Empty;
@@ -15,11 +16,14 @@
 
     var ListaProfessor = ViewBag.ListaProfessor ?? new List<ProfessorViewModel.ItemListaProfessor>();
     var ListaCurso = ViewBag.ListaCurso ?? new List<CursoViewModel.ItemListaCurso>();
+
+    var DtFinalizacao = ViewBag.DtFinalizacao;
 }
 
 <link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
 
 @Html.HiddenFor(model => model.CdTurma)
+@Html.HiddenFor(model => model.IcAbertaMatricula)
 
 <div id="backgroundConteudoModal"></div>
 
@@ -92,6 +96,15 @@
         <button id="btnFinalizarMobile" onclick="carregarFinalizarTurma(true)"><b style="color: white;">Finalizar turma</b></button>
     </div>
 
+    <div id="divBotaoRetomarInscricaoMobile">
+        <button id="btnRetomarInscricaoTurmaMobile" onclick="carregarRetomarInscricoes(true)"><b class="linear1">Habilitar matrícula</b></button>
+    </div>
+
+    <div id="divBotaoPararInscricaoMobile">
+        <button id="btnPararInscricaoTurmaMobile" onclick="carregarPararInscricoes(true)"><b class="linear1">Encerrar matrícula</b></button>
+    </div>
+
+
     <div id="divBotoesEdicaoMobile">
         <button id="btnCancelarMobile" onclick="cancelarEdicaoTurma(true)"><b class="linear1">Cancelar edição</b></button>
         <button id="btnSalvarMobile" onclick="salvarInfoTurma(true)"><b>Salvar</b></button>
@@ -139,23 +152,63 @@
     </div>
 </div>
 
+<div id="divRetomarInscricao">
+    <b class="linear1">Tem certeza que deseja habilitar as matrículas da turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <div id="divBotoesFinalizarTurma">
+        <button id="btnIgnorarRetomarInscricao" onclick="cancelarRetomarInscricoes()"><b class="linear1">Não</b></button>
+        <button id="btnRetomarInscricao" onclick="retomarInscricoes()"><b style="color: white;">Habilitar</b></button>
+    </div>
+</div>
+
+<div id="divPararInscricao">
+    <b class="linear1">Tem certeza que deseja encerrar as matrículas da turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <div id="divBotoesFinalizarTurma">
+        <button id="btnIgnorarFinalizarTurma" onclick="cancelarPararInscricoes()"><b class="linear1">Não</b></button>
+        <button id="btnPararInscricao" onclick="pararInscricoes()"><b style="color: white;">Encerrar</b></button>
+    </div>
+</div>
+
 <script type="text/javascript">
     atualizarBotoes();
     carregarAulasTurma();
     carregarAlunosTurma();
 
     function atualizarBotoes() {
+        if ('@IcPermitir' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotaoPararInscricaoMobile').show();
+                $('#divBotaoRetomarInscricaoMobile').hide();
+            } else {
+                $('#btnParar').show();
+                $('#btnRetomar').hide();
+            }
+        } else {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotaoPararInscricaoMobile').hide();
+                $('#divBotaoRetomarInscricaoMobile').show();
+            } else {
+                $('#btnParar').hide();
+                $('#btnRetomar').show();
+            }
+        }
+
         if ('@IcFinalizado' == 'True') {
             if (window.matchMedia("(max-width: 1200px)").matches) {
                 $('#divBotoesEditarMobile').hide();
                 $('#divBotaoReativarTurmaMobile').show();
+                $('#divBotaoPararInscricaoMobile').hide();
+                $('#divBotaoRetomarInscricaoMobile').hide();
             } else {
+                $('#btnReativar').show();
                 $('#btnFinalizar').hide();
-                $('#btnReativar').css("display", "unset");
+                $('#btnParar').hide();
+                $('#btnRetomar').hide();
             }
         } else {
-            $('#divDataFinalizacao').css('display', 'none');
-            $('#btnReativar').css('display', 'none');
+            $('#divDataFinalizacao').hide();
+            $('#btnReativar').hide();
         }
     }
 

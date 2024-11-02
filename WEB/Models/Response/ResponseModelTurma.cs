@@ -8,4 +8,5 @@ public class ResponseModelTurma {
     public DateTime? DtFim { get; init; }
     public int CdCurso { get; init; }
     public Guid CdProfessor { get; init; }
+    public bool IcAbertaMatricula { get; init; }
 }

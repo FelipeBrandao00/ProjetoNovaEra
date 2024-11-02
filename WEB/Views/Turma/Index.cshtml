@@ -10,120 +10,151 @@
 }
 
 <link rel="stylesheet" href="~/css/Turma/Index.css">
+<link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
 
 <div id="divPagina">
-<div id="divInicioPagina">
-    <div id="divTopo">
-        <button id="btnAdicionar" onclick="carregarAdicionarTurma(false)"><b class="linear1">Adicionar turma</b></button>
-        <button id="btnAdicionarMobile" onclick="carregarAdicionarTurma(true)"><b class="linear1">Adicionar turma</b></button>
-    </div>
+    <div id="divInicioPagina">
+        <div id="divTopo">
+            <button id="btnAdicionar" onclick="carregarAdicionarTurma(false)"><b class="linear1">Adicionar turma</b></button>
+            <button id="btnAdicionarMobile" onclick="carregarAdicionarTurma(true)"><b class="linear1">Adicionar turma</b></button>
+        </div>
 
-    <div id="divBusca">
-        <input id="txtBusca" type="text" placeholder="Digite o nome da turma..." />
+        <div id="divBusca">
+            <input id="txtBusca" type="text" placeholder="Digite o nome da turma..." />
 
-        <div id="divFiltros">
-            <div id="idData">
-                <div id="divInputData">
-                    <label for="txtInicio"> De:</label>
-                    <input id="txtInicio" type="date" />
+            <div id="divFiltros">
+                <div id="idData">
+                    <div id="divInputData">
+                        <label for="txtInicio"> De:</label>
+                        <input id="txtInicio" type="date" />
+                    </div>
+                    <div id="divInputData">
+                        <label for="txtFim">Até:</label>
+                        <input id="txtFim" type="date" />
+                    </div>
                 </div>
-                <div id="divInputData">
-                    <label for="txtFim">Até:</label>
-                    <input id="txtFim" type="date" />
+
+                <div id="idCheckbox">
+                    <div id="divInputCheckbox">
+                        <label for="chkEmAndamento">Em Andamento</label>
+                        <input id="chkEmAndamento" type="checkbox" checked />
+                    </div>
+                    <div id="divInputCheckbox">
+                        <label for="chkFinalizado">Finalizado</label>
+                        <input id="chkFinalizado" type="checkbox" checked />
+                    </div>
+                </div>
+
+                <div id="idDropdown">
+                    <div id="divInputDropdown">
+                        <label for="divCursoTurma">Curso:</label>
+                        <select id="divCursoTurma" class="txtInfoCurso">
+                            <option value="0">Selecione</option>
+                            @foreach (CursoViewModel.ItemListaCurso item in ListaCurso) {
+                                <option value="@item.cdCurso">@item.nmCurso</option>
+                            }
+                        </select>
+                    </div>
                 </div>
             </div>
-
-            <div id="idCheckbox">
-                <div id="divInputCheckbox">
-                    <label for="chkEmAndamento">Em Andamento</label>
-                    <input id="chkEmAndamento" type="checkbox" checked />
-                </div>
-                <div id="divInputCheckbox">
-                    <label for="chkFinalizado">Finalizado</label>
-                    <input id="chkFinalizado" type="checkbox" checked />
-                </div>
-            </div>
-
-            <div id="idDropdown">
-                <div id="divInputDropdown">
-                    <label for="divCursoTurma">Curso:</label>
-                    <select id="divCursoTurma" class="txtInfoCurso">
-                         <option value="0">Selecione</option>
-                         @foreach (CursoViewModel.ItemListaCurso item in ListaCurso) {
-                            <option value="@item.cdCurso">@item.nmCurso</option>
-                         }
-                    </select>
-                </div>
+            <div id="divPesquisar">
+                <button id="btnFiltrosMobile" onclick="toggleFiltros()">
+                    <b class="linear1">Filtros</b>
+                    <i id="arrowIcon" class="fa fa-angles-up"></i>
+                </button>
+                <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
             </div>
         </div>
-        <div id="divPesquisar">
-            <button id="btnFiltrosMobile" onclick="toggleFiltros()">
-                <b class="linear1">Filtros</b>
-                <i id="arrowIcon" class="fa fa-angles-up"></i>
+    </div>
+
+    <div id="msgListaTurma" class="divMsgSelecione">
+        <span class="linear1">Digite o nome da turma e aperte em “Pesquisar!”</span>
+    </div>
+
+    <div id="divOrganizarLista">
+        <div id="divOrganizarMensagem">
+            <div id="divTituloLista" class="linear1"><b>Turmas:</b></div>
+            <div id="divMensagem" class="linear1">Clique na turma para ver suas informações!</div>
+        </div>
+        <div id="divListaTurma"></div>
+    </div>
+
+    <div id="conteudoModal">
+        <div id="divTitInfoTurma">
+            <button id="btnVoltarModal" onclick="voltarMobile()">
+                <i class="fa-solid fa-angle-left arrow-icon">   </i>
             </button>
-            <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
+            <span class="linear1">Informações da turma</span>
+            <div id="divBotoesDinamico">
+                <button id="btnParar" onclick="carregarPararInscricoes()"><b class="linear1">Encerrar matrícula</b></button>
+                <button id="btnRetomar" onclick="carregarRetomarInscricoes()"><b class="linear1">Habilitar matrícula</b></button>
+                <button id="btnFinalizar" onclick="carregarFinalizarTurma()"><b style="color: white;">Finalizar turma</b></button>
+                <button id="btnReativar" onclick="carregarReativarTurma()"><b class="linear1">Reativar turma</b></button>
+            </div>
+        </div>
+
+        <div id="divInfoModal">
+            <div id="msgInfoTurma" class="divMsgSelecione">
+                <span class="linear1">Selecione uma turma para ver suas informações!</span>
+            </div>
+
+            <div id="divInfoTurma" style="display:none;"></div>
+
+            @* <div id="divBotaoAdicionarMobile">
+                <button id="btnConfirmarAdicionarMobile" onclick="adicionarTurma(true)"><b style="color: white;">Adicionar turma</b></button>
+            </div>
+
+            <div id="divFinalizarTurmaMobile">
+                <b class="linear1">Tem certeza que deseja finalizar a turma:</b>
+                <b class="linear1" id="nmTurma"></b>
+                <b class="linear1">Não será possível utilizá-la.</b>
+                <div id="divBotoesFinalizarTurmaMobile">
+                    <button id="btnIgnorarFinalizarTurmaMobile" onclick="cancelarFinalizarTurma(true)"><b class="linear1">Não</b></button>
+                    <button id="btnFinalizarTurmaMobile" onclick="finalizarTurma(true)"><b style="color: white;">Finalizar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoReativarTurmaMobile">
+                <button id="btnReativarTurmaMobile" onclick="carregarReativarTurma(true)"><b class="linear1">Reativar</b></button>
+            </div>
+
+            <div id="divReativarTurmaMobile">
+                <b class="linear1">Tem certeza que deseja reativar a turma:</b>
+                <b class="linear1" id="nmTurmaHab"></b>
+                <b class="linear1">A turma poderá ser utilizada novamente.</b>
+                <div id="divBotoesReativarTurmaMobile">
+                    <button id="btnIgnorarReativarTurmaMobile" onclick="cancelarReativarTurma(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarReativarTurmaMobile" onclick="reativarTurma(true)"><b style="color: white;">Reativar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoRetomarInscricaoMobile">
+                <button id="btnRetomarInscricaoTurmaMobile" onclick="carregarRetomarInscricoes(true)"><b class="linear1">Retomar inscrições</b></button>
+            </div>
+
+            <div id="divRetomarInscricaoMobile">
+                <b class="linear1">Tem certeza que deseja retomar as inscrições da turma:</b>
+                <b class="linear1" id="nmTurmaHab"></b>
+                <div id="divBotoesRetomarInscricaoMobile">
+                    <button id="btnIgnorarRetomarInscricaoMobile" onclick="cancelarRetomarInscricoes(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarRetomarInscricaoMobile" onclick="retomarInscricoes(true)"><b style="color: white;">Reativar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoPararInscricaoMobile">
+                <button id="btnPararInscricaoTurmaMobile" onclick="carregarPararInscricoes(true)"><b class="linear1">Parar inscrições</b></button>
+            </div>
+
+            <div id="divPararInscricaoMobile">
+                <b class="linear1">Tem certeza que deseja Parar as inscrições da turma:</b>
+                <b class="linear1" id="nmTurmaHab"></b>
+                <div id="divBotoesPararInscricaoMobile">
+                    <button id="btnIgnorarPararInscricaoMobile" onclick="cancelarPararInscricoes(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarPararInscricaoMobile" onclick="pararInscricoes(true)"><b style="color: white;">Reativar</b></button>
+                </div>
+            </div> *@
         </div>
     </div>
-</div>
-
-<div id="msgListaTurma" class="divMsgSelecione">
-    <span class="linear1">Digite o nome da turma e aperte em “Pesquisar!”</span>
-</div>
-
-<div id="divOrganizarLista">
-    <div id="divOrganizarMensagem">
-        <div id="divTituloLista" class="linear1"><b>Turmas:</b></div>
-        <div id="divMensagem" class="linear1">Clique na turma para ver suas informações!</div>
-    </div>
-    <div id="divListaTurma"></div>
-</div>
-
-<div id="conteudoModal">
-    <div id="divTitInfoTurma">
-        <button id="btnVoltarModal" onclick="voltarMobile()">
-            <i class="fa-solid fa-angle-left arrow-icon">   </i>
-        </button>
-        <span class="linear1">Informações da turma</span>
-        <button id="btnFinalizar" onclick="carregarFinalizarTurma()"><b style="color: white;">Finalizar turma</b></button>
-        <button id="btnReativar" onclick="carregarReativarTurma()"><b class="linear1">Reativar turma</b></button>
-    </div>
-
-    <div id="divInfoModal">
-    <div id="msgInfoTurma" class="divMsgSelecione">
-        <span class="linear1">Selecione uma turma para ver suas informações!</span>
-    </div>
-
-    <div id="divInfoTurma" style="display:none;"></div>
-
-    <div id="divBotaoAdicionarMobile">
-        <button id="btnConfirmarAdicionarMobile" onclick="adicionarTurma(true)"><b style="color: white;">Adicionar turma</b></button>
-    </div>
-
-    <div id="divFinalizarTurmaMobile">
-        <b class="linear1">Tem certeza que deseja finalizar a turma:</b>
-        <b class="linear1" id="nmTurma"></b>
-        <b class="linear1">Não será possível utilizá-la.</b>
-        <div id="divBotoesFinalizarTurmaMobile">
-            <button id="btnIgnorarFinalizarTurmaMobile" onclick="cancelarFinalizarTurma(true)"><b class="linear1">Não</b></button>
-            <button id="btnFinalizarTurmaMobile" onclick="finalizarTurma(true)"><b style="color: white;">Finalizar</b></button>
-        </div>
-    </div>
-
-    <div id="divBotaoReativarTurmaMobile">
-        <button id="btnReativarTurmaMobile" onclick="carregarReativarTurma(true)"><b class="linear1">Reativar</b></button>
-    </div>
-
-    <div id="divReativarTurmaMobile">
-        <b class="linear1">Tem certeza que deseja reativar a turma:</b>
-        <b class="linear1" id="nmTurmaHab"></b>
-        <b class="linear1">A turma poderá ser utilizada novamente.</b>
-        <div id="divBotoesReativarTurmaMobile">
-            <button id="btnIgnorarReativarTurmaMobile" onclick="cancelarReativarTurma(true)"><b class="linear1">Não</b></button>
-            <button id="btnConfirmarReativarTurmaMobile" onclick="reativarTurma(true)"><b style="color: white;">Reativar</b></button>
-        </div>
-    </div>
-    </div>
-</div>
 </div>
 
 <script type="text/javascript">
@@ -221,6 +252,8 @@
             $('#divBotaoAdicionarMobile').css('display', 'none');
             $('#btnFinalizar').css('display', 'none');
             $('#btnReativar').css('display', 'none');
+            $('#btnParar').css('display', 'none');
+            $('#btnRetomar').css('display', 'none');
             $('#divTitInfoTurma').css('justify-content', 'flex-start');
         }
 
@@ -392,6 +425,12 @@
     }
 
     function carregarFinalizarTurma(mobile = false) {
+        if ($('#btnCancelar').is(':visible')) {
+            ExibirInfo('Finalize a edição!', 'Atenção!');
+            return;
+        }
+
+
         $('#backgroundConteudoModal').css('display', 'block');
         $('#divFinalizarTurma').css('display', 'flex');
 
@@ -410,6 +449,11 @@
     }
 
     function carregarReativarTurma(mobile = false) {
+        if ($('#btnCancelar').is(':visible')) {
+            ExibirInfo('Finalize a edição!', 'Atenção!');
+            return;
+        }
+
         $('#backgroundConteudoModal').css('display', 'block');
         $('#divReativarTurma').css('display', 'flex');
 
@@ -428,28 +472,48 @@
     }
 
     function finalizarTurma(mobile = false) {
-        let cdCurso = $('#CdCurso').val();
+        let cdTurma = $('#CdTurma').val();
 
         $.ajax({
-            url: '@Url.Action("FinalizarTurma", "Turma")',
+            url: '@Url.Action("DesativarTurma", "Turma")',
             type: 'POST',
             async: true,
             data: {
-                CdCurso: cdCurso
+                CdTurma: cdTurma
             },
             success: function (data) {
+                let response = data.response;
+                let infoTurma = data.infoTurma;
+                console.log(infoTurma);
+
+                if (response.isSuccess) {
+                    ExibirSucesso(response.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', response.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                } 
+                
                 if (window.matchMedia("(max-width: 1200px)").matches) {
-                    $('#divBotaoReativarTurmaMobile').css('display', 'flex');
-                    $('#divBotoesEditarMobile').css('display', 'none');
+                    $('#divBotoesEditarMobile').hide();
+                    $('#divBotaoReativarTurmaMobile').show();
+                    $('#divBotaoPararInscricaoMobile').hide();
+                    $('#divBotaoRetomarInscricaoMobile').hide();
                 } else {
-                    $('#btnFinalizar').css('display', 'none');
-                    $('#btnReativar').css('display', 'flex');
-                    $('#divBotaoReativarTurma').css('display', 'flex');
+                    $('#divBotaoReativarTurma').show();
+                    $('#btnReativar').show();
+                    $('#btnFinalizar').hide();
+                    $('#btnParar').hide();
+                    $('#btnRetomar').hide(); 
                     window.location.hash = '';
                 }
 
                 $('#divFinalizarTurma').css('display', 'none');
                 $('#backgroundConteudoModal').css('display', 'none');
+
+                let dateOnly = infoTurma.data.dtFim.split("T")[0];
+                $('#txtFinalizacao').val(dateOnly);
 
                 $('#divDataFinalizacao').css('display', 'unset');
                 carregarListaPadrao(false);
@@ -458,16 +522,26 @@
     }
 
     function reativarTurma(mobile = false) {
-        let cdCurso = $('#CdCurso').val();
+        let cdTurma = $('#CdTurma').val();
+        let IcAbertoMatricula = $('#IcAbertaMatricula').val();
 
         $.ajax({
             url: '@Url.Action("ReativarTurma", "Turma")',
             type: 'POST',
             async: true,
             data: {
-                CdCurso: cdCurso
+                CdTurma: cdTurma
             },
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (window.matchMedia("(max-width: 1200px)").matches) {
                     $('#divBotaoReativarTurmaMobile').css('display', 'none');
                     $('#divBotoesEditarMobile').css('display', 'flex');
@@ -476,6 +550,26 @@
                     $('#btnFinalizar').css('display', 'flex');
                     window.location.hash = '';
                 }
+
+                if (IcAbertoMatricula == 'True') {
+                    if (window.matchMedia("(max-width: 1200px)").matches) {
+                        $('#divBotaoPararInscricaoMobile').show();
+                        $('#divBotaoRetomarInscricaoMobile').hide();
+                    } else {
+                        $('#btnParar').show();
+                        $('#btnRetomar').hide();
+                    }
+                } else {
+                    if (window.matchMedia("(max-width: 1200px)").matches) {
+                        $('#divBotaoPararInscricaoMobile').hide();
+                        $('#divBotaoRetomarInscricaoMobile').show();
+                    } else {
+                        $('#btnParar').hide();
+                        $('#btnRetomar').show();
+                    }
+                }
+
+
                 $('#divReativarTurma').css('display', 'none');
                 $('#backgroundConteudoModal').css('display', 'none');
 
@@ -559,6 +653,124 @@
 
     function desvincularAluno() {
         alert('desvincular');
+    }
+
+    function cancelarRetomarInscricoes(mobile = false) {
+        $('#backgroundConteudoModal').css('display', 'none');
+        $('#divRetomarInscricao').css('display', 'none');
+
+        window.location.hash = '';
+    }
+
+    function carregarRetomarInscricoes(mobile = false) {
+        if ($('#btnCancelar').is(':visible')) {
+            ExibirInfo('Finalize a edição!', 'Atenção!');
+            return;
+        }
+        if ($('#btnCancelarMobile').is(':visible')) {
+            ExibirInfo('Finalize a edição!', 'Atenção!');
+            return;
+        }
+        $('#backgroundConteudoModal').css('display', 'block');
+        $('#divRetomarInscricao').css('display', 'flex');
+
+        window.location.hash = '#divRetomarInscricao';
+    }
+
+    function retomarInscricoes() {
+        let cdTurma = $('#CdTurma').val();
+
+        $.ajax({
+            url: '@Url.Action("RetomarInscricao", "Turma")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdTurma: cdTurma
+            },
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+
+                    if (window.matchMedia("(max-width: 1200px)").matches) {
+                        $('#divBotaoPararInscricaoMobile').show();
+                        $('#divBotaoRetomarInscricaoMobile').hide();
+                    } else {
+                        $('#btnParar').show();
+                        $('#btnRetomar').hide();
+                    }
+
+                    $('#backgroundConteudoModal').css('display', 'none');
+                    $('#divRetomarInscricao').css('display', 'none');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                carregarListaPadrao(false);
+            }
+        });
+    }
+
+    function cancelarPararInscricoes(mobile = false) {
+        $('#backgroundConteudoModal').css('display', 'none');
+        $('#divPararInscricao').css('display', 'none');
+
+        window.location.hash = '';
+    }
+
+    function carregarPararInscricoes(mobile = false) {
+        if ($('#btnCancelar').is(':visible')) {
+            ExibirInfo('Finalize a edição!', 'Atenção!');
+            return;
+        }
+
+        if ($('#btnCancelarMobile').is(':visible')) {
+            ExibirInfo('Finalize a edição!', 'Atenção!');
+            return;
+        }
+
+        $('#backgroundConteudoModal').css('display', 'block');
+        $('#divPararInscricao').css('display', 'flex');
+
+        window.location.hash = '#divPararInscricao';
+    }
+
+    function pararInscricoes() {
+        let cdTurma = $('#CdTurma').val();
+
+        $.ajax({
+            url: '@Url.Action("PararInscricao", "Turma")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdTurma: cdTurma
+            },
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+
+                    if (window.matchMedia("(max-width: 1200px)").matches) {
+                        $('#divBotaoPararInscricaoMobile').hide();
+                        $('#divBotaoRetomarInscricaoMobile').show();
+                    } else {
+                        $('#btnParar').hide();
+                        $('#btnRetomar').show();
+                    }
+
+                    $('#backgroundConteudoModal').css('display', 'none');
+                    $('#divPararInscricao').css('display', 'none');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                carregarListaPadrao(false);
+            }
+        });
     }
 
     function validarCampos() {
