@@ -68,7 +68,7 @@ namespace Application.Services {
                     return Directory.GetFiles(directoryPath).Length;
                 }
                 else {
-                    throw new DirectoryNotFoundException("Pasta não encontrada.");
+                    return 0;
                 }
             }
             catch (Exception ex) {

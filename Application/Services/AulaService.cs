@@ -60,6 +60,7 @@ namespace Application.Services {
                 var path = $"Turmas/Turma{entity.CdTurma}/Aula{result.CdAula}/";
 
                 result.QtArquivos = fileService.GetFileCountInDirectory(path);
+
                 result.IsArquivo = result.QtArquivos > 0;
 
                 return new Response<AulaDto?>(result, 200, "Aula encontrada!");
@@ -80,7 +81,13 @@ namespace Application.Services {
 
                 List<AulaDto> result = new();
                 foreach (var aula in aulas) {
-                    result.Add(mapper.Map<AulaDto>(aula));
+                    var aulaDto = mapper.Map<AulaDto>(aula);
+                    var path = $"Turmas/Turma{aula.CdTurma}/Aula{aula.CdAula}/";
+
+                    aulaDto.QtArquivos = fileService.GetFileCountInDirectory(path);
+                    aulaDto.IsArquivo = aulaDto.QtArquivos > 0;
+
+                    result.Add(aulaDto);
                 }
 
                 return new PagedResponse<List<AulaDto>>(
@@ -101,6 +108,8 @@ namespace Application.Services {
                 
                 Entity.DtAula = request.DtAula;
                 Entity.DsAula = request.DsAula;
+                Entity.NmAula = request.NmAula;
+
 
                 var retorno = await aulaRepository.UpdateAula(Entity);
 
