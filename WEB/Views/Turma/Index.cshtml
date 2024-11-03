@@ -612,7 +612,7 @@
 
     function carregarNovaAula() {
         $.ajax({
-            url: '@Url.Action("AdicionarAula", "Turma")',
+            url: '@Url.Action("CarregarAdicionarAula", "Turma")',
             type: 'GET',
             async: true,
             success: function (data) {

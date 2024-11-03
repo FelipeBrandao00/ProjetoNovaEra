@@ -214,10 +214,15 @@
     }
 
     function carregarAulasTurma() {
+        let cdTurma = $('#CdTurma').val();
+
         $.ajax({
             url: '@Url.Action("CarregarAulasTurma", "Turma")',
             type: 'GET',
             async: true,
+            data: {
+                CdTurma: cdTurma
+            },
             success: function (data) {
                 $('#_divListaAulas').html(data);
             }
