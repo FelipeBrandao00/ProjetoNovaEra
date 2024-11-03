@@ -7,6 +7,8 @@ using WEB.Models.Professor;
 using WEB.Models.Turma;
 using WEB.Models.Aluno;
 using WEB.Models.TurmaAluno;
+using WEB.Models.Usuario;
+using WEB.Models.Genero;
 
 namespace WEB.Controllers {
     public class TurmaController(IConfiguration configuration) : Controller {
@@ -149,10 +151,29 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarInfoAluno() {
-            //configuration["JwtToken"] = Request.Cookies["Token"];
-            //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
-            return PartialView("_InfoAluno");
+        public async Task<IActionResult> CarregarInfoAluno(ResponseModelUsuario ResponseModelUsuario) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var UsuarioViewModel = new UsuarioViewModel();
+            UsuarioViewModel.DsCpf = ResponseModelUsuario.DsCpf;
+
+            var InfoUsuario = await UsuarioViewModel.BuscarInfo(configuration);
+
+            if (InfoUsuario.Data != null) {
+                var AlunoViewModel = new AlunoViewModel();
+                var TurmaAtual = await AlunoViewModel.BuscarTurmaAtual(configuration, InfoUsuario.Data);
+
+                if (TurmaAtual.Data != null) {
+                    ViewBag.NmTurma = TurmaAtual.Data.DsTurma;
+                    ViewBag.NmCurso = TurmaAtual.Data.NmCurso;
+                }
+            }
+
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
+            return PartialView("_InfoAluno", InfoUsuario.Data);
         }
     }
 }

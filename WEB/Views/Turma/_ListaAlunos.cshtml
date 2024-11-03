@@ -17,7 +17,7 @@
             <div>
                 @foreach (Application.Responses.ResponseModelUsuario item in ListaAlunos) {
                     <div>
-                        <div id="nmAlunoLista" onclick="verInfoAluno('@item.CdUsuario')">@item.NmUsuario</div>
+                        <div id="nmAlunoLista" onclick="verInfoAluno('@item.DsCpf')">@item.NmUsuario</div>
                         <div id="divBotaoAluno">
                             <button id="btnDesvincular" onclick="carregarDesvincularAluno('@item.CdUsuario', '@item.NmUsuario')">Desvincular</button>
                         </div>
@@ -33,11 +33,14 @@
 </div>
 
 <script type="text/javascript">
-    function verInfoAluno() {
+    function verInfoAluno(DsCpf) {
         $.ajax({
             url: '@Url.Action("CarregarInfoAluno", "Turma")',
             type: 'GET',
             async: true,
+            data: {
+                DsCpf: DsCpf
+            },
             success: function (data) {
                 $('#_divInfoAluno').html(data);
 
