@@ -53,6 +53,10 @@ namespace Application.Services {
         public async Task<Response<AulaDto?>> GetAulaById(GetAulaByIdRequest request) {
             try {
                 var entity = await aulaRepository.GetAulaById(request.CdAula);
+
+                if(entity == null) return new Response<AulaDto?>(null, 400, "Aula não encontrada.");
+
+
                 var result = mapper.Map<AulaDto>(entity);
                 if(result.IsChamada)
                     result.QtPresencas = await aulaRepository.GetTotalPresencasAulaById(request.CdAula);
