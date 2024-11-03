@@ -10,7 +10,7 @@ namespace Domain.Interfaces
     public interface IMatriculaRepository
     {
         Task<List<Matricula>> GetMatriculasByTurmaId(int turmaId);
-        Task<Matricula> AddMatricula(Matricula matricula);
+        Task<Matricula?> AddMatricula(Matricula matricula);
         Task<Matricula> DeleteMatricula(Matricula matricula);
         Task<Matricula> GetMatriculaById(int matriculaId);
     }

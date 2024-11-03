@@ -63,5 +63,45 @@ namespace WEB.Models.Shared {
                 }
             }
         }
+
+        public async Task<bool> GerarListaMatriculasDisponiveis(IConfiguration configuration) {
+            using (var client = new HttpClient()) {
+                var baseUrl = configuration["BaseRequest"];
+                var url = $"{baseUrl}/Turma/GetTurmasAbertaMatricula";
+
+                var token = configuration["JwtToken"];
+                if (!string.IsNullOrEmpty(token))
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                try {
+                    var response = await client.GetAsync(url);
+                    if (!response.IsSuccessStatusCode)
+                        return false;
+
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    var responseData = JsonSerializer.Deserialize<ResponseModelListaPadrao<ResponseModelTurma>>(responseBody, options);
+
+                    if (responseData == null || !responseData.IsSuccess)
+                        return false;
+
+                    this.PaginaAtual = responseData.currentPage;
+                    this.PaginaTotal = responseData.totalPages;
+                    this.TamanhoPagina = responseData.pageSize;
+                    this.TotalItens = responseData.totalCount;
+                    this.ItensLista = responseData.Data?.Select(turma => new ItemListaPadrao
+                    {
+                        Id = turma.CdTurma.ToString(),
+                        Text = turma.NmTurma
+                    }).ToList() ?? new List<ItemListaPadrao>();
+
+                    return true;
+                }
+                catch (Exception ex) {
+                    return false;
+                }
+            }
+        }
+
     }
 }

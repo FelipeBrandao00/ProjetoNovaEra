@@ -28,6 +28,12 @@ namespace Application.Services
             {
                 var Entity = mapper.Map<Matricula>(request);
                 var retorno = await matriculaRepository.AddMatricula(Entity);
+
+                if(retorno == null) return new Response<MatriculaDto>(
+                    null,
+                    400,
+                    "Você ja se matriculou para essa turma!");
+
                 return new Response<MatriculaDto>(
                     mapper.Map<MatriculaDto>(retorno),
                     201,

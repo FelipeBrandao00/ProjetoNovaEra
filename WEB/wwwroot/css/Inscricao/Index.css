@@ -1,0 +1,129 @@
+﻿body {
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 1%;
+    background-color: #F2F2F2;
+}
+
+#logoNovaEra {
+    height: 15vh;
+    width: 100%;
+    background: rgb(79,0,62);
+    background: linear-gradient(180deg, rgba(79,0,62,1) 14%, rgba(107,0,85,1) 71%);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#logoNovaEra img {
+    height: 80%;
+    width: auto;
+}
+
+#divForm {
+    height: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+
+#divForm > h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+#divForm > div {
+    margin-top: 5px;
+}
+
+#divGrupo, #divGrupo2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#divGrupo > div {
+    width: 48%;
+}
+
+#divGrupo2 > div {
+    width: 32%;
+}
+
+label {
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.txtInfo {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #FFFFFF;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+#divLinha {
+    height: 1px;
+    background-color: #767676;
+    margin: 40px 0 40px 0 !important;
+}
+
+#divBotaoInscrever {
+    margin-top: 50px !important;
+    display: flex;
+    justify-content: center;
+}
+
+#btnInscrever {
+    border-radius: 20px;
+    height: 50px;
+    width: 200px;
+    background: rgb(85,163,109);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    color: white;
+    border: none;
+    font-weight: 700;
+}
+
+@media (max-width: 1200px) {
+    body {
+        margin: 0;
+    }
+
+    #logoNovaEra img {
+        height: 40%;
+        width: auto;
+    }
+
+    #logoNovaEra {
+        height: 10vh;
+        width: 100%;
+        background: rgb(79,0,62);
+        background: linear-gradient(180deg, rgba(79,0,62,1) 14%, rgba(107,0,85,1) 71%);
+        border-radius: 0 0 10px 10px;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    #divForm > h2 {
+        font-size: 40px;
+    }
+
+    #divGrupo, #divGrupo2 {
+        flex-direction: column;
+    }
+
+    #divGrupo > div, #divGrupo2 > div {
+        width: 100%;
+    }
+}

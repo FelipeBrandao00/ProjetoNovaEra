@@ -73,7 +73,7 @@ namespace API.Controllers {
             return Ok(result);
         }
 
-
+        [AllowAnonymous]
         [HttpGet("api/[controller]/GetTurmasAbertaMatricula")]
         public async Task<ActionResult> GetTurmasAbertaMatricula()
         {
