@@ -7,12 +7,12 @@ namespace WEB.Models.TurmaAluno {
     public class TurmaAlunoViewModel {
         public int cdTurma { get; set; }
         public Guid cdAluno { get; set; }
-        public bool icAprovado { get; set; }
+        public bool? icAprovado { get; set; }
         public string dsTurma { get; set; }
         public int cdCurso { get; set; }
         public string nmCurso { get; set; }
 
-        public async Task<Response<List<TurmaAlunoViewModel>>> DesvincularAluno(IConfiguration configuration) {
+        public async Task<Response<TurmaAlunoViewModel>> DesvincularAluno(IConfiguration configuration) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
                 var url = $"{baseUrl}/TurmaAluno";
@@ -21,28 +21,34 @@ namespace WEB.Models.TurmaAluno {
                     CdTurma = cdTurma,
                     CdAluno = cdAluno
                 };
-                var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
+
+                //eu odeio minha vida...
+                var request = new HttpRequestMessage {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(url),
+                    Content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json")
+                };
 
                 var token = configuration["JwtToken"];
                 if (!string.IsNullOrEmpty(token))
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 try {
-                    var response = await client.DeleteAsync(url);
+                    var response = await client.SendAsync(request);
                     if (!response.IsSuccessStatusCode)
-                        return new Response<List<TurmaAlunoViewModel>> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
+                        return new Response<TurmaAlunoViewModel> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
 
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                    var responseData = JsonSerializer.Deserialize<Response<List<TurmaAlunoViewModel>>>(responseBody, options);
+                    var responseData = JsonSerializer.Deserialize<Response<TurmaAlunoViewModel>>(responseBody, options);
 
                     if (responseData == null || !responseData.IsSuccess)
-                        return new Response<List<TurmaAlunoViewModel>> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
+                        return new Response<TurmaAlunoViewModel> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
 
                     return responseData;
                 } catch (Exception ex) {
                     while (ex.InnerException != null) { ex = ex.InnerException; }
-                    return new Response<List<TurmaAlunoViewModel>> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
+                    return new Response<TurmaAlunoViewModel> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
                 }
             }
         }

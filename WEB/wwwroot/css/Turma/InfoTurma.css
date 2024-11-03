@@ -279,14 +279,19 @@
     font-size: 13px;
 }
 
-.comDoc {
+.left {
     border-radius: 10px 0 0 10px;
+}
+.right {
+    border-radius: 0 10px 10px 0;
+}
+
+.comDoc {
     background: rgb(181,185,228);
     background: linear-gradient(180deg, rgba(181,185,228,1) 0%, rgba(126,126,126,1) 100%);
 }
 
 .semDoc {
-    border-radius: 0 10px 10px 0;
     background: rgb(228,12,81);
     background: linear-gradient(180deg, rgba(228,12,81,1) 0%, rgba(126,126,126,1) 100%);
 }

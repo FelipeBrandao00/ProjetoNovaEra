@@ -7,6 +7,10 @@ using WEB.Models.Professor;
 using WEB.Models.Turma;
 using WEB.Models.Aluno;
 using WEB.Models.TurmaAluno;
+using WEB.Models.Usuario;
+using WEB.Models.Genero;
+using WEB.Models.Aula;
+using WEB.Models.Response;
 
 namespace WEB.Controllers {
     public class TurmaController(IConfiguration configuration) : Controller {
@@ -111,9 +115,13 @@ namespace WEB.Controllers {
         }
 
 
-        public async Task<IActionResult> CarregarAulasTurma() {
-            //configuration["JwtToken"] = Request.Cookies["Token"];
-            //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
+        public async Task<IActionResult> CarregarAulasTurma(ResponseModelTurma ResponseModelTurma) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var AulaViewModel = new AulaViewModel();
+            var ListaAulas = await AulaViewModel.BuscarPorTurma(configuration, ResponseModelTurma);
+            ViewBag.ListaAulas = ListaAulas.Data;
+
             return PartialView("_ListaAulas");
         }
         
@@ -129,17 +137,37 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarInfoAula() {
-            //configuration["JwtToken"] = Request.Cookies["Token"];
-            //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
-            return PartialView("_InfoAula");
+        public async Task<IActionResult> CarregarInfoAula(ResponseModelAula ResponseModelAula) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var AulaViewModel = new AulaViewModel();
+            AulaViewModel.CdAula = ResponseModelAula.cdAula;
+            var InfoAula = await AulaViewModel.BuscarInfo(configuration);
+
+            return PartialView("_InfoAula", InfoAula.Data);
         }
 
         [HttpGet]
-        public async Task<IActionResult> AdicionarAula() {
-            //configuration["JwtToken"] = Request.Cookies["Token"];
-            //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
+        public async Task<IActionResult> CarregarAdicionarAula() {
             return PartialView("_AdicionarAula");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarAula(ResponseModelAula ResponseModelAula) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            return Json(await new AulaViewModel().Adicionar(configuration, ResponseModelAula));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> ExcluirAula(ResponseModelAula ResponseModelAula) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            return Json(await new AulaViewModel().Excluir(configuration, ResponseModelAula));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AtualizarInfoAula(ResponseModelAula ResponseModelAula) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            return Json(await new AulaViewModel().AtualizarInfo(configuration, ResponseModelAula));
         }
 
         [HttpDelete]
@@ -149,10 +177,29 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarInfoAluno() {
-            //configuration["JwtToken"] = Request.Cookies["Token"];
-            //var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
-            return PartialView("_InfoAluno");
+        public async Task<IActionResult> CarregarInfoAluno(ResponseModelUsuario ResponseModelUsuario) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var UsuarioViewModel = new UsuarioViewModel();
+            UsuarioViewModel.DsCpf = ResponseModelUsuario.DsCpf;
+
+            var InfoUsuario = await UsuarioViewModel.BuscarInfo(configuration);
+
+            if (InfoUsuario.Data != null) {
+                var AlunoViewModel = new AlunoViewModel();
+                var TurmaAtual = await AlunoViewModel.BuscarTurmaAtual(configuration, InfoUsuario.Data);
+
+                if (TurmaAtual.Data != null) {
+                    ViewBag.NmTurma = TurmaAtual.Data.DsTurma;
+                    ViewBag.NmCurso = TurmaAtual.Data.NmCurso;
+                }
+            }
+
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
+            return PartialView("_InfoAluno", InfoUsuario.Data);
         }
     }
 }
