@@ -175,6 +175,7 @@ namespace Infra.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CdTurma = table.Column<int>(type: "int", nullable: false),
                     DtAula = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NmAula = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DsAula = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -242,7 +243,7 @@ namespace Infra.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DsConteudo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NmArquivo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DsExtencao = table.Column<int>(type: "int", nullable: false),
+                    DsExtensao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CdAula = table.Column<int>(type: "int", nullable: false),
                     CdTurma = table.Column<int>(type: "int", nullable: false)
                 },

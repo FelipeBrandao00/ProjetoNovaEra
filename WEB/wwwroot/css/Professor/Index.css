@@ -17,11 +17,11 @@ input:focus, button:focus {
     border-radius: 6px;
     background-color: white;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-    margin-top: 20px;
 }
 
 #divTopo {
     display: flex;
+    align-items: end;
     justify-content: space-between;
 }
 
@@ -33,8 +33,9 @@ input:focus, button:focus {
 }
 
 #divFiltros {
-    display: flex; 
-    flex-direction: row; 
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
     justify-content: space-between;
 }
 
@@ -77,6 +78,8 @@ input:focus, button:focus {
     flex-direction: column;
     justify-content: space-between;
     gap: 10px;
+    height: 100%;
+    margin-top: 2vh;
 }
 
 #divBotaoHabilitarProfessor {

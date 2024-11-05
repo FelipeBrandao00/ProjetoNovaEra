@@ -11,7 +11,7 @@ namespace Domain.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CdCertificado { get; set; }
         public required string NmArquivo { get; set; }
-        public Extensao DsExtensao { get; set; }
+        public string DsExtensao { get; set; }
 
         [Required]
         public int CdTurma { get; set; }

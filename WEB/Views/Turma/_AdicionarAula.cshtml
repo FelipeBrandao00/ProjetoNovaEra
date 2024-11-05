@@ -13,9 +13,6 @@
         <div id="divNomeAula">
             <label for="txtAula" class="linear1">Título:</label><br />
             <input id="txtAula" class="txtInfoAulaAdd" type="text" placeholder="Digite o título da aula..."/><br />
-
-            <label for="txtDtAula" class="linear1">Data de criação:</label><br />
-            <input id="txtDtAula" class="txtInfoAulaAdd" type="date"/>
         </div>
 
         <div id="divDescricaoAula">
@@ -39,10 +36,30 @@
     function adicionarAula() {
         infoAulaAdicionar = {
             NmAula: $('#txtAula').val(),
-            DtAula: $('#txtDtAula').val(),
             DsAula: $('#txtDescricaoAula').val(),
+            CdTurma: $('#CdTurma').val(),
         }
-        console.log(infoAulaAdicionar);
-        alert('adicionar');
+
+        $.ajax({
+            url: '@Url.Action("AdicionarAula", "Turma")',
+            type: 'POST',
+            async: true,
+            data: infoAulaAdicionar,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                $('#backgroundConteudoModal').css('display', 'none');
+                $('#divInformacaoAula').css('display', 'none');
+
+                carregarAulasTurma();
+            }
+        }); 
     }
 </script>

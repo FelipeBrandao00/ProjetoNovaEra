@@ -9,14 +9,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nova Era</title>
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css">
+    
     <!-- MONTSERRAT -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <!-- ÍCONES -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/css/Toastr/toastr.css" />
+    <link rel="stylesheet" href="~/css/Toastr/toastr.min.css" />
 
     <style type="text/css">
 
@@ -106,11 +112,16 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between;
             gap: 4%;
         }
 
-        #Botoes > div > button > b {
+        #Botoes > div > button > div {
+            display: flex;
+            gap: 10px !important;
+        }
+
+        #Botoes > div > button > div > b {
             background: linear-gradient(180deg, rgba(205,205,205,1) 0%, rgba(51,51,51,1) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -441,6 +452,14 @@
 
     </style>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true">    </script>
+    <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script src="~/js/toastr.js"></script>
+    <script src="~/js/toastr.min.js"></script>
 </head>
 <body>
 
@@ -461,21 +480,25 @@
         <div id="Botoes">
             <div id="secTurma" class="sec">
                 <button id="btnCollapsibleTurma" onclick="toggleCollapsible('btnCollapsibleTurma','collapTurma','secTurma')">
-                    <i class="fa-solid fa-school"></i>
-                    <b>Turmas</b>
+                    <div>
+                        <i class="fa-solid fa-school"></i>
+                        <b>Turmas</b>
+                    </div>
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapTurma">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar turma</button>
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar turma</button>
+                    <button onclick="redirecionarParaAdicionarTurma()"><i class="fa-solid fa-circle-plus"></i>Adicionar turma</button>
+                    <button onclick="redirecionarParaListarTurma()"><i class="fa-solid fa-rectangle-list"></i>Listar turma</button>
                     <button><i class="fa-solid fa-file-circle-plus"></i>Cadastro de conteúdo</button>
                 </div>
             </div>
 
             <div id="secProfessor" class="sec">
                 <button id="btnCollapsibleProfessor" onclick="toggleCollapsible('btnCollapsibleProfessor','collapProfessor','secProfessor')">
-                    <i class="fa-solid fa-chalkboard-user"></i>
-                    <b>Professores</b>
+                    <div>
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                        <b>Professores</b>
+                    </div>
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapProfessor">
@@ -486,8 +509,10 @@
 
             <div id="secAluno" class="sec">
                 <button id="btnCollapsibleAluno" onclick="toggleCollapsible('btnCollapsibleAluno','collapAluno','secAluno')">
-                    <i class="fa-brands fa-google-scholar"></i>
-                    <b>Alunos</b>
+                    <div>
+                        <i class="fa-brands fa-google-scholar"></i>
+                        <b>Alunos</b>
+                    </div>
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapAluno">
@@ -498,8 +523,10 @@
 
             <div id="secCurso" class="sec">
                 <button id="btnCollapsibleCurso" onclick="toggleCollapsible('btnCollapsibleCurso','collapCurso','secCurso')">
-                    <i class="fa-solid fa-book-bookmark"></i>
-                    <b>Cursos</b>
+                    <div>
+                        <i class="fa-solid fa-book-bookmark"></i>
+                        <b>Cursos</b>
+                    </div>
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapCurso">
@@ -510,22 +537,28 @@
 
             <div id="secMatricula" class="sec">
                 <button>
-                    <i class="fa-solid fa-book-open"></i>
-                    <b>Matrícula</b>
+                    <div>
+                        <i class="fa-solid fa-book-open"></i>
+                        <b>Matrícula</b>
+                    </div>
                 </button>
             </div>
 
             <div id="secChamada" class="sec">
                 <button>
-                    <i class="fa-solid fa-scroll"></i>
-                    <b>Chamada</b>
+                    <div>
+                        <i class="fa-solid fa-scroll"></i>
+                        <b>Chamada</b>
+                    </div>
                 </button>
             </div>
 
             <div id="secSistema" class="sec">
                 <button id="btnCollapsibleSistema" onclick="toggleCollapsible('btnCollapsibleSistema','collapSistema','secSistema')">
-                    <i class="fa-solid fa-gear"></i>
-                    <b>Sistema</b>
+                    <div>
+                        <i class="fa-solid fa-gear"></i>
+                        <b>Sistema</b>
+                    </div>
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapSistema">
@@ -597,13 +630,41 @@
         </article>
     </main>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>    
-    @await RenderSectionAsync("Scripts", required: false)
-
     <script type="text/javascript">
+
+        toastr.options = {
+            "timeOut": "5000",
+            "positionClass": "toast-top-center",
+            "closeButton": true,
+            "progressBar": true
+        };
+
+        function ExibirInfo(message, titulo) {
+            toastr.info(message, titulo, {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
+
+        function ExibirSucesso(message, titulo) {
+            toastr.success(message, titulo, {
+                timeOut: 3000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
+
+        function ExibirErro(message, titulo) {
+            toastr.error(message, titulo, {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
 
         function toggleUser() {
             var userData = document.getElementById('userData');
@@ -685,6 +746,16 @@
         function redirecionarParaAdicionarCurso() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Curso", new { icAdicionar = true })';
+        }
+
+        function redirecionarParaListarTurma() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Turma")';
+        }
+
+        function redirecionarParaAdicionarTurma() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Turma", new { icAdicionar = true })';
         }
     </script>
 

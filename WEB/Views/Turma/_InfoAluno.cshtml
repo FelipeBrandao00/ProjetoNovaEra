@@ -1,71 +1,85 @@
-﻿@model Application.Responses.ResponseModelUsuario
+﻿@using WEB.Models.Genero
+@model Application.Responses.ResponseModelUsuario
 
 @{
     Layout = null;
     var NmCurso = ViewBag.NmCurso ?? String.Empty;
     var NmTurma = ViewBag.NmTurma ?? String.Empty;
-    // var imgSrc = (Model.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
-    var imgSrc = String.Empty;
+    var ImgSrc = (Model?.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+    var ImgUserDisplay = !String.IsNullOrEmpty(ImgSrc) ? "display: block" : "display: none";
+    var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
 }
 
-@* @Html.HiddenFor(model => model.CdUsuario)
-@Html.HiddenFor(model => model.DsCpf)
- *@
-
 <link rel="stylesheet" href="~/css/Aluno/InfoAluno.css">
-<link rel="stylesheet" href="~/css/Turma/InfoAluno.css">
+
+@Html.HiddenFor(model => model.CdUsuario)
+@Html.HiddenFor(model => model.DsCpf)
+
+<style>
+    #divBotoesEdicao {
+        margin-top: 0 !important;
+    }
+
+    #btnEditar {
+        width: 150px !important;
+    }
+</style>
 
 <div id="divInformacaoAluno">
     <div id="divTituloAluno">
         <button id="btnVoltarModal" onclick="voltarAluno()">
             <i class="fa-solid fa-angle-left arrow-icon">   </i>
         </button>
-        <h5 class="linear1"><b>Aluno: </b></h5>
+        <h5 class="linear1"><b>@Model?.NmUsuario</b></h5>
         <p> </p>
     </div>
 
     <div id="divConteudoAluno">
         <div id="divImgAluno">
-            @if (!String.IsNullOrEmpty(imgSrc)) {
-                <img height="122" width="122" src="@imgSrc" alt="Foto do Aluno" />
-            } else {
-                <img height="122" width="122" />
-            }
+            <div id="quadroImgAluno">
+                <img id="imgAluno" height="122" width="122" src="@ImgSrc" alt="Foto do Aluno" style="@Html.Raw(ImgUserDisplay)" />
+            </div>
+
+            <input id="inputTrocarFoto" type="file" style="display:none;" accept="image/*" />
 
             <div>
-                <button id="btnTrocarFoto"><b class="linear1">Trocar foto</b></button>
-                <button id="btnExcluirFoto"><b>Excluir foto</b></button>
+                <button id="btnTrocarFoto" onclick="TrocarFoto()"><b class="linear1">Trocar foto</b></button>
+                <button id="btnExcluirFoto" onclick="ExcluirFoto()"><b>Excluir foto</b></button>
             </div>
         </div>
 
         <div id="divNomeAluno">
             <label for="divNomeAluno" class="linear1">Nome:</label><br />
-            <input id="txtNomeAluno" class="txtInfoAluno" type="text" placeholder="" disabled />
+            <input id="txtNomeAluno" class="txtInfoAluno" asp-for="NmUsuario" type="text" disabled />
         </div>
 
         <div id="divEmailAluno">
             <label for="divEmailAluno" class="linear1">Email:</label><br />
-            <input id="txtEmailAluno" class="txtInfoAluno" type="text" placeholder="" disabled />
+            <input id="txtEmailAluno" class="txtInfoAluno" asp-for="DsEmail" type="text" disabled />
         </div>
 
         <div id="divGrupoPC1">
             <div id="divGeneroAluno">
                 <label for="divGeneroAluno" class="linear1">Gênero:</label><br />
-                <select id="txtGeneroAluno" class="txtInfoAluno" disabled>
+                <select id="txtGeneroAluno" class="txtInfoAluno" asp-for="DsGenero" disabled>
                     <option value="0">Selecione</option>
-                    <option value="1">Feminino</option>
-                    <option value="2">Masculino</option>
+
+                    @foreach (GeneroViewModel.ItemListaGenero item in ListaGenero)
+                    {
+                        <option value="@item.CdGenero">@item.NmGenero</option>
+                    }
+
                 </select>
             </div>
 
             <div id="divNascimentoAluno">
                 <label for="divNascimentoAluno" class="linear1">Nascimento:</label><br />
-                <input id="txtNascimentoAluno" class="txtInfoAluno" type="date" placeholder="" disabled />
+                <input id="txtNascimentoAluno" class="txtInfoAluno" asp-for="DtNascimento" type="date" disabled />
             </div>
 
             <div id="divTelefoneAluno">
                 <label for="divTelefoneAluno" class="linear1">Telefone:</label><br />
-                <input id="txtTelefoneAluno" class="txtInfoAluno" type="text" placeholder="" disabled />
+                <input id="txtTelefoneAluno" class="txtInfoAluno" asp-for="DsTelefone" type="text" disabled />
             </div>
         </div>
 

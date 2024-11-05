@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241017180406_titulo aula")]
-    partial class tituloaula
+    [Migration("20241027180121_isChamada aula")]
+    partial class isChamadaaula
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,9 @@ namespace Infra.Data.Migrations
 
                     b.Property<DateTime>("DtAula")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsChamada")
+                        .HasColumnType("bit");
 
                     b.Property<string>("NmAula")
                         .IsRequired()
@@ -130,8 +133,9 @@ namespace Infra.Data.Migrations
                     b.Property<int>("CdTurma")
                         .HasColumnType("int");
 
-                    b.Property<int>("DsExtensao")
-                        .HasColumnType("int");
+                    b.Property<string>("DsExtensao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NmArquivo")
                         .IsRequired()
@@ -163,8 +167,9 @@ namespace Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DsExtencao")
-                        .HasColumnType("int");
+                    b.Property<string>("DsExtensao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NmArquivo")
                         .IsRequired()
@@ -375,7 +380,8 @@ namespace Infra.Data.Migrations
                         new
                         {
                             CdUsuario = new Guid("a21fa379-2b28-447f-ad88-87ef9df45df7"),
-                            DsEmail = "master@mail.com",
+                            DsCpf = "00000000000",
+                            DsEmail = "master@gmail.com",
                             DsSenha = "E59pyTwEJJao6VjsWTBmLGzMr78=",
                             NmUsuario = "Master"
                         });

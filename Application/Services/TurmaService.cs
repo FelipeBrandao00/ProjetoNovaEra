@@ -30,6 +30,23 @@ namespace Application.Services {
                     "Não foi possível criar a turma");
             }
         }
+
+        public async Task<Response<TurmaDto>> EncerrarMatricula(EncerrarMatriculaRequest request) {
+            try {
+                var retorno = await _turmaRepository.EncerrarMatricula(request.CdTurma);
+                return new Response<TurmaDto>(
+                    mapper.Map<TurmaDto>(retorno),
+                    200,
+                    "Matricula encerrada com sucesso!");
+            }
+            catch (Exception e) {
+                return new Response<TurmaDto>(
+                    null,
+                    500,
+                    "Não foi possível encerrar a matricula");
+            }
+        }
+
         public async Task<Response<TurmaDto>> FinalizarTurma(FinalizarTurmaRequest request) {
             try {
                 var retorno = await _turmaRepository.FinalizarTurma(request.CdTurma);
@@ -60,14 +77,14 @@ namespace Application.Services {
             try {
                 List<Turma> query = await _turmaRepository.GetTurmas(request.Nome,request.DtInicial,request.DtFinal,request.IcFinalizado,request.CursoId);
 
-                var usuarios = query
+                var turmas = query
                     .Skip((request.PageNumber - 1) * request.PageSize)
                     .Take(request.PageSize)
                     .ToList();
 
                 List<TurmaDto> result = new();
-                foreach (var usuario in usuarios) {
-                    result.Add(mapper.Map<TurmaDto>(usuario));
+                foreach (var turma in turmas) {
+                    result.Add(mapper.Map<TurmaDto>(turma));
                 }
 
                 return new PagedResponse<List<TurmaDto>>(
@@ -78,6 +95,46 @@ namespace Application.Services {
             }
             catch (Exception e) {
                 return new PagedResponse<List<TurmaDto>>(null, 500, "Não foi possível consultar as turmas");
+            }
+        }
+
+        public async Task<PagedResponse<List<TurmaDto>>> GetTurmasAbertaMatricula(GetTurmasAbertaMatriculaRequest request)
+        {
+            try
+            {
+                List<Turma> turmas = await _turmaRepository.GetTurmasAbertaMatricula();
+
+                List<TurmaDto> result = new();
+                foreach (var turma in turmas)
+                {
+                    result.Add(mapper.Map<TurmaDto>(turma));
+                }
+
+                return new PagedResponse<List<TurmaDto>>(
+                    result,
+                    turmas.Count,
+                    1,
+                    turmas.Count);
+            }
+            catch (Exception e)
+            {
+                return new PagedResponse<List<TurmaDto>>(null, 500, "Não foi possível consultar as turmas");
+            }
+        }
+
+        public async Task<Response<TurmaDto>> HabilitarMatricula(HabilitarMatriculaRequest request) {
+            try {
+                var retorno = await _turmaRepository.HabilitarMatricula(request.CdTurma);
+                return new Response<TurmaDto>(
+                    mapper.Map<TurmaDto>(retorno),
+                    200,
+                    "Matricula habilitada com sucesso!");
+            }
+            catch (Exception e) {
+                return new Response<TurmaDto>(
+                    null,
+                    500,
+                    "Não foi possível habilitar a matricula");
             }
         }
 

@@ -1,25 +1,34 @@
 ﻿/* Folha de estilos: Professor */
 
 /* IDs */
-#divImgProfessor {
+#divImgUser {
     width: 100%;
     display: flex;
     justify-content: center;
     gap: 20px;
 }
 
-    #divImgProfessor > img {
-        background-color: #DBD8D8;
-        border: none;
-        border-radius: 10px;
-        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
-    }
+#quadroImgUser {
+    height: 122px;
+    width: 122px;
+    background-color: #DBD8D8;
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
 
-    #divImgProfessor > div:last-child {
-        display: none;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
+#quadroImgUser > img {
+    /*max-width: 100%;
+    max-height: 100%;*/
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+#divImgUser > div:last-child {
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
 
 #btnTrocarFoto {
     width: 100px;

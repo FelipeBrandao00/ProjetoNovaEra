@@ -11,15 +11,16 @@ namespace API.Controllers {
     [ApiController]
     public class GeneroController(IGeneroService generoService) : ControllerBase {
         [HttpGet("api/[controller]/{id:int}")]
-        public async Task<ActionResult> GetCursoById(int id) {
+        public async Task<ActionResult> GetGeneroById(int id) {
             var request = new GetGeneroByIdRequest() { CdGenero = id };
             var result = await generoService.GetGeneroById(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet("api/[controller]")]
-        public async Task<ActionResult> GetCursos([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+        public async Task<ActionResult> GetGeneros([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             var request = new GetGenerosRequest(pageNumber, pageSize);
             var result = await generoService.GetGeneros(request);
             if (!result.IsSuccess) return BadRequest(result);

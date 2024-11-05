@@ -26,9 +26,9 @@ namespace API.Controllers {
             return Ok(result);
         }
 
-        [HttpGet("api/[controller]/GetAulasByTurmaId/{tumraId:int}")]
-        public async Task<ActionResult> GetAulasByTurmaId(int tumraId, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
-            var request = new GetAulasByTurmaIdRequest(tumraId,pageNumber,pageSize);
+        [HttpGet("api/[controller]/GetAulasByTurmaId/{turmaId:int}")]
+        public async Task<ActionResult> GetAulasByTurmaId(int turmaId, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+            var request = new GetAulasByTurmaIdRequest(turmaId, pageNumber,pageSize);
             var result = await aulaService.GetAulasByTurmaId(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
