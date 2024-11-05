@@ -54,10 +54,8 @@
     justify-content: flex-start;
     padding: 1vw 3vh;
     overflow-y: scroll;
-    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
     margin-bottom: 20px;
     margin-top: 20px;
-    background-color: #EAEAEA !important;
     border-radius: 10px;
 }
 

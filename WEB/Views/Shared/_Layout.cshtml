@@ -536,7 +536,7 @@
             </div>
 
             <div id="secMatricula" class="sec">
-                <button>
+                <button onclick="redirecionarParaMatricula()">
                     <div>
                         <i class="fa-solid fa-book-open"></i>
                         <b>Matrícula</b>
@@ -756,6 +756,11 @@
         function redirecionarParaAdicionarTurma() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Turma", new { icAdicionar = true })';
+        }
+
+        function redirecionarParaMatricula() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Matricula")';
         }
     </script>
 

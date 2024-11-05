@@ -19,7 +19,68 @@ article {
 }
 
 #divTopo {
-    margin-top: 60px;
+    margin-top: 30px;
+}
+
+#divFiltros {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#divPesquisar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#btnPesquisar {
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+
+#idCheckbox, #idIdade, #idQuantidade {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px 5px;
+    width: 100%;
+}
+
+#divInputCheckbox, #divInputIdade {
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+#divInputQuantidade {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#divInputCheckbox > label {
+    width: 85%;
+}
+
+#divInputIdade > input {
+    width: 50%;
+}
+
+#divInputIdade > label {
+    width: 20%;
+}
+
+#divInputQuantidade > label, #divInputQuantidade > select {
+    width: 80%;
 }
 
 #btnCopiar {
@@ -83,6 +144,22 @@ article {
     overflow-y: scroll;
 }
 
+@media (max-width: 800px) {
+    #divFiltros {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #idCheckbox {
+        width: 100%;
+    }
+
+    #idIdade {
+        width: 100%;
+    }
+}
+
 /* Responsivo MOBILE */
 @media (max-width: 1200px) {
     #conteudoModal {
@@ -104,4 +181,32 @@ article {
     #txtPagina {
         width: 80%;
     }
+    #idCheckbox, #idIdade, #idQuantidade {
+        padding: 10px;
+    }
+
+    #divInputCheckbox > label {
+        width: 70%;
+    }
+
+    #divInputIdade > label {
+        width: 20%;
+    }
+
+    #divInputQuantidade > label, #divInputQuantidade > select {
+        width: 75%;
+    }
+
+    #divFiltros {
+        width: 100%;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        max-height: 500px;
+        opacity: 1;
+        overflow: hidden;
+    }
+
+        #divFiltros.hidden {
+            max-height: 0;
+            opacity: 0;
+        }
 }

@@ -16,6 +16,43 @@
             <input type="text" id="txtPagina" value="link da pagina de inscricao aqui" disabled />
             <button type="button" id="btnCopiar" onclick="copiar()"><i class="fa fa-copy"></i></button>
         </div>
+
+        <div id="divFiltros">
+            <div id="idIdade">
+                <div id="divInputIdade">
+                    <label for="txtInicio"> De:</label>
+                    <input id="txtInicio" type="date" />
+                </div>
+                <div id="divInputIdade">
+                    <label for="txtFim">Até:</label>
+                    <input id="txtFim" type="date" />
+                </div>
+            </div>
+
+            <div id="idCheckbox">
+                <div id="divInputCheckbox">
+                    <label for="chkExAluno">Em Andamento</label>
+                    <input id="chkExAluno" type="checkbox" checked />
+                </div>
+                <div id="divInputCheckbox">
+                    <label for="chkNovoAluno">Finalizado</label>
+                    <input id="chkNovoAluno" type="checkbox" checked />
+                </div>
+            </div>
+
+            <div id="idQuantidade">
+                <div id="divInputQuantidade">
+                    <label for="divQuantidade">Selecione a quantidade:</label>
+                </div>
+            </div>
+        </div>
+        <div id="divPesquisar">
+@*             <button id="btnFiltrosMobile" onclick="toggleFiltros()">
+                <b class="linear1">Filtros</b>
+                <i id="arrowIcon" class="fa fa-angles-up"></i>
+            </button>
+ *@            <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
+        </div>
     </div>
 </div>
 
