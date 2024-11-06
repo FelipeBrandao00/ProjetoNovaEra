@@ -1,20 +1,29 @@
-﻿@model Application.Responses.ResponseModelCurso
+﻿@using WEB.Models.Professor
+@using WEB.Models.Curso
+@model Application.Responses.ResponseModelTurma
 
 @{
     bool icAdicionar = Model is null;
 
     Layout = null;
-    var nmTurma = Model?.NmCurso;
-    var IcFinalizado = Model?.DtFinalizacao != null;
+    var nmTurma = Model?.NmTurma;
+    var IcFinalizado = Model?.DtFim != null;
+    var IcPermitir = Model?.IcAbertaMatricula;
 
     if (!icAdicionar) {
-        nmTurma = Model?.NmCurso ?? String.Empty;
+        nmTurma = Model?.NmTurma ?? String.Empty;
     }
+
+    var ListaProfessor = ViewBag.ListaProfessor ?? new List<ProfessorViewModel.ItemListaProfessor>();
+    var ListaCurso = ViewBag.ListaCurso ?? new List<CursoViewModel.ItemListaCurso>();
+
+    var DtFinalizacao = ViewBag.DtFinalizacao;
 }
 
 <link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
 
-@Html.HiddenFor(model => model.CdCurso)
+@Html.HiddenFor(model => model.CdTurma)
+@Html.HiddenFor(model => model.IcAbertaMatricula)
 
 <div id="backgroundConteudoModal"></div>
 
@@ -31,31 +40,70 @@
     <div id="divRelevo">
         <div id="divNomeTurma">
             <label for="divNomeTurma" class="linear1">Nome:</label><br />
-            <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmCurso" type="text" placeholder="Digite o nome da turma..." disabled />
+            <input id="txtNomeTurma" class="txtInfoTurma" asp-for="NmTurma" type="text" placeholder="Digite o nome da turma..." disabled />
         </div>
 
         <div id="divDescricaoTurma">
             <label for="txtDescricaoTurma" class="linear1">Descrição:</label><br />
-            <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsCurso" type="text" placeholder="Digite a descrição da turma..." disabled></textarea>
+            <textarea id="txtDescricaoTurma" class="txtInfoTurma" asp-for="DsTurma" type="text" placeholder="Digite a descrição da turma..." disabled></textarea>
         </div>
 
         <div id="divDatas">
             <div id="divDataCriacao">
                 <label for="txtCriacao" class="linear1">Data de início:</label><br />
-                <input id="txtCriacao" class="txtInfoTurma" asp-for="DtCriacao" type="date" disabled />
+                <input id="txtCriacao" class="txtInfoTurma" asp-for="DtInicio" type="date" disabled />
             </div>
 
             <div id="divDataFinalizacao">
                 <label for="txtFinalizacao" class="linear1">Data de finalização:</label><br />
-                <input id="txtFinalizacao" class="txtInfoTurma" asp-for="DtFinalizacao" type="date" disabled />
+                <input id="txtFinalizacao" class="txtInfoTurma" asp-for="DtFim" type="date" disabled />
             </div>
         </div>
+
+        <div id="divDatas">
+            <div id="divProfessor">
+                <label for="divProfessor" class="linear1">Professor:</label><br />
+                <select id="ddlProfessor" class="txtInfoTurma" asp-for="CdProfessor" disabled>
+                    <option value="0">Selecione</option>
+                    @foreach (ProfessorViewModel.ItemListaProfessor item in ListaProfessor) {
+                        if (item.cdUsuario == Model?.CdProfessor) {
+                            <option value="@item.cdUsuario" selected>@item.nmUsuario</option>
+                        } else {
+                            <option value="@item.cdUsuario">@item.nmUsuario</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div id="divCursoAdicionar">
+                <label for="divCursoAdicionar" class="linear1">Curso:</label><br />
+                <select id="ddlCurso" class="txtInfoTurma" asp-for="CdCurso" disabled>
+                    <option value="0">Selecione</option>
+                    @foreach (CursoViewModel.ItemListaCurso item in ListaCurso) {
+                        if (item.cdCurso == Model?.CdCurso) {
+                            <option value="@item.cdCurso" selected>@item.nmCurso</option>
+                        } else {
+                            <option value="@item.cdCurso">@item.nmCurso</option>
+                        }
+                    }
+                </select>
+            </div>
+         </div>
     </div>
 
     <div id="divBotoesEditarMobile">
         <button id="btnEditarMobile" onclick="carregarEdicaoTurma(true)"><b class="linear1">Editar turma</b></button>
         <button id="btnFinalizarMobile" onclick="carregarFinalizarTurma(true)"><b style="color: white;">Finalizar turma</b></button>
     </div>
+
+    <div id="divBotaoRetomarInscricaoMobile">
+        <button id="btnRetomarInscricaoTurmaMobile" onclick="carregarRetomarInscricoes(true)"><b class="linear1">Habilitar matrícula</b></button>
+    </div>
+
+    <div id="divBotaoPararInscricaoMobile">
+        <button id="btnPararInscricaoTurmaMobile" onclick="carregarPararInscricoes(true)"><b class="linear1">Encerrar matrícula</b></button>
+    </div>
+
 
     <div id="divBotoesEdicaoMobile">
         <button id="btnCancelarMobile" onclick="cancelarEdicaoTurma(true)"><b class="linear1">Cancelar edição</b></button>
@@ -97,10 +145,29 @@
 <div id="divDesvincularAluno">
     <b class="linear1">Tem certeza que deseja desvincular o aluno:</b>
     <b id="nmAlunoDesvincular" class="linear1"></b>
+    <b id="cdAlunoDesvincular" hidden></b>
     <b class="linear1">Não será possível vinculá-lo(a) novamente.</b>
     <div id="divBotoesFinalizarTurma">
         <button id="btnIgnorarFinalizarTurma" onclick="cancelarDesvincularAluno()"><b class="linear1">Não</b></button>
         <button id="btnFinalizarTurma" onclick="desvincularAluno()"><b style="color: white;">Desvincular</b></button>
+    </div>
+</div>
+
+<div id="divRetomarInscricao">
+    <b class="linear1">Tem certeza que deseja habilitar as matrículas da turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <div id="divBotoesFinalizarTurma">
+        <button id="btnIgnorarRetomarInscricao" onclick="cancelarRetomarInscricoes()"><b class="linear1">Não</b></button>
+        <button id="btnRetomarInscricao" onclick="retomarInscricoes()"><b style="color: white;">Habilitar</b></button>
+    </div>
+</div>
+
+<div id="divPararInscricao">
+    <b class="linear1">Tem certeza que deseja encerrar as matrículas da turma:</b>
+    <b class="linear1">@nmTurma</b>
+    <div id="divBotoesFinalizarTurma">
+        <button id="btnIgnorarFinalizarTurma" onclick="cancelarPararInscricoes()"><b class="linear1">Não</b></button>
+        <button id="btnPararInscricao" onclick="pararInscricoes()"><b style="color: white;">Encerrar</b></button>
     </div>
 </div>
 
@@ -110,24 +177,52 @@
     carregarAlunosTurma();
 
     function atualizarBotoes() {
+        if ('@IcPermitir' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotaoPararInscricaoMobile').show();
+                $('#divBotaoRetomarInscricaoMobile').hide();
+            } else {
+                $('#btnParar').show();
+                $('#btnRetomar').hide();
+            }
+        } else {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                $('#divBotaoPararInscricaoMobile').hide();
+                $('#divBotaoRetomarInscricaoMobile').show();
+            } else {
+                $('#btnParar').hide();
+                $('#btnRetomar').show();
+            }
+        }
+
         if ('@IcFinalizado' == 'True') {
             if (window.matchMedia("(max-width: 1200px)").matches) {
                 $('#divBotoesEditarMobile').hide();
                 $('#divBotaoReativarTurmaMobile').show();
+                $('#divBotaoPararInscricaoMobile').hide();
+                $('#divBotaoRetomarInscricaoMobile').hide();
             } else {
+                $('#btnReativar').show();
                 $('#btnFinalizar').hide();
-                $('#btnReativar').css("display", "unset");
+                $('#btnParar').hide();
+                $('#btnRetomar').hide();
             }
         } else {
-            $('#divDataFinalizacao').css('display', 'none');
+            $('#divDataFinalizacao').hide();
+            $('#btnReativar').hide();
         }
     }
 
     function carregarAulasTurma() {
+        let cdTurma = $('#CdTurma').val();
+
         $.ajax({
             url: '@Url.Action("CarregarAulasTurma", "Turma")',
             type: 'GET',
             async: true,
+            data: {
+                CdTurma: cdTurma
+            },
             success: function (data) {
                 $('#_divListaAulas').html(data);
             }
@@ -135,10 +230,15 @@
     }
 
     function carregarAlunosTurma() {
+        let cdTurma = $('#CdTurma').val();
+
         $.ajax({
             url: '@Url.Action("CarregarAlunosTurma", "Turma")',
             type: 'GET',
             async: true,
+            data: {
+                CdTurma: cdTurma
+            },
             success: function (data) {
                 $('#_divListaAlunos').html(data);
             }

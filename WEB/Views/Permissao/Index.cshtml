@@ -1,0 +1,150 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listar permissões";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Permissões";
+}
+
+<link rel="stylesheet" href="~/css/Permissao/Index.css">
+<link rel="stylesheet" href="~/css/Shared/Livro.css">
+
+<!-- LIVRO -->
+
+<p hidden id="cdCargo"></p>
+
+<div id="divLivro">
+    <div id="capaLivro" class="MobileInvisible">
+        <div id="paginaEsquerda" class="MobileInvisible">
+
+            <div id="conteudoPagEsq" class="MobileInvisible">
+                <div id="marcadorPagina"></div>
+
+                <div id="divListaCargoPermissao"></div>
+            </div>
+
+        </div>
+        <div id="paginaDireita" class="MobileInvisible">
+
+            <div id="divTitInfoCargoPermissao">
+                <button id="btnVoltarModal" onclick="voltarMobile()">
+                    <i class="fa-solid fa-angle-left arrow-icon"></i>
+                </button>
+                <span class="linear1">Permissões do cargo</span>
+            </div>
+
+            <div id="conteudoPagDir" class="MobileInvisible">
+                <div id="msgInfoCargo" class="divMsgSelecione">
+                    <span class="linear1">Selecione um cargo para ver suas permissões!</span>
+                </div>
+
+                <div id="divInfoCargo" style="display:none;"></div>
+            </div>
+            <button id="btnSalvarMobile" onclick="salvarPermissoesCargo(true, parseInt($('#cdCargo').html()))"><b>Salvar</b></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", carregarListaPadrao);
+
+    function carregarListaPadrao(atualizarInfoCargo = true, PaginaAtual = 1) {
+        event.preventDefault();
+
+        if (atualizarInfoCargo) {
+            $('#divInfoCargo').empty();
+            $('#divInfoCargo').hide();
+            $('#msgInfoCargo').show();
+        }
+
+        $('#divListaCargoPermissao').empty();
+        $('#msgInfoCargo').show();
+
+        $.ajax({
+            url: '@Url.Action("ListarCargos", "Permissao")',
+            type: 'GET',
+            async: true,
+            data: {
+                PaginaAtual: PaginaAtual,
+            },
+            success: function (data) {
+                $('#msgInfoCargo').hide();
+                $('#divListaCargoPermissao').html(data);
+            }
+        });
+    }
+
+    function carregarInfoPadrao(param) { 
+        event.preventDefault();
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+        }
+
+        $('#divInfoCargo').empty();
+        $('#divInfoCargo').hide();
+        $('#msgInfoCargo').show();
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoCargo", "Permissao")' + '?CdCargo=' + parseInt(param),
+            type: 'GET',
+            dataType: 'html',
+            async: true,
+            success: function (data) {
+                $('#msgInfoCargo').hide();
+                $('#divInfoCargo').html(data);
+                $('#divInfoCargo').show();
+            }
+        });
+
+    }
+
+    function salvarPermissoesCargo(mobile = false, cdCargo) {
+        event.preventDefault();
+
+        let infoPermissaoCargoTemp = [];
+        let icAlgumaPermissao = false;
+        const checkboxes = document.querySelectorAll('#listaPermissao input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (checkbox && checkbox.checked) {
+                icAlgumaPermissao = true;
+                infoPermissaoCargoTemp.push(checkbox.id);
+            }
+        });
+
+        if (icAlgumaPermissao == false) {
+            ExibirInfo('Selecione ao menos uma permissão!', 'Atenção!');
+            return false;
+        }
+
+        $.ajax({
+            url: '@Url.Action("AtualizarPermissoesCargo", "Permissao")',
+            type: 'POST',
+            dataType: 'json',
+            async: true,
+            data: {
+                StrPermissao: JSON.stringify(infoPermissaoCargoTemp),
+                CdCargo: parseInt(cdCargo)
+            },
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso('Cargo atualizado com sucesso.', 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+            }
+        });
+    }
+
+    function voltarMobile() {
+        event.preventDefault();
+
+        $('#paginaDireita').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
+
+</script>

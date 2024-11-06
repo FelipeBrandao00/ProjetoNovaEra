@@ -28,6 +28,7 @@ article {
     margin-top: 20px;
 }
 
+
 #divTopo {
     display: flex;
     justify-content: flex-end;
@@ -178,7 +179,7 @@ article {
     }
 
 /* Escondidos na versão PC */
-#divBotoesEditarMobile, #divBotoesEdicaoMobile, #divFinalizarTurmaMobile, #divBotaoReativarTurmaMobile, #divReativarTurmaMobile, #divBotaoAdicionarMobile, #btnAdicionarMobile, #divBotaoNovaAulaMobile {
+#divBotoesEditarMobile, #divBotoesEdicaoMobile, #divFinalizarTurmaMobile, #divBotaoReativarTurmaMobile, #divReativarTurmaMobile, #divBotaoAdicionarMobile, #btnAdicionarMobile, #divBotaoNovaAulaMobile, #divBotaoRetomarInscricaoMobile, #divBotaoPararInscricaoMobile {
     display: none;
 }
 
@@ -195,6 +196,23 @@ article {
     background-color: #EAEAEA;
     box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
 }
+
+#btnRetomar, #btnParar {
+    display: none;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#divBotoesDinamico {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
 
 /* Classes */
 .divMsgSelecione {
@@ -321,7 +339,7 @@ article {
         background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     }
 
-    #divBotaoReativarTurmaMobile {
+    #divBotaoReativarTurmaMobile, #divBotaoRetomarInscricaoMobile, #divBotaoPararInscricaoMobile {
         display: none;
         text-align: center;
         width: 100%;
@@ -330,7 +348,7 @@ article {
         margin-top: 20px;
     }
 
-    #btnReativarTurmaMobile {
+    #btnReativarTurmaMobile, #btnRetomarInscricaoTurmaMobile, #btnPararInscricaoTurmaMobile {
         height: 45px;
         font-size: 16px;
         width: 100%;

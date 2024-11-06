@@ -5,14 +5,21 @@
 namespace Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class tituloaula : Migration
+    public partial class Mudandoestruturaturma : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<bool>(
+                name: "IcAbertaMatricula",
+                table: "Turmas",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+
             migrationBuilder.AddColumn<string>(
-                name: "NmAula",
-                table: "Aulas",
+                name: "NmTurma",
+                table: "Turmas",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
@@ -22,8 +29,12 @@ namespace Infra.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "NmAula",
-                table: "Aulas");
+                name: "IcAbertaMatricula",
+                table: "Turmas");
+
+            migrationBuilder.DropColumn(
+                name: "NmTurma",
+                table: "Turmas");
         }
     }
 }

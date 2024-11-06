@@ -1,0 +1,481 @@
+﻿/* Folha de estilos: Sistema */
+
+input:focus, button:focus {
+    outline: none;
+}
+
+/* IDs */
+#divTitInfoUsuario {
+    display: none;
+}
+
+#btnAdicionar, #btnAdicionarMobile {
+    height: 30px;
+    width: 150px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    margin-top: 20px;
+}
+
+#divTopo {
+    display: flex;
+    justify-content: space-between;
+}
+
+#divBusca {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#divFiltros {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    max-height: 80px;
+}
+
+#divPesquisar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#btnPesquisar, #btnFiltrosMobile {
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnFiltrosMobile {
+    display: none;
+}
+
+#idCheckboxProfessor {
+    width: 50%;
+    display: none;
+}
+
+#idCheckboxProfessor, #idCheckboxCargos {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+#idCheckboxCargos {
+    width: 100%;
+}
+
+    #idCheckboxCargos > #divInputCheckbox, #idCheckboxProfessor > #divInputCheckbox {
+        flex-direction: column;
+        align-items: center;
+        display: block;
+        padding-top: 2px;
+        border-bottom: 1px solid lightgrey;
+    }
+
+        #idCheckboxCargos > #divInputCheckbox:last-child, #idCheckboxProfessor > #divInputCheckbox:last-child {
+            border: none;
+        }
+
+        #idCheckboxCargos > #divInputCheckbox > div > label, #idCheckboxProfessor > #divInputCheckbox > label {
+            width: 80%;
+        }
+
+#txtBusca {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+#divInfoUsuario {
+    padding-top: 5vh;
+}
+
+    #divInfoUsuario label {
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+#msgListaUsuario {
+    padding-bottom: 62px;
+}
+
+#divListaUsuario {
+    display: flex;
+    min-height: 172px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    height: 100%;
+    margin-top: 2vh;
+}
+
+#divBotaoAtivarUsuario {
+    display: none;
+    text-align: center;
+    width: 100%;
+    margin-top: 50px;
+    font-size: 14px;
+    justify-content: center;
+}
+
+#btnAtivarUsuario {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: white;
+}
+
+#divAtivarUsuario {
+    display: none;
+    background-color: white;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px inset;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+#btnIgnorarAtivarUsuario, #btnConfirmarAtivarUsuario {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+}
+
+#btnConfirmarAtivarUsuario {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#btnIgnorarAtivarUsuario {
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnInativarUsuario {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+}
+
+#divInativarUsuario {
+    display: none;
+    background-color: white;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px inset;
+    /*display: flex;*/
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    margin-top: 50px;
+    font-size: 14px;
+}
+
+#btnIgnorarInativarUsuario, #btnInativarUsuario {
+    margin-top: 5px;
+    height: 30px;
+    font-size: 14px;
+    width: 45%;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+}
+
+#btnIgnorarInativarUsuario {
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnInativarUsuario {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+}
+
+
+/* Classes */
+.divMsgSelecione {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100% !important;
+}
+
+/* Escondidos na versão PC */
+#divBotoesEditarMobile, #divBotoesEdicaoMobile, #divInativarUsuarioMobile, #divBotaoAtivarUsuarioMobile, #divAtivarUsuarioMobile, #divBotaoAdicionarMobile, #btnAdicionarMobile {
+    display: none;
+}
+
+@media (max-width: 500px) {
+    #divFiltros {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #idCheckboxProfessor, #idCheckboxCargos {
+        width: 100%;
+        overflow-x: auto;
+        max-height: 120px;
+    }
+}
+
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #divPesquisar {
+        justify-content: space-between;
+    }
+
+    #divFiltros {
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        max-height: 500px; /* Adjust based on your content size */
+        opacity: 1;
+        overflow: hidden;
+    }
+
+        #divFiltros.hidden {
+            max-height: 0;
+            opacity: 0;
+        }
+
+    #btnFiltrosMobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #arrowIcon {
+        margin-left: 5px; /* Space between text and arrow */
+        transition: transform 0.5s ease;
+    }
+
+        #arrowIcon.up {
+            transform: rotate(180deg); /* Rotate the arrow when the filter is closed */
+        }
+
+    #btnAdicionar {
+        display: none;
+    }
+
+    #btnAdicionarMobile {
+        display: unset;
+    }
+
+    #divTitInfoUsuario {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 20px;
+        height: 40px;
+        gap: 4vw;
+    }
+
+        #divTitInfoUsuario > span {
+            font-weight: 700;
+        }
+
+    #divInfoUsuario {
+        min-height: 100%;
+        padding: 5vh 4vw;
+        /* border-radius: 0px !important; */
+        box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    }
+
+    #divTopo {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+
+    #divBotoesEditarMobile {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin: 0px;
+    }
+
+    #divBotaoAdicionarMobile {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin: 0px;
+    }
+
+    #divBotoesEdicaoMobile {
+        display: none;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    #btnConfirmarAdicionarMobile {
+        height: 45px;
+        color: #FFFFFF;
+        width: 100%;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #btnEditarMobile {
+        height: 45px;
+        font-size: 16px;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #btnInativarMobile {
+        height: 45px;
+        font-size: 14px;
+        width: 50%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    }
+
+    #btnCancelarMobile {
+        height: 45px;
+        font-size: 16px;
+        width: 50%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #btnSalvarMobile {
+        height: 45px;
+        color: #FFFFFF;
+        width: 50%;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+
+    #divBotaoAtivarUsuarioMobile {
+        display: none;
+        text-align: center;
+        width: 100%;
+        font-size: 14px;
+        justify-content: center;
+    }
+
+    #btnAtivarUsuarioMobile {
+        height: 45px;
+        font-size: 16px;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    }
+
+    #divAtivarUsuarioMobile, #divInativarUsuarioMobile {
+        display: none;
+        background-color: white;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px inset;
+        /*display: flex;*/
+        flex-direction: column;
+        gap: 5px;
+        width: 100%;
+        font-size: 14px;
+    }
+
+    #btnIgnorarInativarUsuarioMobile, #btnInativarUsuarioMobile, #btnIgnorarAtivarUsuarioMobile, #btnConfirmarAtivarUsuarioMobile {
+        margin-top: 5px;
+        height: 30px;
+        font-size: 14px;
+        width: 45%;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 10px 5px 10px;
+    }
+
+    #btnIgnorarInativarUsuarioMobile, #btnIgnorarAtivarUsuarioMobile {
+        background-color: white;
+        padding: 5px 10px 5px 10px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    }
+
+    #btnInativarUsuarioMobile {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    }
+
+    #btnConfirmarAtivarUsuarioMobile {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+        background: rgb(126,6,6);
+        background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    }
+}
+
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #divBusca {
+        margin-top: 10px;
+    }
+
+    #divInfoUsuario {
+        padding-top: 15px;
+    }
+}

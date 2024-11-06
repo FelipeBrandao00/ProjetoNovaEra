@@ -3,11 +3,11 @@ using System.Text;
 using System.Text.Json;
 using Application.Responses;
 
-namespace WEB.Models.Shared;
+namespace WEB.Models.Usuario;
 
 public class UsuarioViewModel
 {
-    public string DsCpf { get; set; } = String.Empty;
+    public string DsCpf { get; set; } = string.Empty;
 
     public async Task<Response<ResponseModelUsuario>> BuscarInfo(IConfiguration configuration)
     {
@@ -24,7 +24,7 @@ public class UsuarioViewModel
             {
                 var response = await client.GetAsync(url);
                 if (!response.IsSuccessStatusCode)
-                    return new Response<ResponseModelUsuario> {  Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
+                    return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
 
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -79,11 +79,14 @@ public class UsuarioViewModel
         }
     }
 
-    public async Task<Response<ResponseModelUsuario>> Adicionar(IConfiguration configuration, ResponseModelUsuario responseModelUsuario) {
-        using (var client = new HttpClient()) {
+    public async Task<Response<ResponseModelUsuario>> Adicionar(IConfiguration configuration, ResponseModelUsuario responseModelUsuario)
+    {
+        using (var client = new HttpClient())
+        {
             var baseUrl = configuration["BaseRequest"];
             var url = $"{baseUrl}/Usuario";
-            var Body = new {
+            var Body = new
+            {
                 nmUsuario = responseModelUsuario.NmUsuario,
                 dsEmail = responseModelUsuario.DsEmail,
                 dsSenha = "CLj6QBTMn7/ypWBsDLPR2JMtyIs=",
@@ -91,7 +94,7 @@ public class UsuarioViewModel
                 dsGenero = responseModelUsuario.DsGenero,
                 dtNascimento = responseModelUsuario.DtNascimento,
                 icHabilitadoTurma = responseModelUsuario.IcHabilitadoTurma,
-                dsFoto = "",
+                dsFoto = responseModelUsuario.DsFoto,
                 dsTelefone = responseModelUsuario.DsTelefone
             };
             var content = new StringContent(JsonSerializer.Serialize(Body), Encoding.UTF8, "application/json");
@@ -100,7 +103,8 @@ public class UsuarioViewModel
             if (!string.IsNullOrEmpty(token))
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            try {
+            try
+            {
                 var response = await client.PostAsync(url, content);
                 if (!response.IsSuccessStatusCode)
                     return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
@@ -113,10 +117,13 @@ public class UsuarioViewModel
                     return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
 
                 return responseData;
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 while (ex.InnerException != null) { ex = ex.InnerException; }
                 return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
             }
         }
     }
+
 }
