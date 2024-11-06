@@ -1,10 +1,11 @@
 ﻿using Domain.Entities;
-using Domain.Entities.Enums;
 using Infra.Data.Encode;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_NOVA_ERA.Database {
-    public class ApplicationDbContext : DbContext {
+namespace API_NOVA_ERA.Database
+{
+    public class ApplicationDbContext : DbContext
+    {
         public ApplicationDbContext() { }
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
@@ -20,15 +21,17 @@ namespace API_NOVA_ERA.Database {
         public DbSet<Cargo_Usuario> Cargo_Usuarios { get; set; }
         public DbSet<Permissao> Permissoes { get; set; }
         public DbSet<Permissao_Cargos> Permissao_Cargos { get; set; }
-        public DbSet<RequestChangePassword> RequestsChangePassword{ get; set; }
+        public DbSet<RequestChangePassword> RequestsChangePassword { get; set; }
+        public DbSet<Matricula> Matriculas { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
             modelBuilder.Entity<Turma_Aluno>().
                 HasKey(x => new { CdTurma = x.CdTurma, CdAluno = x.CdAluno });
-            
+
             modelBuilder.Entity<Permissao_Cargos>().
                 HasKey(x => new { CdPermissao = x.CdPermissao, CdCargo = x.CdCargo });
 
@@ -70,12 +73,12 @@ namespace API_NOVA_ERA.Database {
                 .WithOne(ta => ta.Turma)
                 .HasForeignKey(ta => ta.CdTurma)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             modelBuilder.Entity<Turma_Aluno>()
                 .HasOne(ta => ta.Usuario)
-                .WithMany(tu => tu.TurmaAluno) 
+                .WithMany(tu => tu.TurmaAluno)
                 .HasForeignKey(ta => ta.CdAluno)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
             #region Aula
@@ -127,40 +130,47 @@ namespace API_NOVA_ERA.Database {
            .WithOne(c => c.Cargo)
            .HasForeignKey(uc => uc.CdCargo)
            .OnDelete(DeleteBehavior.Cascade);
-            
+
             modelBuilder.Entity<Cargo>()
                 .HasMany(uc => uc.PermissaoCargos)
                 .WithOne(c => c.Cargo)
                 .HasForeignKey(uc => uc.CdCargo)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             modelBuilder.Entity<Permissao>()
                 .HasMany(uc => uc.PermissaoCargos)
                 .WithOne(c => c.Permissao)
                 .HasForeignKey(uc => uc.CdPermissao)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             modelBuilder.Entity<Turma>()
                 .HasOne(t => t.Professor)
                 .WithMany(p => p.Turmas)
                 .HasForeignKey(t => t.CdProfessor)
                 .OnDelete(DeleteBehavior.NoAction);
-            
-            
+
+            modelBuilder.Entity<Matricula>()
+              .HasOne(t => t.Turma)
+              .WithMany(m => m.Matriculas)
+              .HasForeignKey(f => f.CdTurma)
+              .OnDelete(DeleteBehavior.NoAction);
+
+
             modelBuilder.Entity<Cargo>().HasData(
                 new Cargo { CdCargo = 1, DsCargo = "Administrador" },
                 new Cargo { CdCargo = 2, DsCargo = "Professor" },
                 new Cargo { CdCargo = 3, DsCargo = "Aluno" },
                 new Cargo { CdCargo = 4, DsCargo = "Master" }
             );
-            
+
             modelBuilder.Entity<Usuario>().HasData(
                 new Usuario
                 {
                     CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"),
                     NmUsuario = "Master",
-                    DsEmail = "master@mail.com",
-                    DsSenha = Password.EncodePassword("1234")
+                    DsEmail = "master@gmail.com",
+                    DsSenha = Password.EncodePassword("1234"),
+                    DsCpf = "00000000000"
                 }
             );
 
@@ -168,7 +178,7 @@ namespace API_NOVA_ERA.Database {
                 new Cargo_Usuario { CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"), CdCargo = 4 },
                 new Cargo_Usuario { CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"), CdCargo = 1 }
             );
-            
+
         }
     }
 }

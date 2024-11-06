@@ -1,54 +1,57 @@
-﻿@model Application.Responses.ResponseModelUsuario
+﻿@using WEB.Models.Genero
+@model Application.Responses.ResponseModelUsuario
 
 @{
     bool icAdicionar = Model is null;
-
     Layout = null;
     var NmCurso = String.Empty;
     var NmTurma = String.Empty;
-    var imgSrc = String.Empty;
+    var ImgSrc = String.Empty;
     var NmUsuario = String.Empty;
 
     if (!icAdicionar) {
         NmCurso = ViewBag.NmCurso ?? String.Empty;
         NmTurma = ViewBag.NmTurma ?? String.Empty;
-        imgSrc = Model?.DsFoto != null ? $"data:image/jpeg;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+        ImgSrc = (Model?.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
         NmUsuario = Model?.NmUsuario;
     }
+
+    var ImgUserDisplay = !String.IsNullOrEmpty(ImgSrc) ? "display: block" : "display: none";
+    var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
 }
 
 <link rel="stylesheet" href="~/css/Professor/InfoProfessor.css">
 
+@Html.HiddenFor(model => model.IcHabilitadoTurma)
 @Html.HiddenFor(model => model.CdUsuario)
 @Html.HiddenFor(model => model.DsCpf)
 
-<div id="divImgProfessor">
+<div id="divImgUser">
+    <div id="quadroImgUser">
+        <img id="imgUser" height="122" width="122" src="@ImgSrc" alt="Foto do Professor" style="@Html.Raw(ImgUserDisplay)" />
+    </div>
 
-    @if (!String.IsNullOrEmpty(imgSrc)) {
-        <img height="122" width="122" src="@imgSrc" alt="Foto do Professor" />
-    } else {
-        <img height="122" width="122" />
-    }
-
+    <input id="inputTrocarFoto" type="file" style="display:none;" accept="image/*" />
+    
     <div>
-        <button id="btnTrocarFoto"><b class="linear1">Trocar foto</b></button>
-        <button id="btnExcluirFoto"><b>Excluir foto</b></button>
+        <button id="btnTrocarFoto" onclick="TrocarFoto()"><b class="linear1">Trocar foto</b></button>
+        <button id="btnExcluirFoto" onclick="ExcluirFoto()"><b>Excluir foto</b></button>
     </div>
 </div>
 
 <div id="divNomeProfessor">
     <label for="divNomeProfessor" class="linear1">Nome:</label><br />
-    <input id="txtNomeProfessor" class="txtInfoProfessor" asp-for="NmUsuario" type="text" placeholder="" disabled />
+    <input id="txtNomeProfessor" class="txtInfoProfessor" asp-for="NmUsuario" type="text" placeholder="Digite o nome..." disabled />
 </div>
 
 <div id="divEmailProfessor">
     <label for="divEmailProfessor" class="linear1">Email:</label><br />
-    <input id="txtEmailProfessor" class="txtInfoProfessor" asp-for="DsEmail" type="text" placeholder="" disabled />
+    <input id="txtEmailProfessor" class="txtInfoProfessor" asp-for="DsEmail" type="text" placeholder="Digite o e-mail..." disabled />
 </div>
 
 <div id="divCPFProfessor">
     <label for="divCPFProfessor" class="linear1">CPF:</label><br />
-    <input id="txtCPFProfessor" class="txtInfoProfessor" asp-for="DsCpf" type="text" placeholder="" disabled />
+    <input id="txtCPFProfessor" class="txtInfoProfessor" asp-for="DsCpf" type="text" placeholder="Digite o CPF..." disabled />
 </div>
 
 <div id="divGrupoPC1">
@@ -56,38 +59,30 @@
         <label for="divGeneroProfessor" class="linear1">Gênero:</label><br />
         <select id="txtGeneroProfessor" class="txtInfoProfessor" asp-for="DsGenero" disabled>
             <option value="0">Selecione</option>
-            <option value="1">Feminino</option>
-            <option value="2">Masculino</option>
+
+            @foreach (GeneroViewModel.ItemListaGenero item in ListaGenero)
+            {
+                <option value="@item.CdGenero">@item.NmGenero</option>
+            }
+
         </select>
     </div>
 
     <div id="divNascimentoProfessor">
         <label for="divNascimentoProfessor" class="linear1">Nascimento:</label><br />
-        <input id="txtNascimentoProfessor" class="txtInfoProfessor" asp-for="DtNascimento" type="date" placeholder="" disabled />
+        <input id="txtNascimentoProfessor" class="txtInfoProfessor" asp-for="DtNascimento" type="date" disabled />
     </div>
 
     <div id="divTelefoneProfessor">
         <label for="divTelefoneProfessor" class="linear1">Telefone:</label><br />
-        <input id="txtTelefoneProfessor" class="txtInfoProfessor" asp-for="DsTelefone" type="text" placeholder="" disabled />
+        <input id="txtTelefoneProfessor" class="txtInfoProfessor" asp-for="DsTelefone" type="text" placeholder="Digite o telefone..." disabled />
     </div>
 </div>
 
 <div id="divSituacaoProfessor">
     <label for="txtSituacaoProfessor" class="linear1">Situação:</label><br />
-    <input id="txtSituacaoProfessor" class="txtInfoProfessor" asp-for="IcHabilitadoTurma" type="text" placeholder="" disabled />
+    <input id="txtSituacaoProfessor" class="txtInfoProfessor" asp-for="IcHabilitadoTurma" type="text" disabled />
 </div>
-
-@* <div id="divGrupoPC2">
-    <div id="divCursoProfessor">
-        <label for="divCursoProfessor" class="linear1">Curso atual:</label><br />
-        <input id="txtCursoProfessor" class="txtInfoProfessor" value="@NmCurso" type="text" disabled />
-    </div>
-
-    <div id="divTurmaProfessor">
-        <label for="divTurmaProfessor" class="linear1">Turma atual:</label><br />
-        <input id="txtTurmaProfessor" class="txtInfoProfessor" value="@NmTurma" type="text" disabled />
-    </div>
-</div> *@
 
 <div id="divBotaoAdicionar">
     <button id="btnConfirmarAdicionar" onclick="adicionarProfessor()"><b style="color: white;">Adicionar professor</b></button>
@@ -101,11 +96,6 @@
 <div id="divBotoesEdicao">
     <button id="btnCancelar" onclick="cancelarEdicaoProfessor()"><b class="linear1">Cancelar edição</b></button>
     <button id="btnSalvar" onclick="salvarInfoProfessor()"><b>Salvar</b></button>
-
-    <!-- Tentativa falhada de passar a model como parâmetro na função -->
-    @*
-<button id="btnSalvar" onclick="salvarInfoProfessor(@Html.Raw(@Json.Serialize(Model)))"><b>Salvar</b></button>
-*@
 </div>
 
 <div id="divDesabilitarProfessor">
@@ -155,4 +145,28 @@
             $("#txtSituacaoProfessor").val(txt);
         }
     }
+</script>
+
+<script src="~/js/jquery.mask.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        //Aplica a máscara de Telefone
+        var phoneMaskBehavior = function (val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00000';
+        };
+        var options = {
+            onKeyPress: function (val, e, field, options) {
+                field.mask(phoneMaskBehavior.apply({}, arguments), options);
+            }
+        };
+        $('#txtTelefoneProfessor').mask(phoneMaskBehavior, options);
+
+        //Aplica a máscara de CPF
+        $('#txtCPFProfessor').mask('000.000.000-00');
+
+    });
+
 </script>

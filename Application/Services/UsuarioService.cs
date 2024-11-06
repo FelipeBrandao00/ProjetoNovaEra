@@ -165,4 +165,29 @@ public class UsuarioService(IUsuarioRepository usuarioRepository, IMapper mapper
 
         return new string(token);
     }
+
+    public async Task<PagedResponse<List<UsuarioDto>>> GetUsuariosByCargos(GetUsuariosByCargosRequest request) {
+        try {
+            List<Usuario> query = await usuarioRepository.GetUsuariosByCargos(request.CdCargos);
+
+            var usuarios = query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            List<UsuarioDto> result = new();
+            foreach (var usuario in usuarios) {
+                result.Add(mapper.Map<UsuarioDto>(usuario));
+            }
+
+            return new PagedResponse<List<UsuarioDto>>(
+                result,
+                query.Count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch (Exception e) {
+            return new PagedResponse<List<UsuarioDto>>(null, 500, "Não foi possível consultar os usuarios");
+        }
+    }
 }

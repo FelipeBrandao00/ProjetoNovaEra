@@ -12,6 +12,10 @@
     display: grid;
 }
 
+#listaPadrao > div:first-child > button:only-of-type {
+    border-radius: 5px !important;
+}
+
 #listaPadrao > div:first-child > button {
     font-size: 15px;
     font-weight: 600;

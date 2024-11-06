@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using Application.Requests;
 using Application.Requests.CargoUsuario;
+using Application.Requests.PermissaoCargo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -32,6 +33,13 @@ namespace API.Controllers
         {
             var request = new GetPermissoesByCargoIdRequest(cdCargo,pageNumber, pageSize);
             var result = await permissaoCargoService.GetPermissoesByCargoId(request);
+            if (!result.IsSuccess) return BadRequest(result);
+            return Ok(result);
+        }
+
+        [HttpPost("api/[controller]/AddCPermissoesCargo")]
+        public async Task<ActionResult> AddCPermissoesCargo(AddPermissoesCargoRequest request) {
+            var result = await permissaoCargoService.AddPermissoesCargo(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
         }

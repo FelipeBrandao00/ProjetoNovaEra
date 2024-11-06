@@ -13,6 +13,38 @@ namespace Application.Services;
 
 public class CargoUsuarioService(ICargoUsuarioRepository cargoUsuarioRepository, IMapper mapper) : ICargoUsuarioService
 {
+    public async Task<PagedResponse<List<CargoDto>>> AddCargosUsuario(AddCargosUsuarioRequest request) {
+        try {
+
+            if(request.CdCargos.Length == 0) return new PagedResponse<List<CargoDto>>(null, 500, "Envie pelo menos 1 cargo para o usuário!");
+
+
+            List<Cargo_Usuario> cargos = new List<Cargo_Usuario>();
+
+            foreach (var cargo in request.CdCargos) {
+                var entity = mapper.Map<Cargo_Usuario>(new CreateCargoUsuarioRequest { CdUsuario = request.CdUsuario, CdCargo = cargo});
+                cargos.Add(entity);
+            }
+
+            var retorno = await cargoUsuarioRepository.AddCargosUsuario(cargos);
+
+            List<CargoDto> result = new();
+            foreach (var cargo in retorno) {
+                result.Add(mapper.Map<CargoDto>(cargo.Cargo));
+            }
+
+            return new PagedResponse<List<CargoDto>>(
+                result,
+                result.Count,
+                1,
+                result.Count);
+        }
+        catch (Exception e) {
+            return new PagedResponse<List<CargoDto>>(null, 500, "Não foi possível vincular os cargos ao usuario");
+
+        }
+    }
+
     public async Task<Response<CargoUsuarioDto>> AddCargoUsuario(CreateCargoUsuarioRequest request)
     {
         try

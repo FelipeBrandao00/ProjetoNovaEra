@@ -1,0 +1,78 @@
+﻿@{
+    var ListaAulas = ViewBag.ListaAulas ?? new List<WEB.Models.Response.ResponseModelAula>();
+}
+<link rel="stylesheet" href="~/css/Turma/InfoTurma.css">
+
+<div id="divAulasTurma">
+    <div id="TituloInfoAula">
+        <div id="TituloBotaoAula">
+            <h3 class="linear1"><b>Aulas </b></h3>
+            <button id="btnNovaAula" onclick="carregarNovaAula()"><b class="linear1">Nova aula</b></button>
+        </div>
+        <span id="msgAula" class="linear1"><b>Clique na aula para ver suas informações!</b></span>
+        <span id="msgMobileAula" class="linear1"><b>Aperte na aula para ver suas informações!</b></span>
+    </div>
+
+    @if (ListaAulas.Count == 0) {
+        <p class="linear1"><b>Não há aulas na turma.</b></p>
+    }
+    else
+    {
+        <div id="divRelevo" style="max-height: 400px; overflow-y: scroll;">
+            <div id="divAulas">
+                @foreach (WEB.Models.Response.ResponseModelAula item in ListaAulas) {
+                    <div id="divAula" onclick="verInfoAula('@item.cdAula')">
+                        <div id="topoAula">
+                            <div id="infoAula">
+                                <h5 class="linear1"><b>@item.nmAula</b></h5>
+                                <p class="linear1"><b>@item.dtAula.ToString("dd/M/yyyy")</b></p>
+                            </div>
+
+                            <div id="infoArquivos">
+                                @if (item.qtArquivos == null || item.qtArquivos == 0) {
+                                    <div id="divArquivos" class="left semDoc small">S/Arquivo</div>
+                                } else {
+                                    <div id="divArquivos" class="left comDoc small">C/Arquivo</div>
+                                }
+
+                                @if (item.qtPresencas == null || item.qtPresencas == 0) {
+                                    <div id="divChamadas" class="right semDoc small">S/Chamada</div>
+                                } else {
+                                    <div id="divChamadas" class="right comDoc small">C/Chamada</div>
+                                }
+                            </div>
+                        </div>
+
+                        <div id="descAula" class="linear1">
+                            @item.dsAula
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <div id="divBotaoNovaAulaMobile">
+        <button id="btnNovaAulaMobile" onclick="carregarNovaAula(true)"><b class="linear1">Nova aula</b></button>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    function verInfoAula(cdAula) {
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAula", "Turma")',
+            type: 'GET',
+            async: true,
+            data: {
+                CdAula: cdAula
+            },
+            success: function (data) {
+                $('#_divInfoAula').html(data);
+
+                $('#backgroundConteudoModal').css('display', 'block');
+                $('#divInformacaoAula').css('display', 'flex');
+            }
+        });
+    }
+</script>

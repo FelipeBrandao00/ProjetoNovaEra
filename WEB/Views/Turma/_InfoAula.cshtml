@@ -1,0 +1,203 @@
+﻿@model WEB.Models.Response.ResponseModelAula
+
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/Turma/InfoAula.css">
+
+@Html.HiddenFor(model => model.cdAula)
+
+<div id="divInformacaoAula">
+    <div id="divTituloAula">
+        <button id="btnVoltarModal" onclick="voltarAula()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Aula</b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoAula">
+        <div id="divStatusAula">
+            @if (Model.qtArquivos == null || Model.qtArquivos == 0) {
+                <div id="divArquivos" class="left semDoc large">S/Arquivo</div>
+            } else {
+                <div id="divArquivos" class="left comDoc large">C/Arquivo</div>
+            }
+
+            @if (Model.qtPresencas == null || Model.qtPresencas == 0) {
+                <div id="divChamadas" class="right semDoc large">S/Chamada</div>
+            } else {
+                <div id="divChamadas" class="right comDoc large">C/Chamada</div>
+            }
+        </div>
+
+        <div id="divNomeAula">
+            <label for="txtAula" class="linear1">Título:</label><br />
+            <input id="txtAula" class="txtInfoTurma" type="text" asp-for="nmAula" placholder="Digite o nome da aula..."/><br />
+
+            <label for="txtDtAula" class="linear1">Data de criação:</label><br />
+            <input id="txtDtAula" class="txtInfoTurma" asp-for="dtAula" type="date" disabled />
+        </div>
+
+        <div id="divDescricaoAula">
+            <label for="txtDescricaoAula" class="linear1">Descrição:</label><br />
+            <textarea id="txtDescricaoAula" class="txtInfoTurma" asp-for="dsAula" type="text" placeholder="Digite a descrição da aula..." disabled></textarea>
+        </div>
+
+        <div id="divBotoesAulaMobile">
+            <button id="btnEditarAulaMobile" onclick="carregarEdicaoAula(true)"><b class="linear1">Editar</b></button>
+            <button id="btnExcluirAulaMobile" onclick="excluirAula(true)"><b>Excluir</b></button>
+
+            <button id="btnCancelarEdicaoAulaMobile" onclick="cancelarEdicaoAula(true)"><b class="linear1">Cancelar</b></button>
+            <button id="btnSalvarEdicaoAulaMobile" onclick="editarAula(true)"><b>Salvar</b></button>
+        </div>
+
+        <div id="divBotoesAulaDesktop">
+            <button id="btnEditarAula" onclick="carregarEdicaoAula()"><b class="linear1">Editar</b></button>
+            <button id="btnExcluirAula" onclick="excluirAula()"><b>Excluir</b></button>
+
+            <button id="btnCancelarEdicaoAula" onclick="cancelarEdicaoAula()"><b class="linear1">Cancelar</b></button>
+            <button id="btnSalvarEdicaoAula" onclick="editarAula()"><b>Salvar</b></button>
+        </div>
+
+        <div id="divBotoesAulaOuter">
+            <button id="btnRegistrarConteudo" onclick="redirecionarConteudo()"><b class="linear1">Registrar conteúdo</b> <i class="fa fa-external-link"></i></button>
+            <button id="btnChamada" onclick="redirecionarChamada()"><b class="linear1">Chamada</b> <i class="fa fa-external-link"></i></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    let infoAulaTemp;
+
+    function carregarEdicaoAula(mobile = false) {
+        infoAulaTemp = {
+            NmAula: $('#txtAula').val(),
+            DtAula: $('#txtDtAula').val(),
+            DsAula: $('#txtDescricaoAula').val(),
+        }
+
+        if (mobile) {
+            $('#btnEditarAulaMobile').css('display', 'none');
+            $('#btnExcluirAulaMobile').css('display', 'none');
+
+            $('#btnCancelarEdicaoAulaMobile').css('display', 'unset');
+            $('#btnSalvarEdicaoAulaMobile').css('display', 'unset');
+        } else {
+            $('#btnEditarAula').css('display', 'none');
+            $('#btnExcluirAula').css('display', 'none');
+
+            $('#btnCancelarEdicaoAula').css('display', 'unset');
+            $('#btnSalvarEdicaoAula').css('display', 'unset');
+        }
+
+        $('#txtDescricaoAula, #txtAula, #txtDtAula')
+            .css('background-color', '#FFFFFF')
+            .attr('disabled', false);
+    }
+
+    function cancelarEdicaoAula(mobile = false) {
+        if (mobile) {
+            $('#btnEditarAulaMobile').css('display', 'unset');
+            $('#btnExcluirAulaMobile').css('display', 'unset');
+
+            $('#btnCancelarEdicaoAulaMobile').css('display', 'none');
+            $('#btnSalvarEdicaoAulaMobile').css('display', 'none');
+        }
+        else {
+            $('#btnEditarAula').css('display', 'unset');
+            $('#btnExcluirAula').css('display', 'unset');
+
+            $('#btnCancelarEdicaoAula').css('display', 'none');
+            $('#btnSalvarEdicaoAula').css('display', 'none');
+        }
+
+        $('#txtDescricaoAula, #txtAula, #txtDtAula')
+            .css('background-color', '#DBD8D8')
+            .attr('disabled', true);
+
+        window.location.hash = '';
+
+        $('#txtDescricaoAula').val(infoAulaTemp.DsAula);
+        $('#txtDtAula').val(infoAulaTemp.DtAula);
+        $('#txtAula').val(infoAulaTemp.NmAula);
+    }
+
+    function editarAula(mobile = false) {
+        event.preventDefault();
+
+        infoAulaTemp = {
+            CdAula: $('#cdAula').val(),
+            NmAula: $('#txtAula').val(),
+            DtAula: $('#txtDtAula').val(),
+            DsAula: $('#txtDescricaoAula').val(),
+        }
+
+        $.ajax({
+            url: '@Url.Action("AtualizarInfoAula", "Turma")',
+            type: 'POST',
+            async: true,
+            data: infoAulaTemp,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                if (mobile) {
+                    $('#btnEditarAulaMobile').css('display', 'unset');
+                    $('#btnExcluirAulaMobile').css('display', 'unset');
+
+                    $('#btnCancelarEdicaoAulaMobile').css('display', 'none');
+                    $('#btnSalvarEdicaoAulaMobile').css('display', 'none');
+                } else {
+                    $('#btnEditarAula').css('display', 'unset');
+                    $('#btnExcluirAula').css('display', 'unset');
+
+                    $('#btnCancelarEdicaoAula').css('display', 'none');
+                    $('#btnSalvarEdicaoAula').css('display', 'none');
+                }
+
+                window.location.hash = '';
+                    $('#txtDescricaoAula, #txtAula, #txtDtAula')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarAulasTurma();
+            }
+        });
+    }
+
+    function excluirAula() {
+        event.preventDefault();
+        let CdAula = $('#cdAula').val();
+
+          $.ajax({
+                url: '@Url.Action("ExcluirAula", "Turma")',
+                type: 'DELETE',
+                async: true,
+                data: {
+                    CdAula: CdAula
+                },
+                success: function (data) {
+                    if (data.isSuccess) {
+                        ExibirSucesso(data.message, 'Sucesso!');
+
+                        $('#backgroundConteudoModal').css('display', 'none');
+                        $('#divInformacaoAula').css('display', 'none');
+                        carregarAulasTurma();
+                    }
+                    else {
+                        console.error('Erro interno.', data.message);
+                        ExibirErro(data.message, 'Erro!');
+                        return;
+                    }
+                }
+            });
+        }
+
+</script>

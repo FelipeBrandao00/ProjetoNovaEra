@@ -325,6 +325,14 @@
 
         #backgroundModal {
             display: none;
+            z-index: 1;
+            position: absolute;
+            background-color: black;
+            opacity: 62%;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
         }
 
         @@media (max-width: 1500px) {
@@ -479,8 +487,8 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapTurma">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar turma</button>
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar turma</button>
+                    <button onclick="redirecionarParaAdicionarTurma()"><i class="fa-solid fa-circle-plus"></i>Adicionar turma</button>
+                    <button onclick="redirecionarParaListarTurma()"><i class="fa-solid fa-rectangle-list"></i>Listar turma</button>
                     <button><i class="fa-solid fa-file-circle-plus"></i>Cadastro de conteúdo</button>
                 </div>
             </div>
@@ -554,9 +562,9 @@
                     <i class="fa-solid fa-angle-down arrow-icon"></i>
                 </button>
                 <div class="collap" id="collapSistema">
-                    <button><i class="fa-solid fa-circle-plus"></i>Adicionar usuário</button>
-                    <button><i class="fa-solid fa-rectangle-list"></i>Listar usuários</button>
-                    <button><i class="fa-solid fa-trophy"></i>Gerenciar permissões</button>
+                    <button onclick="redirecionarParaAdicionarUsuario()"><i class="fa-solid fa-circle-plus"></i> Adicionar usuário</button>
+                    <button onclick="redirecionarParaListarUsuarios()"><i class="fa-solid fa-rectangle-list"></i> Listar usuários</button>
+                    <button onclick="redirecionarParaListarPermissoes()"><i class="fa-solid fa-trophy"></i>Gerenciar permissões</button>
                 </div>
             </div>
         </div>
@@ -630,6 +638,15 @@
             "closeButton": true,
             "progressBar": true
         };
+
+        function ExibirInfo(message, titulo) {
+            toastr.info(message, titulo, {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+                closeButton: true,
+                progressBar: true
+            });
+        }
 
         function ExibirSucesso(message, titulo) {
             toastr.success(message, titulo, {
@@ -729,6 +746,31 @@
         function redirecionarParaAdicionarCurso() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Curso", new { icAdicionar = true })';
+        }
+      
+        function redirecionarParaListarTurma() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Turma")';
+        }
+
+        function redirecionarParaAdicionarTurma() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Turma", new { icAdicionar = true })';
+        }
+      
+        function redirecionarParaAdicionarUsuario() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Sistema", new { icAdicionar = true })';
+        }
+
+        function redirecionarParaListarUsuarios() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Sistema")';
+        }
+
+        function redirecionarParaListarPermissoes() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Permissao")';
         }
     </script>
 

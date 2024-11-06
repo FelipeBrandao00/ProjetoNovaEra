@@ -1,0 +1,65 @@
+﻿<link rel="stylesheet" href="~/css/Turma/InfoAula.css">
+
+<div id="divInformacaoAula">
+    <div id="divTituloAula">
+        <button id="btnVoltarModal" onclick="voltarAula()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Nova aula</b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoAula">
+        <div id="divNomeAula">
+            <label for="txtAula" class="linear1">Título:</label><br />
+            <input id="txtAula" class="txtInfoAulaAdd" type="text" placeholder="Digite o título da aula..."/><br />
+        </div>
+
+        <div id="divDescricaoAula">
+            <label for="txtDescricaoAula" class="linear1">Descrição:</label><br />
+            <textarea id="txtDescricaoAula" class="txtInfoAulaAdd" type="text" placeholder="Digite a descrição da aula..."></textarea>
+        </div>
+
+        <div id="divBotoesAulaMobile">
+            <button id="btnAdicionarAulaMobile" onclick="adicionarAula()"><b>Adicionar</b></button>
+        </div>
+
+        <div id="divBotoesAulaDesktop">
+            <button id="btnAdicionarAula" onclick="adicionarAula()"><b>Adicionar</b></button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    let infoAulaAdicionar; 
+
+    function adicionarAula() {
+        infoAulaAdicionar = {
+            NmAula: $('#txtAula').val(),
+            DsAula: $('#txtDescricaoAula').val(),
+            CdTurma: $('#CdTurma').val(),
+        }
+
+        $.ajax({
+            url: '@Url.Action("AdicionarAula", "Turma")',
+            type: 'POST',
+            async: true,
+            data: infoAulaAdicionar,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                $('#backgroundConteudoModal').css('display', 'none');
+                $('#divInformacaoAula').css('display', 'none');
+
+                carregarAulasTurma();
+            }
+        }); 
+    }
+</script>

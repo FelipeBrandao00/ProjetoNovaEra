@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.TurmaAluno;
 using Application.DTOs.Usuario;
 using Application.Interfaces;
+using Application.Requests.Aluno;
 using Application.Requests.Cargos;
 using Application.Responses;
 using AutoMapper;
@@ -60,14 +61,39 @@ public class AlunoService(IAlunoRepository alunoRepository, IMapper mapper) : IA
                 result.Add(mapper.Map<UsuarioDto>(aluno));
             }
 
-            return new PagedResponse<List<UsuarioDto>>(
+            return new PagedResponse<List<UsuarioDto?>>(
                 result,
                 query.Count,
                 request.PageNumber,
                 request.PageSize);
         }
         catch (Exception e) {
-            return new PagedResponse<List<UsuarioDto>>(null, 500, "Não foi possível consultar os alunos.");
+            return new PagedResponse<List<UsuarioDto?>>(null, 500, "Não foi possível consultar os alunos.");
+        }
+    }
+
+    public async Task<PagedResponse<List<UsuarioDto?>>> GetAlunosByTurmaId(GetAlunosByTurmaIdRequest request) {
+        try {
+            List<Usuario?> query = await alunoRepository.GetAlunosByTurmaId(request.TurmaId);
+
+            var alunos = query
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            List<UsuarioDto> result = new();
+            foreach (var aluno in alunos) {
+                result.Add(mapper.Map<UsuarioDto>(aluno));
+            }
+
+            return new PagedResponse<List<UsuarioDto?>>(
+                result,
+                query.Count,
+                request.PageNumber,
+                request.PageSize);
+        }
+        catch (Exception e) {
+            return new PagedResponse<List<UsuarioDto?>>(null, 500, "Não foi possível consultar os alunos.");
         }
     }
 }
