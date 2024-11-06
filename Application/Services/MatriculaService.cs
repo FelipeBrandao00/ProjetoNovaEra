@@ -106,12 +106,7 @@ namespace Application.Services
         {
             try
             {
-                List<Matricula> query = await matriculaRepository.GetMatriculasByTurmaId(request.CdTurma);
-
-                var matriculas = query
-                    .Skip((request.PageNumber - 1) * request.PageSize)
-                    .Take(request.PageSize)
-                    .ToList();
+                List<Matricula> matriculas = await matriculaRepository.GetMatriculasByTurmaId(request.CdTurma);
 
                 List<MatriculaDto> result = new();
                 foreach (var matricula in matriculas)
@@ -121,9 +116,9 @@ namespace Application.Services
 
                 return new PagedResponse<List<MatriculaDto>>(
                     result,
-                    query.Count,
-                    request.PageNumber,
-                    request.PageSize);
+                    matriculas.Count,
+                    1,
+                    matriculas.Count);
             }
             catch (Exception e)
             {

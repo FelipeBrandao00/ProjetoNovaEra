@@ -23,9 +23,9 @@ namespace API.Controllers
 
 
         [HttpGet("api/[controller]/GetMatriculasByTurmaId/{tumraId:int}")]
-        public async Task<ActionResult> GetMatriculasByTurmaId(int tumraId, [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null)
+        public async Task<ActionResult> GetMatriculasByTurmaId(int tumraId)
         {
-            var request = new GetMatriculasByTurmaIdRequest(pageNumber, pageSize, tumraId);
+            var request = new GetMatriculasByTurmaIdRequest(tumraId);
             var result = await matriculaService.GetMatriculasByTurmaId(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
