@@ -17,19 +17,31 @@
     left: 38%;
 }
 
+#divConfirmarMatricula {
+    z-index: 9;
+    display: none;
+    padding: 15px;
+    padding-bottom: 0px;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    gap: 5px;
+    width: 67vw;
+    font-size: 14px;
+    position: fixed;
+    top: 8%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
 #btnVoltarModal {
     border: none;
     border-radius: 10px;
     padding: 10px 15px 3px 15px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
-}
-
-#TituloInfoAula {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 50px;
 }
 
 #TituloBotaoAula {
@@ -47,13 +59,12 @@
         margin-top: 8px;
     }
 
-
 #divConteudoAluno {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     padding: 1vw 3vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-bottom: 20px;
     margin-top: 20px;
     border-radius: 10px;
@@ -110,57 +121,109 @@ label {
     color: #2F2F2F;
 }
 
-#listaAlunos {
-    width: 100%;
+#divLista {
+    max-height: 35vh;
+    overflow-y: auto;
 }
 
-#listaAlunos > tbody > tr > td {
-    font-size: 15px;
-    font-weight: 600;
-    text-align: left;
-    color: #989898;
-    padding: 10px 8px 10px 8px;
-    border: 1px solid #aeaeae;
-    background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px inset;
+#listaAlunos, #listaAlunosConfirmacao {
+    border-collapse: separate;
+    border-spacing: 0;
 }
+
+    #listaAlunos > tbody > tr, #listaAlunosConfirmacao > tbody > tr {
+        border-radius: 10px !important;
+    }
+
+        #listaAlunos > tbody > tr > td, #listaAlunosConfirmacao > tbody > tr > td {
+            border: 1px solid lightgrey;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: left;
+            color: #989898;
+            padding: 10px 8px;
+            background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px inset;
+        }
+
+        #listaAlunos > tbody > tr:first-child > td:first-child,
+        #listaAlunosConfirmacao > tbody > tr:first-child > td:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        #listaAlunos > tbody > tr:first-child > td:last-child,
+        #listaAlunosConfirmacao > tbody > tr:first-child > td:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        #listaAlunos > tbody > tr:last-child > td:first-child,
+        #listaAlunosConfirmacao > tbody > tr:last-child > td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+
+        #listaAlunos > tbody > tr:last-child > td:last-child,
+        #listaAlunosConfirmacao > tbody > tr:last-child > td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+
 
 #nmAlunoLista {
-    width: 70%;
+    width: 50%;
 }
 
-#nmAlunoLista, #nmCursoLista {
+#nmTurmaLista {
+    width: 50%;
+}
+
+.nmCheckLista > input {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#nmAlunoLista, #nmTurmaLista {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 #btnMatricular {
+    margin-top: 20px;
+    float: right;
+    height: 40px;
+    width: 200px;
     color: white;
-    font-weight: 700;
-    font-size: 12px;
+    font-weight: 600;
+    font-size: 15px;
     border: none;
     border-radius: 6px;
     background: rgb(126,6,6);
     background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
     padding: 5px 10px 5px 10px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
-    margin: auto;
-    display: block;
 }
 
-#nmCelulaNome {
+.nmCelulaNome {
     cursor: pointer;
 }
 
 /* Responsivo MOBILE */
 @media (max-width: 1200px) {
+    #btnMatricular {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
     label {
         float: left;
     }
 
+    #TituloBotaoAula {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
     #divInformacaoAluno {
-        overflow-y: scroll;
+        overflow-y: auto;
         max-height: 80%;
         width: 84vw;
         top: 15%;
@@ -180,11 +243,14 @@ label {
         display: none;
     }
 
-    #nmCelulaCurso, #divBotao{
+    .nmCelulaCurso {
         display: none;
     }
 
     #nmAlunoLista {
         width: 100%;
+    }
+
+    #btnMatricular {
     }
 }

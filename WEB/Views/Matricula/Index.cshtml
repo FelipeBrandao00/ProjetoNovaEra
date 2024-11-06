@@ -21,87 +21,165 @@
             <div id="idIdade">
                 <div id="divInputIdade">
                     <label for="txtInicio"> De:</label>
-                    <input id="txtInicio" type="date" />
+                    <input type="number" placeholder="Digite a idade..."/>  <div style="margin-top: 3px;">anos</div>
                 </div>
                 <div id="divInputIdade">
                     <label for="txtFim">Até:</label>
-                    <input id="txtFim" type="date" />
+                    <input type="number" placeholder="Digite a idade..."/>  <div style="margin-top: 3px;">anos</div>
                 </div>
             </div>
 
             <div id="idCheckbox">
                 <div id="divInputCheckbox">
-                    <label for="chkExAluno">Em Andamento</label>
+                    <label for="chkExAluno">Ex-aluno</label>
                     <input id="chkExAluno" type="checkbox" checked />
                 </div>
                 <div id="divInputCheckbox">
-                    <label for="chkNovoAluno">Finalizado</label>
+                    <label for="chkNovoAluno">Novo aluno</label>
                     <input id="chkNovoAluno" type="checkbox" checked />
                 </div>
             </div>
 
             <div id="idQuantidade">
                 <div id="divInputQuantidade">
-                    <label for="divQuantidade">Selecione a quantidade:</label>
+                    <label for="divQuantidade">Qtd. pré-selecionados:</label>
+                    <input type="number" placeholder="Digite a quantidade de alunos..."/>
+                </div>
+            </div>
+            <div id="idTurma">
+                <div id="divInputTurma">
+                    <label>Selecione a turma:</label>
+                    <select id="ddlTurma">
+                        <option value="0">Selecione</option>
+                    </select>
                 </div>
             </div>
         </div>
         <div id="divPesquisar">
-@*             <button id="btnFiltrosMobile" onclick="toggleFiltros()">
+            <button id="btnFiltrosMobile" onclick="toggleFiltros()">
                 <b class="linear1">Filtros</b>
                 <i id="arrowIcon" class="fa fa-angles-up"></i>
             </button>
- *@            <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
+            <button id="btnFiltrar" onclick="carregarListaMatriculados()"><b class="linear1">Filtrar</b></button>
         </div>
     </div>
 </div>
 
 <div id="divPagina">
-    <div id="_divListaMatriculados"></div>
-    <div id="_divListaNaoMatriculados"></div>
+    <div id="_divListaMatriculas"></div>
 
     <div id="divInfoModal">
         <div id="_divInfoAluno"></div>
         <div id="_divMatriculaAluno"></div>
+        <div id="divConfirmarMatricula">
+            <div id="divTituloAluno">
+                <button id="btnVoltarModal" onclick="voltarConfirmacao()">
+                    <i class="fa-solid fa-angle-left arrow-icon">   </i>
+                </button>
+                <h5 class="linear1"><b>Confirmação </b></h5>
+                <p> </p>
+            </div>
+            <b class="linear1">Deseja realmente matricular estes alunos?</b>
+            <br/>
+            <table id="listaAlunosConfirmacao">
+                <thead>
+                    <tr style="text-align: left;">
+                        <th class="linear1" id="nmAlunoLista">Nome</th>
+                        <th class="linear1" id="nmTurmaLista">Turma</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div id="divBotaoMatricularTurma">
+                <button id="btnMatricularAluno" onclick="confirmarMatricula()"><b>Matricular</b></button>
+            </div>
+        </div>
     </div>
+    <button id="btnMatricular" onclick="carregarConfirmarMatricula()">Matricular</button>
 </div>
 
 <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", carregarListaMatriculados);
-    document.addEventListener("DOMContentLoaded", carregarListaNaoMatriculados);
+
+    function toggleFiltros() {
+        const filtros = document.getElementById('divFiltros');
+        filtros.classList.toggle('hidden');
+        arrowIcon.classList.toggle('up');
+    }
+
+    function carregarConfirmarMatricula() {
+        var lista = obterAlunosSelecionados();
+        gerarTabela(lista);
+
+        $('#backgroundModal').css('display', 'block');
+        $('#divConfirmarMatricula').css('display', 'flex');
+    }
+
+    function gerarTabela(lista) {
+        const alunosSelecionados = lista; 
+        const tabelaCorpo = document.querySelector("#listaAlunosConfirmacao tbody"); 
+
+        tabelaCorpo.innerHTML = '';
+
+        alunosSelecionados.forEach(aluno => {
+            const tr = document.createElement("tr");
+
+            const tdNome = document.createElement("td");
+            tdNome.classList.add("nmCelulaNome");
+            tdNome.style.cursor = 'auto';
+            tdNome.textContent = aluno.nome;
+
+            const tdCurso = document.createElement("td");
+            tdCurso.classList.add("nmCelulaCurso");
+            tdCurso.textContent = aluno.curso;
+
+            tr.appendChild(tdNome);
+            tr.appendChild(tdCurso);
+
+            tabelaCorpo.appendChild(tr);
+        });
+    }
+
+    function voltarConfirmacao() {
+        $('#divConfirmarMatricula').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
 
     function carregarListaMatriculados() {
+        if (!validarCampos()) {
+            return;
+        }
+
         $.ajax({
-            url: '@Url.Action("ListarMatriculados", "Matricula")',
+            url: '@Url.Action("ListarMatriculas", "Matricula")',
             type: 'GET',
             async: true,
             success: function (data) {
-                $('#_divListaMatriculados').html(data);
+                $('#_divListaMatriculas').html(data);
             }
         });
     }
 
-    function carregarListaNaoMatriculados() {
-        event.preventDefault();
-
-        $.ajax({
-            url: '@Url.Action("ListarNaoMatriculados", "Matricula")',
-            type: 'GET',
-            async: true,
-            success: function (data) {
-                $('#_divListaNaoMatriculados').html(data);
-            }
-        });
-    }
-    
     function copiar() {
-        alert('copiar');
+        var text = $("#txtPagina").val();
+        navigator.clipboard.writeText(text);
     }
 
-     function voltarAluno() {
+    function voltarAluno() {
         $('#divInformacaoAluno').css('display', 'none');
         if (!window.matchMedia("(max-width: 1200px)").matches) {
             $('#backgroundModal').css('display', 'none');
         }
+    }
+
+    function validarCampos() {
+        if (!$('#chkExAluno').is(":checked") && !$('#chkNovoAluno').is(":checked")) {
+            ExibirInfo('O aluno deve ser ex-aluno e/ou novo aluno!');
+            return false;
+        }
+        return true;
     }
 </script>

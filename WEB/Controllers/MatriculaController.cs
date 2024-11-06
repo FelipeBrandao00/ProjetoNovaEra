@@ -6,7 +6,7 @@ using WEB.Models.Curso;
 
 namespace WEB.Controllers {
     public class MatriculaController(IConfiguration configuration) : Controller {
-        public IActionResult Index(bool icAdicionar = false) {
+        public async Task<IActionResult> Index(bool icAdicionar = false) {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token)) {
                 return RedirectToAction("Index", "Login");
@@ -21,16 +21,7 @@ namespace WEB.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListarMatriculados() {
-            ViewBag.DsTabela = "Inscrição de alunos já matriculados";
-            ViewBag.IcMatriculado = true;
-            return View("_ListaAlunos");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ListarNaoMatriculados() {
-            ViewBag.DsTabela = "Inscrição de novos alunos";
-            ViewBag.IcMatriculado = false;
+        public async Task<IActionResult> ListarMatriculas() {
             return View("_ListaAlunos");
         }
 

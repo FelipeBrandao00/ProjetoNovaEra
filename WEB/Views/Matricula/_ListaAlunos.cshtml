@@ -3,39 +3,80 @@
 <div id="divAlunosTurma">
     <div id="TituloInfoAula">
         <div id="TituloBotaoAula">
-            <h5 class="linear1"><b>@ViewBag.DsTabela</b></h5>
+            <h5 class="linear1"><b>Matrículas</b></h5>
+            <div class="linear1"><b id="num">0</b><b> selecionados - </b>Aperte no aluno para ver suas informações!</div>
         </div>
     </div>
 
-    <table id="listaAlunos">
-        <thead>
-            <tr>
-                <th id="nmAlunoLista">Nome</th>
-                <th id="nmCursoLista">Curso</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td id="nmCelulaNome" onclick="carregarInfoAluno()">Matheus Ladislau</td>
-                <td id="nmCelulaCurso">Informatica</td>
-                <td id="divBotao">
-                    <button id="btnMatricular" onclick="carregarMatriculaAluno()">Matricular</button>
-                </td>
-            </tr>
-            <tr>
-                <td id="nmCelulaNome">Matheus Ladislau</td>
-                <td id="nmCelulaCurso">Informatica</td>
-                <td id="divBotao">
-                    <button id="btnMatricular" onclick="carregarMatriculaAluno()">Matricular</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="divLista">
+        <table id="listaAlunos">
+            <thead>
+                <tr>
+                    <th class="linear1" id="nmAlunoLista">Nome</th>
+                    <th class="linear1" id="nmTurmaLista">Turma</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 4; ++i) {
+                    <tr>
+                        <td class="nmCelulaNome" id="@i" onclick="carregarInfoAluno()">Matheus Ladislau</td>
+                        <td class="nmCelulaCurso" >Informatica</td>
+                        <td onclick="toggleCheckbox(this)"class="nmCheckLista">
+                            <input type="checkbox" onclick="event.stopPropagation()" onchange="contarCheckboxes()" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
 <script type="text/javascript">
+    let numSelecionados = 0;
+    function toggleCheckbox(row) {
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
+        contarCheckboxes();
+    }
+
+
+    function contarCheckboxes() {
+        const checkboxes = document.querySelectorAll("#listaAlunos tbody input[type='checkbox']");
+
+        const checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+
+        totalCheckboxes = checkboxesMarcados.length;
+        $("#num").html('');
+        $("#num").html(totalCheckboxes);
+    }
+
+    function obterAlunosSelecionados() {
+        const alunosSelecionados = [];
+
+        const rows = document.querySelectorAll("#listaAlunos tbody tr");
+
+        rows.forEach(row => {
+            const checkbox = row.querySelector(".nmCheckLista input[type='checkbox']");
+            if (checkbox.checked) {
+                const id = row.querySelector(".nmCelulaNome").id;
+                const nome = row.querySelector(".nmCelulaNome").textContent.trim();
+                const curso = row.querySelector(".nmCelulaCurso").textContent.trim();
+
+                alunosSelecionados.push({
+                    id: id,
+                    nome: nome,
+                    curso: curso
+                });
+            }
+        });
+
+        console.log(alunosSelecionados);
+        return alunosSelecionados;
+    }
+
+
     function carregarInfoAluno(param, icAbrir) {
         if (window.matchMedia("(max-width: 1200px)").matches && !icAbrir) {
             carregarMatriculaAluno();
