@@ -102,7 +102,7 @@ namespace Application.Services
             }
         }
 
-        public async Task<PagedResponse<List<MatriculaDto>>> GetMatriculasByTurmaId(GetMatriculasByTurmaIdRequest request)
+        public async Task<Response<List<MatriculaDto>>> GetMatriculasByTurmaId(GetMatriculasByTurmaIdRequest request)
         {
             try
             {
@@ -113,16 +113,11 @@ namespace Application.Services
                 {
                     result.Add(mapper.Map<MatriculaDto>(matricula));
                 }
-
-                return new PagedResponse<List<MatriculaDto>>(
-                    result,
-                    matriculas.Count,
-                    1,
-                    matriculas.Count);
+                return new Response<List<MatriculaDto>>(result, 200, "Sucesso consultando as matriculas.");
             }
             catch (Exception e)
             {
-                return new PagedResponse<List<MatriculaDto>>(null, 500, "Não foi possível consultar as matriculas");
+                return new Response<List<MatriculaDto>>(null, 500, "Não foi possível consultar as matriculas.");
             }
         }
     }
