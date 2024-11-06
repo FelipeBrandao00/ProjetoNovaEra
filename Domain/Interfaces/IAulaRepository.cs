@@ -12,5 +12,8 @@ namespace Domain.Interfaces {
         Task<Aula> UpdateAula(Aula aula);
         Task<List<Aula>> GetAulasByTurmaId(int turmaId);
         Task<Aula?> GetAulaById(int aulaId);
+        Task<int> GetTotalPresencasAulaById(int aulaId);
+        Task<Aula?> EfetuarChamada(int aulaId);
+
     }
 }

@@ -6,9 +6,9 @@
 
 <link rel="stylesheet" href="~/css/Shared/ListarPadrao.css">
 
-<div id="msgListaPadraoMobile">
+@* <div id="msgListaPadraoMobile">
     <span>Aperte no @Html.Raw(Model.TipoItem) para ver suas informações!</span>
-</div>
+</div> *@
 
 <div id="listaPadrao">
     <div>
@@ -17,13 +17,13 @@
         {
             foreach (var item in Model.ItensLista)
             {
-                <button onclick="carregarInfoPadrao(@item.Id)">@item.Text</button>
+                <button onclick="carregarInfoPadrao('@item.Id')">@item.Text</button>
             }
         }
         else
         {
             <div style="text-align: center; width: 100%">
-                <span class="linear1">Não há @Html.Raw(Model.TipoItem)s.</span>
+                <span class="linear1">Não há @Html.Raw(Model.TipoItem).</span>
             </div>
         }
 
@@ -38,7 +38,7 @@
         </button>
     }
     else {
-        <button id="btnListPrev" class="btnControlList">
+        <button id="btnListPrev" class="btnControlList" onclick="carregarListaPadrao(true, @Html.Raw(Model.PaginaAtual - 1))">
             <i class="fa-solid fa-angle-left arrow-icon"></i>
         </button>
     }
@@ -51,7 +51,7 @@
         </button>
     }
     else {
-        <button id="btnListNext" class="btnControlList">
+        <button id="btnListNext" class="btnControlList" onclick="carregarListaPadrao(true, @Html.Raw(Model.PaginaAtual + 1))">
             <i class="fa-solid fa-angle-right arrow-icon"></i>
         </button>
     }

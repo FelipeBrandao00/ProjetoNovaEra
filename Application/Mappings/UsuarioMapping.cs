@@ -15,5 +15,6 @@ public class UsuarioMapping : Profile
         CreateMap<Usuario, UpdateUsuarioRequest>().ReverseMap(); 
         CreateMap<Usuario, UsuarioDto>().ReverseMap();
         CreateMap<Usuario, JwtDto>().ReverseMap();
+        CreateMap<Usuario, Matricula>().ReverseMap();
     }
 }

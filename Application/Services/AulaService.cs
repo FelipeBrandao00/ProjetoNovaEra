@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Services {
-    public class AulaService(IAulaRepository aulaRepository, IMapper mapper) : IAulaService {
+    public class AulaService(IAulaRepository aulaRepository, IMapper mapper, IFileService fileService) : IAulaService {
         public async Task<Response<AulaDto>> AddAula(AddAulaRequest request) {
             try {
                 var Entity = mapper.Map<Aula>(request);
@@ -52,7 +52,21 @@ namespace Application.Services {
 
         public async Task<Response<AulaDto?>> GetAulaById(GetAulaByIdRequest request) {
             try {
-                var result = mapper.Map<AulaDto>(await aulaRepository.GetAulaById(request.CdAula));
+                var entity = await aulaRepository.GetAulaById(request.CdAula);
+
+                if(entity == null) return new Response<AulaDto?>(null, 400, "Aula não encontrada.");
+
+
+                var result = mapper.Map<AulaDto>(entity);
+                if(result.IsChamada)
+                    result.QtPresencas = await aulaRepository.GetTotalPresencasAulaById(request.CdAula);
+
+                var path = $"Turmas/Turma{entity.CdTurma}/Aula{result.CdAula}/";
+
+                result.QtArquivos = fileService.GetFileCountInDirectory(path);
+
+                result.IsArquivo = result.QtArquivos > 0;
+
                 return new Response<AulaDto?>(result, 200, "Aula encontrada!");
             }
             catch (Exception e) {
@@ -71,7 +85,13 @@ namespace Application.Services {
 
                 List<AulaDto> result = new();
                 foreach (var aula in aulas) {
-                    result.Add(mapper.Map<AulaDto>(aula));
+                    var aulaDto = mapper.Map<AulaDto>(aula);
+                    var path = $"Turmas/Turma{aula.CdTurma}/Aula{aula.CdAula}/";
+
+                    aulaDto.QtArquivos = fileService.GetFileCountInDirectory(path);
+                    aulaDto.IsArquivo = aulaDto.QtArquivos > 0;
+
+                    result.Add(aulaDto);
                 }
 
                 return new PagedResponse<List<AulaDto>>(
@@ -92,6 +112,8 @@ namespace Application.Services {
                 
                 Entity.DtAula = request.DtAula;
                 Entity.DsAula = request.DsAula;
+                Entity.NmAula = request.NmAula;
+
 
                 var retorno = await aulaRepository.UpdateAula(Entity);
 

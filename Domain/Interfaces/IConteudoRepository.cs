@@ -10,6 +10,7 @@ namespace Domain.Interfaces {
         Task<Conteudo> AddConteudo(Conteudo conteudo);
         Task<Conteudo> DeleteConteudo(Conteudo conteudo);
         Task<Conteudo> UpdateConteudo(Conteudo conteudo);
-        Task<Conteudo?> GeConteudoById(int conteudoId);
+        Task<Conteudo?> GetConteudoById(int conteudoId);
+        Task<List<Conteudo>> GetConteudosByAulaId(int aulaId);
     }
 }

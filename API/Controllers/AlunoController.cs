@@ -34,7 +34,7 @@ namespace API.Controllers {
         }
 
         [HttpGet("api/[controller]/GetAlunosByTurmaId")]
-        public async Task<ActionResult> GetAlunosByTurmaId([FromBody] int turmaId,[FromQuery] string nome = "", [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
+        public async Task<ActionResult> GetAlunosByTurmaId([FromQuery] int turmaId,[FromQuery] string nome = "", [FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
             var request = new GetAlunosByTurmaIdRequest(turmaId, pageNumber, pageSize);
             var result = await alunoService.GetAlunosByTurmaId(request);
             if (!result.IsSuccess) return BadRequest(result);

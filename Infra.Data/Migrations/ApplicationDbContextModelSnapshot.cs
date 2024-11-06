@@ -39,6 +39,9 @@ namespace Infra.Data.Migrations
                     b.Property<DateTime>("DtAula")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsChamada")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NmAula")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -127,8 +130,9 @@ namespace Infra.Data.Migrations
                     b.Property<int>("CdTurma")
                         .HasColumnType("int");
 
-                    b.Property<int>("DsExtensao")
-                        .HasColumnType("int");
+                    b.Property<string>("DsExtensao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NmArquivo")
                         .IsRequired()
@@ -160,8 +164,9 @@ namespace Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DsExtencao")
-                        .HasColumnType("int");
+                    b.Property<string>("DsExtensao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NmArquivo")
                         .IsRequired()
@@ -217,6 +222,45 @@ namespace Infra.Data.Migrations
                     b.HasIndex("CdAluno");
 
                     b.ToTable("Frequencias");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Matricula", b =>
+                {
+                    b.Property<int>("CdMatricula")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CdMatricula"));
+
+                    b.Property<int>("CdTurma")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DsCpf")
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
+
+                    b.Property<string>("DsEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DsGenero")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DsTelefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DtNascimento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NmUsuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CdMatricula");
+
+                    b.HasIndex("CdTurma");
+
+                    b.ToTable("Matriculas");
                 });
 
             modelBuilder.Entity("Domain.Entities.Permissao", b =>
@@ -300,6 +344,13 @@ namespace Infra.Data.Migrations
                     b.Property<DateTime>("DtInicio")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IcAbertaMatricula")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NmTurma")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("CdTurma");
 
                     b.HasIndex("CdCurso");
@@ -372,7 +423,8 @@ namespace Infra.Data.Migrations
                         new
                         {
                             CdUsuario = new Guid("a21fa379-2b28-447f-ad88-87ef9df45df7"),
-                            DsEmail = "master@mail.com",
+                            DsCpf = "00000000000",
+                            DsEmail = "master@gmail.com",
                             DsSenha = "E59pyTwEJJao6VjsWTBmLGzMr78=",
                             NmUsuario = "Master"
                         });
@@ -447,6 +499,17 @@ namespace Infra.Data.Migrations
                     b.Navigation("Aluno");
 
                     b.Navigation("Aula");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Matricula", b =>
+                {
+                    b.HasOne("Domain.Entities.Turma", "Turma")
+                        .WithMany("Matriculas")
+                        .HasForeignKey("CdTurma")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Turma");
                 });
 
             modelBuilder.Entity("Domain.Entities.Permissao_Cargos", b =>
@@ -535,6 +598,8 @@ namespace Infra.Data.Migrations
                     b.Navigation("Aulas");
 
                     b.Navigation("Certificado");
+
+                    b.Navigation("Matriculas");
 
                     b.Navigation("TurmaAluno");
                 });
