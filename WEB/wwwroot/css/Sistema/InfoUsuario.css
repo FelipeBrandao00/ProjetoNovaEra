@@ -1,0 +1,218 @@
+﻿/* Folha de estilos: Sistema */
+
+/* IDs */
+#divImgUsuario {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#quadroImgUser {
+    height: 122px;
+    width: 122px;
+    background-color: #DBD8D8;
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+    #quadroImgUser > img {
+        border-radius: 10px;
+        object-fit: contain;
+    }
+
+#divImgUsuario > div:last-child {
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#btnTrocarFoto {
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnExcluirFoto {
+    color: #FFFFFF;
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(0deg, rgba(218,53,53,1) 0%, rgba(126,6,6,1) 100%);
+}
+
+#divNomeUsuario {
+    margin-top: 3vh;
+}
+
+#divEmailUsuario {
+    margin-top: 1vh;
+}
+
+#divGrupoPC1 {
+    margin-top: 1vh;
+    display: flex;
+    gap: 15px;
+}
+
+    #divGrupoPC1 > div {
+        width: 33.3%;
+    }
+
+#divGrupoPC2 {
+    gap: 15px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3vh;
+}
+
+    #divGrupoPC2 > div {
+        width: 50%;
+    }
+
+#divBotoesEditar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 11vh;
+}
+
+#divBotaoAdicionar {
+    display: none;
+    justify-content: flex-end;
+    margin-top: 11vh;
+}
+
+#btnConfirmarAdicionar {
+    color: #FFFFFF;
+    width: 150px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#btnEditar {
+    width: 130px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnCancelar {
+    width: 160px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnInativar {
+    width: 160px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(126,6,6,1) 0%, rgba(218,53,53,1) 100%);
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#btnSalvar {
+    color: #FFFFFF;
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+}
+
+#divBotoesEdicao {
+    display: none;
+    /*display: flex;*/
+    justify-content: space-between;
+    margin-top: 11vh;
+}
+
+#lblListaCargo {
+    margin-top: 15px;
+}
+
+#listaCargo > div {
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    color: #989898;
+    padding: 10px 20px;
+    border: 1px solid #AEAEAE;
+    background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px inset;
+    display: flex;
+    justify-content: space-between;
+}
+
+#listaCargo > div:only-of-type {
+    border-radius: 5px !important;
+}
+
+#listaCargo > div:first-child {
+    border-radius: 5px 5px 0 0 !important;
+}
+
+#listaCargo > div:last-child {
+    border-radius: 0 0 5px 5px !important;
+}
+
+/* Classes */
+.txtInfoUsuario {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #DBD8D8;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #divGrupoPC1, #divGrupoPC2 {
+        gap: 1vh;
+        display: flex;
+        margin-top: 1vh;
+        flex-direction: column;
+    }
+
+        #divGrupoPC1 > div, #divGrupoPC2 > div {
+            width: 100%;
+        }
+
+    #divBotoesEditar, #divBotoesEdicao {
+        display: none;
+    }
+}
+
+/* Para telas com alturas muito baixas */
+@media (max-height: 520px) {
+    #divBotoesEditar, divBotoesEdicao {
+        margin-top: 5vh;
+    }
+}

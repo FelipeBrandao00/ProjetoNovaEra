@@ -8,7 +8,10 @@ using static WEB.Models.Shared.ListarPadraoViewModel;
 
 namespace WEB.Models.Curso {
     public class CursoViewModel {
-        public class ItemListaCurso {
+        public int cdCurso { get; set; }
+        public string nmCurso { get; set; }
+      
+        public class ItemListaCurso {    
             public required int cdCurso { get; set; }
             public required string nmCurso { get; set; }
         }
