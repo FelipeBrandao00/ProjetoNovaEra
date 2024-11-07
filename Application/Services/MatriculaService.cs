@@ -48,42 +48,37 @@ namespace Application.Services
             }
         }
 
-        public async Task<PagedResponse<List<UsuarioDto>>> EfetivarMatriculas(EfetivarMatriculasRequest request)
-        {
-            try
-            {
+        public async Task<PagedResponse<List<UsuarioDto>>> EfetivarMatriculas(EfetivarMatriculasRequest request) {
+            try {
                 var matriculasEfetivadas = new List<UsuarioDto>();
-            foreach (var matriculaId in request.MatriculaIds)
-            {
-                var matricula = await matriculaRepository.GetMatriculaById(matriculaId);
+                foreach (var matriculaId in request.MatriculaIds) {
+                    var matricula = await matriculaRepository.GetMatriculaById(matriculaId);
 
-                if (matricula == null) continue;
+                    if (matricula == null) continue;
 
-                var usuarioEntity = mapper.Map<Usuario>(matricula);
+                    var usuarioEntity = mapper.Map<Usuario>(matricula);
+                    usuarioEntity.DsSenha = "CLj6QBTMn7/ypWBsDLPR2JMtyIs=";
 
-                var usuario = await usuarioRepository.GetUsuarioByCpf(matricula.DsCpf) ?? await usuarioRepository.AddUsuario(usuarioEntity);
+                    var usuario = await usuarioRepository.GetUsuarioByCpf(matricula.DsCpf) ?? await usuarioRepository.AddUsuario(usuarioEntity);
 
-                var cargos = await cargoUsuarioRepository.GetCargosByUserId(usuario.CdUsuario);
+                    var cargos = await cargoUsuarioRepository.GetCargosByUserId(usuario.CdUsuario);
 
-                if (cargos.Where(x => x.CdCargo == 3).Count() == 0)
-                {
-                    var cargoUsuario = new CreateCargoUsuarioRequest { CdUsuario = usuario.CdUsuario, CdCargo = 3 };
-                    await cargoUsuarioRepository.AddCargoUsuario(mapper.Map<Cargo_Usuario>(cargoUsuario));
+                    if (cargos.Where(x => x.CdCargo == 3).Count() == 0) {
+                        var cargoUsuario = new CreateCargoUsuarioRequest { CdUsuario = usuario.CdUsuario, CdCargo = 3 };
+                        await cargoUsuarioRepository.AddCargoUsuario(mapper.Map<Cargo_Usuario>(cargoUsuario));
+                    }
+
+                    var turmaAluno = new AddTurmaAlunoRequest { CdAluno = usuario.CdUsuario, CdTurma = matricula.CdTurma };
+
+                    await turmaAlunoRepository.AddTurmaAluno(mapper.Map<Turma_Aluno>(turmaAluno));
+
+                    await matriculaRepository.DeleteMatricula(matricula);
+
+                    matriculasEfetivadas.Add(mapper.Map<UsuarioDto>(usuario));
+
                 }
-
-                var turmaAluno = new AddTurmaAlunoRequest {CdAluno = usuario.CdUsuario, CdTurma = matricula.CdTurma };
-
-                await turmaAlunoRepository.AddTurmaAluno(mapper.Map<Turma_Aluno>(turmaAluno));
-
-                await matriculaRepository.DeleteMatricula(matricula);
-
-                matriculasEfetivadas.Add(mapper.Map<UsuarioDto>(usuario));
-
-            }
-            return new PagedResponse<List<UsuarioDto>>(matriculasEfetivadas,matriculasEfetivadas.Count,1,matriculasEfetivadas.Count);
-            }
-            catch (Exception e)
-            {
+                return new PagedResponse<List<UsuarioDto>>(matriculasEfetivadas, matriculasEfetivadas.Count, 1, matriculasEfetivadas.Count);
+            } catch (Exception e) {
                 return new PagedResponse<List<UsuarioDto>>(null, 500, "Não foi possível efetivar as matriculas");
             }
         }

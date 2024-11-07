@@ -32,6 +32,8 @@ namespace Infra.Data.Repositories
 
         public async Task<Matricula> GetMatriculaById(int matriculaId) => await _context.Matriculas.Where(x => x.CdMatricula == matriculaId).FirstOrDefaultAsync();
 
-        public async Task<List<Matricula>> GetMatriculasByTurmaId(int turmaId) => await _context.Matriculas.Where(x => x.CdTurma == turmaId).ToListAsync();
+        public async Task<List<Matricula>> GetMatriculasByTurmaId(int turmaId) => await _context.Matriculas.Where(x => x.CdTurma == turmaId)
+            .Include(turma => turma.Turma)
+            .ToListAsync();
     }
 }

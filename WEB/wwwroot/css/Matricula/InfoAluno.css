@@ -126,9 +126,20 @@ label {
     overflow-y: auto;
 }
 
-#listaAlunos, #listaAlunosConfirmacao {
-    border-collapse: separate;
-    border-spacing: 0;
+#listaAlunos > tbody > tr:only-of-type > td:first-child{
+    border-radius: 10px 0 0 10px !important;
+}
+
+#listaAlunos > tbody > tr:only-of-type > td:last-child{
+    border-radius: 0 10px 10px 0 !important;
+}
+
+#listaAlunosConfirmacao > tbody > tr:only-of-type > td:first-child {
+    border-radius: 10px 0 0 10px !important;
+}
+
+#listaAlunosConfirmacao > tbody > tr:only-of-type > td:last-child {
+    border-radius: 0 10px 10px 0 !important;
 }
 
     #listaAlunos > tbody > tr, #listaAlunosConfirmacao > tbody > tr {
@@ -187,6 +198,7 @@ label {
 }
 
 #btnMatricular {
+    display: none;
     margin-top: 20px;
     float: right;
     height: 40px;

@@ -1,10 +1,14 @@
-﻿<link rel="stylesheet" href="~/css/Matricula/InfoAluno.css">
+﻿@using WEB.Models.Matricula
+@{
+    var ListaMatriculas = ViewBag.ListaMatriculas ?? new List<Application.Responses.Response<List<MatriculaViewModel>>>();
+}
+<link rel="stylesheet" href="~/css/Matricula/InfoAluno.css">
 
 <div id="divAlunosTurma">
     <div id="TituloInfoAula">
         <div id="TituloBotaoAula">
             <h5 class="linear1"><b>Matrículas</b></h5>
-            <div class="linear1"><b id="num">0</b><b> selecionados - </b>Aperte no aluno para ver suas informações!</div>
+            <div class="linear1"><b id="num">0</b><b> selecionado(s) - </b>Aperte no aluno para ver suas informações!</div>
         </div>
     </div>
 
@@ -18,10 +22,10 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 4; ++i) {
+                @foreach (MatriculaViewModel item in ListaMatriculas) {
                     <tr>
-                        <td class="nmCelulaNome" id="@i" onclick="carregarInfoAluno()">Matheus Ladislau</td>
-                        <td class="nmCelulaCurso" >Informatica</td>
+                        <td class="nmCelulaNome" id="@item.cdMatricula" onclick="carregarInfoAluno('@item.dsCpf')">@item.nmUsuario</td>
+                        <td class="nmCelulaCurso" >@item.nmTurma</td>
                         <td onclick="toggleCheckbox(this)"class="nmCheckLista">
                             <input type="checkbox" onclick="event.stopPropagation()" onchange="contarCheckboxes()" />
                         </td>
@@ -40,7 +44,6 @@
         checkbox.checked = !checkbox.checked;
         contarCheckboxes();
     }
-
 
     function contarCheckboxes() {
         const checkboxes = document.querySelectorAll("#listaAlunos tbody input[type='checkbox']");
@@ -77,7 +80,7 @@
     }
 
 
-    function carregarInfoAluno(param, icAbrir) {
+    function carregarInfoAluno(DsCpf) {
         if (window.matchMedia("(max-width: 1200px)").matches && !icAbrir) {
             carregarMatriculaAluno();
             return;
@@ -87,6 +90,9 @@
             url: '@Url.Action("CarregarInfoAluno", "Matricula")',
             type: 'GET',
             async: true,
+            data: {
+                DsCpf: DsCpf
+            },
             success: function (data) {
                 $('#_divInfoAluno').html(data);
 

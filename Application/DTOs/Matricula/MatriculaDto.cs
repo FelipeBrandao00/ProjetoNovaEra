@@ -14,5 +14,6 @@ namespace Application.DTOs.Matricula
         public required string NmUsuario { get; set; }   
         public string? DsCpf { get; set; }
         public int CdTurma { get; set; }
+        public string? NmTurma { get; set; }
     }
 }

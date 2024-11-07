@@ -1,12 +1,16 @@
-﻿using Application.Responses;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
-using WEB.Models.Shared;
-using WEB.Models.Curso;
+using WEB.Models.Response;
+using WEB.Models.Turma;
+using WEB.Models.Matricula;
+using WEB.Models.Usuario;
+using WEB.Models.Aluno;
+using WEB.Models.Genero;
+using Application.Responses;
 
 namespace WEB.Controllers {
     public class MatriculaController(IConfiguration configuration) : Controller {
-        public async Task<IActionResult> Index(bool icAdicionar = false) {
+        public async Task<IActionResult> Index() {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token)) {
                 return RedirectToAction("Index", "Login");
@@ -16,18 +20,38 @@ namespace WEB.Controllers {
             ViewBag.Role = dados.role[0];
             ViewBag.Nome = dados.role[1];
 
-            ViewBag.IcAdicionar = icAdicionar;
+            var TurmaViewModel = new TurmaViewModel();
+            var ListaTurmasAbertasMatricula = await TurmaViewModel.TurmasAbertasMatricula(configuration);
+            ViewBag.ListaTurmasAbertasMatricula = ListaTurmasAbertasMatricula.Data;
+
+            ViewBag.LinkInscricao = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Inscricao";
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListarMatriculas() {
+        public async Task<IActionResult> ListarMatriculas(ResponseModelMatricula ResponseModelMatricula) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var MatriculaViewModel = new MatriculaViewModel();
+            var ListaMatriculas = await MatriculaViewModel.BuscarPorTurma(configuration, ResponseModelMatricula);
+            ViewBag.ListaMatriculas = ListaMatriculas.Data;
             return View("_ListaAlunos");
         }
 
         [HttpGet]
-        public async Task<IActionResult> CarregarInfoAluno() {
-            return View("_InfoAluno");
+        public async Task<IActionResult> CarregarInfoAluno(ResponseModelUsuario ResponseModelUsuario) {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var UsuarioViewModel = new UsuarioViewModel();
+            UsuarioViewModel.DsCpf = ResponseModelUsuario.DsCpf;
+
+            var InfoUsuario = await UsuarioViewModel.BuscarInfo(configuration);
+
+            var GeneroViewModel = new GeneroViewModel();
+            var ListaGenero = await GeneroViewModel.GerarLista(configuration);
+            ViewBag.ListaGenero = ListaGenero.Data;
+
+            return PartialView("_InfoAluno", InfoUsuario.Data);
         }
         
         [HttpGet]

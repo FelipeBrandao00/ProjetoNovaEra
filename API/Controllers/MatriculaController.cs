@@ -22,10 +22,10 @@ namespace API.Controllers
         }
 
 
-        [HttpGet("api/[controller]/GetMatriculasByTurmaId/{tumraId:int}")]
-        public async Task<ActionResult> GetMatriculasByTurmaId(int tumraId)
+        [HttpGet("api/[controller]/GetMatriculasByTurmaId/{turmaId:int}")]
+        public async Task<ActionResult> GetMatriculasByTurmaId(int turmaId)
         {
-            var request = new GetMatriculasByTurmaIdRequest(tumraId);
+            var request = new GetMatriculasByTurmaIdRequest(turmaId);
             var result = await matriculaService.GetMatriculasByTurmaId(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);
