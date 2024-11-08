@@ -23,7 +23,7 @@ namespace API.Controllers
 
 
         [HttpGet("api/[controller]/GetMatriculasByTurmaId/{turmaId:int}")]
-        public async Task<ActionResult> GetMatriculasByTurmaId(int turmaId)
+        public async Task<ActionResult> GetMatriculasByTurmaId(int turmaId, [FromQuery] int idadeInicial, [FromQuery] int idadeFinal, bool? IcExAluno)
         {
             var request = new GetMatriculasByTurmaIdRequest(turmaId);
             var result = await matriculaService.GetMatriculasByTurmaId(request);

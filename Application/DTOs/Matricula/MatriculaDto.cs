@@ -8,12 +8,17 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Matricula
 {
-    public class MatriculaDto
+    public class MatriculaDto(int cdMatricula, string nmUsuario, string? dsCpf, string dsEmail, int cdTurma, string? nmTurma, Genero? dsGenero, DateTime? dtNascimento, string? dsTelefone)
     {
-        public int CdMatricula { get; set; }
-        public required string NmUsuario { get; set; }   
-        public string? DsCpf { get; set; }
-        public int CdTurma { get; set; }
-        public string? NmTurma { get; set; }
+        public int CdMatricula { get; set; } = cdMatricula;
+        public string NmUsuario { get; set; } = nmUsuario;
+        public string? DsCpf { get; set; } = dsCpf;
+        public string DsEmail { get; set; } = dsEmail;
+        public int CdTurma { get; set; } = cdTurma;
+        public string? NmTurma { get; set; } = nmTurma;
+        public Genero? DsGenero { get; set; } = dsGenero;
+        public string StrDsGenero { get; init; } = dsGenero?.ToString();
+        public DateTime? DtNascimento { get; set; } = dtNascimento;
+        public string? DsTelefone { get; set; } = dsTelefone;
     }
 }

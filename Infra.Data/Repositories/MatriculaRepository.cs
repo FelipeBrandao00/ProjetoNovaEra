@@ -17,7 +17,7 @@ namespace Infra.Data.Repositories
             if (_context.Matriculas.Where(x => x.DsCpf == matricula.DsCpf && x.CdTurma == matricula.CdTurma).Any()) {
                 return null;
             }
-
+            matricula.DtMatricula = DateTime.Now;
             _context.Matriculas.Add(matricula);
             await _context.SaveChangesAsync();
             return matricula;

@@ -57,7 +57,6 @@ namespace Application.Services
                     if (matricula == null) continue;
 
                     var usuarioEntity = mapper.Map<Usuario>(matricula);
-                    usuarioEntity.DsSenha = "CLj6QBTMn7/ypWBsDLPR2JMtyIs=";
 
                     var usuario = await usuarioRepository.GetUsuarioByCpf(matricula.DsCpf) ?? await usuarioRepository.AddUsuario(usuarioEntity);
 

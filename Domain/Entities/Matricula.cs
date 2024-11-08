@@ -15,6 +15,7 @@ namespace Domain.Entities
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CdMatricula { get; set; }
+        public DateTime? DtMatricula { get; set; }
         public required string NmUsuario { get; set; }
         public required string DsEmail { get; set; }
         [MinLength(11)]

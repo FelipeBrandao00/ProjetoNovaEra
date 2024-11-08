@@ -12,7 +12,7 @@ public class UsuarioRepository(ApplicationDbContext _context) : IUsuarioReposito
 
     public async Task<Usuario> AddUsuario(Usuario usuario)
     {
-        usuario.DsSenha = Password.EncodePassword(usuario.DsSenha);
+        usuario.DsSenha = Password.EncodePassword(usuario.DsSenha ?? usuario.DsCpf);
         _context.Usuarios.Add(usuario);
         await _context.SaveChangesAsync();
         return usuario;

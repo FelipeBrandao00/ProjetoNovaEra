@@ -4,6 +4,7 @@ using API_NOVA_ERA.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241107190735_obrigatorio cpf")]
+    partial class obrigatoriocpf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,9 +251,6 @@ namespace Infra.Data.Migrations
 
                     b.Property<string>("DsTelefone")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DtMatricula")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DtNascimento")
                         .HasColumnType("datetime2");
