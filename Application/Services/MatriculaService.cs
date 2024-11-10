@@ -101,11 +101,49 @@ namespace Application.Services
             try
             {
                 List<Matricula> matriculas = await matriculaRepository.GetMatriculasByTurmaId(request.CdTurma);
+                List<Matricula> matriculaFiltradas = matriculas;
+
+                if (request.IdadeInicial.HasValue) {
+                    var anoAtual = DateTime.Now.Year;
+                    matriculaFiltradas = matriculaFiltradas.Where(x => (anoAtual - x.DtNascimento.Year) >= request.IdadeInicial).ToList();
+                }
+
+                if (request.IdadeFinal.HasValue) {
+                    var anoAtual = DateTime.Now.Year;
+                    matriculaFiltradas = matriculaFiltradas.Where(x => (anoAtual - x.DtNascimento.Year) <= request.IdadeFinal).ToList();
+                }
+
+                if (request.IcExAluno == true) {
+                    var usuariosValidos = new List<Matricula>();
+
+                    foreach (var matricula in matriculaFiltradas) {
+                        var usuario = await usuarioRepository.GetUsuarioByCpf(matricula.DsCpf);
+                        if (usuario != null) {
+                            usuariosValidos.Add(matricula);
+                        }
+                    }
+
+                    matriculaFiltradas = usuariosValidos;
+                }
+
+                if (request.IcExAluno == false) {
+                    var usuariosValidos = new List<Matricula>();
+
+                    foreach (var matricula in matriculaFiltradas) {
+                        var usuario = await usuarioRepository.GetUsuarioByCpf(matricula.DsCpf);
+                        if (usuario == null) {
+                            usuariosValidos.Add(matricula);
+                        }
+                    }
+                    matriculaFiltradas = usuariosValidos;
+                }
 
                 List<MatriculaDto> result = new();
                 foreach (var matricula in matriculas)
                 {
-                    result.Add(mapper.Map<MatriculaDto>(matricula));
+                    var matriculaDto = mapper.Map<MatriculaDto>(matricula);
+                    matriculaDto.IcAtendeFiltro = (matriculaFiltradas.Contains(matricula)) ? true : false;
+                    result.Add(matriculaDto);
                 }
                 return new Response<List<MatriculaDto>>(result, 200, "Sucesso consultando as matriculas.");
             }

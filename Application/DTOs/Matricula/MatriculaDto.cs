@@ -8,17 +8,35 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Matricula
 {
-    public class MatriculaDto(int cdMatricula, string nmUsuario, string? dsCpf, string dsEmail, int cdTurma, string? nmTurma, Genero? dsGenero, DateTime? dtNascimento, string? dsTelefone)
-    {
-        public int CdMatricula { get; set; } = cdMatricula;
-        public string NmUsuario { get; set; } = nmUsuario;
-        public string? DsCpf { get; set; } = dsCpf;
-        public string DsEmail { get; set; } = dsEmail;
-        public int CdTurma { get; set; } = cdTurma;
-        public string? NmTurma { get; set; } = nmTurma;
-        public Genero? DsGenero { get; set; } = dsGenero;
-        public string StrDsGenero { get; init; } = dsGenero?.ToString();
-        public DateTime? DtNascimento { get; set; } = dtNascimento;
-        public string? DsTelefone { get; set; } = dsTelefone;
+    public class MatriculaDto {
+        public int CdMatricula { get; set; }
+        public string NmUsuario { get; set; }
+        public string? DsCpf { get; set; }
+        public string DsEmail { get; set; }
+        public int CdTurma { get; set; }
+        public string? NmTurma { get; set; }
+        public Genero? DsGenero { get; set; }
+        public string StrDsGenero { get; init; }
+        public DateTime? DtNascimento { get; set; }
+        public string? DsTelefone { get; set; }
+        public bool? IcAtendeFiltro { get; set; }
+
+        public MatriculaDto()
+        {
+            
+        }
+
+        public MatriculaDto(int cdMatricula, string nmUsuario, string? dsCpf, string dsEmail, int cdTurma, string? nmTurma, Genero? dsGenero, DateTime? dtNascimento, string? dsTelefone) {
+            CdMatricula = cdMatricula;
+            NmUsuario = nmUsuario;
+            DsCpf = dsCpf;
+            DsEmail = dsEmail;
+            CdTurma = cdTurma;
+            NmTurma = nmTurma;
+            DsGenero = dsGenero;
+            StrDsGenero = dsGenero?.ToString();
+            DtNascimento = dtNascimento;
+            DsTelefone = dsTelefone;
+        }
     }
 }

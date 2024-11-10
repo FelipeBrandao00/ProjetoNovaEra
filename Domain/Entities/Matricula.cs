@@ -15,14 +15,14 @@ namespace Domain.Entities
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CdMatricula { get; set; }
-        public DateTime? DtMatricula { get; set; }
+        public DateTime DtMatricula { get; set; }
         public required string NmUsuario { get; set; }
         public required string DsEmail { get; set; }
         [MinLength(11)]
         [MaxLength(12)]
-        public string? DsCpf { get; set; }
+        public required string DsCpf { get; set; }
         public Genero? DsGenero { get; set; }
-        public DateTime? DtNascimento { get; set; }
+        public DateTime DtNascimento { get; set; }
         public string? DsTelefone { get; set; }
         public int CdTurma { get; set; }
         public virtual required Turma Turma { get; set; }
