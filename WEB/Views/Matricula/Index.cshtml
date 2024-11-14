@@ -194,7 +194,10 @@
             url: '@Url.Action("ListarMatriculas", "Matricula")',
             type: 'GET',
             data: {
-                cdTurma: cdTurma
+                cdTurma: cdTurma,
+                idadeInicial: idadeInicio,
+                idadeFinal: idadeFim,
+                icExAluno: icExAluno
             },
             async: true,
             dataType: 'HTML',

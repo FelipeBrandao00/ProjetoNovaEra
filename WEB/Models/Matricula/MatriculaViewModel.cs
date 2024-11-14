@@ -16,6 +16,23 @@ namespace WEB.Models.Matricula {
                 var baseUrl = configuration["BaseRequest"];
                 var url = $"{baseUrl}/Matricula/GetMatriculasByTurmaId/{ResponseModelMatricula.cdTurma}";
 
+                if (ResponseModelMatricula.icExAluno != null || ResponseModelMatricula.idadeInicial != null || ResponseModelMatricula.idadeFinal != null) {
+                    url += "?";
+                }
+
+                if (ResponseModelMatricula.idadeInicial != null) {
+                    url += $"idadeInicial={ResponseModelMatricula.idadeInicial}&";
+                }
+                if (ResponseModelMatricula.idadeFinal != null) {
+                    url += $"idadeFinal={ResponseModelMatricula.idadeFinal}&";
+                }
+                if (ResponseModelMatricula.icExAluno != null) {
+                    url += $"icExAluno={ResponseModelMatricula.icExAluno}";
+                }
+                if (url.EndsWith("&")) {
+                    url = url.Remove(url.Length - 1);
+                }
+
                 var token = configuration["JwtToken"];
                 if (!string.IsNullOrEmpty(token))
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
