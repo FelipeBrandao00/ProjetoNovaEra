@@ -137,6 +137,7 @@
             const tr = document.createElement("tr");
 
             const tdNome = document.createElement("td");
+            tdNome.id = aluno.id;
             tdNome.classList.add("nmCelulaNome");
             tdNome.style.cursor = 'auto';
             tdNome.textContent = aluno.nome;
@@ -149,6 +150,34 @@
             tr.appendChild(tdCurso);
 
             tabelaCorpo.appendChild(tr);
+        });
+    }
+
+    function confirmarMatricula() {
+        const ids = Array.from(document.querySelectorAll('#listaAlunosConfirmacao tbody .nmCelulaNome'))
+                 .map(cell => parseInt(cell.id, 10));
+
+        $.ajax({
+            url: '@Url.Action("ConfirmarMatriculas", "Matricula")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(ids),
+            async: true,
+            dataType: 'JSON',
+            success: function (data) {
+                if (data.isSuccess) {
+                    $('#btnMatricular').hide();
+                    $("#numAtende").text("0");
+                    voltarConfirmacao();
+                    carregarListaMatriculados();
+
+                    ExibirSucesso(data.message, 'Sucesso!');
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                } 
+            }
         });
     }
 
@@ -180,11 +209,6 @@
             icExAluno = true;
         }
 
-        let quantidadeAlunos = null;
-        if ($('#divQuantidade').val() > 0) {
-            quantidadeAlunos = $('#divQuantidade').val();
-        }
-
         let cdTurma = $('#ddlTurma').val(); 
 
         let ResponseModelMatricula = new FormData();
@@ -204,7 +228,9 @@
             success: function (data) {
                 $('#_divListaMatriculas').html(data);
 
-                $('#btnMatricular').show();
+                if($("#numAtende").text() > 0) {
+                    $('#btnMatricular').show();
+                }
             }
         });
     }
