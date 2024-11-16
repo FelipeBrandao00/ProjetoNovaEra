@@ -1,4 +1,11 @@
-﻿<link rel="stylesheet" href="~/css/Chamada/InfoAula.css">
+﻿@using Application.Responses
+@using WEB.Models.Response;
+@{
+    var ListaChamada = (List<ResponseModelChamada>)ViewBag.ListaChamada ?? new List<ResponseModelChamada>();
+    var ListaAlunos = (List<ResponseModelUsuario>)ViewBag.ListaAlunos ?? new List<ResponseModelUsuario>();
+    var InfoAula = ViewBag.InfoAula ?? new ResponseModelAula();
+}
+<link rel="stylesheet" href="~/css/Chamada/InfoAula.css">
 <link rel="stylesheet" href="~/css/Chamada/Index.css">
 
 
@@ -15,8 +22,8 @@
     <div id="divConteudoAula">
         <div id="divTituloConteudoAula">
             <div>
-                <h3 class="linear1"><b>Aula 01</b></h3>
-                <h5 class="linear1"><b>21/01/2024</b></h5>
+                <h3 class="linear1"><b>@InfoAula.nmAula</b></h3>
+                <h5 class="linear1"><b>@InfoAula.dtAula.ToString("dd/MM/yyyy")</b></h5>
             </div>
             <div id="chks">
                 <div id="divCheck">
@@ -40,11 +47,28 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 10; i++) {
-                    <tr>
-                        <td class="clsAusente" onclick="visualizarFoto()"><img id="fotoAluno" src="https://i.ytimg.com/vi/rj-1egNPnaY/hqdefault.jpg"/></td>
-                        <td class="clsAusente" onclick="alterarStatusAluno(this)">Matheus Ladislau</td> 
-                    </tr>
+                @foreach (var item in ListaAlunos) {
+                    var ImgSrc = (item?.DsFoto != null && item?.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(item?.DsFoto)}" : String.Empty;
+                    bool icAusente = ListaChamada.Any(x => x.cdAluno == item?.CdUsuario);
+                    if (icAusente) {
+                        <tr>
+                            @if (string.IsNullOrEmpty(ImgSrc)) {
+                                <td class="clsAusente"><img id="fotoAluno"/></td>
+                            } else {
+                                <td class="clsAusente" onclick="visualizarFoto('@ImgSrc')"><img id="fotoAluno" src="@ImgSrc"/></td>
+                            }
+                            <td class="clsAusente" id="@item?.CdUsuario" onclick="alterarStatusAluno(this)">@item?.NmUsuario</td> 
+                        </tr>
+                    } else {
+                        <tr>
+                            @if (string.IsNullOrEmpty(ImgSrc)) {
+                                <td class="clsPresente"><img id="fotoAluno"/></td>
+                            } else {
+                                <td class="clsPresente" onclick="visualizarFoto('@ImgSrc')"><img id="fotoAluno" src="@ImgSrc"/></td>
+                            }
+                            <td class="clsPresente" id="@item?.CdUsuario" onclick="alterarStatusAluno(this)">@item?.NmUsuario</td> 
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -57,7 +81,7 @@
 
 
 <div id="divModalFoto">
-    <img id="fotoModal" src="https://i.ytimg.com/vi/rj-1egNPnaY/hqdefault.jpg"/>
+    <img id="fotoModal"/>
 </div>
 
 <script type="text/javascript">
@@ -78,9 +102,11 @@
         $(aluno).prev().removeClass('clsAusente');
     }
     
-    function visualizarFoto() {
+    function visualizarFoto(imgSrc) {
         $('#divModalFoto').css('display', 'flex');
         $('#backgroundConteudoModal').css('display', 'block');
+
+        $('#fotoModal').attr('src', imgSrc);
     }
     
     function sumir() {
@@ -89,6 +115,35 @@
     }
 
     function confirmarChamada() {
-        alert('OI');
+        const ausentes = document.querySelectorAll('.clsAusente');
+
+        const ids = Array.from(ausentes)
+            .map(el => el.id)
+            .filter(id => id !== "");
+
+        const chamadaViewModel = {
+            cdAula: '@InfoAula.cdAula',
+            cdTurma: '@InfoAula.cdTurma',
+            cdAlunos: ids
+        };
+
+        $.ajax({
+            url: '@Url.Action("EfetivarChamada", "Chamada")',
+            type: 'POST',
+            async: true,
+            contentType: 'application/json',
+            data: JSON.stringify(chamadaViewModel),
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                    voltarAula();
+                    carregarListaAulas();
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+            }
+        });
     }
 </script>

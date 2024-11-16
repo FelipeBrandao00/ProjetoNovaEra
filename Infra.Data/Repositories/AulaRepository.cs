@@ -30,7 +30,15 @@ namespace Infra.Data.Repositories {
             return await _context.Aulas.Where(x => x.CdAula == aulaId).FirstOrDefaultAsync();
         }
 
-        public async Task<List<Aula>> GetAulasByTurmaId(int turmaId) {
+        public async Task<List<Aula>> GetAulasByTurmaId(int turmaId, bool? icChamada) {
+            if (icChamada == true) {
+                return await _context.Aulas.Where(x => x.IsChamada == true && x.CdTurma == turmaId).ToListAsync();
+            }
+
+            if (icChamada == false) {
+                return await _context.Aulas.Where(x => x.IsChamada == false && x.CdTurma == turmaId).ToListAsync();
+            }
+
             return await _context.Aulas.Where(x => x.CdTurma == turmaId).ToListAsync(); 
         }
 

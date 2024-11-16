@@ -545,7 +545,7 @@
             </div>
 
             <div id="secChamada" class="sec">
-                <button>
+                <button onclick="redirecionarParaChamada()">
                     <div>
                         <i class="fa-solid fa-scroll"></i>
                         <b>Chamada</b>
@@ -771,6 +771,11 @@
         function redirecionarParaListarPermissoes() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Permissao")';
+        }
+
+        function redirecionarParaChamada() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Chamada")';
         }
     </script>
 

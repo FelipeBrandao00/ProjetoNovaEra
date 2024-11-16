@@ -252,8 +252,12 @@
 #fotoAluno {
     display: block;
     height: 60px;
-    aspect-ratio: 4/3;
+    height: 60px;
     margin: auto;
+}
+
+#fotoAluno img {
+    object-fit: contain;
 }
 
 .clsAusente {
@@ -278,11 +282,18 @@
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
     flex-direction: column;
     gap: 5px;
-    width: 65vw;
+    width: 30vw;
+    height: 30vh;
     margin-top: 50px;
     font-size: 14px;
     position: fixed;
-    top: 5%;
+    top: 27%;
+    left: 38%;
+}
+
+#divModalFoto img {
+    object-fit: contain;
+    height: 100%;
 }
 
 /* Responsivo MOBILE */
@@ -327,6 +338,7 @@
     #divModalFoto {
         width: 74vw;
         top: 32%;
+        left: 13%;
     }
 }
 
