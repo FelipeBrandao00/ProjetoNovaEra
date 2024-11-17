@@ -76,7 +76,7 @@ namespace Application.Services {
 
         public async Task<PagedResponse<List<AulaDto>>> GetAulasByTurmaId(GetAulasByTurmaIdRequest request) {
             try {
-                List<Aula> query = await aulaRepository.GetAulasByTurmaId(request.TurmaId);
+                List<Aula> query = await aulaRepository.GetAulasByTurmaId(request.TurmaId, request.IcChamada);
 
                 var aulas = query
                     .Skip((request.PageNumber - 1) * request.PageSize)
@@ -90,6 +90,7 @@ namespace Application.Services {
 
                     aulaDto.QtArquivos = fileService.GetFileCountInDirectory(path);
                     aulaDto.IsArquivo = aulaDto.QtArquivos > 0;
+                    aulaDto.QtPresencas = await aulaRepository.GetTotalPresencasAulaById(aulaDto.CdAula);
 
                     result.Add(aulaDto);
                 }

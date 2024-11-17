@@ -24,7 +24,7 @@
                 <div id="divArquivos" class="left comDoc large">C/Arquivo</div>
             }
 
-            @if (Model.qtPresencas == null || Model.qtPresencas == 0) {
+            @if (Model.isChamada == false) {
                 <div id="divChamadas" class="right semDoc large">S/Chamada</div>
             } else {
                 <div id="divChamadas" class="right comDoc large">C/Chamada</div>

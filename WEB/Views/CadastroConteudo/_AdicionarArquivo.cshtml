@@ -1,0 +1,45 @@
+﻿<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
+<link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
+
+<div id="divModalAdicionar">
+    <div id="divTituloModal">
+        <button id="btnVoltarModal" onclick="voltarModalAdicionar()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Adicionar arquivo</b></h5>
+        <p> </p>
+    </div>
+
+
+    <div id="divConteudoModal">
+        <label for="txtFile" id="btnFile" class="linear1">
+            Selecione o arquivo
+        </label>
+        <input id="txtFile" type="file" class="txtFormato" />
+
+        <br/>
+        
+
+        <label for="txtNomeArquivoModal" class="linear1">Nome:</label>
+        <input type="text" id="txtNomeArquivoModal" class="txtFormato" disabled/>
+
+        <label for="txtTipoArquivoModal" class="linear1">Tipo:</label>
+        <input type="text" id="txtTipoArquivoModal" class="txtFormato" disabled/>
+
+        <label for="txtTamanhoArquivoModal" class="linear1">Tamanho:</label>
+        <input type="text" id="txtTamanhoArquivoModal" class="txtFormato" disabled/>
+
+        <label for="txtDescricaoArquivoModal" class="linear1">Descrição:</label>
+        <textarea type="text" id="txtDescricaoArquivoModal" class="txtFormato"></textarea>
+    </div>
+    
+    <div id="divFooterModal">
+        <button type="button" id="btnSalvarArquivo" onclick="adicionarArquivo()">Adicionar arquivo</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function adicionarArquivo() {
+        alert('adicionar arquivo');
+    }
+</script>

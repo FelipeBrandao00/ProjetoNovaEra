@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
 using WEB.Models.Response;
 using WEB.Models.Turma;

@@ -35,7 +35,7 @@
                                     <div id="divArquivos" class="left comDoc small">C/Arquivo</div>
                                 }
 
-                                @if (item.qtPresencas == null || item.qtPresencas == 0) {
+                                @if (item.isChamada == false) {
                                     <div id="divChamadas" class="right semDoc small">S/Chamada</div>
                                 } else {
                                     <div id="divChamadas" class="right comDoc small">C/Chamada</div>

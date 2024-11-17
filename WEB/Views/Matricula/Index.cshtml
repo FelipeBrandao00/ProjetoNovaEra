@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "_Layout";
     ViewData["Title"] = "Matrícula";
 
@@ -73,7 +73,7 @@
 
 <div id="divPagina">
     <div id="_divListaMatriculas"></div>
-
+  
     <div id="divInfoModal">
         <div id="_divInfoAluno"></div>
         <div id="_divMatriculaAluno"></div>
@@ -247,7 +247,7 @@
             $('#backgroundModal').css('display', 'none');
         }
     }
-
+  
     function validarCampos() {
         if (!$('#chkExAluno').is(":checked") && !$('#chkNovoAluno').is(":checked")) {
             ExibirInfo('O aluno deve ser ex-aluno e/ou novo aluno!', 'Atenção!');

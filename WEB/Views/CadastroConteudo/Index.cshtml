@@ -1,0 +1,85 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Cadastro de conteúdo";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Cadastro de conteúdo";
+}
+
+<link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
+
+<div id="divInicioPagina">
+    <div id="divTopo">
+        <div id="divTurmaCheckbox">
+            <div id="divDdlTurma">
+                <label for="divTurma" class="linear1">Selecione a turma:</label><br />
+                <select id="ddlTurma" class="txtFormato" onchange="verificarTurma()">
+                    <option value="-1">Selecione</option>
+                    <option value="1">1N1</option>
+                    <option value="2">2N1</option>
+                    <option value="3">3N1</option>
+                </select>
+            </div>
+            <div id="divCheckbox">
+                <div id="cArquivo">
+                    <input type="checkbox" id="idCArquivo" checked/>
+                    <label for="idCArquivo">C/Arquivo</label>
+                </div>
+                <div id="sArquivo">
+                    <input type="checkbox" id="idSArquivo" checked/>
+                    <label for="idSArquivo">S/Arquivo</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divPagina">
+    <div id="_divListaAulas"></div>
+
+    <div id="divInfoModal">
+        <div id="_divInfoAula"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // document.addEventListener("DOMContentLoaded", carregarListaMatriculados);
+    // document.addEventListener("DOMContentLoaded", carregarListaNaoMatriculados);
+
+    function verificarTurma() {
+        var valorDdl = $('#ddlTurma').val();
+        if (valorDdl == -1) {
+            alert('escolhe outro valor');
+            return;
+        }
+
+        carregarListaAulas();
+    }
+
+    function carregarListaAulas() {
+        $.ajax({
+            url: '@Url.Action("ListarAulas", "CadastroConteudo")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#_divListaAulas').html(data);
+            }
+        });
+    }
+
+    function voltarAula() {
+        $('#divInformacaoAula').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
+
+    function voltarModalInfo() {
+        $('#divModalInfoMobile').css('display', 'none');
+        $('#backgroundConteudoModal').css('display', 'none');
+    }
+
+    function voltarModalAdicionar() {
+        $('#divModalAdicionar').css('display', 'none');
+        $('#backgroundConteudoModal').css('display', 'none');
+    }
+
+</script>
