@@ -47,7 +47,7 @@ namespace WEB.Controllers
                 var TurmaAtual = await AlunoViewModel.BuscarTurmaAtual(configuration, InfoUsuario.Data);
 
                 if(TurmaAtual.Data != null) {
-                    ViewBag.NmTurma = TurmaAtual.Data.DsTurma;
+                    ViewBag.NmTurma = TurmaAtual.Data.NmTurma;
                     ViewBag.NmCurso = TurmaAtual.Data.NmCurso;
                 }
             }

@@ -17,7 +17,7 @@ namespace Infra.Data.Repositories
             if (_context.Matriculas.Where(x => x.DsCpf == matricula.DsCpf && x.CdTurma == matricula.CdTurma).Any()) {
                 return null;
             }
-
+            matricula.DtMatricula = DateTime.Now;
             _context.Matriculas.Add(matricula);
             await _context.SaveChangesAsync();
             return matricula;
@@ -32,6 +32,8 @@ namespace Infra.Data.Repositories
 
         public async Task<Matricula> GetMatriculaById(int matriculaId) => await _context.Matriculas.Where(x => x.CdMatricula == matriculaId).FirstOrDefaultAsync();
 
-        public async Task<List<Matricula>> GetMatriculasByTurmaId(int turmaId) => await _context.Matriculas.Where(x => x.CdTurma == turmaId).ToListAsync();
+        public async Task<List<Matricula>> GetMatriculasByTurmaId(int turmaId) => await _context.Matriculas.Where(x => x.CdTurma == turmaId)
+            .Include(turma => turma.Turma)
+            .ToListAsync();
     }
 }
