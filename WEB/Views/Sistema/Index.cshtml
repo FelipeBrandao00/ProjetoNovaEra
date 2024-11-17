@@ -1,0 +1,944 @@
+﻿@using WEB.Models.Cargo
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Listar usuários";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Sistema";
+
+    var ListaCargo = ViewBag.ListaCargo ?? new List<CargoViewModel.ItemListaCargo>();
+}
+
+<link rel="stylesheet" href="~/css/Sistema/Index.css">
+<link rel="stylesheet" href="~/css/Shared/Livro.css">
+
+<!-- CROP DA IMAGEM -->
+<link rel="stylesheet" href="~/css/Shared/Crop.css">
+<link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+<script src="https://unpkg.com/cropperjs"></script>
+
+<div id="modalRecorteImagem">
+    <div id="conteudoModelRecorteImagem">
+        <span class="linear1">Recortar Imagem</span>
+        <div><img id="imgParaRecorte" /></div>
+        <button id="btnCancelarCorte" onclick="FecharModal()">Cancelar corte</button>
+        <button id="btnConfirmarCorte" onclick="ConfirmarCorte()">Confirmar corte</button>
+    </div>
+</div>
+
+<canvas id="canvasRecortado" style="display:none;"></canvas>
+
+<!-- LIVRO -->
+
+<div id="divLivro">
+    <div id="capaLivro" class="MobileInvisible">
+        <div id="paginaEsquerda" class="MobileInvisible">
+
+            <div id="conteudoPagEsq" class="MobileInvisible">
+                <div id="divTopo">
+                    <div id="marcadorPagina"></div>
+                    <button id="btnAdicionar" onclick="carregarAdicionarUsuario(false)"><b class="linear1">Adicionar usuário</b></button>
+                    <button id="btnAdicionarMobile" onclick="carregarAdicionarUsuario(true)"><b class="linear1">Adicionar usuário</b></button>
+                </div>
+
+                <div id="divBusca">
+                    <input id="txtBusca" type="text" placeholder="Digite o nome do usuário..." />
+
+                    <div id="divFiltros">
+                        <div id="idCheckboxCargos">
+                            @foreach (CargoViewModel.ItemListaCargo item in ListaCargo) {
+                                string id = $"ck{item.CdCargo}";
+                                if (item.DsCargo == "Administrador" || item.DsCargo == "Master") {
+                                    <div id="divInputCheckbox">
+                                        <div>
+                                            <label for="@id">@item.DsCargo</label>
+                                            <input id="@id" type="checkbox" checked/>
+                                        </div>
+                                    </div>
+                                } else {
+                                    <div id="divInputCheckbox">
+                                        <div>
+                                            <label for="@id">@item.DsCargo</label>
+                                            <input id="@id" type="checkbox"/>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                        <div id="idCheckboxProfessor">
+                            <div class="linear1">Professor:</div>
+                            <div id="divInputCheckbox">
+                                <label for="chkAtivos">Habilitados</label>
+                                <input id="chkAtivos" type="checkbox" checked />
+                            </div>
+                            <div id="divInputCheckbox">
+                                <label for="chkInativos">Desabilitados</label>
+                                <input id="chkInativos" type="checkbox" checked />
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divPesquisar">
+                        <button id="btnFiltrosMobile" onclick="toggleFiltros()">
+                            <b class="linear1">Filtros</b>
+                            <i id="arrowIcon" class="fa fa-angles-up"></i>
+                        </button>
+                        <button id="btnPesquisar" onclick="carregarListaPadrao()"><b class="linear1">Pesquisar</b></button>
+                    </div>
+                </div>
+
+                <div id="msgListaUsuario" class="divMsgSelecione">
+                    <span class="linear1">Digite o nome do usuário e aperte em “Pesquisar!”</span>
+                </div>
+
+                <div id="divListaUsuario"></div>
+            </div>
+
+        </div>
+        <div id="paginaDireita" class="MobileInvisible">
+
+            <div id="divTitInfoUsuario">
+                <button id="btnVoltarModal" onclick="voltarMobile()">
+                    <i class="fa-solid fa-angle-left arrow-icon"></i>
+                </button>
+                <span class="linear1">Informações do usuário</span>
+            </div>
+
+            <div id="conteudoPagDir" class="MobileInvisible">
+                <div id="msgInfoUsuario" class="divMsgSelecione">
+                    <span class="linear1">Selecione um usuário para ver suas informações!</span>
+                </div>
+
+                <div id="divInfoUsuario" style="display:none;"></div>
+            </div>
+
+            <div id="divBotaoAdicionarMobile">
+                <button id="btnConfirmarAdicionarMobile" onclick="adicionarUsuario(true)"><b style="color: white;">Adicionar usuário</b></button>
+            </div>
+
+            <div id="divBotoesEditarMobile">
+@*                 <button id="btnInativarMobile" onclick="carregarInativarUsuario(true)"><b style="color: white;">Inativar usuário</b></button>
+ *@                <button id="btnEditarMobile" onclick="carregarEdicaoUsuario(true)"><b class="linear1">Editar usuário</b></button>
+            </div>
+
+            <div id="divBotoesEdicaoMobile">
+                <button id="btnCancelarMobile" onclick="cancelarEdicaoUsuario(true)"><b class="linear1">Cancelar edição</b></button>
+                <button id="btnSalvarMobile" onclick="salvarInfoUsuario(true)"><b>Salvar</b></button>
+            </div>
+
+            <div id="divInativarUsuarioMobile">
+                <b class="linear1">Tem certeza que deseja inativar o usuário:</b>
+                <b class="linear1" id="nmUsuario"></b>
+                <div id="divBotoesInativarUsuarioMobile">
+                    <button id="btnIgnorarInativarUsuarioMobile" onclick="cancelarInativarUsuario(true)"><b class="linear1">Não</b></button>
+                    <button id="btnInativarUsuarioMobile" onclick="inativarUsuario(true)"><b style="color: white;">Inativar</b></button>
+                </div>
+            </div>
+
+            <div id="divBotaoAtivarUsuarioMobile">
+                <button id="btnAtivarUsuarioMobile" onclick="carregarAtivarUsuario(true)"><b class="linear1">Ativar usuário</b></button>
+            </div>
+
+            <div id="divAtivarUsuarioMobile">
+                <b class="linear1">Tem certeza que deseja ativar o usuário:</b>
+                <b class="linear1" id="nmUsuarioHab"></b>
+                <div id="divBotoesAtivarUsuarioMobile">
+                    <button id="btnIgnorarAtivarUsuarioMobile" onclick="cancelarAtivarUsuario(true)"><b class="linear1">Não</b></button>
+                    <button id="btnConfirmarAtivarUsuarioMobile" onclick="ativarUsuario(true)"><b style="color: white;">Ativar</b></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.location.hash = '';
+    let infoUsuarioTemp;
+    let infoCargoUsuarioTemp = [];
+
+    document.addEventListener("DOMContentLoaded", carregarListaPadrao);
+    document.addEventListener("DOMContentLoaded", checkAdicionar);
+
+    // $("#ck2").change(function () {
+    //     if (this.checked) {
+    //         $('#idCheckboxProfessor').css('display', 'unset');
+    //         if (window.matchMedia("(max-width: 1200px)").matches) {
+    //             $('#idCheckboxCargos').css('width', '100%');
+    //         } else {
+    //             $('#idCheckboxCargos').css('width', '50%');
+    //         }
+
+    //     } else {
+    //         $('#idCheckboxProfessor').css('display', 'none');
+    //         $('#idCheckboxCargos').css('width', '100%');
+    //     }
+    // });
+
+    function coletarCargos() {
+        const checkboxes = document.querySelectorAll('#idCheckboxCargos input[type="checkbox"]');
+        const cursos = [];
+
+        let todosDesmarcados = true;
+
+        checkboxes.forEach(checkbox => {
+            const label = document.querySelector(`label[for="${checkbox.id}"]`);
+            if (checkbox.checked) {
+                todosDesmarcados = false;
+                cursos.push(checkbox.id);
+            }
+        });
+
+        if (todosDesmarcados) {
+            ExibirInfo('Selecione ao menos um cargo no filtro!', 'Atenção!');
+            return null;
+        }
+        return cursos;
+    }
+
+
+    function toggleFiltros() {
+        const filtros = document.getElementById('divFiltros');
+        filtros.classList.toggle('hidden');
+        arrowIcon.classList.toggle('up');
+    }
+
+
+    function checkAdicionar() {
+        if ('@ViewBag.IcAdicionar' == 'True') {
+            if (window.matchMedia("(max-width: 1200px)").matches) {
+                carregarAdicionarUsuario(true);
+            } else {
+                carregarAdicionarUsuario();
+            }
+        }
+    }
+
+    function carregarListaPadrao(atualizarInfoUsuario = true, PaginaAtual = 1) {
+        event.preventDefault();
+
+        if (atualizarInfoUsuario) {
+            $('#divInfoUsuario').empty();
+            $('#divInfoUsuario').hide();
+            $('#msgInfoUsuario').show();
+        }
+
+        $('#divListaUsuario').empty();
+        $('#msgListaUsuario').show();
+
+        let Busca = $('#txtBusca').val();
+
+        let LstCargos = coletarCargos();
+        if (LstCargos == null) {
+            return;
+        }
+
+        let IcHabilitadoTurma = null;
+        if (!$('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            ExibirInfo('Selecione ao menos um filtro!', 'Atenção!');
+            return;
+        }
+
+        if (!$('#chkAtivos').is(":checked") && $('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = false;
+        }
+        if ($('#chkAtivos').is(":checked") && !$('#chkInativos').is(":checked")) {
+            IcHabilitadoTurma = true;
+        }
+
+
+        $.ajax({
+            url: '@Url.Action("ListarUsuarios", "Sistema")',
+            type: 'GET',
+            async: true,
+            data: {
+                PaginaAtual: PaginaAtual,
+                Busca: Busca,
+                IcHabilitadoTurma: IcHabilitadoTurma,
+                StrCargos: JSON.stringify(LstCargos)
+            },
+            success: function (data) {
+                $('#msgListaUsuario').hide();
+                $('#divListaUsuario').html(data);
+            }
+        });
+    }
+
+    function carregarInfoPadrao(param) {
+        event.preventDefault();
+
+        const inputTrocarFoto = document.getElementById('inputTrocarFoto');
+        if (inputTrocarFoto)
+            document.getElementById('inputTrocarFoto').value = '';
+        if (infoUsuarioTemp)
+            infoUsuarioTemp = null;
+        if (imagemBase64)
+            imagemBase64 = null;
+
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex');
+            $('#backgroundModal').css('display', 'block');
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divInativarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'none');
+            $('#divAtivarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'none');
+        }
+
+        $('#divInfoUsuario').empty();
+        $('#divInfoUsuario').hide();
+        $('#msgInfoUsuario').show();
+
+        let Busca = $('#txtBusca').val();
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoUsuario", "Sistema")',
+            type: 'GET',
+            async: true,
+            data: {
+                DsCpf: param
+            },
+            success: function (data) {
+                $('#msgInfoUsuario').hide();
+                $('#divInfoUsuario').html(data);
+                $('#divInfoUsuario').show();
+
+                $('#divSituacaoUsuario').css('display', 'none');
+                const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    if (checkbox.id == 2 && checkbox.checked == true) {
+                        $('#divSituacaoUsuario').css('display', 'unset');
+                    }
+                });
+            }
+        });
+    }
+
+    function carregarAdicionarUsuario(mobile = false) {
+        if (window.matchMedia("(max-width: 1200px)").matches) {
+            $('#paginaDireita').css('display', 'flex')
+            $('#backgroundModal').css('display', 'block');
+
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+            $('#divInativarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'none');
+            $('#divAtivarUsuarioMobile').css('display', 'none');
+            $('#divBotaoAdicionarMobile').css('display', 'flex');
+        }
+
+
+        $.ajax({
+            url: '@Url.Action("CarregarAdicionarUsuario", "Sistema")',
+            type: 'GET',
+            async: true,
+            success: function (data) {
+                $('#msgInfoUsuario').hide();
+                $('#divInfoUsuario').html(data);
+                $('#divInfoUsuario').show();
+
+                if (mobile) {
+                    $('#divBotaoAdicionar').css('display', 'none');
+                } else {
+                    $('#divBotaoAdicionar').css('display', 'flex');
+                }
+
+                $('#divBotoesEditar').css('display', 'none');
+
+                $('#divImgUsuario > div:last-child').css('display', 'flex');
+
+                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
+                    .css('background-color', '#FFFFFF')
+            }
+        });
+    }
+
+    function adicionarUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (!validarCampos()) {
+            return;
+        }
+
+        let Habilitado = null;
+        if ($('#txtSituacaoUsuario').find(":selected").val() != -1 && !$('#txtSituacaoUsuario').is(':disabled')) {
+            Habilitado = ($('#txtSituacaoUsuario').find(":selected").val() == 1) ? 'True' : 'False';
+        }
+
+        let ResponseModelUsuario = new FormData();
+
+        if (!!imagemBase64) {
+            const fotoBlob = base64ToBlob(imagemBase64);
+            ResponseModelUsuario.append('DsFoto', fotoBlob, 'foto.png');
+        }
+
+        infoCargoUsuarioTemp = [];
+        const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (checkbox && checkbox.checked) {
+                infoCargoUsuarioTemp.push(checkbox.id);
+            }
+        });
+
+        ResponseModelUsuario.append('CdUsuario', $('#CdUsuario').val());
+        ResponseModelUsuario.append('NmUsuario', $('#txtNomeUsuario').val());
+        ResponseModelUsuario.append('DsEmail', $('#txtEmailUsuario').val());
+        ResponseModelUsuario.append('DsCpf', $('#txtCPFUsuario').val().replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsTelefone', $('#txtTelefoneUsuario').val().replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsGenero', parseInt($('#txtGeneroUsuario').val()));
+        ResponseModelUsuario.append('DtNascimento', $('#txtNascimentoUsuario').val());
+        ResponseModelUsuario.append('IcHabilitadoTurma', Habilitado);
+        ResponseModelUsuario.append('StrCargos', JSON.stringify(infoCargoUsuarioTemp));
+
+        $.ajax({
+            url: '@Url.Action("AdicionarUsuario", "Sistema")',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: ResponseModelUsuario,
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotaoAdicionarMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotaoAdicionar').css('display', 'none');
+                }
+
+                $('#divImgUsuario > div:last-child').css('display', 'none');
+
+                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario, #txtSituacaoUsuario')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                carregarListaPadrao(false);
+
+                if (data.data.dsCpf != null && data.data.dsCpf != '')
+                    carregarInfoPadrao(data.data.dsCpf);
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
+    }
+
+    function carregarEdicaoUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divBotoesEdicaoMobile').css('display', 'flex');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divBotoesEdicao').css('display', 'flex');
+        }
+
+        $('#divImgUsuario > div:last-child').css('display', 'flex');
+
+        $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
+            .css('background-color', '#FFFFFF')
+            .removeAttr('disabled');
+
+        const imagem = document.getElementById('imgUser');
+        const base64 = extrairBase64DeImagem(imagem);
+
+        if (base64) {
+            imagemBase64 = base64;
+        }
+
+        infoUsuarioTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#txtCPFUsuario').val(),
+            NmUsuario: $('#txtNomeUsuario').val(),
+            DsEmail: $('#txtEmailUsuario').val(),
+            DsGenero: parseInt($('#txtGeneroUsuario').val()),
+            DtNascimento: $('#txtNascimentoUsuario').val(),
+            DsTelefone: $('#txtTelefoneUsuario').val(),
+            DsFoto: imagemBase64
+        }
+
+
+        infoCargoUsuarioTemp = [];
+        const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (checkbox.id == 2 && checkbox.checked == true) {
+                $('#divSituacaoUsuario').css('display', 'unset');
+            } 
+
+            infoCargoUsuarioTemp.push({
+                cargo: checkbox.previousElementSibling.textContent.trim(),
+                codigo: checkbox.id,
+                checked: checkbox.checked
+            });
+        });
+
+        const listaCargo = document.querySelectorAll('#listaCargo div');
+        listaCargo.forEach(item => {
+            item.style.display = 'flex';
+
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.disabled = false;
+            }
+        });
+    }
+
+    function cancelarEdicaoUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divBotoesEdicaoMobile').css('display', 'none');
+        }
+        else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divBotoesEdicao').css('display', 'none');
+        }
+
+        $('#divImgUsuario > div:last-child').css('display', 'none');
+
+        $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
+            .css('background-color', '#DBD8D8')
+            .attr('disabled', true);
+
+        if (infoUsuarioTemp) {
+            $('#txtNomeUsuario').val(infoUsuarioTemp.NmUsuario);
+            $('#txtCPFUsuario').val(infoUsuarioTemp.DsCpf);
+            $('#txtEmailUsuario').val(infoUsuarioTemp.DsEmail);
+            $('#txtGeneroUsuario').val(infoUsuarioTemp.DsGenero);
+            $('#txtNascimentoUsuario').val(infoUsuarioTemp.DtNascimento);
+            $('#txtTelefoneUsuario').val(infoUsuarioTemp.DsTelefone);
+
+            if (!!infoUsuarioTemp.DsFoto) {
+                const imgUser = document.getElementById('imgUser');
+                imgUser.src = infoUsuarioTemp.DsFoto;
+                imgUser.style.display = 'block';
+            }
+            else {
+                ExcluirFoto();
+            }
+
+            infoUsuarioTemp = null;
+        }
+
+        if (infoCargoUsuarioTemp) {
+            const checkboxes = document.querySelectorAll('#listaCargo div input[type="checkbox"]');
+
+            checkboxes.forEach(checkbox => {
+                const cargoInfo = infoCargoUsuarioTemp.find(info => info.codigo === checkbox.id);
+
+                if (cargoInfo) {
+                    checkbox.checked = cargoInfo.checked;
+                }
+            });
+            infoCargoUsuarioTemp = [];
+        }
+
+        const listaCargo = document.querySelectorAll('#listaCargo div');
+        listaCargo.forEach(item => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.disabled = true;
+                if (checkbox.checked == false) {
+                    item.style.display = 'none';
+                }
+            }
+        });
+    }
+
+    function salvarInfoUsuario(mobile = false) {
+        event.preventDefault();
+
+        if (!validarCampos()) {
+            return;
+        }
+
+        let numCheck = 0;
+        const listaCargo = document.querySelectorAll('#listaCargo div');
+        listaCargo.forEach(item => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            if (checkbox && checkbox.checked) {
+                numCheck++;
+            }
+        });
+
+        if (numCheck == 0) {
+            ExibirInfo('É necessário selecionar ao menos um cargo!', 'Atenção!');
+            return;
+        }
+
+
+        infoUsuarioTemp = {
+            CdUsuario: $('#CdUsuario').val(),
+            DsCpf: $('#DsCpf').val(),
+            NmUsuario: $('#txtNomeUsuario').val(),
+            DsEmail: $('#txtEmailUsuario').val(),
+            DsCpf: $('#txtCPFUsuario').val(),
+            DsGenero: parseInt($('#txtGeneroUsuario').val()),
+            DtNascimento: $('#txtNascimentoUsuario').val(),
+            DsTelefone: $('#txtTelefoneUsuario').val(),
+            DsFoto: imagemBase64
+        }
+
+        let Habilitado = $('#IcHabilitadoTurma').val();
+        
+        let ResponseModelUsuario = new FormData();
+
+        if (!!imagemBase64) {
+            const fotoBlob = base64ToBlob(imagemBase64);
+            ResponseModelUsuario.append('DsFoto', fotoBlob, 'foto.png');
+        }
+        
+
+        let icProfessor = false;
+        infoCargoUsuarioTemp = [];
+        const checkboxes = document.querySelectorAll('#listaCargo input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            if (checkbox && checkbox.checked) {
+                if (checkbox.id == 2 && checkbox.checked == true) {
+                    icProfessor = true;
+                }
+                infoCargoUsuarioTemp.push(checkbox.id);
+            }
+        });
+
+        listaCargo.forEach(item => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            if (checkbox) {
+                checkbox.disabled = true;
+                if (!checkbox.checked) {
+                    item.style.display = 'none';
+                }
+            }
+        });
+
+        ResponseModelUsuario.append('CdUsuario', infoUsuarioTemp.CdUsuario);
+        ResponseModelUsuario.append('NmUsuario', infoUsuarioTemp.NmUsuario);
+        ResponseModelUsuario.append('DsEmail', infoUsuarioTemp.DsEmail);
+        ResponseModelUsuario.append('DsCpf', infoUsuarioTemp.DsCpf.replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsTelefone', infoUsuarioTemp.DsTelefone.replace(/\D/g, ''));
+        ResponseModelUsuario.append('DsGenero', infoUsuarioTemp.DsGenero);
+        ResponseModelUsuario.append('DtNascimento', infoUsuarioTemp.DtNascimento);
+        ResponseModelUsuario.append('IcHabilitadoTurma', Habilitado);
+        ResponseModelUsuario.append('StrCargos', JSON.stringify(infoCargoUsuarioTemp));
+
+
+        $.ajax({
+            url: '@Url.Action("AtualizarInfoUsuario", "Sistema")',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: ResponseModelUsuario,
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divBotoesEdicaoMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divBotoesEdicao').css('display', 'none');
+                }
+
+                $('#divImgUsuario > div:last-child').css('display', 'none');
+
+                $('#txtNomeUsuario, #txtEmailUsuario, #txtCPFUsuario, #txtGeneroUsuario, #txtNascimentoUsuario, #txtTelefoneUsuario')
+                    .css('background-color', '#DBD8D8')
+                    .attr('disabled', true);
+
+                if (icProfessor == true) {
+                    $('#divSituacaoUsuario').css('display', 'unset');
+                } else {
+                    $('#divSituacaoUsuario').css('display', 'none');
+                }
+
+                carregarListaPadrao(false); 
+                infoUsuarioTemp = null;
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
+    }
+
+    function carregarInativarUsuario(mobile = false) {
+        if (mobile) {
+            $("#nmUsuario").text($('#txtNomeUsuario').val());
+            $('#divBotoesEditarMobile').css('display', 'none');
+            $('#divInativarUsuarioMobile').css('display', 'flex');
+        } else {
+            $('#divBotoesEditar').css('display', 'none');
+            $('#divInativarUsuario').css('display', 'flex');
+            window.location.hash = '#divInativarUsuario';
+        }
+    }
+
+    function cancelarInativarUsuario(mobile = false) {
+        if (mobile) {
+            $('#divBotoesEditarMobile').css('display', 'flex');
+            $('#divInativarUsuarioMobile').css('display', 'none');
+        } else {
+            $('#divBotoesEditar').css('display', 'flex');
+            $('#divInativarUsuario').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function carregarAtivarUsuario(mobile = false) {
+        if (mobile) {
+            $("#nmUsuarioHab").text($('#txtNomeUsuario').val());
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'none');
+            $('#divAtivarUsuarioMobile').css('display', 'flex');
+        } else {
+            $('#divBotaoAtivarUsuario').css('display', 'none');
+            $('#divAtivarUsuario').css('display', 'flex');
+            window.location.hash = '#divAtivarUsuario';
+        }
+    }
+
+    function cancelarAtivarUsuario(mobile = false) {
+        if (mobile) {
+            $('#divBotaoAtivarUsuarioMobile').css('display', 'flex');
+            $('#divAtivarUsuarioMobile').css('display', 'none');
+        } else {
+            $('#divBotaoAtivarUsuario').css('display', 'flex');
+            $('#divAtivarUsuario').css('display', 'none');
+            window.location.hash = '';
+        }
+    }
+
+    function inativarUsuario(mobile = false) {
+        let cdUsuario = $('#CdUsuario').val();
+
+        $.ajax({
+            url: '@Url.Action("InativarUsuario", "Sistema")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdUsuario: cdUsuario
+            },
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                if (mobile) {
+                    $('#divBotaoAtivarUsuarioMobile').css('display', 'flex');
+                    $('#divInativarUsuarioMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotaoAtivarUsuario').css('display', 'flex');
+                    $('#divInativarUsuario').css('display', 'none');
+                    window.location.hash = '';
+                }
+                $("#txtSituacaoUsuario").val("Desabilitado");
+
+                carregarListaPadrao(false);
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
+    }
+
+    function ativarUsuario(mobile = false) {
+        let cdUsuario = $('#CdUsuario').val();
+
+        $.ajax({
+            url: '@Url.Action("AtivarUsuario", "Sistema")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdUsuario: cdUsuario
+            },
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                if (mobile) {
+                    $('#divBotoesEditarMobile').css('display', 'flex');
+                    $('#divAtivarUsuarioMobile').css('display', 'none');
+                }
+                else {
+                    $('#divBotoesEditar').css('display', 'flex');
+                    $('#divAtivarUsuario').css('display', 'none');
+                    window.location.hash = '';
+                }
+                $("#txtSituacaoUsuario").val("Habilitado");
+
+                carregarListaPadrao(false);
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
+    }
+
+    function voltarMobile() {
+        event.preventDefault();
+
+        $('#paginaDireita').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
+
+    function validarCampos() {
+        if ($('#txtCPFUsuario').val().replace(/\D/g, '').length != 11) {
+            ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtNomeUsuario').val().length == 0) {
+            ExibirInfo('O nome é obrigatório!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtEmailUsuario').val().length == 0) {
+            ExibirInfo('O e-mail é obrigatório!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtGeneroUsuario').find(":selected").val() == 0) {
+            ExibirInfo('Selecione um gênero!', 'Atenção!');
+            return false;
+        }
+
+        if (!$('#txtNascimentoUsuario').val()) {
+            ExibirInfo('A data é obrigatória!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#txtSituacaoUsuario').find(":selected").val() == -1 && !$('#txtSituacaoUsuario').prop('disabled')) {
+            ExibirInfo('Selecione a situação!', 'Atenção!');
+            return false;
+        }
+        return true;
+    }
+
+    // FOTOS
+
+    let cropper;
+    let imagemBase64;
+
+    function TrocarFoto() {
+        document.getElementById('inputTrocarFoto').click();
+
+        document.getElementById('inputTrocarFoto').onchange = function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+
+                    const imgParaRecorte = document.getElementById('imgParaRecorte');
+                    imgParaRecorte.src = e.target.result;
+
+                    document.getElementById('modalRecorteImagem').style.display = 'flex';
+
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    cropper = new Cropper(imgParaRecorte, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                        zoomable: false,
+                    });
+
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+    }
+
+    function ConfirmarCorte() {
+        const canvas = cropper.getCroppedCanvas({
+            width: 122,
+            height: 122,
+        });
+
+        const imgUser = document.getElementById('imgUser');
+        imgUser.src = canvas.toDataURL();
+        imgUser.style.display = 'block';
+
+        imagemBase64 = canvas.toDataURL('image/png');
+
+        FecharModal();
+    }
+
+    function FecharModal() {
+        document.getElementById('modalRecorteImagem').style.display = 'none';
+        document.getElementById('inputTrocarFoto').value = '';
+        cropper.destroy();
+    }
+
+    function ExcluirFoto() {
+        const imgUser = document.getElementById('imgUser');
+        imgUser.removeAttribute('src');
+        imgUser.style.display = 'none';
+        document.getElementById('inputTrocarFoto').value = '';
+        imagemBase64 = null;
+
+        if (cropper)
+            cropper.destroy();
+    }
+
+    function extrairBase64DeImagem(elementoImagem) {
+        const src = elementoImagem.src;
+        if (src.startsWith('data:image/'))
+            return src;
+        else
+            return null;
+    }
+
+    function base64ToBlob(base64) {
+        const binaryString = atob(base64.split(',')[1]);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+        return new Blob([bytes], { type: 'image/png' });
+    }
+
+</script>

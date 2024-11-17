@@ -10,7 +10,7 @@ public class ResponseModelUsuario
     public string DsEmail { get; init; }
     public string DsCpf { get; init; }
     public string? DsTelefone { get; init; }
-    public int DsGenero { get; init; }
+    public int? DsGenero { get; init; }
     public string StrDsGenero { get; init; }
     public bool? IcHabilitadoTurma { get; init; }
     public DateTime? DtNascimento { get; init; }
