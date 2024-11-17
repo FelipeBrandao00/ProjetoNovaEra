@@ -1,0 +1,212 @@
+﻿/* Folha de estilos: Matricula */
+
+input:focus, button:focus {
+    outline: none;
+}
+
+article {
+    justify-content: flex-start !important;
+}
+
+/* IDs */
+
+#divInicioPagina {
+    width: 100%;
+}
+
+#divTopo {
+    margin-top: 30px;
+}
+
+#divFiltros {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#divPesquisar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#btnFiltrar, #btnFiltrosMobile {
+    width: 100px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    margin-top: 5px;
+}
+
+#btnFiltrosMobile {
+    display: none;
+}
+
+#idCheckbox, #idIdade, #idQuantidade, #idTurma {
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px 5px;
+    width: 100%;
+}
+
+#divInputCheckbox, #divInputIdade {
+    font-size: 14px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 13px;
+    margin-top: 5px;
+}
+
+#divInputQuantidade, #divInputTurma {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#divInputCheckbox > label {
+    width: 56%;
+}
+
+#divInputIdade > input {
+    width: 41%;
+}
+
+#divInputIdade > label {
+    width: 20%;
+    margin-top: 3px;
+}
+
+#divInputQuantidade > label, #divInputQuantidade > input, #divInputTurma > label, #divInputTurma > select {
+    width: 90%;
+    margin-top: 5px;
+}
+
+#btnCopiar {
+    height: 37px;
+    width: 37px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+#txtPagina {
+    border: none;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    background-color: #DBD8D8;
+    width: 40%;
+}
+
+#_divInfoAluno label, #_divMatriculaAluno label {
+    font-weight: 700;
+    font-size: 12px;
+}
+
+/*#conteudoModal {
+    display: none;
+    z-index: 5;
+    width: 67vw;
+    padding: 2vh 2vw !important;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    flex-direction: column;
+    justify-content: space-between;
+    max-height: 80%;
+    position: fixed;
+    top: 10%;
+}
+
+*/ #divInfoModal {
+    max-height: 80%;
+}
+
+#divRelevo {
+    border-radius: 10px;
+    background-color: #EAEAEA;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+}
+
+@media (max-width: 800px) {
+    #divPesquisar {
+        justify-content: space-between;
+/*        margin-top: 20px;
+*/    }
+
+    #divFiltros {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #idCheckbox, #idIdade, #idQuantidade, #idTurma {
+        width: 100%;
+    }
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #conteudoModal {
+        width: 94vw !important;
+        position: absolute !important;
+        top: 13vh !important;
+        bottom: 3vh !important;
+        left: 3vw !important;
+        right: 3vw !important;
+        gap: 15px;
+        padding: 2vh 3vw !important;
+    }
+
+    #divInfoModal {
+        max-height: 100%;
+        padding: 6px;
+    }
+
+    #txtPagina {
+        width: 80%;
+    }
+    #idCheckbox, #idIdade, #idQuantidade {
+        padding: 10px;
+    }
+
+    #divInputIdade > label {
+        width: 16%;
+    }
+
+    #divFiltros {
+        width: 100%;
+        transition: max-height 0.5s ease, opacity 0.5s ease;
+        max-height: 500px;
+        opacity: 1;
+        overflow: hidden;
+    }
+
+        #divFiltros.hidden {
+            max-height: 0;
+            opacity: 0;
+        }
+
+    #btnFiltrosMobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #arrowIcon {
+        margin-left: 5px; /* Space between text and arrow */
+        transition: transform 0.5s ease;
+    }
+
+        #arrowIcon.up {
+            transform: rotate(180deg); /* Rotate the arrow when the filter is closed */
+        }
+}

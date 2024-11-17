@@ -1,0 +1,268 @@
+﻿#divInformacaoAluno {
+    z-index: 9;
+    display: none;
+    padding: 15px;
+    padding-bottom: 0px;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    gap: 5px;
+    width: 30vw;
+    font-size: 14px;
+    position: fixed;
+    top: 8%;
+    max-height: 80%;
+    left: 38%;
+}
+
+#divConfirmarMatricula {
+    z-index: 9;
+    display: none;
+    padding: 15px;
+    padding-bottom: 0px;
+    text-align: center;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(227,227,227,1) 0%, rgba(170,169,169,1) 100%) !important;
+    border-radius: 5px !important;
+    box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.25) !important;
+    gap: 5px;
+    width: 67vw;
+    font-size: 14px;
+    position: fixed;
+    top: 8%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+#btnVoltarModal {
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px 3px 15px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(159,159,159,1) 100%);
+}
+
+#TituloBotaoAula {
+    display: flex;
+    justify-content: space-between;
+}
+
+#divTituloAluno {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+    #divTituloAluno > h5 {
+        margin-top: 8px;
+    }
+
+#divConteudoAluno {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 1vw 3vh;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+#divNomeAluno {
+    margin-bottom: 10px;
+}
+
+label {
+    float: left;
+}
+
+#divBotoesAlunoMobile {
+    display: none;
+}
+
+#divBotoesAlunoDesktop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+#divDesvincularAluno {
+    z-index: 7;
+    display: none;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(250,250,250,1) 0%, rgba(159,159,159,1) 100%);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px 0px;
+    flex-direction: column;
+    gap: 5px;
+    width: 25vw;
+    margin-top: 50px;
+    font-size: 14px;
+    position: fixed;
+    top: 35%;
+    left: 41%;
+}
+
+.txtInfoAlunoAdd {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #FFFFFF;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+#divLista {
+    max-height: 35vh;
+    overflow-y: auto;
+}
+
+#listaAlunos > tbody > tr:only-of-type > td:first-child{
+    border-radius: 10px 0 0 10px !important;
+}
+
+#listaAlunos > tbody > tr:only-of-type > td:last-child{
+    border-radius: 0 10px 10px 0 !important;
+}
+
+#listaAlunosConfirmacao > tbody > tr:only-of-type > td:first-child {
+    border-radius: 10px 0 0 10px !important;
+}
+
+#listaAlunosConfirmacao > tbody > tr:only-of-type > td:last-child {
+    border-radius: 0 10px 10px 0 !important;
+}
+
+    #listaAlunos > tbody > tr, #listaAlunosConfirmacao > tbody > tr {
+        border-radius: 10px !important;
+    }
+
+        #listaAlunos > tbody > tr > td, #listaAlunosConfirmacao > tbody > tr > td {
+            border: 1px solid lightgrey;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: left;
+            color: #989898;
+            padding: 10px 8px;
+            background: linear-gradient(180deg, rgba(238,238,238,1) 0%, rgba(255,255,255,1) 100%);
+            box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px inset;
+        }
+
+        #listaAlunos > tbody > tr:first-child > td:first-child,
+        #listaAlunosConfirmacao > tbody > tr:first-child > td:first-child {
+            border-radius: 10px 0 0 0;
+        }
+
+        #listaAlunos > tbody > tr:first-child > td:last-child,
+        #listaAlunosConfirmacao > tbody > tr:first-child > td:last-child {
+            border-radius: 0 10px 0 0;
+        }
+
+        #listaAlunos > tbody > tr:last-child > td:first-child,
+        #listaAlunosConfirmacao > tbody > tr:last-child > td:first-child {
+            border-radius: 0 0 0 10px;
+        }
+
+        #listaAlunos > tbody > tr:last-child > td:last-child,
+        #listaAlunosConfirmacao > tbody > tr:last-child > td:last-child {
+            border-radius: 0 0 10px 0;
+        }
+
+
+#nmAlunoLista {
+    width: 50%;
+}
+
+#nmTurmaLista {
+    width: 50%;
+}
+
+.nmCheckLista > input {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#nmAlunoLista, #nmTurmaLista {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#btnMatricular {
+    display: none;
+    margin-top: 20px;
+    float: right;
+    height: 40px;
+    width: 200px;
+    color: white;
+    font-weight: 600;
+    font-size: 15px;
+    border: none;
+    border-radius: 6px;
+    background: rgb(126,6,6);
+    background: linear-gradient(180deg, rgba(85,163,109,1) 0%, rgba(102,194,73,1) 100%);
+    padding: 5px 10px 5px 10px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.31);
+}
+
+.nmCelulaNome {
+    cursor: pointer;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #btnMatricular {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    label {
+        float: left;
+    }
+
+    #TituloBotaoAula {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    #divInformacaoAluno {
+        overflow-y: auto;
+        max-height: 80%;
+        width: 84vw;
+        top: 15%;
+        left: 8%;
+    }
+
+    #divConteudoAluno {
+        padding: 3vw 1vh;
+    }
+
+    #divDesvincularAluno {
+        left: 8%;
+        width: 84vw;
+    }
+
+    #listaAlunos thead tr th:nth-child(2) {
+        display: none;
+    }
+
+    .nmCelulaCurso {
+        display: none;
+    }
+
+    #nmAlunoLista {
+        width: 100%;
+    }
+
+    #btnMatricular {
+    }
+}

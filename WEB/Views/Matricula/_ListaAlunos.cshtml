@@ -1,0 +1,146 @@
+﻿@using WEB.Models.Matricula
+@{
+    var ListaMatriculas = ViewBag.ListaMatriculas ?? new List<Application.Responses.Response<List<MatriculaViewModel>>>();
+}
+<link rel="stylesheet" href="~/css/Matricula/InfoAluno.css">
+<div id="numAtende" style="display: none;">@ViewBag.QuantidadeAprovados</div>
+
+@if (ViewBag.QuantidadeAprovados > 0) {
+    <div id="divAlunosTurma">
+        <div id="TituloInfoAula">
+            <div id="TituloBotaoAula">
+                <h5 class="linear1"><b>Matrículas</b></h5>
+                <div class="linear1"><b id="num">0</b><b> selecionado(s) - </b>Aperte no aluno para ver suas informações!</div>
+            </div>
+        </div>
+
+        <div id="divLista">
+            <table id="listaAlunos">
+                <thead>
+                    <tr>
+                        <th class="linear1" id="nmAlunoLista">Nome</th>
+                        <th class="linear1" id="nmTurmaLista">Turma</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (MatriculaViewModel item in ListaMatriculas)
+                    {
+                        <tr>
+                            <td class="nmCelulaNome" id="@item.cdMatricula" onclick="carregarInfoAluno('@item.cdMatricula')">@item.nmUsuario</td>
+                            <td class="nmCelulaCurso">@item.nmTurma</td>
+                            <td onclick="toggleCheckbox(this)" class="nmCheckLista">
+                                <input type="checkbox" onclick="event.stopPropagation()" onchange="contarCheckboxes()" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+} else {
+   <h5 class="linear1">Não há inscrições.</h5> 
+}
+
+
+<script type="text/javascript">
+    marcarSelecionados();
+
+    function toggleCheckbox(row) {
+        const checkbox = row.querySelector('input[type="checkbox"]');
+        checkbox.checked = !checkbox.checked;
+        contarCheckboxes();
+    }
+
+    function marcarSelecionados() {
+        let numAtende = parseInt($('#numAtende').text(), 10);
+
+        let quantidadeAlunos = 0;
+        if ($('#divQuantidade').val() > 0) {
+            quantidadeAlunos = parseInt($('#divQuantidade').val(), 10);
+        }
+
+        var num = [numAtende, quantidadeAlunos].filter(value => !isNaN(value));
+        var minNumber = Math.min(...num);
+
+        let checkboxes = $('#listaAlunos tbody input[type="checkbox"]');
+        checkboxes.prop('checked', false);
+
+        for (let i = 0; i < minNumber; i++) {
+            if (checkboxes[i]) {
+                checkboxes[i].checked = true;
+            }
+        }
+        $("#num").html(minNumber);
+    }
+
+    function contarCheckboxes() {
+        const checkboxes = document.querySelectorAll("#listaAlunos tbody input[type='checkbox']");
+
+        const checkboxesMarcados = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+
+        totalCheckboxes = checkboxesMarcados.length;
+        $("#num").html('');
+        $("#num").html(totalCheckboxes);
+    }
+
+    function obterAlunosSelecionados() {
+        const alunosSelecionados = [];
+
+        const rows = document.querySelectorAll("#listaAlunos tbody tr");
+
+        rows.forEach(row => {
+            const checkbox = row.querySelector(".nmCheckLista input[type='checkbox']");
+            if (checkbox.checked) {
+                const id = row.querySelector(".nmCelulaNome").id;
+                const nome = row.querySelector(".nmCelulaNome").textContent.trim();
+                const curso = row.querySelector(".nmCelulaCurso").textContent.trim();
+
+                alunosSelecionados.push({
+                    id: id,
+                    nome: nome,
+                    curso: curso
+                });
+            }
+        });
+
+        return alunosSelecionados;
+    }
+
+
+    function carregarInfoAluno(cdMatricula) {
+        if (window.matchMedia("(max-width: 1200px)").matches && !icAbrir) {
+            carregarMatriculaAluno();
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAluno", "Matricula")',
+            type: 'GET',
+            async: true,
+            data: {
+                cdMatricula: cdMatricula
+            },
+            success: function (data) {
+                $('#_divInfoAluno').html(data);
+
+                $('#backgroundModal').css('display', 'block');
+                $('#divInformacaoAluno').css('display', 'flex');
+            }
+        });
+    }
+
+    function carregarMatriculaAluno() {
+            $.ajax({
+                url: '@Url.Action("CarregarMatriculaAluno", "Matricula")',
+                type: 'GET',
+                async: true,
+                success: function (data) {
+                    $('#_divMatriculaAluno').html(data);
+
+                    $('#backgroundModal').css('display', 'block');
+                    $('#divMatriculaAluno').css('display', 'flex');
+                }
+            });
+    }
+</script>

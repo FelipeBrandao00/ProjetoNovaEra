@@ -12,6 +12,6 @@ namespace Domain.Interfaces
         Task<List<Matricula>> GetMatriculasByTurmaId(int turmaId);
         Task<Matricula?> AddMatricula(Matricula matricula);
         Task<Matricula> DeleteMatricula(Matricula matricula);
-        Task<Matricula> GetMatriculaById(int matriculaId);
+        Task<Matricula?> GetMatriculaById(int matriculaId);
     }
 }

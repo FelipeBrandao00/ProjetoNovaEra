@@ -1,0 +1,65 @@
+﻿@using WEB.Models.Genero
+@model WEB.Models.Matricula.MatriculaViewModel
+
+@{
+    Layout = null;
+    var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
+}
+
+<link rel="stylesheet" href="~/css/Aluno/InfoAluno.css">
+
+<style>
+    #divBotoesEdicao {
+        margin-top: 0 !important;
+    }
+
+    #btnEditar {
+        width: 150px !important;
+    }
+</style>
+
+<div id="divInformacaoAluno">
+    <div id="divTituloAluno">
+        <button id="btnVoltarModal" onclick="voltarAluno()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>@Model?.nmUsuario</b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoAluno">
+        <div id="divNomeAluno">
+            <label for="divNomeAluno" class="linear1">Nome:</label><br />
+            <input id="txtNomeAluno" class="txtInfoAluno" asp-for="nmUsuario" type="text" disabled />
+        </div>
+
+        <div id="divEmailAluno">
+            <label for="divEmailAluno" class="linear1">Email:</label><br />
+            <input id="txtEmailAluno" class="txtInfoAluno" asp-for="dsEmail" type="text" disabled />
+        </div>
+
+        <div id="divGrupoPC1">
+            <div id="divGeneroAluno">
+                <label for="divGeneroAluno" class="linear1">Gênero:</label><br />
+                <select id="txtGeneroAluno" class="txtInfoAluno" asp-for="dsGenero" disabled>
+                    <option value="0">Selecione</option>
+
+                    @foreach (GeneroViewModel.ItemListaGenero item in ListaGenero) {
+                        <option value="@item.CdGenero">@item.NmGenero</option>
+                    }
+
+                </select>
+            </div>
+
+            <div id="divNascimentoAluno">
+                <label for="divNascimentoAluno" class="linear1">Nascimento:</label><br />
+                <input id="txtNascimentoAluno" class="txtInfoAluno" asp-for="dtNascimento" type="date" disabled />
+            </div>
+
+            <div id="divTelefoneAluno">
+                <label for="divTelefoneAluno" class="linear1">Telefone:</label><br />
+                <input id="txtTelefoneAluno" class="txtInfoAluno" asp-for="dsTelefone" type="text" disabled />
+            </div>
+        </div>
+    </div>
+</div>

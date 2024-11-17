@@ -1,0 +1,263 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Matrícula";
+
+    ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
+    ViewData["Page"] = "Matrícula";
+
+    var ListaTurmasAbertasMatricula = ViewBag.ListaTurmasAbertasMatricula ?? new List<Application.Responses.ResponseModelTurma>();
+}
+
+<link rel="stylesheet" href="~/css/Matricula/Index.css">
+<link rel="stylesheet" href="~/css/Matricula/InfoMatricula.css">
+<link rel="stylesheet" href="~/css/Matricula/InfoAluno.css">
+
+<div id="divInicioPagina">
+    <div id="divTopo">
+        <h5 class="linear1"><b>Página de inscrição:</b></h5>
+        <div id="divInputCopiar">
+            <input type="text" id="txtPagina" value="@ViewBag.LinkInscricao" disabled />
+            <button type="button" id="btnCopiar" onclick="copiar()"><i class="fa fa-copy"></i></button>
+        </div>
+
+        <div id="divFiltros">
+            <div id="idIdade">
+                <div id="divInputIdade">
+                    <label for="txtInicio"> De:</label>
+                    <input type="number" id="txtInicio" placeholder="Digite a idade..." min="1"/>  <div style="margin-top: 3px;">anos</div>
+                </div>
+                <div id="divInputIdade">
+                    <label for="txtFim">Até:</label>
+                    <input type="number" id="txtFim" placeholder="Digite a idade..." min="1"/>  <div style="margin-top: 3px;">anos</div>
+                </div>
+            </div>
+
+            <div id="idCheckbox">
+                <div id="divInputCheckbox">
+                    <label for="chkExAluno">Ex-aluno</label>
+                    <input id="chkExAluno" type="checkbox" checked />
+                </div>
+                <div id="divInputCheckbox">
+                    <label for="chkNovoAluno">Novo aluno</label>
+                    <input id="chkNovoAluno" type="checkbox" checked />
+                </div>
+            </div>
+
+            <div id="idQuantidade">
+                <div id="divInputQuantidade">
+                    <label for="divQuantidade">Qtd. pré-selecionados:</label>
+                    <input type="number" id="divQuantidade" placeholder="Digite a quantidade de alunos..." min="1"/>
+                </div>
+            </div>
+            <div id="idTurma">
+                <div id="divInputTurma">
+                    <label>Selecione a turma:</label>
+                    <select id="ddlTurma">
+                        <option value="0">Selecione</option>
+                        @foreach (Application.Responses.ResponseModelTurma item in ListaTurmasAbertasMatricula) {
+                            <option value="@item.CdTurma">@item.NmTurma</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="divPesquisar">
+            <button id="btnFiltrosMobile" onclick="toggleFiltros()">
+                <b class="linear1">Filtros</b>
+                <i id="arrowIcon" class="fa fa-angles-up"></i>
+            </button>
+            <button id="btnFiltrar" onclick="carregarListaMatriculados()"><b class="linear1">Filtrar</b></button>
+        </div>
+    </div>
+</div>
+
+<div id="divPagina">
+    <div id="_divListaMatriculas"></div>
+
+    <div id="divInfoModal">
+        <div id="_divInfoAluno"></div>
+        <div id="_divMatriculaAluno"></div>
+        <div id="divConfirmarMatricula">
+            <div id="divTituloAluno">
+                <button id="btnVoltarModal" onclick="voltarConfirmacao()">
+                    <i class="fa-solid fa-angle-left arrow-icon">   </i>
+                </button>
+                <h5 class="linear1"><b>Confirmação </b></h5>
+                <p> </p>
+            </div>
+            <b class="linear1">Deseja realmente matricular estes alunos?</b>
+            <br/>
+            <table id="listaAlunosConfirmacao">
+                <thead>
+                    <tr style="text-align: left;">
+                        <th class="linear1" id="nmAlunoLista">Nome</th>
+                        <th class="linear1" id="nmTurmaLista">Turma</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <div id="divBotaoMatricularTurma">
+                <button id="btnMatricularAluno" onclick="confirmarMatricula()"><b>Matricular</b></button>
+            </div>
+        </div>
+    </div>
+    <button id="btnMatricular" onclick="carregarConfirmarMatricula()">Matricular</button>
+</div>
+
+<script type="text/javascript">
+    function toggleFiltros() {
+        const filtros = document.getElementById('divFiltros');
+        filtros.classList.toggle('hidden');
+        arrowIcon.classList.toggle('up');
+    }
+
+    function carregarConfirmarMatricula() {
+        if ($('#num').html() == 0) {
+            ExibirInfo('Selecione ao menos um aluno para confirmar a matrícula!', 'Atenção!');
+            return;
+        }
+
+        var lista = obterAlunosSelecionados();
+        gerarTabela(lista);
+
+        $('#backgroundModal').css('display', 'block');
+        $('#divConfirmarMatricula').css('display', 'flex');
+    }
+
+    function gerarTabela(lista) {
+        const alunosSelecionados = lista; 
+        const tabelaCorpo = document.querySelector("#listaAlunosConfirmacao tbody"); 
+
+        tabelaCorpo.innerHTML = '';
+
+        alunosSelecionados.forEach(aluno => {
+            const tr = document.createElement("tr");
+
+            const tdNome = document.createElement("td");
+            tdNome.id = aluno.id;
+            tdNome.classList.add("nmCelulaNome");
+            tdNome.style.cursor = 'auto';
+            tdNome.textContent = aluno.nome;
+
+            const tdCurso = document.createElement("td");
+            tdCurso.classList.add("nmCelulaCurso");
+            tdCurso.textContent = aluno.curso;
+
+            tr.appendChild(tdNome);
+            tr.appendChild(tdCurso);
+
+            tabelaCorpo.appendChild(tr);
+        });
+    }
+
+    function confirmarMatricula() {
+        const ids = Array.from(document.querySelectorAll('#listaAlunosConfirmacao tbody .nmCelulaNome'))
+                 .map(cell => parseInt(cell.id, 10));
+
+        $.ajax({
+            url: '@Url.Action("ConfirmarMatriculas", "Matricula")',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(ids),
+            async: true,
+            dataType: 'JSON',
+            success: function (data) {
+                if (data.isSuccess) {
+                    $('#btnMatricular').hide();
+                    $("#numAtende").text("0");
+                    voltarConfirmacao();
+                    carregarListaMatriculados();
+
+                    ExibirSucesso(data.message, 'Sucesso!');
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                } 
+            }
+        });
+    }
+
+    function voltarConfirmacao() {
+        $('#divConfirmarMatricula').css('display', 'none');
+        $('#backgroundModal').css('display', 'none');
+    }
+
+    function carregarListaMatriculados() {
+        if (!validarCampos()) {
+            return;
+        }
+
+        let idadeInicio = null;
+        if ($('#txtInicio').val() > 0) {
+            idadeInicio = $('#txtInicio').val();
+        }
+
+        let idadeFim = null;
+        if ($('#txtFim').val() > 0) {
+            idadeFim = $('#txtFim').val();
+        }
+
+        let icExAluno = null;
+        if (!$('#chkExAluno').is(":checked") && $('#chkNovoAluno').is(":checked")) {
+            icExAluno = false;
+        }
+        if ($('#chkExAluno').is(":checked") && !$('#chkNovoAluno').is(":checked")) {
+            icExAluno = true;
+        }
+
+        let cdTurma = $('#ddlTurma').val(); 
+
+        let ResponseModelMatricula = new FormData();
+        ResponseModelMatricula.append('cdTurma', cdTurma);
+        
+        $.ajax({
+            url: '@Url.Action("ListarMatriculas", "Matricula")',
+            type: 'GET',
+            data: {
+                cdTurma: cdTurma,
+                idadeInicial: idadeInicio,
+                idadeFinal: idadeFim,
+                icExAluno: icExAluno
+            },
+            async: true,
+            dataType: 'HTML',
+            success: function (data) {
+                $('#_divListaMatriculas').html(data);
+
+                if($("#numAtende").text() > 0) {
+                    $('#btnMatricular').show();
+                }
+            }
+        });
+    }
+
+    function copiar() {
+        var text = $("#txtPagina").val();
+        ExibirSucesso('Link copiado para a área de transferência.', 'Sucesso!');
+        navigator.clipboard.writeText(text);
+    }
+
+    function voltarAluno() {
+        $('#divInformacaoAluno').css('display', 'none');
+        if (!window.matchMedia("(max-width: 1200px)").matches) {
+            $('#backgroundModal').css('display', 'none');
+        }
+    }
+
+    function validarCampos() {
+        if (!$('#chkExAluno').is(":checked") && !$('#chkNovoAluno').is(":checked")) {
+            ExibirInfo('O aluno deve ser ex-aluno e/ou novo aluno!', 'Atenção!');
+            return false;
+        }
+
+        if ($('#ddlTurma').val() == 0) {
+            ExibirInfo('Selecione uma turma!', 'Atenção!');
+            return false;
+        }
+        return true;
+    }
+</script>
