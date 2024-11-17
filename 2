@@ -1,4 +1,4 @@
-﻿@using WEB.Models.Shared;
+@using WEB.Models.Shared;
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Chamada";
@@ -51,7 +51,7 @@
 
     function checkChamada() {
         if ('@ViewBag.CdTurma' != '-1') {
-            carregarListaAulas('@ViewBag.CdTurma', true);
+            carregarListaAulas('@ViewBag.CdTurma');
         }
     }
 
@@ -60,7 +60,7 @@
         carregarListaAulas();
     }
 
-    function carregarListaAulas(cdTurma = null, icadd = null) {
+    function carregarListaAulas(cdTurma = null) {
         var cdTurma = cdTurma ?? $('#ddlTurma').val();
 
         let IcChamada = null;
@@ -87,7 +87,7 @@
             success: function (data) {
                 $('#_divListaAulas').html(data);
 
-                if ('@ViewBag.CdTurma' != '-1' && icadd == true) {
+                if ('@ViewBag.CdTurma' != '-1') {
                     $('#ddlTurma').val('@ViewBag.CdTurma'); 
                     verInfoAula('@ViewBag.CdAula', '@ViewBag.CdTurma', true);
                 }

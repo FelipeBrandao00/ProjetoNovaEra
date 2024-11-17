@@ -14,7 +14,7 @@ using WEB.Models.Response;
 
 namespace WEB.Controllers {
     public class TurmaController(IConfiguration configuration) : Controller {
-        public async Task<IActionResult> Index(bool icAdicionar = false) {
+        public async Task<IActionResult> Index(int? cdTurma = null, bool? icAdicionar = false) {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token)) {
                 return RedirectToAction("Index", "Login");
@@ -24,6 +24,7 @@ namespace WEB.Controllers {
             ViewBag.Role = String.Join(" | ", dados.role);
             ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
 
+            ViewBag.CdTurma = cdTurma ?? -1;
             ViewBag.IcAdicionar = icAdicionar;
 
             var CursoViewModel = new CursoViewModel();

@@ -60,11 +60,11 @@ else {
 
 
 <div id="divFooterPagina">
-    <button type="button" id="btnCriarAula">Criar aula <i class="fa fa-external-link"></i></button>
+    <button type="button" id="btnCriarAula" onclick="redirecionarCriarAula('@ViewBag.CdTurma')">Criar aula <i class="fa fa-external-link"></i></button>
 </div>
 
 <script type="text/javascript">
-    function verInfoAula(cdAula, cdTurma) {
+    function verInfoAula(cdAula, cdTurma, icadd = null) {
         $.ajax({
             url: '@Url.Action("CarregarInfoAula", "Chamada")',
             type: 'GET',
@@ -80,5 +80,9 @@ else {
                 $('#divInformacaoAula').css('display', 'flex');
             }
         });
+    }
+
+    function redirecionarCriarAula(cdTurma) {
+        window.open('@Url.Action("Index", "Turma", new { cdTurma = @ViewBag.CdTurma })', "_blank");
     }
 </script>

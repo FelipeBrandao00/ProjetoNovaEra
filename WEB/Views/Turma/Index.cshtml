@@ -162,6 +162,7 @@
     let infoTurmaTemp;
 
     document.addEventListener("DOMContentLoaded", carregarListaPadrao);
+    document.addEventListener("DOMContentLoaded", checkAdicionarAula);
     document.addEventListener("DOMContentLoaded", checkAdicionar);
 
     function toggleFiltros() {
@@ -177,6 +178,12 @@
             } else {
                 carregarAdicionarTurma();
             }
+        }
+    }
+
+    function checkAdicionarAula() {
+        if ('@ViewBag.CdTurma' != '-1') {
+            carregarInfoPadrao('@ViewBag.CdTurma', true);
         }
     }
 
@@ -233,7 +240,7 @@
         });
     }
 
-    function carregarInfoPadrao(param) {
+    function carregarInfoPadrao(param, icadd = false) {
         event.preventDefault();
         $('#conteudoModal').css('display', 'flex')
         $('#backgroundModal').css('display', 'block');
@@ -274,6 +281,10 @@
                 $('#msgInfoTurma').hide();
                 $('#divInfoTurma').html(data);
                 $('#divInfoTurma').show();
+
+                if (icadd == true) {
+                    carregarNovaAula();
+                }
             }
         });
     }

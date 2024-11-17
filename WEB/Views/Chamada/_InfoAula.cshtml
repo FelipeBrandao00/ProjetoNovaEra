@@ -85,6 +85,16 @@
 </div>
 
 <script type="text/javascript">
+    checkarNenhumAluno();
+
+    function checkarNenhumAluno() {
+        if ('@ViewBag.QuantidadeAlunos' == '0') {
+            ExibirInfo('Não há alunos na turma.', 'Atenção!');
+            $('#btnSalvarChamada').hide();
+            $('#listaChamada').hide();
+        }
+    }
+
     function alterarStatusAluno(aluno) {
         if ($(aluno).hasClass('clsPresente')) {
             $(aluno).addClass('clsAusente');
@@ -137,7 +147,13 @@
                 if (data.isSuccess) {
                     ExibirSucesso(data.message, 'Sucesso!');
                     voltarAula();
-                    carregarListaAulas();
+                    if ('@ViewBag.CdTurma' != '-1') {
+                        let url = window.location.origin + window.location.pathname;
+                        window.history.replaceState({}, document.title, url);
+                        carregarListaAulas(null, false);
+                    } else {
+                        carregarListaAulas();
+                    }
                 } else {
                     console.error('Erro interno.', data.message);
                     ExibirErro(data.message, 'Erro!');

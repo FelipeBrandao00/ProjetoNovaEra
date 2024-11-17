@@ -3,11 +3,7 @@ using WEB.Models;
 using WEB.Models.Response;
 using WEB.Models.Turma;
 using WEB.Models.Matricula;
-using WEB.Models.Usuario;
-using WEB.Models.Aluno;
 using WEB.Models.Genero;
-using Application.Responses;
-using WEB.Models.Professor;
 
 namespace WEB.Controllers {
     public class MatriculaController(IConfiguration configuration) : Controller {
