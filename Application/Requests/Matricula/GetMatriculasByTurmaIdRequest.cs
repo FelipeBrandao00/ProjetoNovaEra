@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace Application.Requests.Matricula
 {
-    public class GetMatriculasByTurmaIdRequest : PagedRequest
+    public class GetMatriculasByTurmaIdRequest
     {
         public int CdTurma { get; set; }
-        public GetMatriculasByTurmaIdRequest(int? pageNumber, int? pageSize, int cdTurma) : base(pageNumber, pageSize)
-        {
+        public int? IdadeInicial { get; set; }
+        public int? IdadeFinal { get; set; }
+        public bool? IcExAluno { get; set; }
+
+        public GetMatriculasByTurmaIdRequest(int cdTurma, int? idadeInicial, int? idadeFinal, bool? icExAluno){
+            IdadeInicial = idadeInicial;
+            IdadeFinal = idadeFinal;
+            IcExAluno = icExAluno;
             CdTurma = cdTurma;
         }
     }

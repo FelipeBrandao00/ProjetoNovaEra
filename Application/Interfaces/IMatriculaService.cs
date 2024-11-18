@@ -13,7 +13,7 @@ namespace Application.Interfaces
 {
     public interface IMatriculaService
     {
-        Task<PagedResponse<List<MatriculaDto>>> GetMatriculasByTurmaId(GetMatriculasByTurmaIdRequest request);
+        Task<Response<List<MatriculaDto>>> GetMatriculasByTurmaId(GetMatriculasByTurmaIdRequest request);
         Task<Response<MatriculaDto>> AddMatricula(AddMatriculaRequest request);
         Task<Response<MatriculaDto>> GetMatriculaById(GetMatriculaByIdRequest request);
         Task<PagedResponse<List<UsuarioDto>>> EfetivarMatriculas(EfetivarMatriculasRequest request);

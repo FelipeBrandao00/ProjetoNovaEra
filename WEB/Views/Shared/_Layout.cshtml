@@ -1,4 +1,4 @@
-﻿@{
+@{
     string role = ViewBag.Role;
     string nome = ViewBag.Nome;
 }
@@ -326,7 +326,7 @@
         #backgroundModal {
             display: none;
             z-index: 1;
-            position: absolute;
+            position: fixed !important;
             background-color: black;
             opacity: 62%;
             top: 0px;
@@ -536,7 +536,7 @@
             </div>
 
             <div id="secMatricula" class="sec">
-                <button>
+                <button onclick="redirecionarParaMatricula()">
                     <div>
                         <i class="fa-solid fa-book-open"></i>
                         <b>Matrícula</b>
@@ -545,7 +545,7 @@
             </div>
 
             <div id="secChamada" class="sec">
-                <button>
+                <button onclick="redirecionarParaChamada()">
                     <div>
                         <i class="fa-solid fa-scroll"></i>
                         <b>Chamada</b>
@@ -771,6 +771,11 @@
         function redirecionarParaListarPermissoes() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Permissao")';
+        }
+
+        function redirecionarParaMatricula() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Matricula")';
         }
     </script>
 

@@ -1,0 +1,149 @@
+﻿@using Application.Responses
+@using WEB.Models.Response;
+@{
+    var ListaChamada = (List<ResponseModelChamada>)ViewBag.ListaChamada ?? new List<ResponseModelChamada>();
+    var ListaAlunos = (List<ResponseModelUsuario>)ViewBag.ListaAlunos ?? new List<ResponseModelUsuario>();
+    var InfoAula = ViewBag.InfoAula ?? new ResponseModelAula();
+}
+<link rel="stylesheet" href="~/css/Chamada/InfoAula.css">
+<link rel="stylesheet" href="~/css/Chamada/Index.css">
+
+
+<div id="backgroundConteudoModal" onclick="sumir()"></div>
+<div id="divInformacaoAula">
+    <div id="divTituloAula">
+        <button id="btnVoltarModal" onclick="voltarAula()">
+            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+        </button>
+        <h5 class="linear1"><b>Lista de chamada</b></h5>
+        <p> </p>
+    </div>
+
+    <div id="divConteudoAula">
+        <div id="divTituloConteudoAula">
+            <div>
+                <h3 class="linear1"><b>@InfoAula.nmAula</b></h3>
+                <h5 class="linear1"><b>@InfoAula.dtAula.ToString("dd/MM/yyyy")</b></h5>
+            </div>
+            <div id="chks">
+                <div id="divCheck">
+                    <label for="chkPresenca" class="linear1"><b>Presente</b></label>
+                    <div id="chkPresenca"></div>
+                </div>
+                <div id="divCheck">
+                    <label for="chkAusente" class="linear1"><b>Ausente</b></label>
+                    <div id="chkAusente"></div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <p class="linear1" style="text-align: left;"><b>Clique no nome do aluno para alterar seu status!</b></p>
+
+        <table id="listaChamada">
+            <thead>
+                <tr>
+                    <th id="foto">Foto</th>
+                    <th id="nmAluno">Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ListaAlunos) {
+                    var ImgSrc = (item?.DsFoto != null && item?.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(item?.DsFoto)}" : String.Empty;
+                    bool icAusente = ListaChamada.Any(x => x.cdAluno == item?.CdUsuario);
+                    if (icAusente) {
+                        <tr>
+                            @if (string.IsNullOrEmpty(ImgSrc)) {
+                                <td class="clsAusente"><img id="fotoAluno"/></td>
+                            } else {
+                                <td class="clsAusente" onclick="visualizarFoto('@ImgSrc')"><img id="fotoAluno" src="@ImgSrc"/></td>
+                            }
+                            <td class="clsAusente" id="@item?.CdUsuario" onclick="alterarStatusAluno(this)">@item?.NmUsuario</td> 
+                        </tr>
+                    } else {
+                        <tr>
+                            @if (string.IsNullOrEmpty(ImgSrc)) {
+                                <td class="clsPresente"><img id="fotoAluno"/></td>
+                            } else {
+                                <td class="clsPresente" onclick="visualizarFoto('@ImgSrc')"><img id="fotoAluno" src="@ImgSrc"/></td>
+                            }
+                            <td class="clsPresente" id="@item?.CdUsuario" onclick="alterarStatusAluno(this)">@item?.NmUsuario</td> 
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div id="divFooterModal">
+        <button type="button" id="btnSalvarChamada" onclick="confirmarChamada()">Confirmar</button>
+    </div>
+</div>
+
+
+<div id="divModalFoto">
+    <img id="fotoModal"/>
+</div>
+
+<script type="text/javascript">
+    function alterarStatusAluno(aluno) {
+        if ($(aluno).hasClass('clsPresente')) {
+            $(aluno).addClass('clsAusente');
+            $(aluno).removeClass('clsPresente');
+
+            $(aluno).prev().addClass('clsAusente');
+            $(aluno).prev().removeClass('clsPresente');
+            return;
+        }
+        
+        $(aluno).addClass('clsPresente');
+        $(aluno).removeClass('clsAusente');
+
+        $(aluno).prev().addClass('clsPresente');
+        $(aluno).prev().removeClass('clsAusente');
+    }
+    
+    function visualizarFoto(imgSrc) {
+        $('#divModalFoto').css('display', 'flex');
+        $('#backgroundConteudoModal').css('display', 'block');
+
+        $('#fotoModal').attr('src', imgSrc);
+    }
+    
+    function sumir() {
+        $('#divModalFoto').css('display', 'none');
+        $('#backgroundConteudoModal').css('display', 'none');
+    }
+
+    function confirmarChamada() {
+        const ausentes = document.querySelectorAll('.clsAusente');
+
+        const ids = Array.from(ausentes)
+            .map(el => el.id)
+            .filter(id => id !== "");
+
+        const chamadaViewModel = {
+            cdAula: '@InfoAula.cdAula',
+            cdTurma: '@InfoAula.cdTurma',
+            cdAlunos: ids
+        };
+
+        $.ajax({
+            url: '@Url.Action("EfetivarChamada", "Chamada")',
+            type: 'POST',
+            async: true,
+            contentType: 'application/json',
+            data: JSON.stringify(chamadaViewModel),
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                    voltarAula();
+                    carregarListaAulas();
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+            }
+        });
+    }
+</script>

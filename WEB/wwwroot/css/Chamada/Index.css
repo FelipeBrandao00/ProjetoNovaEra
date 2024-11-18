@@ -1,0 +1,126 @@
+﻿/* Folha de estilos: Matricula */
+
+input:focus, button:focus {
+    outline: none;
+}
+
+article {
+    justify-content: flex-start !important;
+}
+
+/* IDs */
+#divInicioPagina {
+    width: 100%;
+}
+
+#divTopo {
+    margin-top: 60px;
+}
+
+#divTurmaCheckbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 40px;
+}
+
+#divDdlTurma {
+    width: 40%;
+}
+
+    #divDdlTurma > label {
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+#divCheckbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+#txtPagina {
+    border: none;
+    padding: 10px;
+    font-size: 12px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    background-color: #DBD8D8;
+    width: 40%;
+}
+
+#_divListaAulas {
+    font-weight: 700;
+    font-size: 12px;
+}
+
+#divInfoModal {
+    overflow-y: scroll;
+    max-height: 80%;
+}
+
+#divRelevo {
+    border-radius: 10px;
+    background-color: #EAEAEA;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    height: 50vh;
+    overflow-y: auto;
+}
+
+#_divListaAulas {
+    margin-top: 40px;
+    max-height: 500px;
+}
+
+.txtFormato {
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: #FFFFFF;
+    box-shadow: rgba(0, 0, 0, 0.67) 0px 2px 4px 0px inset;
+    color: #2F2F2F;
+}
+
+/* Responsivo MOBILE */
+@media (max-width: 1200px) {
+    #conteudoModal {
+        width: 94vw !important;
+        position: absolute !important;
+        top: 13vh !important;
+        bottom: 3vh !important;
+        left: 3vw !important;
+        right: 3vw !important;
+        gap: 15px;
+        padding: 2vh 3vw !important;
+    }
+
+    #divInfoModal {
+        max-height: 100%;
+        padding: 6px;
+    }
+
+    #txtPagina {
+        width: 80%;
+    }
+
+    #divTurmaCheckbox {
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #divDdlTurma {
+        width: 100%;
+    }
+
+    #divCheckbox {
+        gap: 20px;
+        margin-top: 0px;
+    }
+}

@@ -1,0 +1,84 @@
+﻿@using WEB.Models.Response;
+@{
+    var ListaAulas = ViewBag.ListaAulas ?? new List<ResponseModelAula>();
+}
+
+<link rel="stylesheet" href="~/css/Chamada/InfoAula.css">
+
+
+@if (ViewBag.QuantidadeAulas > 0) {
+    <div id="divAlunosTurma">
+        <div id="TituloInfoAula">
+            <div id="TituloBotaoAula">
+                <div style="font-size: 15px;" class="linear1">Aulas:</div>
+                <div id="descAulaTip" class="linear1">Clique na aula para abrir a chamada!</div>
+            </div>
+        </div>
+
+        <div id="divRelevo">
+            <div id="divAulas">
+                @foreach (ResponseModelAula item in ListaAulas) {
+                    <div id="divAula" onclick="verInfoAula('@item.cdAula', '@ViewBag.CdTurma')">
+                        <div id="topoAula">
+                            <div id="infoAula">
+                                <h5 class="linear1"><b>@item.nmAula</b></h5>
+                                <p class="linear1">@item.dtAula.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            <div id="InfoNumeroChamada">
+                                <h5 class="linear1"><b>Presenças</b></h5>
+                                @if (item.isChamada == true) {
+                                    <h3 class="linear1"><b>@item.qtPresencas</b></h3>
+                                } else {
+                                    <h3 class="linear1"><b>-</b></h3>
+                                }
+                            </div>
+                        </div>
+
+                        @if (@item.isChamada == true) {
+                            <div id="infoChamada">
+                                <div id="divChamada" class="comChm">C/Chamada</div>
+                            </div>
+                        } else {
+                            <div id="infoChamada">
+                                <div id="divChamada" class="semChm">S/Chamada</div>
+                            </div>
+                        }
+                        <br />
+
+                        <div id="descAula" class="linear1">
+                            @item.dsAula
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+else {
+    <h5 class="linear1">Não há aulas.</h5>
+}
+
+
+<div id="divFooterPagina">
+    <button type="button" id="btnCriarAula">Criar aula <i class="fa fa-external-link"></i></button>
+</div>
+
+<script type="text/javascript">
+    function verInfoAula(cdAula, cdTurma) {
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAula", "Chamada")',
+            type: 'GET',
+            async: true,
+            data: {
+                cdAula: cdAula,
+                CdTurma: cdTurma,
+            },
+            success: function (data) {
+                $('#_divInfoAula').html(data);
+
+                $('#backgroundModal').css('display', 'block');
+                $('#divInformacaoAula').css('display', 'flex');
+            }
+        });
+    }
+</script>

@@ -2,20 +2,17 @@
 using Application.Requests.Matricula;
 using AutoMapper;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Application.Mappings
+namespace Application.Mappings;
+
+public class MatriculaMapping : Profile
 {
-    public class MatriculaMapping : Profile
+    public MatriculaMapping()
     {
-        public MatriculaMapping()
-        {
-            CreateMap<Matricula, MatriculaDto>().ReverseMap();
-            CreateMap<Matricula, AddMatriculaRequest>().ReverseMap();
-        }
+        CreateMap<Matricula, MatriculaDto>()
+            .ForMember(dest => dest.NmTurma, opt => opt.MapFrom(src => src.Turma.NmTurma));
+
+        //CreateMap<Matricula, MatriculaDto>().ReverseMap();
+        CreateMap<Matricula, AddMatriculaRequest>().ReverseMap();
     }
 }

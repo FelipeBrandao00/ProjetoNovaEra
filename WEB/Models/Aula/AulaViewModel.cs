@@ -10,12 +10,16 @@ namespace WEB.Models.Aula
     public class AulaViewModel
     {
         public int CdAula { get; set; }
-        public async Task<Response<List<ResponseModelAula>>> BuscarPorTurma(IConfiguration configuration, ResponseModelTurma ResponseModelTurma)
+        public async Task<Response<List<ResponseModelAula>>> BuscarPorTurma(IConfiguration configuration, ResponseModelTurma ResponseModelTurma, bool? icChamada = null)
         {
             using (var client = new HttpClient())
             {
                 var baseUrl = configuration["BaseRequest"];
                 var url = $"{baseUrl}/Aula/GetAulasByTurmaId/{ResponseModelTurma.CdTurma}";
+
+                if (icChamada != null) {
+                    url += $"?icChamada={icChamada.ToString().ToLower()}";
+                }
 
                 var token = configuration["JwtToken"];
                 if (!string.IsNullOrEmpty(token))
