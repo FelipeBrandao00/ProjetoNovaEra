@@ -7,6 +7,7 @@ using System.Collections.Generic;
 namespace WEB.Models.Turma {
     public class TurmaViewModel {
         public int id { get; set; }
+        
         public async Task<Response<ResponseModelTurma>> BuscarInfo(IConfiguration configuration) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
@@ -35,6 +36,7 @@ namespace WEB.Models.Turma {
                 }
             }
         }
+        
         public async Task<Response<List<ResponseModelTurma>>> TurmasAbertasMatricula(IConfiguration configuration) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];

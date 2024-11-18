@@ -29,6 +29,7 @@ namespace WEB.Controllers {
             var CursoViewModel = new CursoViewModel();
             var ListaCurso = await CursoViewModel.GerarLista(configuration);
             ViewBag.ListaCurso = ListaCurso.Data;
+
             return View();
         }
 

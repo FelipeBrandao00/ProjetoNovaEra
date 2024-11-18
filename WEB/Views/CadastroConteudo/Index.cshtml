@@ -4,6 +4,8 @@
 
     ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
     ViewData["Page"] = "Cadastro de conteúdo";
+
+    List<WEB.Models.Shared.ListarPadraoViewModel.ItemListaPadrao> ListaTurma = ViewBag.ListaTurma ?? new List<WEB.Models.Shared.ListarPadraoViewModel.ItemListaPadrao>();
 }
 
 <link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
@@ -15,9 +17,20 @@
                 <label for="divTurma" class="linear1">Selecione a turma:</label><br />
                 <select id="ddlTurma" class="txtFormato" onchange="return verificarTurma();">
                     <option value="-1">Selecione</option>
+
+                    @foreach (var Turma in ListaTurma)
+                    {
+                        <option value="@Turma.Id">@Turma.Text</option>
+                    }
+
+                    <option value="1">TESTE</option>
+
+                    @*
                     <option value="1">1N1</option>
                     <option value="2">2N1</option>
                     <option value="3">3N1</option>
+                    *@
+
                 </select>
             </div>
             <div id="divCheckbox">
@@ -49,11 +62,19 @@
     function verificarTurma() {
         var valorDdl = $('#ddlTurma').val();
         if (valorDdl == -1) {
-            alert('escolhe outro valor');
+            ExibirInfo('Escolha uma turma.');
+            return false;
+        }
+
+        const chkC = $('#idCArquivo').is(':checked');
+        const chkS = $('#idSArquivo').is(':checked');
+        if (!chkC && !chkS) {
+            ExibirInfo('Selecione ao menos um filtro');
             return false;
         }
 
         carregarListaAulas();
+        return true;
     }
 
     function carregarListaAulas() {

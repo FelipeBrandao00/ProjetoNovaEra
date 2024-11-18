@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
 using WEB.Models.Shared;
 using WEB.Models.Curso;
+using WEB.Models.Turma;
 
 namespace WEB.Controllers {
     public class CadastroConteudoController(IConfiguration configuration) : Controller {
 
-        public IActionResult Index(bool icAdicionar = false) {
+        public async Task<IActionResult> Index(bool icAdicionar = false) {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token))
             {
@@ -19,6 +20,12 @@ namespace WEB.Controllers {
             ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
 
             ViewBag.IcAdicionar = icAdicionar;
+
+            var ListarTurmaViewModel = new ListarTurmaViewModel() {
+                IcFinalizado = false
+            };
+            await ListarTurmaViewModel.GerarLista(configuration);
+            ViewBag.ListaTurma = ListarTurmaViewModel.ItensLista;
 
             return View();
         }
