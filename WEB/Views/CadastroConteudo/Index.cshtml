@@ -13,7 +13,7 @@
         <div id="divTurmaCheckbox">
             <div id="divDdlTurma">
                 <label for="divTurma" class="linear1">Selecione a turma:</label><br />
-                <select id="ddlTurma" class="txtFormato" onchange="verificarTurma()">
+                <select id="ddlTurma" class="txtFormato" onchange="return verificarTurma();">
                     <option value="-1">Selecione</option>
                     <option value="1">1N1</option>
                     <option value="2">2N1</option>
@@ -50,7 +50,7 @@
         var valorDdl = $('#ddlTurma').val();
         if (valorDdl == -1) {
             alert('escolhe outro valor');
-            return;
+            return false;
         }
 
         carregarListaAulas();
