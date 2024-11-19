@@ -52,7 +52,7 @@ namespace Infra.Data.Repositories {
             return await turmas.ToListAsync();
         }
 
-        public async Task<List<Turma>> GetTurmasAbertaMatricula() => await _context.Turmas.Where(x => x.IcAbertaMatricula).ToListAsync();
+        public async Task<List<Turma>> GetTurmasAbertaMatricula() => await _context.Turmas.Where(x => x.IcAbertaMatricula && x.DtFim == null).ToListAsync();
 
         public async Task<Turma> HabilitarMatricula(int CdTurma) {
             var turma = await GetTurmaById(CdTurma);
