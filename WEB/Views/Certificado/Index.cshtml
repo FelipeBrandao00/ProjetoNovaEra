@@ -105,7 +105,6 @@
         if (window.matchMedia("(max-width: 1200px)").matches) {
             $('#paginaDireita').css('display', 'flex');
             $('#backgroundModal').css('display', 'block');
-            $('#divBotoesCertificadoMobile').css('display', 'flex');
             $('#divEncaminharEmailMobile').css('display', 'none');
             $('#divBotoesEncaminharMobile').css('display', 'none');
         }
@@ -154,15 +153,6 @@
             $('#divBotoesEncaminhar').css('display', 'none');
         }
     }
-
-    function downloadDocumento() {
-        alert('precisa ser implementado!');
-    }
-
-    function encaminharDocumento() {
-        alert('precisa ser implementado!');
-    }
-
     function voltarMobile() {
         event.preventDefault();
 

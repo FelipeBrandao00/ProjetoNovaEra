@@ -517,7 +517,7 @@
                 </button>
                 <div class="collap" id="collapAluno">
                     <button onclick="redirecionarParaListarAluno()"><i class="fa-solid fa-rectangle-list"></i>Listar alunos</button>
-                    <button><i class="fa-solid fa-award"></i>Emitir certificado</button>
+                    <button onclick="redirecionarParaEmitirCertificado()"><i class="fa-solid fa-award"></i>Emitir certificado</button>
                 </div>
             </div>
 
@@ -776,6 +776,16 @@
         function redirecionarParaMatricula() {
             event.preventDefault();
             window.location.href = '@Url.Action("Index", "Matricula")';
+        }
+
+        function redirecionarParaChamada() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Chamada")';
+        }
+
+        function redirecionarParaEmitirCertificado() {
+            event.preventDefault();
+            window.location.href = '@Url.Action("Index", "Certificado")';
         }
     </script>
 
