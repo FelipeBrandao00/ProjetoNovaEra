@@ -1,0 +1,94 @@
+﻿@{
+    var ImgSrc = (ViewBag.CertificadoImg != null) ? $"data:image/png;base64,{Convert.ToBase64String(ViewBag.CertificadoImg)}" : String.Empty;
+}
+
+<link rel="stylesheet" href="~/css/Certificado/InfoCertificado.css">
+
+<div id="divCertificado">
+    <label for="divImageCertificado" class="linear1">Pré-visualização do certificado:</label><br />
+    <img id="divImageCertificado" src="@ImgSrc"/>
+</div>
+
+<div id="divBotoesCertificado">
+    <button id="btnEncaminhar" onclick="carregarEncaminhar()"><b class="linear1">Encaminhar</b></button>
+    <button id="btnDownload" onclick="downloadDocumento('@ViewBag.CertificadoImg')"><b class="linear1">Download</b></button>
+</div>
+
+<div id="divEncaminharEmail">
+    <label for="divTurmaCertificado" class="linear1">Digite o e-mail para encaminhar:</label><br />
+    <input id="txtTurmaCertificado" class="txtInfoAluno" type="text" placeholder="Digite o e-mail..." />
+
+    <div id="divBotoesEncaminhar">
+        <button id="btnCancelarEnvio" onclick="cancelarEncaminhar()"><b class="linear1">Cancelar envio</b></button>
+        <button id="btnEnviar" onclick="encaminharDocumento()"><b>Enviar</b></button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    if ('@ViewBag.IcExiste' == 'False') {
+        ExibirInfo('Essa turma não possui certificado disponível.', 'Atenção!');
+    } else {
+        $('#divCertificado').show();
+        $("#ddlTurmaCertificado").find('option[value=-1]').remove();
+        $('#divBotoesCertificado').css("display", "flex");
+    }
+
+
+    function downloadDocumento() {
+        var ddlTurma = $('#ddlTurmaCertificado').val();
+
+        $.ajax({
+            url: '@Url.Action("DownloadCertificado", "Certificado")',
+            type: 'POST',
+            async: true,
+            data: {
+                CdTurma: ddlTurma,
+                NmUsuario: '@ViewBag.NmUsuario',
+                certificado: '@Html.Raw(@ViewBag.StringCertificado)',
+            },
+            xhrFields: {
+                responseType: 'blob'
+            },
+            success: function (blob) {
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = `Certificado_${'@ViewBag.NmUsuario'}.jpg`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+
+
+                ExibirSucesso('Certificado baixado com sucesso.', 'Sucesso');
+            },
+            error: function (blob) {
+                ExibirErro('Algo deu errado ao baixar o certificado.', 'Alerta');
+            }
+        });
+    }
+
+    function encaminharDocumento() {
+        var txtEmail = $('#txtTurmaCertificado').val();
+
+        $.ajax({
+            url: '@Url.Action("EncaminharEmail", "Certificado")',
+            type: 'POST',
+            async: true,
+            data: {
+                TxtEmail: txtEmail,
+                certificado: '@Html.Raw(@ViewBag.StringCertificado)',
+            },
+            success: function (data) {
+                if (data.IsSuccessStatusCode) {
+                    ExibirSucesso('Certificado enviado por e-mail com sucesso.', 'Sucesso');
+                } else {
+                    ExibirErro('Não foi possível enviar o e-mail.', 'Erro.');
+                }
+            },
+            error: function (blob) {
+                ExibirErro('Algo deu errado ao enviar o e-mail.', 'Alerta.');
+            }
+        });
+    }
+</script>

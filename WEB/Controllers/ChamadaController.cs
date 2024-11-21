@@ -23,7 +23,8 @@ namespace WEB.Controllers {
             ViewBag.Nome = dados.role[1];
 
             configuration["JwtToken"] = token;
-            ListarTurmaViewModel model = new ListarTurmaViewModel();
+
+            var model = new ListarTurmaViewModel();
             model.IcFinalizado = false;
             await model.GerarLista(configuration);
 
