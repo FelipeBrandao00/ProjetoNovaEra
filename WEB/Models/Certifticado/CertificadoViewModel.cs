@@ -33,5 +33,39 @@ namespace WEB.Models.Certifticado {
                 }
             }
         }
+
+        public async Task<Response<ResponseModelCertificado>> AdicionarCertificadoTurma(IConfiguration configuration, int cdTurma, byte[] modeloCertificado) {
+            using (var client = new HttpClient()) {
+                var baseUrl = configuration["BaseRequest"];
+                var url = $"{baseUrl}/Certificado?CdTurma={cdTurma}";
+
+                var requestContent = new MultipartFormDataContent();
+                var imageContent = new ByteArrayContent(modeloCertificado);
+                imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
+                requestContent.Add(imageContent, "Arquivo", $"Certificado_Turma{cdTurma}.jpg");
+
+                var token = configuration["JwtToken"];
+                if (!string.IsNullOrEmpty(token))
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                try {
+                    var response = await client.PostAsync(url, requestContent);
+                    if (!response.IsSuccessStatusCode)
+                        return new Response<ResponseModelCertificado> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
+
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                    var responseData = JsonSerializer.Deserialize<Response<ResponseModelCertificado>>(responseBody, options);
+
+                    if (responseData == null || !responseData.IsSuccess)
+                        return new Response<ResponseModelCertificado> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
+
+                    return responseData;
+                } catch (Exception ex) {
+                    while (ex.InnerException != null) { ex = ex.InnerException; }
+                    return new Response<ResponseModelCertificado> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
+                }
+            }
+        }
     }
 }
