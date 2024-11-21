@@ -80,7 +80,8 @@
                 certificado: '@Html.Raw(@ViewBag.StringCertificado)',
             },
             success: function (data) {
-                if (data.IsSuccessStatusCode) {
+                console.log(data);
+                if (data.isSuccessStatusCode) {
                     ExibirSucesso('Certificado enviado por e-mail com sucesso.', 'Sucesso');
                 } else {
                     ExibirErro('Não foi possível enviar o e-mail.', 'Erro.');

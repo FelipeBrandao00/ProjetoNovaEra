@@ -11,6 +11,7 @@ using WEB.Models.Usuario;
 using WEB.Models.Genero;
 using WEB.Models.Aula;
 using WEB.Models.Response;
+using WEB.Models.Certifticado;
 
 namespace WEB.Controllers {
     public class TurmaController(IConfiguration configuration) : Controller {
@@ -72,6 +73,15 @@ namespace WEB.Controllers {
         public async Task<JsonResult> AdicionarTurma(ResponseModelTurma ResponseModelTurma) {
             configuration["JwtToken"] = Request.Cookies["Token"];
             var responseAdd = await new TurmaViewModel().Adicionar(configuration, ResponseModelTurma);
+
+            if (responseAdd.IsSuccess) {
+                try {
+                    byte[] byteCertificado = System.IO.File.ReadAllBytes(Directory.GetCurrentDirectory() + "/wwwroot/img/Modelo_Certificado.jpg");
+                    var responseCertificado = await new CertificadoViewModel().AdicionarCertificadoTurma(configuration, responseAdd.Data.CdTurma, byteCertificado);
+                } catch {
+                    //buaa, não adicionou
+                }
+            }
 
             return Json(responseAdd);
         }

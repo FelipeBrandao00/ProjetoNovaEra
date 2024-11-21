@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Mail;
 using System.Reflection.Metadata.Ecma335;
+using DotNetEnv;
 
 namespace WEB.Models {
     public class Certificado {
@@ -41,18 +42,19 @@ namespace WEB.Models {
         }
 
         public static async Task<SendGrid.Response> EnviarEmail(string toEmail, byte[] imagem) {
-            string apiKey = "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";
+            Env.Load();
+            string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
 
             var client = new SendGridClient(apiKey);
             var senderEmail = new EmailAddress("suportenovaera9@gmail.com");
             var recieverEmail = new EmailAddress(toEmail);
 
-            string emailSubject = "Encaminhar";
+            string emailSubject = "Certificado";
             string textContent = "Segue o documento solicitado em anexo.";
             var msg = MailHelper.CreateSingleEmail(senderEmail, recieverEmail, emailSubject, textContent, null);
 
             string base64Image = Convert.ToBase64String(imagem);
-            msg.AddAttachment("documento.jpg", base64Image, "image/jpeg");
+            msg.AddAttachment("Certificado.jpg", base64Image, "image/jpeg");
 
             var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
             return response;
