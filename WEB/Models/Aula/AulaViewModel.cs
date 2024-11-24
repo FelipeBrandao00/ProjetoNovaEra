@@ -9,8 +9,10 @@ namespace WEB.Models.Aula
 {
     public class AulaViewModel
     {
+
         public int CdAula { get; set; }
-        public async Task<Response<List<ResponseModelAula>>> BuscarPorTurma(IConfiguration configuration, ResponseModelTurma ResponseModelTurma, bool? icChamada = null)
+
+        public async Task<Response<List<ResponseModelAula>>> BuscarPorTurma(IConfiguration configuration, ResponseModelTurma ResponseModelTurma, bool? icChamada = null, bool? icConteudo = null)
         {
             using (var client = new HttpClient())
             {
@@ -19,6 +21,11 @@ namespace WEB.Models.Aula
 
                 if (icChamada != null) {
                     url += $"?icChamada={icChamada.ToString().ToLower()}";
+                }
+
+                if (icConteudo != null)
+                {
+                    url += $"?icConteudo={icConteudo.ToString().ToLower()}";
                 }
 
                 var token = configuration["JwtToken"];
@@ -47,7 +54,6 @@ namespace WEB.Models.Aula
                 }
             }
         }
-
         public async Task<Response<ResponseModelAula>> BuscarInfo(IConfiguration configuration)
         {
             using (var client = new HttpClient())

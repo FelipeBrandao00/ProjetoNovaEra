@@ -23,24 +23,12 @@
                         <option value="@Turma.Id">@Turma.Text</option>
                     }
 
-                    <option value="1">TESTE</option>
-
-                    @*
-                    <option value="1">1N1</option>
-                    <option value="2">2N1</option>
-                    <option value="3">3N1</option>
-                    *@
-
                 </select>
             </div>
             <div id="divCheckbox">
                 <div id="cArquivo">
-                    <input type="checkbox" id="idCArquivo" checked/>
+                    <input type="checkbox" id="idCArquivo" onchange="return verificarTurma();" checked />
                     <label for="idCArquivo">C/Arquivo</label>
-                </div>
-                <div id="sArquivo">
-                    <input type="checkbox" id="idSArquivo" checked/>
-                    <label for="idSArquivo">S/Arquivo</label>
                 </div>
             </div>
         </div>
@@ -56,6 +44,9 @@
 </div>
 
 <script type="text/javascript">
+
+    let CdConteudoTemp;
+
     // document.addEventListener("DOMContentLoaded", carregarListaMatriculados);
     // document.addEventListener("DOMContentLoaded", carregarListaNaoMatriculados);
 
@@ -66,21 +57,20 @@
             return false;
         }
 
-        const chkC = $('#idCArquivo').is(':checked');
-        const chkS = $('#idSArquivo').is(':checked');
-        if (!chkC && !chkS) {
-            ExibirInfo('Selecione ao menos um filtro');
-            return false;
-        }
+        const chkArquivo = $('#idCArquivo').is(':checked');
 
-        carregarListaAulas();
+        carregarListaAulas(valorDdl, chkArquivo);
         return true;
     }
 
-    function carregarListaAulas() {
+    function carregarListaAulas(CdTurma, icConteudo) {
         $.ajax({
             url: '@Url.Action("ListarAulas", "CadastroConteudo")',
             type: 'GET',
+            data: {
+                CdTurma: CdTurma,
+                icConteudo: icConteudo
+            },
             async: true,
             success: function (data) {
                 $('#_divListaAulas').html(data);

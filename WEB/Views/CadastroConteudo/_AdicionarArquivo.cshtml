@@ -15,10 +15,10 @@
         <label for="txtFile" id="btnFile" class="linear1">
             Selecione o arquivo
         </label>
+
         <input id="txtFile" type="file" class="txtFormato" />
 
         <br/>
-        
 
         <label for="txtNomeArquivoModal" class="linear1">Nome:</label>
         <input type="text" id="txtNomeArquivoModal" class="txtFormato" disabled/>
@@ -39,7 +39,41 @@
 </div>
 
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        console.log('Teste1');
+
+        document.getElementById('txtFile').onchange = function (event) {
+            console.log('Teste2');
+
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    console.log('Teste3');
+
+                    // Extrair nome
+                    const fileName = file.name.substring(0, file.name.lastIndexOf('.')); // Nome sem extensão
+
+                    // Extrair extensão do arquivo
+                    const fileExtension = file.name.slice(file.name.lastIndexOf('.')); // Só a extensão
+
+                    console.log(fileName);
+                    console.log(fileExtension);
+                    console.log((file.size / 1048576).toFixed(2) + ' MB');
+
+                    $('#txtNomeArquivoModal').val(fileName);        // Nome do arquivo
+                    $('#txtTipoArquivoModal').val(fileExtension);   // Extensão do arquivo
+                    $('#txtTamanhoArquivoModal').val((file.size / 1048576).toFixed(2) + ' MB'); // Tamanho em MB
+
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+    });
+
     function adicionarArquivo() {
         alert('adicionar arquivo');
     }
+
 </script>
