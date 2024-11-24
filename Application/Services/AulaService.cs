@@ -6,6 +6,7 @@ using Application.Responses;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,14 @@ namespace Application.Services {
                     aulaDto.QtPresencas = await aulaRepository.GetTotalPresencasAulaById(aulaDto.CdAula);
 
                     result.Add(aulaDto);
+                }
+
+                if (request.IcConteudo == true) {
+                   result = result.Where(x => x.IsArquivo).ToList();
+                }
+
+                if (request.IcConteudo == false) {
+                    result = result.Where(x => !x.IsArquivo).ToList();
                 }
 
                 return new PagedResponse<List<AulaDto>>(
