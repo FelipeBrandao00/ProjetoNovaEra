@@ -12,6 +12,10 @@ using WEB.Models.Genero;
 using WEB.Models.Aula;
 using WEB.Models.Response;
 using WEB.Models.Certifticado;
+using WEB.Models.PermissaoCargo;
+using WEB.Models.Cargo;
+using Newtonsoft.Json.Linq;
+using System.Data;
 
 namespace WEB.Controllers {
     public class TurmaController(IConfiguration configuration) : Controller {
@@ -21,9 +25,64 @@ namespace WEB.Controllers {
                 return RedirectToAction("Index", "Login");
             }
 
-            var dados = JwtToken.DescriptografarJwt(token);
-            ViewBag.Role = String.Join(" | ", dados.role);
-            ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
+            dynamic? dados;
+            try {
+                dados = JwtToken.DescriptografarJwt(token);
+            } catch (Exception) {
+                dados = JwtTokenUnique.DescriptografarJwt(token);
+            }
+
+            if (dados.role is string) {
+                ViewBag.Role = dados.role;
+            } else {
+                ViewBag.Role = String.Join(" | ", dados.role);
+            }
+
+            if (Function.spacesString(dados.unique_name) > 1) {
+                ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
+            } else {
+                ViewBag.Nome = dados.unique_name;
+            }
+
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            var CargoViewModel = new CargoViewModel();
+            var ListaCargos = CargoViewModel.GerarLista(configuration).Result.Data;
+
+
+            var hashPermissoes = new HashSet<string>();
+            if (ListaCargos.Any()) {
+                if (dados.role is List<string>) {
+                    foreach (var role in dados.role) {
+                        if (ListaCargos.Any(x => x.DsCargo.Contains(role))) {
+                            var cdCargo = ListaCargos.Where(x => x.DsCargo == role).Select(x => x.CdCargo).FirstOrDefault();
+                            var lstPermissoesCargo = new PermissaoCargoViewModel().BuscarPermissoesCargo(configuration, cdCargo).Result.Data;
+
+                            foreach (var item in lstPermissoesCargo) {
+                                if (!hashPermissoes.Contains(item.NmPermissao)) {
+                                    hashPermissoes.Add(item.NmPermissao);
+                                }
+                            }
+
+                            if (lstPermissoesCargo.Count == 7) {
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    if (ListaCargos.Any(x => x.DsCargo.Contains(dados.role))) {
+                        var cdCargo = ListaCargos.Where(x => x.DsCargo == dados.role).Select(x => x.CdCargo).FirstOrDefault();
+                        var lstPermissoesCargo = new PermissaoCargoViewModel().BuscarPermissoesCargo(configuration, cdCargo).Result.Data;
+
+                        foreach (var item in lstPermissoesCargo) {
+                            if (!hashPermissoes.Contains(item.NmPermissao)) {
+                                hashPermissoes.Add(item.NmPermissao);
+                            }
+                        }
+                    }
+                }
+            }
+            ViewBag.Roles = dados.role;
+            ViewBag.ListaPermissoes = hashPermissoes;
 
             ViewBag.IcAdicionar = icAdicionar;
 
@@ -52,6 +111,14 @@ namespace WEB.Controllers {
             var CursoViewModel = new CursoViewModel();
             var ListaCurso = await CursoViewModel.GerarLista(configuration);
             ViewBag.ListaCurso = ListaCurso.Data;
+
+            dynamic? dados;
+            try {
+                dados = JwtToken.DescriptografarJwt(configuration["JwtToken"]);
+            } catch (Exception) {
+                dados = JwtTokenUnique.DescriptografarJwt(configuration["JwtToken"]);
+            }
+            ViewBag.Roles = dados.role;
 
             return PartialView("_InfoTurma", response.Data);
         }
@@ -142,6 +209,14 @@ namespace WEB.Controllers {
             var AlunoViewModel = new AlunoViewModel();
             var ListaAlunos = await AlunoViewModel.BuscarPorTurma(configuration, ResponseModelTurma);
             ViewBag.ListaAlunos = ListaAlunos.Data;
+
+            dynamic? dados;
+            try {
+                dados = JwtToken.DescriptografarJwt(configuration["JwtToken"]);
+            } catch (Exception) {
+                dados = JwtTokenUnique.DescriptografarJwt(configuration["JwtToken"]);
+            }
+            ViewBag.Roles = dados.role;
 
             return PartialView("_ListaAlunos");
         }

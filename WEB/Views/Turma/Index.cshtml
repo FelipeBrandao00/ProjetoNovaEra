@@ -15,8 +15,10 @@
 <div id="divPagina">
     <div id="divInicioPagina">
         <div id="divTopo">
-            <button id="btnAdicionar" onclick="carregarAdicionarTurma(false)"><b class="linear1">Adicionar turma</b></button>
-            <button id="btnAdicionarMobile" onclick="carregarAdicionarTurma(true)"><b class="linear1">Adicionar turma</b></button>
+            @if (ViewBag.Roles.Contains("Master") || ViewBag.Roles.Contains("Administrador")) {
+                <button id="btnAdicionar" onclick="carregarAdicionarTurma(false)"><b class="linear1">Adicionar turma</b></button>
+                <button id="btnAdicionarMobile" onclick="carregarAdicionarTurma(true)"><b class="linear1">Adicionar turma</b></button>
+            }
         </div>
 
         <div id="divBusca">
@@ -85,12 +87,16 @@
                 <i class="fa-solid fa-angle-left arrow-icon">   </i>
             </button>
             <span class="linear1">Informações da turma</span>
-            <div id="divBotoesDinamico">
-                <button id="btnParar" onclick="carregarPararInscricoes()"><b class="linear1">Encerrar matrícula</b></button>
-                <button id="btnRetomar" onclick="carregarRetomarInscricoes()"><b class="linear1">Habilitar matrícula</b></button>
-                <button id="btnFinalizar" onclick="carregarFinalizarTurma()"><b style="color: white;">Finalizar turma</b></button>
-                <button id="btnReativar" onclick="carregarReativarTurma()"><b class="linear1">Reativar turma</b></button>
-            </div>
+            @if (ViewBag.Roles.Contains("Master") || ViewBag.Roles.Contains("Administrador")) {
+                <div id="divBotoesDinamico">
+                    <button id="btnParar" onclick="carregarPararInscricoes()"><b class="linear1">Encerrar matrícula</b></button>
+                    <button id="btnRetomar" onclick="carregarRetomarInscricoes()"><b class="linear1">Habilitar matrícula</b></button>
+                    <button id="btnFinalizar" onclick="carregarFinalizarTurma()"><b style="color: white;">Finalizar turma</b></button>
+                    <button id="btnReativar" onclick="carregarReativarTurma()"><b class="linear1">Reativar turma</b></button>
+                </div>
+            } else {
+                <p> </p>
+            }
         </div>
 
         <div id="divInfoModal">
@@ -99,60 +105,6 @@
             </div>
 
             <div id="divInfoTurma" style="display:none;"></div>
-
-            @* <div id="divBotaoAdicionarMobile">
-                <button id="btnConfirmarAdicionarMobile" onclick="adicionarTurma(true)"><b style="color: white;">Adicionar turma</b></button>
-            </div>
-
-            <div id="divFinalizarTurmaMobile">
-                <b class="linear1">Tem certeza que deseja finalizar a turma:</b>
-                <b class="linear1" id="nmTurma"></b>
-                <b class="linear1">Não será possível utilizá-la.</b>
-                <div id="divBotoesFinalizarTurmaMobile">
-                    <button id="btnIgnorarFinalizarTurmaMobile" onclick="cancelarFinalizarTurma(true)"><b class="linear1">Não</b></button>
-                    <button id="btnFinalizarTurmaMobile" onclick="finalizarTurma(true)"><b style="color: white;">Finalizar</b></button>
-                </div>
-            </div>
-
-            <div id="divBotaoReativarTurmaMobile">
-                <button id="btnReativarTurmaMobile" onclick="carregarReativarTurma(true)"><b class="linear1">Reativar</b></button>
-            </div>
-
-            <div id="divReativarTurmaMobile">
-                <b class="linear1">Tem certeza que deseja reativar a turma:</b>
-                <b class="linear1" id="nmTurmaHab"></b>
-                <b class="linear1">A turma poderá ser utilizada novamente.</b>
-                <div id="divBotoesReativarTurmaMobile">
-                    <button id="btnIgnorarReativarTurmaMobile" onclick="cancelarReativarTurma(true)"><b class="linear1">Não</b></button>
-                    <button id="btnConfirmarReativarTurmaMobile" onclick="reativarTurma(true)"><b style="color: white;">Reativar</b></button>
-                </div>
-            </div>
-
-            <div id="divBotaoRetomarInscricaoMobile">
-                <button id="btnRetomarInscricaoTurmaMobile" onclick="carregarRetomarInscricoes(true)"><b class="linear1">Retomar inscrições</b></button>
-            </div>
-
-            <div id="divRetomarInscricaoMobile">
-                <b class="linear1">Tem certeza que deseja retomar as inscrições da turma:</b>
-                <b class="linear1" id="nmTurmaHab"></b>
-                <div id="divBotoesRetomarInscricaoMobile">
-                    <button id="btnIgnorarRetomarInscricaoMobile" onclick="cancelarRetomarInscricoes(true)"><b class="linear1">Não</b></button>
-                    <button id="btnConfirmarRetomarInscricaoMobile" onclick="retomarInscricoes(true)"><b style="color: white;">Reativar</b></button>
-                </div>
-            </div>
-
-            <div id="divBotaoPararInscricaoMobile">
-                <button id="btnPararInscricaoTurmaMobile" onclick="carregarPararInscricoes(true)"><b class="linear1">Parar inscrições</b></button>
-            </div>
-
-            <div id="divPararInscricaoMobile">
-                <b class="linear1">Tem certeza que deseja Parar as inscrições da turma:</b>
-                <b class="linear1" id="nmTurmaHab"></b>
-                <div id="divBotoesPararInscricaoMobile">
-                    <button id="btnIgnorarPararInscricaoMobile" onclick="cancelarPararInscricoes(true)"><b class="linear1">Não</b></button>
-                    <button id="btnConfirmarPararInscricaoMobile" onclick="pararInscricoes(true)"><b style="color: white;">Reativar</b></button>
-                </div>
-            </div> *@
         </div>
     </div>
 </div>

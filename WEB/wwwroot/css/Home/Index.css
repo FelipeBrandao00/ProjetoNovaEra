@@ -1,11 +1,10 @@
 ﻿#Container {
-    gap: 5px;
+    gap: 50px;
     height: 74vh;
     padding-top: 40px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 #Container > #secDdl {
@@ -148,6 +147,11 @@
 
 
 @media (max-width: 1200px) {
+    #Turmas, #Professores, #Alunos, #Cursos {
+        width: 100% !important;
+        background-color: yellow;
+    }
+
     #Container > #secDdl > div > button > b {
         font-size: 16px;
     }

@@ -1,16 +1,16 @@
 ﻿using Application.Responses;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata;
 using WEB.Models;
 using WEB.Models.Aluno;
 using WEB.Models.Aula;
 using WEB.Models.Chamada;
+using WEB.Models.PermissaoCargo;
 using WEB.Models.Response;
 using WEB.Models.Shared;
-using WEB.Models.Turma;
+using WEB.Models.Cargo;
 
-namespace WEB.Controllers {
+namespace WEB.Controllers
+{
     public class ChamadaController(IConfiguration configuration) : Controller {
         public async Task<IActionResult> Index() {
             string? token = Request.Cookies["Token"];
@@ -18,11 +18,63 @@ namespace WEB.Controllers {
                 return RedirectToAction("Index", "Login");
             }
 
-            var dados = JwtToken.DescriptografarJwt(token);
-            ViewBag.Role = dados.role[0];
-            ViewBag.Nome = dados.role[1];
+            dynamic? dados;
+            try {
+                dados = JwtToken.DescriptografarJwt(token);
+            } catch (Exception) {
+                dados = JwtTokenUnique.DescriptografarJwt(token);
+            }
 
-            configuration["JwtToken"] = token;
+            if (dados.role is string) {
+                ViewBag.Role = dados.role;
+            } else {
+                ViewBag.Role = String.Join(" | ", dados.role);
+            }
+
+            if (Function.spacesString(dados.unique_name) > 1) {
+                ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
+            } else {
+                ViewBag.Nome = dados.unique_name;
+            }
+
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            var CargoViewModel = new CargoViewModel();
+            var ListaCargos = CargoViewModel.GerarLista(configuration).Result.Data;
+
+
+            var hashPermissoes = new HashSet<string>();
+            if (ListaCargos.Any()) {
+                if (dados.role is List<string>) {
+                    foreach (var role in dados.role) {
+                        if (ListaCargos.Any(x => x.DsCargo.Contains(role))) {
+                            var cdCargo = ListaCargos.Where(x => x.DsCargo == role).Select(x => x.CdCargo).FirstOrDefault();
+                            var lstPermissoesCargo = new PermissaoCargoViewModel().BuscarPermissoesCargo(configuration, cdCargo).Result.Data;
+
+                            foreach (var item in lstPermissoesCargo) {
+                                if (!hashPermissoes.Contains(item.NmPermissao)) {
+                                    hashPermissoes.Add(item.NmPermissao);
+                                }
+                            }
+
+                            if (lstPermissoesCargo.Count == 7) {
+                                break;
+                            }
+                        }
+                    }
+                } else {
+                    if (ListaCargos.Any(x => x.DsCargo.Contains(dados.role))) {
+                        var cdCargo = ListaCargos.Where(x => x.DsCargo == dados.role).Select(x => x.CdCargo).FirstOrDefault();
+                        var lstPermissoesCargo = new PermissaoCargoViewModel().BuscarPermissoesCargo(configuration, cdCargo).Result.Data;
+
+                        foreach (var item in lstPermissoesCargo) {
+                            if (!hashPermissoes.Contains(item.NmPermissao)) {
+                                hashPermissoes.Add(item.NmPermissao);
+                            }
+                        }
+                    }
+                }
+            }
+            ViewBag.ListaPermissoes = hashPermissoes;
 
             var model = new ListarTurmaViewModel();
             model.IcFinalizado = false;

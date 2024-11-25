@@ -30,11 +30,13 @@
 <div id="divInformacoesTurma">
     <div id="TituloInfo">
         <h3 class="linear1"><b>Informações </b></h3>
-        <button id="btnEditar" onclick="carregarEdicaoTurma()"><b class="linear1">Editar informações</b></button>
-        <div id="divBotoesEdicao">
-            <button id="btnCancelar" onclick="cancelarEdicaoTurma()"><b class="linear1">Cancelar edição</b></button>
-            <button id="btnSalvar" onclick="salvarInfoTurma()"><b>Salvar</b></button>
-        </div>
+        @if (ViewBag.Roles.Contains("Master") || ViewBag.Roles.Contains("Administrador")) {
+            <button id="btnEditar" onclick="carregarEdicaoTurma()"><b class="linear1">Editar informações</b></button>
+            <div id="divBotoesEdicao">
+                <button id="btnCancelar" onclick="cancelarEdicaoTurma()"><b class="linear1">Cancelar edição</b></button>
+                <button id="btnSalvar" onclick="salvarInfoTurma()"><b>Salvar</b></button>
+            </div>
+        }
     </div>
 
     <div id="divRelevo">
@@ -91,28 +93,30 @@
          </div>
     </div>
 
-    <div id="divBotoesEditarMobile">
-        <button id="btnEditarMobile" onclick="carregarEdicaoTurma(true)"><b class="linear1">Editar turma</b></button>
-        <button id="btnFinalizarMobile" onclick="carregarFinalizarTurma(true)"><b style="color: white;">Finalizar turma</b></button>
-    </div>
+    @if (ViewBag.Roles.Contains("Master") || ViewBag.Roles.Contains("Administrador")) {
+        <div id="divBotoesEditarMobile">
+            <button id="btnEditarMobile" onclick="carregarEdicaoTurma(true)"><b class="linear1">Editar turma</b></button>
+            <button id="btnFinalizarMobile" onclick="carregarFinalizarTurma(true)"><b style="color: white;">Finalizar turma</b></button>
+        </div>
 
-    <div id="divBotaoRetomarInscricaoMobile">
-        <button id="btnRetomarInscricaoTurmaMobile" onclick="carregarRetomarInscricoes(true)"><b class="linear1">Habilitar matrícula</b></button>
-    </div>
+        <div id="divBotaoRetomarInscricaoMobile">
+            <button id="btnRetomarInscricaoTurmaMobile" onclick="carregarRetomarInscricoes(true)"><b class="linear1">Habilitar matrícula</b></button>
+        </div>
 
-    <div id="divBotaoPararInscricaoMobile">
-        <button id="btnPararInscricaoTurmaMobile" onclick="carregarPararInscricoes(true)"><b class="linear1">Encerrar matrícula</b></button>
-    </div>
+        <div id="divBotaoPararInscricaoMobile">
+            <button id="btnPararInscricaoTurmaMobile" onclick="carregarPararInscricoes(true)"><b class="linear1">Encerrar matrícula</b></button>
+        </div>
 
 
-    <div id="divBotoesEdicaoMobile">
-        <button id="btnCancelarMobile" onclick="cancelarEdicaoTurma(true)"><b class="linear1">Cancelar edição</b></button>
-        <button id="btnSalvarMobile" onclick="salvarInfoTurma(true)"><b>Salvar</b></button>
-    </div>
+        <div id="divBotoesEdicaoMobile">
+            <button id="btnCancelarMobile" onclick="cancelarEdicaoTurma(true)"><b class="linear1">Cancelar edição</b></button>
+            <button id="btnSalvarMobile" onclick="salvarInfoTurma(true)"><b>Salvar</b></button>
+        </div>
 
-    <div id="divBotaoReativarTurmaMobile">
-        <button id="btnReativarTurmaMobile" onclick="carregarReativarTurma(true)"><b class="linear1">Reativar turma</b></button>
-    </div>
+        <div id="divBotaoReativarTurmaMobile">
+            <button id="btnReativarTurmaMobile" onclick="carregarReativarTurma(true)"><b class="linear1">Reativar turma</b></button>
+        </div>
+    }
 </div>
 
 <div id="_divListaAulas"></div>

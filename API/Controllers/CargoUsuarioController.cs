@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador, Master, Professor")]
     public class CargoUsuarioController(ICargoUsuarioService cargoUsuarioService) : ControllerBase
     {
         [HttpPost("api/[controller]")]

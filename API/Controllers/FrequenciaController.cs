@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
     [ApiController]
-    [Authorize(Roles = "Administrador,Professor")]
+    [Authorize(Roles = "Administrador, Master, Professor")]
     public class FrequenciaController(IFrequenciaService frequenciaService) : ControllerBase {
         [HttpPost("api/[controller]")]
         public async Task<ActionResult> AddFrequencia(AddFrequenciaRequest request) {

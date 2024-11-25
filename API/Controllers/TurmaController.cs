@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador, Professor, Master")]
     [ApiController]
     public class TurmaController(ITurmaService turmaService) : ControllerBase {
         [HttpPost("api/[controller]")]
