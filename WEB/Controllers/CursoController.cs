@@ -96,30 +96,25 @@ namespace WEB.Controllers {
 
         public async Task<IActionResult> AdicionarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var responseAdd = await new CursoViewModel().Adicionar(configuration, ResponseModelCurso);
-
-            return PartialView("_InfoCurso", responseAdd.Data);
+            return Json(await new CursoViewModel().Adicionar(configuration, ResponseModelCurso));
         }
 
         [HttpPost]
-        public async Task<bool> AtualizarInfoCurso(ResponseModelCurso ResponseModelCurso) {
+        public async Task<JsonResult> AtualizarInfoCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().AtualizarInfo(configuration, ResponseModelCurso);
-            return response.IsSuccess;
+            return Json(await new CursoViewModel().AtualizarInfo(configuration, ResponseModelCurso));
         }
 
         [HttpPost]
-        public async Task<bool> ReativarCurso(ResponseModelCurso ResponseModelCurso) {
+        public async Task<JsonResult> ReativarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().Reativar(configuration, ResponseModelCurso);
-            return response.IsSuccess;
+            return Json(await new CursoViewModel().Reativar(configuration, ResponseModelCurso));
         }
 
         [HttpPost]
-        public async Task<bool> FinalizarCurso(ResponseModelCurso ResponseModelCurso) {
+        public async Task<JsonResult> FinalizarCurso(ResponseModelCurso ResponseModelCurso) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            var response = await new CursoViewModel().Finalizar(configuration, ResponseModelCurso);
-            return response.IsSuccess;
+            return Json(await new CursoViewModel().Finalizar(configuration, ResponseModelCurso));
         }
     }
 }
