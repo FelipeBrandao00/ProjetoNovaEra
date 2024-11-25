@@ -179,6 +179,40 @@ namespace API_NOVA_ERA.Database
                 new Cargo_Usuario { CdUsuario = new Guid("A21FA379-2B28-447F-AD88-87EF9DF45DF7"), CdCargo = 1 }
             );
 
+            modelBuilder.Entity<Permissao>().HasData(
+                new Permissao { CdPermissao = 1, NmPermissao = "Gerenciar turmas" },
+                new Permissao { CdPermissao = 2, NmPermissao = "Gerenciar alunos" },
+                new Permissao { CdPermissao = 3, NmPermissao = "Gerenciar professores" },
+                new Permissao { CdPermissao = 4, NmPermissao = "Gerenciar cursos" },
+                new Permissao { CdPermissao = 5, NmPermissao = "Gerenciar matriculas" },
+                new Permissao { CdPermissao = 6, NmPermissao = "Gerenciar chamadas" },
+                new Permissao { CdPermissao = 7, NmPermissao = "Gerenciar usuários" }
+            );
+
+            modelBuilder.Entity<Permissao_Cargos>().HasData(
+                new Permissao_Cargos { CdCargo = 4, CdPermissao = 1 },
+                new Permissao_Cargos { CdCargo = 4, CdPermissao = 2 },
+                new Permissao_Cargos { CdCargo = 4, CdPermissao = 3 },
+                new Permissao_Cargos { CdCargo = 4, CdPermissao = 4 },
+                new Permissao_Cargos { CdCargo = 4, CdPermissao = 5 },
+                new Permissao_Cargos { CdCargo = 4, CdPermissao = 6 },
+                new Permissao_Cargos { CdCargo = 4, CdPermissao = 7 }
+            );
+
+            modelBuilder.Entity<Permissao_Cargos>().HasData(
+                new Permissao_Cargos { CdCargo = 1, CdPermissao = 1 },
+                new Permissao_Cargos { CdCargo = 1, CdPermissao = 2 },
+                new Permissao_Cargos { CdCargo = 1, CdPermissao = 3 },
+                new Permissao_Cargos { CdCargo = 1, CdPermissao = 4 },
+                new Permissao_Cargos { CdCargo = 1, CdPermissao = 5 },
+                new Permissao_Cargos { CdCargo = 1, CdPermissao = 6 },
+                new Permissao_Cargos { CdCargo = 1, CdPermissao = 7 }
+            );
+
+            modelBuilder.Entity<Permissao_Cargos>().HasData(
+                new Permissao_Cargos { CdCargo = 2, CdPermissao = 1 },
+                new Permissao_Cargos { CdCargo = 2, CdPermissao = 6 }
+            );
         }
     }
 }

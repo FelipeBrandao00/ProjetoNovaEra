@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Application.Responses;
@@ -43,6 +44,35 @@ public class UsuarioViewModel
         }
     }
 
+    public async Task<Response<ResponseModelUsuario>> BuscarInfoEmail(IConfiguration configuration, string email) {
+        using (var client = new HttpClient()) {
+            var baseUrl = configuration["BaseRequest"];
+            var url = $"{baseUrl}/Usuario/GetUsuarioByEmail/{email}";
+
+            var token = configuration["JwtToken"];
+            if (!string.IsNullOrEmpty(token))
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            try {
+                var response = await client.GetAsync(url);
+                if (!response.IsSuccessStatusCode)
+                    return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no retorno da requisição." };
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var responseData = JsonSerializer.Deserialize<Response<ResponseModelUsuario>>(responseBody, options);
+
+                if (responseData == null || !responseData.IsSuccess)
+                    return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro no conteúdo retornado pela requisição." };
+
+                return responseData;
+            } catch (Exception ex) {
+                while (ex.InnerException != null) { ex = ex.InnerException; }
+                return new Response<ResponseModelUsuario> { Data = null, IsSuccess = false, Message = "Erro ao tentar fazer a requisição para a API: \r\n" + ex.Message };
+            }
+        }
+    }
+
     public async Task<Response<ResponseModelUsuario>> AtualizarInfo(IConfiguration configuration, ResponseModelUsuario responseModelUsuario)
     {
         using (var client = new HttpClient())
@@ -79,17 +109,15 @@ public class UsuarioViewModel
         }
     }
 
-    public async Task<Response<ResponseModelUsuario>> Adicionar(IConfiguration configuration, ResponseModelUsuario responseModelUsuario)
-    {
-        using (var client = new HttpClient())
-        {
+    public async Task<Response<ResponseModelUsuario>> Adicionar(IConfiguration configuration, ResponseModelUsuario responseModelUsuario) {
+        using (var client = new HttpClient()) {
             var baseUrl = configuration["BaseRequest"];
             var url = $"{baseUrl}/Usuario";
-            var Body = new
-            {
+
+            var Body = new {
                 nmUsuario = responseModelUsuario.NmUsuario,
                 dsEmail = responseModelUsuario.DsEmail,
-                dsSenha = "CLj6QBTMn7/ypWBsDLPR2JMtyIs=",
+                dsSenha = responseModelUsuario.DsCpf,
                 dsCpf = responseModelUsuario.DsCpf,
                 dsGenero = responseModelUsuario.DsGenero,
                 dtNascimento = responseModelUsuario.DtNascimento,

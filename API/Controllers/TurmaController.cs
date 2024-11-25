@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador, Professor, Master")]
     [ApiController]
     public class TurmaController(ITurmaService turmaService) : ControllerBase {
         [HttpPost("api/[controller]")]
@@ -36,10 +36,11 @@ namespace API.Controllers {
             [FromQuery] DateTime? dtInicial = null, 
             [FromQuery] DateTime? dtFinal = null, 
             [FromQuery] bool? icFinalizado = null, 
-            [FromQuery] int? cursoId = null, 
+            [FromQuery] int? cursoId = null,
+            [FromQuery] Guid? professorId = null,
             [FromQuery] int? pageNumber = null,
             [FromQuery] int? pageSize = null) {
-            var request = new GetTurmasRequest(nome,pageNumber,pageSize,dtInicial,dtFinal,icFinalizado,cursoId);
+            var request = new GetTurmasRequest(nome,pageNumber,pageSize,dtInicial,dtFinal,icFinalizado,cursoId, professorId);
             var result = await turmaService.GetTurmas(request);
             if (!result.IsSuccess) return BadRequest(result);
             return Ok(result);

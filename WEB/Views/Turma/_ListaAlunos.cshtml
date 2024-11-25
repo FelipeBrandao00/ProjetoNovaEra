@@ -18,9 +18,11 @@
                 @foreach (Application.Responses.ResponseModelUsuario item in ListaAlunos) {
                     <div>
                         <div id="nmAlunoLista" onclick="verInfoAluno('@item.DsCpf')">@item.NmUsuario</div>
-                        <div id="divBotaoAluno">
-                            <button id="btnDesvincular" onclick="carregarDesvincularAluno('@item.CdUsuario', '@item.NmUsuario')">Desvincular</button>
-                        </div>
+                        @if (ViewBag.Roles.Contains("Master") || ViewBag.Roles.Contains("Administrador")) {
+                            <div id="divBotaoAluno">
+                                <button id="btnDesvincular" onclick="carregarDesvincularAluno('@item.CdUsuario', '@item.NmUsuario')">Desvincular</button>
+                            </div>
+                        }
                     </div>
                 }
 

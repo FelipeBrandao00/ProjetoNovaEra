@@ -274,11 +274,8 @@
         }
 
         let infoAdd = {
-            CdCurso: $('#CdCurso').val(),
             NmCurso: $('#txtNomeCurso').val(),
             DsCurso: $('#txtDescricaoCurso').val(),
-            DtCriacao: $('#txtCriacao').val(),
-            DtFinalizacao: $('#txtFinalizacao').val(),
         }
 
         $.ajax({
@@ -287,6 +284,14 @@
             async: true,
             data: infoAdd,
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
                     $('#divBotaoAdicionarMobile').css('display', 'none');
@@ -337,6 +342,11 @@
             return;
         }
 
+        if (!$('#txtCriacao').val()) {
+            ExibirInfo('A data de criação é obrigatória!', 'Atenção');
+            return;
+        }
+
         infoCursoTemp = {
             CdCurso: $('#CdCurso').val(),
             NmCurso: $('#txtNomeCurso').val(),
@@ -351,6 +361,14 @@
             async: true,
             data: infoCursoTemp,
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
                     $('#divBotoesEdicaoMobile').css('display', 'none');
@@ -426,17 +444,25 @@
                 CdCurso: cdCurso
             },
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+
+                    $('#divDataFinalizacao').css('display', 'unset');
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotaoReativarCursoMobile').css('display', 'flex');
                     $('#divFinalizarCursoMobile').css('display', 'none');
-                }
-                else {
+                } else {
                     $('#divBotaoReativarCurso').css('display', 'flex');
                     $('#divFinalizarCurso').css('display', 'none');
                     window.location.hash = '';
                 }
 
-                $('#divDataFinalizacao').css('display', 'unset');
                 carregarListaPadrao(false);
             }
         });
@@ -453,6 +479,14 @@
                 CdCurso: cdCurso
             },
             success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                } else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
                     $('#divReativarCursoMobile').css('display', 'none');
@@ -487,7 +521,7 @@
         $('#txtNomeCurso').val(infoCursoTemp.NmCurso);
         $('#txtDescricaoCurso').val(infoCursoTemp.DsCurso);
         $('#txtCriacao').val(infoCursoTemp.DtCriacao);
-        $('#txtFinalizacao').val(infoCursoTemp.DtNascimento);
+        $('#txtFinalizacao').val(infoCursoTemp.DtFinal);
     }
 
     function voltarMobile() {
@@ -499,19 +533,15 @@
 
     function validarCampos() {
         if ($('#txtNomeCurso').val().length == 0) {
-            alert('O nome é obrigatório!');
+            ExibirInfo('O nome é obrigatório!', 'Atenção');
             return false;
         }
 
         if ($('#txtDescricaoCurso').val().length == 0) {
-            alert('A descrição é obrigatória!');
+            ExibirInfo('A descrição é obrigatória!', 'Atenção');
             return false;
         }
 
-        if (!$('#txtCriacao').val()) {
-            alert('A data de criação é obrigatória!');
-            return false;
-        }
         return true;
     }
 </script>

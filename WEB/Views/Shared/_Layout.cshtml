@@ -233,7 +233,7 @@
             display: none;
             text-align: right;
             position: absolute;
-            right: 5vw;
+            right: 12vw;
             top: 12vh;
             background: rgba(159, 159, 159, 1);
             border-radius: 10px 0 10px 10px;
@@ -478,23 +478,26 @@
         </nav>
 
         <div id="Botoes">
-            <div id="secTurma" class="sec">
-                <button id="btnCollapsibleTurma" onclick="toggleCollapsible('btnCollapsibleTurma','collapTurma','secTurma')">
-                    <div>
-                        <i class="fa-solid fa-school"></i>
-                        <b>Turmas</b>
+            @if (ViewBag.ListaPermissoes.Contains("Gerenciar turmas")) {
+                <div id="secTurma" class="sec">
+                    <button id="btnCollapsibleTurma" onclick="toggleCollapsible('btnCollapsibleTurma','collapTurma','secTurma')">
+                        <div>
+                            <i class="fa-solid fa-school"></i>
+                            <b>Turmas</b>
+                        </div>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </button>
+                    <div class="collap" id="collapTurma">
+                        <button onclick="redirecionarParaAdicionarTurma()"><i class="fa-solid fa-circle-plus"></i>Adicionar turma</button>
+                        <button onclick="redirecionarParaListarTurma()"><i class="fa-solid fa-rectangle-list"></i>Listar turma</button>
+                        <button onclick="redirecionarParaCadastroConteudo()"><i class="fa-solid fa-file-circle-plus"></i>Cadastro de conteúdo</button>
                     </div>
-                    <i class="fa-solid fa-angle-down arrow-icon"></i>
-                </button>
-                <div class="collap" id="collapTurma">
-                    <button onclick="redirecionarParaAdicionarTurma()"><i class="fa-solid fa-circle-plus"></i>Adicionar turma</button>
-                    <button onclick="redirecionarParaListarTurma()"><i class="fa-solid fa-rectangle-list"></i>Listar turma</button>
-                    <button onclick="redirecionarParaCadastroConteudo()"><i class="fa-solid fa-file-circle-plus"></i>Cadastro de conteúdo</button>
                 </div>
-            </div>
+            }
 
-            <div id="secProfessor" class="sec">
-                <button id="btnCollapsibleProfessor" onclick="toggleCollapsible('btnCollapsibleProfessor','collapProfessor','secProfessor')">
+            @if (ViewBag.ListaPermissoes.Contains("Gerenciar professores")) {
+                <div id="secProfessor" class="sec">
+                    <button id="btnCollapsibleProfessor" onclick="toggleCollapsible('btnCollapsibleProfessor','collapProfessor','secProfessor')">
                     <div>
                         <i class="fa-solid fa-chalkboard-user"></i>
                         <b>Professores</b>
@@ -506,9 +509,11 @@
                     <button onclick="redirecionarParaListarProfessor()"><i class="fa-solid fa-rectangle-list"></i>Listar professor</button>
                 </div>
             </div>
+            }
 
-            <div id="secAluno" class="sec">
-                <button id="btnCollapsibleAluno" onclick="toggleCollapsible('btnCollapsibleAluno','collapAluno','secAluno')">
+            @if (ViewBag.ListaPermissoes.Contains("Gerenciar alunos")) {
+                <div id="secAluno" class="sec">
+                    <button id="btnCollapsibleAluno" onclick="toggleCollapsible('btnCollapsibleAluno','collapAluno','secAluno')">
                     <div>
                         <i class="fa-brands fa-google-scholar"></i>
                         <b>Alunos</b>
@@ -520,53 +525,62 @@
                     <button onclick="redirecionarParaEmitirCertificado()"><i class="fa-solid fa-award"></i>Emitir certificado</button>
                 </div>
             </div>
+            }
 
-            <div id="secCurso" class="sec">
-                <button id="btnCollapsibleCurso" onclick="toggleCollapsible('btnCollapsibleCurso','collapCurso','secCurso')">
-                    <div>
-                        <i class="fa-solid fa-book-bookmark"></i>
-                        <b>Cursos</b>
+            @if (ViewBag.ListaPermissoes.Contains("Gerenciar cursos")) {
+                <div id="secCurso" class="sec">
+                    <button id="btnCollapsibleCurso" onclick="toggleCollapsible('btnCollapsibleCurso','collapCurso','secCurso')">
+                        <div>
+                            <i class="fa-solid fa-book-bookmark"></i>
+                            <b>Cursos</b>
+                        </div>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </button>
+                    <div class="collap" id="collapCurso">
+                        <button onclick="redirecionarParaAdicionarCurso()"><i class="fa-solid fa-circle-plus"></i>Adicionar curso</button>
+                        <button onclick="redirecionarParaListarCurso()"><i class="fa-solid fa-rectangle-list"></i>Listar cursos</button>
                     </div>
-                    <i class="fa-solid fa-angle-down arrow-icon"></i>
-                </button>
-                <div class="collap" id="collapCurso">
-                    <button onclick="redirecionarParaAdicionarCurso()"><i class="fa-solid fa-circle-plus"></i>Adicionar curso</button>
-                    <button onclick="redirecionarParaListarCurso()"><i class="fa-solid fa-rectangle-list"></i>Listar cursos</button>
                 </div>
-            </div>
+            }
 
-            <div id="secMatricula" class="sec">
-                <button onclick="redirecionarParaMatricula()">
-                    <div>
-                        <i class="fa-solid fa-book-open"></i>
-                        <b>Matrícula</b>
-                    </div>
-                </button>
-            </div>
+            @if (ViewBag.ListaPermissoes.Contains("Gerenciar matriculas")) {
+                <div id="secMatricula" class="sec">
+                    <button onclick="redirecionarParaMatricula()">
+                      <div>
+                          <i class="fa-solid fa-book-open"></i>
+                          <b>Matrícula</b>
+                      </div>
+                    </button>
+                </div>
+            }
 
-            <div id="secChamada" class="sec">
-                <button onclick="redirecionarParaChamada()">
+            @if (ViewBag.ListaPermissoes.Contains("Gerenciar chamadas")) {
+                <div id="secChamada" class="sec">
+                    <button onclick="redirecionarParaChamada()">
                     <div>
                         <i class="fa-solid fa-scroll"></i>
                         <b>Chamada</b>
                     </div>
-                </button>
-            </div>
-
-            <div id="secSistema" class="sec">
-                <button id="btnCollapsibleSistema" onclick="toggleCollapsible('btnCollapsibleSistema','collapSistema','secSistema')">
-                    <div>
-                        <i class="fa-solid fa-gear"></i>
-                        <b>Sistema</b>
-                    </div>
-                    <i class="fa-solid fa-angle-down arrow-icon"></i>
-                </button>
-                <div class="collap" id="collapSistema">
-                    <button onclick="redirecionarParaAdicionarUsuario()"><i class="fa-solid fa-circle-plus"></i> Adicionar usuário</button>
-                    <button onclick="redirecionarParaListarUsuarios()"><i class="fa-solid fa-rectangle-list"></i> Listar usuários</button>
-                    <button onclick="redirecionarParaListarPermissoes()"><i class="fa-solid fa-trophy"></i>Gerenciar permissões</button>
+                    </button>
                 </div>
-            </div>
+            }
+
+            @if (ViewBag.ListaPermissoes.Contains("Gerenciar usuários")) {
+                <div id="secSistema" class="sec">
+                    <button id="btnCollapsibleSistema" onclick="toggleCollapsible('btnCollapsibleSistema','collapSistema','secSistema')">
+                        <div>
+                            <i class="fa-solid fa-gear"></i>
+                            <b>Sistema</b>
+                        </div>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </button>
+                    <div class="collap" id="collapSistema">
+                        <button onclick="redirecionarParaAdicionarUsuario()"><i class="fa-solid fa-circle-plus"></i> Adicionar usuário</button>
+                        <button onclick="redirecionarParaListarUsuarios()"><i class="fa-solid fa-rectangle-list"></i> Listar usuários</button>
+                        <button onclick="redirecionarParaListarPermissoes()"><i class="fa-solid fa-trophy"></i>Gerenciar permissões</button>
+                    </div>
+                </div>
+            }
         </div>
     </aside>
 
@@ -591,8 +605,8 @@
                         <span>@role</span>
                     </div>
                 </div>
-                <button style="border-radius: 10px 0 0 0"><b>Editar perfil</b></button>
-                <button><b>Trocar senha</b></button>
+@*                 <button style="border-radius: 10px 0 0 0"><b>Editar perfil</b></button>
+ *@                <button onclick="TrocarSenha()"><b>Trocar senha</b></button>
                 <button onclick="Logout()"><b>Sair</b></button>
             </div>
 
@@ -697,6 +711,12 @@
                 document.getElementById('btnCloseSidebar').style.display = 'block';
                 document.querySelector('main').classList.add('shifted');
             }
+
+            if ($("main").hasClass("shifted")) { 
+                $('#userData').css('right', '12vw');
+            } else {
+                $('#userData').css('right', '5vw');
+            }
         }
 
         function toggleCollapsible(toggleButtonId, collapsibleContentId, secId) {
@@ -721,6 +741,10 @@
 
         function Logout() {
             window.location.href = '@Url.Action("Sair", "Home")';
+        }
+
+        function TrocarSenha() {
+            window.location.href = '@Url.Action("Index", "EsqueciSenha")?icTrocar=true';
         }
 
         function redirecionarParaListarAluno() {

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador, Master, Professor")]
     [ApiController]
     public class AlunoController(IAlunoService alunoService) : ControllerBase {
 

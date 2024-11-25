@@ -75,7 +75,7 @@ namespace Application.Services {
 
         public async Task<PagedResponse<List<TurmaDto>>> GetTurmas(GetTurmasRequest request) {
             try {
-                List<Turma> query = await _turmaRepository.GetTurmas(request.Nome,request.DtInicial,request.DtFinal,request.IcFinalizado,request.CursoId);
+                List<Turma> query = await _turmaRepository.GetTurmas(request.Nome,request.DtInicial,request.DtFinal,request.IcFinalizado,request.CursoId, request.ProfessorId);
 
                 var turmas = query
                     .Skip((request.PageNumber - 1) * request.PageSize)

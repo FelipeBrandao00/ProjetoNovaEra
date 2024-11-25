@@ -4,6 +4,7 @@ using API_NOVA_ERA.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241124225837_permissoes")]
+    partial class permissoes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -370,51 +373,6 @@ namespace Infra.Data.Migrations
                         {
                             CdPermissao = 7,
                             CdCargo = 4
-                        },
-                        new
-                        {
-                            CdPermissao = 1,
-                            CdCargo = 1
-                        },
-                        new
-                        {
-                            CdPermissao = 2,
-                            CdCargo = 1
-                        },
-                        new
-                        {
-                            CdPermissao = 3,
-                            CdCargo = 1
-                        },
-                        new
-                        {
-                            CdPermissao = 4,
-                            CdCargo = 1
-                        },
-                        new
-                        {
-                            CdPermissao = 5,
-                            CdCargo = 1
-                        },
-                        new
-                        {
-                            CdPermissao = 6,
-                            CdCargo = 1
-                        },
-                        new
-                        {
-                            CdPermissao = 7,
-                            CdCargo = 1
-                        },
-                        new
-                        {
-                            CdPermissao = 1,
-                            CdCargo = 2
-                        },
-                        new
-                        {
-                            CdPermissao = 6,
-                            CdCargo = 2
                         });
                 });
 

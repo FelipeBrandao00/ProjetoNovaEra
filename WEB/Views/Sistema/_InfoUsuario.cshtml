@@ -110,9 +110,19 @@
     <button id="btnConfirmarAdicionar" onclick="adicionarUsuario()"><b style="color: white;">Adicionar usuário</b></button>
 </div>
 
+
+<div id="divAtivarUsuario">
+    <b class="linear1">Tem certeza que deseja editar seu próprio perfil? Essa ação pode ser <b style="color: red">destrutiva.</b></b>
+    <b class="linear1">Você será deslogado da sessão atual.</b>
+    <div id="divBotoesAtivarUsuario">
+        <button id="btnIgnorarAtivarUsuario" onclick="ignorarAtivar()"><b class="linear1">Não</b></button>
+        <button id="btnConfirmarAtivarUsuario" onclick="salvarInfoUsuario(false, true)"><b style="color: white;">Editar</b></button>
+    </div>
+</div>
+
+
 <div id="divBotoesEditar">
-@*     <button id="btnInativar" onclick="carregarInativarUsuario()"><b style="color: white;">Inativar usuário</b></button>
- *@    <button id="btnEditar" onclick="carregarEdicaoUsuario()"><b class="linear1">Editar usuário</b></button>
+    <button id="btnEditar" onclick="carregarEdicaoUsuario()"><b class="linear1">Editar usuário</b></button>
 </div>
 
 <div id="divBotoesEdicao">
@@ -133,31 +143,8 @@
     <button id="btnAtivarUsuario" onclick="carregarAtivarUsuario()"><b class="linear1">Ativar usuário</b></button>
 </div>
 
-<div id="divAtivarUsuario">
-    <b class="linear1">Tem certeza que deseja ativar o usuário:</b>
-    <b class="linear1">@NmUsuario</b>
-    <div id="divBotoesAtivarUsuario">
-        <button id="btnIgnorarAtivarUsuario" onclick="cancelarAtivarUsuario()"><b class="linear1">Não</b></button>
-        <button id="btnConfirmarAtivarUsuario" onclick="ativarUsuario()"><b style="color: white;">Habilitar</b></button>
-    </div>
-</div>
-
-
 <script type="text/javascript">
-    // atualizarBotoes();
     atualizarSituacao();
-
-    // function atualizarBotoes() {
-    //     if ('@Model?.IcHabilitadoTurma' == 'False') {
-    //         if (window.matchMedia("(max-width: 1200px)").matches) {
-    //             $('#divBotoesEditarMobile').hide();
-    //             $('#divBotaoAtivarUsuarioMobile').show();
-    //         } else {
-    //             $('#divBotoesEditar').hide();
-    //             $('#divBotaoAtivarUsuario').show();
-    //         }
-    //     }
-    // }
 
     function atualizarSituacao() {
         if ('@Model?.IcHabilitadoTurma' != 'Null') {
@@ -172,7 +159,6 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        //Aplica a máscara de Telefone
         var phoneMaskBehavior = function (val) {
             return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00000';
         };
@@ -183,7 +169,6 @@
         };
         $('#txtTelefoneUsuario').mask(phoneMaskBehavior, options);
 
-        //Aplica a máscara de CPF
         $('#txtCPFUsuario').mask('000.000.000-00');
     });
 </script>

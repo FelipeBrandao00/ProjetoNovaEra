@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
-    [Authorize(Roles = "Administrador,Professor")]
+    [Authorize(Roles = "Administrador, Master, Professor")]
     [ApiController]
     public class CertificadoController(ICertificadoService _service) : ControllerBase {
             [HttpPost("api/[controller]")]

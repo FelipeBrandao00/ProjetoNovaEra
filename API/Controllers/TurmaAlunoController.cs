@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
     [ApiController]
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador, Master, Professor")]
     public class TurmaAlunoController(ITurmaAlunoService turmaAlunoService) : ControllerBase {
         [HttpPost("api/[controller]")]
         public async Task<ActionResult> AddTurmaAluno(AddTurmaAlunoRequest request) {

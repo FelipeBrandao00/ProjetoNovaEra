@@ -11,12 +11,14 @@ namespace Application.Requests.Turma {
         public DateTime? DtFinal { get; set; }
         public bool? IcFinalizado { get; set; }
         public int? CursoId { get; set; }
-        public GetTurmasRequest(string nome, int? pageNumber, int? pageSize, DateTime? dtInicial, DateTime? dtFinal, bool? icFinalizado, int? cursoId ) : base(pageNumber, pageSize) {
+        public Guid? ProfessorId { get; set; }
+        public GetTurmasRequest(string nome, int? pageNumber, int? pageSize, DateTime? dtInicial, DateTime? dtFinal, bool? icFinalizado, int? cursoId, Guid? professorId ) : base(pageNumber, pageSize) {
             Nome = nome.Trim();
             DtInicial = dtInicial;
             DtFinal = dtFinal;
             IcFinalizado = icFinalizado;
             CursoId = cursoId;
+            ProfessorId = professorId;
         }
     }
 }

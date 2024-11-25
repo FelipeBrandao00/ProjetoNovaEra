@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-[Authorize(Roles = "Administrador")]
+[Authorize(Roles = "Administrador, Professor, Master")]
 [ApiController]
 public class UsuarioController(IUsuarioService usuarioService) : ControllerBase {
     [HttpPost("api/[controller]")]
@@ -27,6 +27,14 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase 
     public async Task<ActionResult> GetUsuarioByCpf(string cpf) {
         var request = new GetUsuarioByCpfRequest { Cpf = cpf };
         var result = await usuarioService.GetUsuarioByCpf(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
+
+    [HttpGet("api/[controller]/GetUsuarioByEmail/{email}")]
+    public async Task<ActionResult> GetUsuarioByEmail(string email) {
+        var request = new GetUsuarioByEmailRequest { Email = email };
+        var result = await usuarioService.GetUsuarioByEmail(request);
         if (!result.IsSuccess) return BadRequest(result);
         return Ok(result);
     }

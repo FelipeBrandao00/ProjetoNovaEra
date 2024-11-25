@@ -301,9 +301,8 @@
             async: true,
             success: function (data) {
                 if (data.isSuccess) {
-                    ExibirSucesso(data.message, 'Sucesso!');
-                }
-                else {
+                    ExibirSucesso(data.message + ". A senha gerada é o CPF.", 'Sucesso!');
+                } else {
                     console.error('Erro interno.', data.message);
                     ExibirErro(data.message, 'Erro!');
                     return;

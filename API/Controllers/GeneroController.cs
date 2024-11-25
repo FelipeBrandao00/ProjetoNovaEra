@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers {
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador, Master, Professor")]
     [ApiController]
     public class GeneroController(IGeneroService generoService) : ControllerBase {
         [HttpGet("api/[controller]/{id:int}")]

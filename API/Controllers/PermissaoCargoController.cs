@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador, Master, Professor")]
     public class PermissaoCargoController(IPermissaoCargoService permissaoCargoService) : ControllerBase
     {
         [HttpPost("api/[controller]")]

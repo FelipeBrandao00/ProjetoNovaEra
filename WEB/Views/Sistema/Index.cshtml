@@ -7,7 +7,10 @@
     ViewData["Page"] = "Sistema";
 
     var ListaCargo = ViewBag.ListaCargo ?? new List<CargoViewModel.ItemListaCargo>();
+    var cdUsuario = ViewBag.UsuarioLogado;
 }
+
+<div id="usuariologadocd" hidden>@cdUsuario</div>
 
 <link rel="stylesheet" href="~/css/Sistema/Index.css">
 <link rel="stylesheet" href="~/css/Shared/Livro.css">
@@ -561,12 +564,25 @@
         });
     }
 
-    function salvarInfoUsuario(mobile = false) {
+    function ignorarAtivar() {
+        $('#divBotoesEdicao').css('display', 'flex');
+        $('#divAtivarUsuario').css('display', 'none');
+    }
+
+    function salvarInfoUsuario(mobile = false, icadd = false) {
         event.preventDefault();
 
         if (!validarCampos()) {
             return;
         }
+
+        if ($('#usuariologadocd').text() == $('#CdUsuario').val() && icadd == false) {
+            $('#divBotoesEdicao').css('display', 'none');
+            $('#divAtivarUsuario').css('display', 'flex');
+            window.location.hash = '#divAtivarUsuario';
+            return;
+        }
+        window.location.hash = '';
 
         let numCheck = 0;
         const listaCargo = document.querySelectorAll('#listaCargo div');
@@ -649,6 +665,10 @@
             success: function (data) {
                 if (data.isSuccess) {
                     ExibirSucesso(data.message, 'Sucesso!');
+                    if (icadd) {
+                        window.location.href = '@Url.Action("Sair", "Home")';
+                        return;
+                    }
                 }
                 else {
                     console.error('Erro interno.', data.message);
@@ -656,6 +676,7 @@
                     return;
                 }
 
+                ignorarAtivar();
                 if (mobile) {
                     $('#divBotoesEditarMobile').css('display', 'flex');
                     $('#divBotoesEdicaoMobile').css('display', 'none');
