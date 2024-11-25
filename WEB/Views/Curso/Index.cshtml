@@ -277,7 +277,6 @@
             CdCurso: $('#CdCurso').val(),
             NmCurso: $('#txtNomeCurso').val(),
             DsCurso: $('#txtDescricaoCurso').val(),
-            DtCriacao: $('#txtCriacao').val(),
             DtFinalizacao: $('#txtFinalizacao').val(),
         }
 
@@ -508,10 +507,6 @@
             return false;
         }
 
-        if (!$('#txtCriacao').val()) {
-            alert('A data de criação é obrigatória!');
-            return false;
-        }
         return true;
     }
 </script>
