@@ -89,6 +89,7 @@ namespace WEB.Controllers
             await model.GerarLista(configuration, cdProfessor);
 
             ViewBag.ListaTurmas = model.ItensLista;
+            ViewBag.Roles = dados.role;
             return View();
         }
 

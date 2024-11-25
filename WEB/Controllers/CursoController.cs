@@ -73,6 +73,7 @@ namespace WEB.Controllers {
             ViewBag.ListaPermissoes = hashPermissoes;
 
             ViewBag.IcAdicionar = icAdicionar;
+            ViewBag.Roles = dados.role;
             return View();
         }
 

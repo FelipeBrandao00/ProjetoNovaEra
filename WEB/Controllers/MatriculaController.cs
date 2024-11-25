@@ -78,6 +78,7 @@ namespace WEB.Controllers {
             ViewBag.ListaTurmasAbertasMatricula = ListaTurmasAbertasMatricula.Data;
 
             ViewBag.LinkInscricao = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Inscricao";
+            ViewBag.Roles = dados.role;
             return View();
         }
 

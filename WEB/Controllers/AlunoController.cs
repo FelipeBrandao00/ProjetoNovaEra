@@ -80,6 +80,7 @@ namespace WEB.Controllers
                 }
             }
             ViewBag.ListaPermissoes = hashPermissoes;
+            ViewBag.Roles = dados.role;
             return View();
         }
 

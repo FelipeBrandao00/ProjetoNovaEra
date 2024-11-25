@@ -84,6 +84,7 @@ namespace WEB.Controllers {
 
             var responseUser = await new UsuarioViewModel().BuscarInfoEmail(configuration, dados.email);
             ViewBag.UsuarioLogado = responseUser.Data.CdUsuario;
+            ViewBag.Roles = dados.role;
             return View();
         }
 

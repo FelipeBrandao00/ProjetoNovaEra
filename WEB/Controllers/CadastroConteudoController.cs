@@ -10,6 +10,7 @@ using WEB.Models.CadastroConteudo;
 using WEB.Models.Usuario;
 using WEB.Models.Cargo;
 using WEB.Models.PermissaoCargo;
+using Application.Responses;
 
 namespace WEB.Controllers {
     public class CadastroConteudoController(IConfiguration configuration) : Controller {
@@ -89,6 +90,13 @@ namespace WEB.Controllers {
                 }
             }
             ViewBag.ListaPermissoes = hashPermissoes;
+
+            Guid? cdProfessor = null;
+            if (dados.role.Contains("Professor") && !(dados.role.Contains("Administrador") || dados.role.Contains("Master"))) {
+                var responseUser = await new UsuarioViewModel().BuscarInfoEmail(configuration, dados.email);
+                cdProfessor = responseUser.Data.CdUsuario;
+            }
+            ViewBag.Roles = dados.role;
             return View();
         }
 
