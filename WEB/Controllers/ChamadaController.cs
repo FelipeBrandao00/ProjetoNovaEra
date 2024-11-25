@@ -12,7 +12,7 @@ using WEB.Models.Turma;
 
 namespace WEB.Controllers {
     public class ChamadaController(IConfiguration configuration) : Controller {
-        public async Task<IActionResult> Index() {
+        public async Task<IActionResult> Index(int? cdTurma = null, int? cdAula = null) {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token)) {
                 return RedirectToAction("Index", "Login");
@@ -21,6 +21,9 @@ namespace WEB.Controllers {
             var dados = JwtToken.DescriptografarJwt(token);
             ViewBag.Role = dados.role[0];
             ViewBag.Nome = dados.role[1];
+
+            ViewBag.CdAula = cdAula ?? -1;
+            ViewBag.CdTurma = cdTurma ?? -1;
 
             configuration["JwtToken"] = token;
 
@@ -59,6 +62,7 @@ namespace WEB.Controllers {
 
             ViewBag.ListaChamada = responseChamada.Data;
             ViewBag.ListaAlunos = responseAlunos.Data;
+            ViewBag.QuantidadeAlunos = responseAlunos.Data?.Count;
             ViewBag.InfoAula = infoAula.Data;
             return View("_InfoAula");
         }
@@ -66,6 +70,10 @@ namespace WEB.Controllers {
         [HttpPost]
         public async Task<JsonResult> EfetivarChamada([FromBody] ChamadaViewModel ChamadaViewModel) {
             configuration["JwtToken"] = Request.Cookies["Token"];
+
+
+            ViewBag.CdTurma = -1;
+            ViewBag.CdAula = -1;
             return Json(await ChamadaViewModel.EfetivarChamada(configuration));
         }
     }

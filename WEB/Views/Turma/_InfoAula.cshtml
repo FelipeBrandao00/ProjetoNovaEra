@@ -176,28 +176,35 @@
         event.preventDefault();
         let CdAula = $('#cdAula').val();
 
-          $.ajax({
-                url: '@Url.Action("ExcluirAula", "Turma")',
-                type: 'DELETE',
-                async: true,
-                data: {
-                    CdAula: CdAula
-                },
-                success: function (data) {
-                    if (data.isSuccess) {
-                        ExibirSucesso(data.message, 'Sucesso!');
+        $.ajax({
+            url: '@Url.Action("ExcluirAula", "Turma")',
+            type: 'DELETE',
+            async: true,
+            data: {
+                CdAula: CdAula
+            },
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
 
-                        $('#backgroundConteudoModal').css('display', 'none');
-                        $('#divInformacaoAula').css('display', 'none');
-                        carregarAulasTurma();
-                    }
-                    else {
-                        console.error('Erro interno.', data.message);
-                        ExibirErro(data.message, 'Erro!');
-                        return;
-                    }
+                    $('#backgroundConteudoModal').css('display', 'none');
+                    $('#divInformacaoAula').css('display', 'none');
+                    carregarAulasTurma();
                 }
-            });
-        }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+            }
+        });
+    }
 
+    function redirecionarChamada() {
+        let CdAula = $('#cdAula').val();
+        let CdTurma = $('#CdTurma').val();
+
+        let url = `/Chamada/Index?cdTurma=${encodeURIComponent(CdTurma)}&cdAula=${encodeURIComponent(CdAula)}`;
+        window.open(url, "_blank");
+    }
 </script>
