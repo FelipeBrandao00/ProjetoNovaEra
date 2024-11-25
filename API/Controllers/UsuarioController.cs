@@ -31,6 +31,14 @@ public class UsuarioController(IUsuarioService usuarioService) : ControllerBase 
         return Ok(result);
     }
 
+    [HttpGet("api/[controller]/GetUsuarioByEmail/{email}")]
+    public async Task<ActionResult> GetUsuarioByEmail(string email) {
+        var request = new GetUsuarioByEmailRequest { Email = email };
+        var result = await usuarioService.GetUsuarioByEmail(request);
+        if (!result.IsSuccess) return BadRequest(result);
+        return Ok(result);
+    }
+
     [HttpGet("api/[controller]")]
     public async Task<ActionResult> GetUsuarios([FromQuery] int? pageNumber = null, [FromQuery] int? pageSize = null) {
         var request = new GetAllUsuariosRequest(pageNumber, pageSize);
