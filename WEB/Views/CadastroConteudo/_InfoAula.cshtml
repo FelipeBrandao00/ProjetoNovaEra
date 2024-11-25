@@ -28,39 +28,43 @@
         </div>
 
 
-        <p class="linear1" style="text-align: left;"><b>Clique no arquivo para ver suas informações!</b></p>
-        <table id="listaArquivos">
-            <thead>
-                <tr>
-                    <th id="nmArquivo">Nome</th>
-                    <th id="nmTipo">Extensão</th>
-                    <th id="nmTamanho">Tamanho</th>
-                    <th id="Info" style="display: none">Info</th>
-                    <th id="baixar"></th>
-                    <th id="deletar"></th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @foreach (var Conteudo in ListaConteudo) {
+        @if (ListaConteudo.Count > 0) {
+            <p class="linear1" style="text-align: left;"><b>Clique no arquivo para ver suas informações!</b></p>
+            <table id="listaArquivos">
+                <thead>
                     <tr>
-                        <td id="CelulaArquivo">@Conteudo.nmArquivo</td>
-                        <td id="CelulaTipo">@Conteudo.dsExtensao</td>
-                        <td id="CelulaTamanho">0MB</td>
-                        <td id="CelulaInfo" style="display: none">
-                            <button id="btnInfo" onclick="carregarInfoModal('@Conteudo.nmArquivo', '@Conteudo.dsExtensao', '@Conteudo.dsConteudo')"><i class="fa fa-info"></i></button>
-                        </td>
-                        <td id="CelulaBaixar">
-                            <button id="btnMatricular" onclick="downloadArquivo(@Conteudo.cdConteudo)"><i class="fa fa-download"></i></button>
-                        </td>
-                        <td id="CelulaDeletar">
-                            <button id="btnDeletar" onclick="carregarDeletarArquivo(@Conteudo.cdConteudo)"><i class="fa fa-trash"></i></button>
-                        </td>
+                        <th id="nmArquivo">Nome</th>
+                        <th id="nmTipo">Extensão</th>
+                        <th id="nmTamanho">Tamanho</th>
+                        <th id="Info" style="display: none">Info</th>
+                        <th id="baixar"></th>
+                        <th id="deletar"></th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var Conteudo in ListaConteudo) {
+                        <tr>
+                            <td id="CelulaArquivo">@Conteudo.nmArquivo</td>
+                            <td id="CelulaTipo">@Conteudo.dsExtensao</td>
+                            <td id="CelulaTamanho">0MB</td>
+                            <td id="CelulaInfo" style="display: none">
+                                <button id="btnInfo" onclick="carregarInfoModal('@Conteudo.nmArquivo', '@Conteudo.dsExtensao', '@Conteudo.dsConteudo')"><i class="fa fa-info"></i></button>
+                            </td>
+                            <td id="CelulaBaixar">
+                                <button id="btnMatricular" onclick="downloadArquivo(@Conteudo.cdConteudo)"><i class="fa fa-download"></i></button>
+                            </td>
+                            <td id="CelulaDeletar">
+                                <button id="btnDeletar" onclick="carregarDeletarArquivo(@Conteudo.cdConteudo, '@Conteudo.nmArquivo')"><i class="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    }
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        } else {
+            <h5 class="linear1">Não há arquivos.</h5>
+        }
+
     </div>
 
     <div id="divFooterModal">
@@ -159,13 +163,13 @@
         });
     }
     
-    function carregarDeletarArquivo(CdConteudo) {
+    function carregarDeletarArquivo(CdConteudo, nmConteudo) {
         CdConteudoTemp = CdConteudo;
 
         $('#backgroundConteudoModal').css('display', 'block');
         $('#divDeletarArquivo').css('display', 'flex');
 
-        $("#nmArquivoDeletar").text("nome do arquivo");
+        $("#nmArquivoDeletar").text(nmConteudo);
         if (window.matchMedia("(max-width: 1200px)").matches) {
             window.location.hash = '#divDeletarArquivo';
         }
