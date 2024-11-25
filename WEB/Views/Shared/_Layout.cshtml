@@ -233,7 +233,7 @@
             display: none;
             text-align: right;
             position: absolute;
-            right: 5vw;
+            right: 12vw;
             top: 12vh;
             background: rgba(159, 159, 159, 1);
             border-radius: 10px 0 10px 10px;
@@ -606,7 +606,7 @@
                     </div>
                 </div>
                 <button style="border-radius: 10px 0 0 0"><b>Editar perfil</b></button>
-                <button><b>Trocar senha</b></button>
+                <button onclick="TrocarSenha()"><b>Trocar senha</b></button>
                 <button onclick="Logout()"><b>Sair</b></button>
             </div>
 
@@ -711,6 +711,12 @@
                 document.getElementById('btnCloseSidebar').style.display = 'block';
                 document.querySelector('main').classList.add('shifted');
             }
+
+            if ($("main").hasClass("shifted")) { 
+                $('#userData').css('right', '12vw');
+            } else {
+                $('#userData').css('right', '5vw');
+            }
         }
 
         function toggleCollapsible(toggleButtonId, collapsibleContentId, secId) {
@@ -735,6 +741,10 @@
 
         function Logout() {
             window.location.href = '@Url.Action("Sair", "Home")';
+        }
+
+        function TrocarSenha() {
+            window.location.href = '@Url.Action("Index", "EsqueciSenha")?icTrocar=true';
         }
 
         function redirecionarParaListarAluno() {

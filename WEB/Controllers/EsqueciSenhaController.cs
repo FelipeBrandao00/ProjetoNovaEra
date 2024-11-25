@@ -5,12 +5,17 @@ namespace WEB.Controllers;
 
 public class EsqueciSenhaController(IConfiguration configuration) : Controller
 {
-    public IActionResult Index()
+    public IActionResult Index(bool? icTrocar = null)
     {
+        if (icTrocar == true) {
+            return View();
+        }
+
         string? token = Request.Cookies["Token"];
 
-        if (!string.IsNullOrEmpty(token))
+        if (!string.IsNullOrEmpty(token)) {
             return RedirectToAction("Index", "Home");
+        }
 
         return View();
     }
