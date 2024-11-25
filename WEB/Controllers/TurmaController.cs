@@ -95,7 +95,21 @@ namespace WEB.Controllers {
         [HttpGet]
         public async Task<IActionResult> ListarTurmas(ListarTurmaViewModel model) {
             configuration["JwtToken"] = Request.Cookies["Token"];
-            await model.GerarLista(configuration);
+
+            dynamic? dados;
+            try {
+                dados = JwtToken.DescriptografarJwt(configuration["JwtToken"]);
+            } catch (Exception) {
+                dados = JwtTokenUnique.DescriptografarJwt(configuration["JwtToken"]);
+            }
+
+            Guid? cdProfessor = null;
+            if (dados.role.Contains("Professor") && !(dados.role.Contains("Administrador") || dados.role.Contains("Master"))) {
+                var responseUser = await new UsuarioViewModel().BuscarInfoEmail(configuration, dados.email);
+                cdProfessor = responseUser.Data.CdUsuario;
+            }
+
+            await model.GerarLista(configuration, cdProfessor);
             return PartialView("_ListarPadrao", model);
         }
 

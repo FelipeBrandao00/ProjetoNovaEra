@@ -10,7 +10,7 @@ namespace WEB.Models.Shared {
         public bool? IcFinalizado { get; set; }
         public int? CursoId { get; set; }
 
-        public override async Task<bool> GerarLista(IConfiguration configuration) {
+        public async Task<bool> GerarLista(IConfiguration configuration, Guid? cdProfessor = null) {
             using (var client = new HttpClient()) {
                 var baseUrl = configuration["BaseRequest"];
                 var url = $"{baseUrl}/Turma?";
@@ -29,6 +29,9 @@ namespace WEB.Models.Shared {
                 }
                 if (this.CursoId != null) {
                     url += $"cursoId={this.CursoId}&";
+                }
+                if (cdProfessor != null) {
+                    url += $"professorId={cdProfessor}&";
                 }
                 url += $"pageNumber={this.PaginaAtual}&pageSize={this.TamanhoPagina}";
 

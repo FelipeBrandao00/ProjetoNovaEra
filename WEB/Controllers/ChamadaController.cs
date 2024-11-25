@@ -8,6 +8,7 @@ using WEB.Models.PermissaoCargo;
 using WEB.Models.Response;
 using WEB.Models.Shared;
 using WEB.Models.Cargo;
+using WEB.Models.Usuario;
 
 namespace WEB.Controllers
 {
@@ -76,9 +77,15 @@ namespace WEB.Controllers
             }
             ViewBag.ListaPermissoes = hashPermissoes;
 
+            Guid? cdProfessor = null;
+            if (dados.role.Contains("Professor") && !(dados.role.Contains("Administrador") || dados.role.Contains("Master"))) {
+                var responseUser = await new UsuarioViewModel().BuscarInfoEmail(configuration, dados.email);
+                cdProfessor = responseUser.Data.CdUsuario;
+            }
+
             var model = new ListarTurmaViewModel();
             model.IcFinalizado = false;
-            await model.GerarLista(configuration);
+            await model.GerarLista(configuration, cdProfessor);
 
             ViewBag.ListaTurmas = model.ItensLista;
             return View();
