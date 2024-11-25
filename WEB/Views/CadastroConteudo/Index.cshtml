@@ -27,7 +27,7 @@
             </div>
             <div id="divCheckbox">
                 <div id="cArquivo">
-                    <input type="checkbox" id="idCArquivo" onchange="return verificarTurma();" checked />
+                    <input type="checkbox" id="idCArquivo" onchange="return verificarTurma();" />
                     <label for="idCArquivo">C/Arquivo</label>
                 </div>
             </div>
@@ -47,9 +47,7 @@
 
     let CdConteudoTemp;
     let ArquivoBase64;
-
-    // document.addEventListener("DOMContentLoaded", carregarListaMatriculados);
-    // document.addEventListener("DOMContentLoaded", carregarListaNaoMatriculados);
+    let FileName;
 
     function verificarTurma() {
         var valorDdl = $('#ddlTurma').val();
@@ -93,6 +91,7 @@
         $('#divModalAdicionar').css('display', 'none');
         $('#backgroundConteudoModal').css('display', 'none');
         ArquivoBase64 = null;
+        FileName = null;
     }
 
 </script>

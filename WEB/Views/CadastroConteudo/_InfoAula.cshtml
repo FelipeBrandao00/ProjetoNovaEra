@@ -8,9 +8,8 @@
 }
 
 <link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
-@* <link rel="stylesheet" href="~/css/CadastroConteudo/Index.css"> *@
 
-@Html.HiddenFor(model => model.cdAula);
+@Html.HiddenFor(model => model.cdAula)
 
 <div id="backgroundConteudoModal"></div>
 <div id="divInformacaoAula">
@@ -52,7 +51,7 @@
                             <button id="btnInfo" onclick="carregarInfoModal('@Conteudo.nmArquivo', '@Conteudo.dsExtensao', '@Conteudo.dsConteudo')"><i class="fa fa-info"></i></button>
                         </td>
                         <td id="CelulaBaixar">
-                            <button id="btnMatricular" onclick="downloadArquivo()"><i class="fa fa-download"></i></button>
+                            <button id="btnMatricular" onclick="downloadArquivo(@Conteudo.cdConteudo)"><i class="fa fa-download"></i></button>
                         </td>
                         <td id="CelulaDeletar">
                             <button id="btnDeletar" onclick="carregarDeletarArquivo(@Conteudo.cdConteudo)"><i class="fa fa-trash"></i></button>
@@ -107,8 +106,57 @@
 
 <script type="text/javascript">
 
-    function downloadArquivo() {
-        alert('baixar');
+    function downloadArquivo(CdConteudo) {
+        $.ajax({
+            url: '@Url.Action("DownloadConteudo", "CadastroConteudo")',
+            type: 'POST',
+            data: { CdConteudo },
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+
+                    // Processa o arquivo Base64
+                    const arquivoBase64 = data.data.arquivo;
+                    const nomeArquivo = data.data.nmArquivo;
+                    const extensao = data.data.dsExtensao;
+
+                    // Decodifica o Base64 e cria um Blob
+                    const bytes = atob(arquivoBase64);
+                    const tamanho = bytes.length;
+                    const arrayBuffer = new Uint8Array(tamanho);
+
+                    for (let i = 0; i < tamanho; i++) {
+                        arrayBuffer[i] = bytes.charCodeAt(i);
+                    }
+
+                    const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+
+                    // Cria um link temporário para baixar o arquivo
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = nomeArquivo + extensao;
+                    document.body.appendChild(link);
+
+                    // Simula o clique no link para iniciar o download
+                    link.click();
+
+                    // Remove o link temporário
+                    document.body.removeChild(link);
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
     }
     
     function carregarDeletarArquivo(CdConteudo) {

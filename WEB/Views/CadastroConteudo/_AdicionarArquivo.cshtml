@@ -3,7 +3,6 @@
 }
 
 <link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
-@* <link rel="stylesheet" href="~/css/CadastroConteudo/Index.css"> *@
 
 <div id="divModalAdicionar">
     <div id="divTituloModal">
@@ -50,16 +49,20 @@
                 const reader = new FileReader();
                 reader.onload = function (e) {
 
+                    // Guarda o Base64 do arquivo
                     ArquivoBase64 = e.target.result;
 
-                    // Extrair nome
-                    const fileName = file.name.substring(0, file.name.lastIndexOf('.')); // Nome sem extensão
+                    // Guarda o nome do arquivo
+                    FileName = file.name;
 
-                    // Extrair extensão do arquivo
-                    const fileExtension = file.name.slice(file.name.lastIndexOf('.')); // Só a extensão
+                    // Só o nome do arquivo
+                    const fileName = file.name.substring(0, file.name.lastIndexOf('.')); 
 
-                    $('#txtNomeArquivo').val(fileName);        // Nome do arquivo
-                    $('#txtTipoArquivo').val(fileExtension);   // Extensão do arquivo
+                    // Só a extensão do arquivo
+                    const fileExtension = file.name.slice(file.name.lastIndexOf('.'));
+
+                    $('#txtNomeArquivo').val(fileName);
+                    $('#txtTipoArquivo').val(fileExtension);
 
                     if ((file.size / 1048576) >= 1)
                         $('#txtTamanhoArquivo').val((file.size / 1048576).toFixed(2) + ' MB'); // Tamanho em MB
@@ -86,24 +89,29 @@
         return new Blob([bytes], { type: mimeType });
     }
 
-
     function adicionarArquivo() {
-
         let CadastroConteudoViewModel = new FormData();
 
         if (!!ArquivoBase64) {
             const arquivoBlob = base64ToBlob(ArquivoBase64);
-
-            console.log('ArquivoBase64: ' + ArquivoBase64);
-            console.log('arquivoBlob: ' + arquivoBlob);
-            console.log('type: ' + arquivoBlob.type);
-
-            CadastroConteudoViewModel.append('DsArquivo', arquivoBlob);
+            CadastroConteudoViewModel.append('DsArquivo', arquivoBlob, FileName);
+        } else {
+            ExibirInfo('Selecione um arquivo para adicionar.', 'Atenção!');
+            return;
         }
 
-        CadastroConteudoViewModel.append('CdAula', $('#cdAula').val());
-        CadastroConteudoViewModel.append('CdTurma', $('#ddlTurma').val());
-        CadastroConteudoViewModel.append('DsConteudo', $('#txtDescricaoArquivo').val());
+        const DsConteudo = $('#txtDescricaoArquivo').val();
+        if (DsConteudo == null || DsConteudo == '') {
+            ExibirInfo('É necessário a descrição do conteúdo.', 'Atenção!');
+            return;
+        }
+
+        const CdTurma = $('#ddlTurma').val();
+        const CdAula = $('#cdAula').val();
+
+        CadastroConteudoViewModel.append('CdAula', CdAula);
+        CadastroConteudoViewModel.append('CdTurma', CdTurma);
+        CadastroConteudoViewModel.append('DsConteudo', DsConteudo);
 
         $.ajax({
             url: '@Url.Action("AdicionarConteudo", "CadastroConteudo")',
@@ -123,9 +131,9 @@
                     return;
                 }
 
-                //Fechar a modal de adicionar conteúdo...
-
                 ArquivoBase64 = null;
+                FileName = null;
+
                 verificarTurma();
                 verInfoAula($('#cdAula').val());
             },

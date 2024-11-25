@@ -74,13 +74,55 @@ namespace WEB.Controllers {
                 {
                     await DsArquivo.CopyToAsync(memoryStream);
                     byte[] arquivoBytes = memoryStream.ToArray();
-                    CadastroConteudoViewModel.DsArquivo = arquivoBytes;
+                    CadastroConteudoViewModel.ArquivoBytes = arquivoBytes;
+                    CadastroConteudoViewModel.Arquivo = DsArquivo;
                 }
             }
 
             //Atualiza as informações de fato
             configuration["JwtToken"] = Request.Cookies["Token"];
             return Json(await CadastroConteudoViewModel.Adicionar(configuration));
+        }
+
+        private static async Task<string> SalvarArquivoNaPastaDownloadsAsync(ResponseModelConteudo conteudo)
+        {
+            // Converte o Base64 em um array de bytes
+            byte[] arquivoBytes = Convert.FromBase64String(conteudo.arquivo);
+
+            // Obtém o caminho padrão da pasta Downloads do usuário
+            string pastaDownloads = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                "Downloads"
+            );
+
+            // Monta o caminho completo para salvar o arquivo
+            string caminhoCompleto = Path.Combine(pastaDownloads, conteudo.nmArquivo + conteudo.dsExtensao);
+
+            // Salva o arquivo de forma assíncrona usando FileStream
+            using (var fileStream = new FileStream(caminhoCompleto, FileMode.Create, FileAccess.Write, FileShare.None, 4096, useAsync: true))
+            {
+                await fileStream.WriteAsync(arquivoBytes, 0, arquivoBytes.Length);
+            }
+
+            return $" \r\nSalvo em Downloads.";
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DownloadConteudo(CadastroConteudoViewModel CadastroConteudoViewModel)
+        {
+            configuration["JwtToken"] = Request.Cookies["Token"];
+
+            var infoConteudo = await CadastroConteudoViewModel.Buscar(configuration);
+
+            // Agora o Download ocorre no lado cliente.
+            /*
+            if(infoConteudo.Data != null && !string.IsNullOrEmpty(infoConteudo.Data?.arquivo))
+                infoConteudo.Message += await SalvarArquivoNaPastaDownloadsAsync(infoConteudo.Data);
+            */
+
+            infoConteudo.Message += " \r\nAguarde o download...";
+
+            return Json(infoConteudo);
         }
 
         [HttpGet]
