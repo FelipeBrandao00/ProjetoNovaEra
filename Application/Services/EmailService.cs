@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using DotNetEnv;
 
 namespace Application.Services;
 
@@ -13,7 +14,8 @@ public class EmailService : IEmailService {
     }
 
     public async Task SendPasswordResetEmailAsync(string toEmail, string resetToken) {
-        string apiKey = "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";
+        Env.Load();
+        string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
 
         var client = new SendGridClient(apiKey);
         var senderEmail = new EmailAddress("suportenovaera9@gmail.com");

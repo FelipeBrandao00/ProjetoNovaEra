@@ -1,0 +1,60 @@
+﻿@using WEB.Models.Genero
+@using Application.Responses
+
+@model Application.Responses.ResponseModelUsuario
+
+@{
+    Layout = null;
+    var NmCurso = ViewBag.NmCurso ?? String.Empty;
+    var NmTurma = ViewBag.NmTurma ?? String.Empty;
+    var ImgSrc = (Model.DsFoto != null && Model.DsFoto.Length > 0) ? $"data:image/png;base64,{Convert.ToBase64String(Model.DsFoto)}" : String.Empty;
+    var ImgAlunoDisplay = !String.IsNullOrEmpty(ImgSrc) ? "display: block" : "display: none";
+    var ListaGenero = ViewBag.ListaGenero ?? new List<GeneroViewModel.ItemListaGenero>();
+
+    var ListaTurmasAluno = (List<ResponseModelTurmaAluno>)ViewBag.ListaTurmasAluno ?? new List<ResponseModelTurmaAluno>();
+}
+
+<link rel="stylesheet" href="~/css/Certificado/InfoCertificado.css">
+
+@Html.HiddenFor(model => model.CdUsuario)
+@Html.HiddenFor(model => model.DsCpf)
+
+<h4 id="nmAlunoCertificado" class="linear1"><b>@Model.NmUsuario</b></h4>
+
+<div id="divTurmaCertificado">
+    <label for="divTurmaCertificado" class="linear1">Selecione o certificado:</label><br />
+    <select id="ddlTurmaCertificado" class="txtInfoAluno" onchange="gerarCertificado()">
+        <option value="-1">Selecione</option>
+        @foreach (ResponseModelTurmaAluno item in ListaTurmasAluno) {
+            <option value="@item.CdTurma">@item.NmTurma</option>
+        }
+    </select>
+</div>
+
+<div id="_CertificadoView"></div>
+
+<script type="text/javascript">
+    $('#nmAluno').html('@Model.NmUsuario');
+
+    if ('@ViewBag.QuantidadeTurmas' == '0') {
+        ExibirInfo('O aluno não possui certificados disponíveis.', 'Atenção');
+    }
+
+    function gerarCertificado() {
+        var ddlTurma = $('#ddlTurmaCertificado').val();
+        var CdUsuario = $('#CdUsuario').val();
+
+        $.ajax({
+            url: '@Url.Action("CarregarCertificado", "Certificado")',
+            type: 'GET',
+            async: true,
+            data: {
+                CdTurma: ddlTurma,
+                NmUsuario: '@Model.NmUsuario', 
+            },
+            success: function (data) {
+                $("#_CertificadoView").html(data);
+            }
+        });
+    }
+</script>

@@ -32,7 +32,7 @@ public class AuthenticateController(IJwtService jwtService, IAuthenticateService
                 DtValidade = DateTime.Now.AddMinutes(15)
             };
             await passwordChangeService.AddPasswordChange(requestPasswordChange);
-            //await emailService.SendPasswordResetEmailAsync(user.Data.DsEmail, resetToken);
+            await emailService.SendPasswordResetEmailAsync(user.Data.DsEmail, resetToken);
         }
         return Ok();
     }

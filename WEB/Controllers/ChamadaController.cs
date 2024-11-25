@@ -26,7 +26,8 @@ namespace WEB.Controllers {
             ViewBag.CdTurma = cdTurma ?? -1;
 
             configuration["JwtToken"] = token;
-            ListarTurmaViewModel model = new ListarTurmaViewModel();
+
+            var model = new ListarTurmaViewModel();
             model.IcFinalizado = false;
             await model.GerarLista(configuration);
 
