@@ -51,7 +51,7 @@ namespace WEB.Controllers {
 
             var ListaConteudo = await new CadastroConteudoViewModel() {
                 CdAula = AulaViewModel.CdAula
-            }.ListarConteudo(configuration);
+            }.Listar(configuration);
             ViewBag.ListaConteudo = ListaConteudo.Data;
 
             return View("_InfoAula", InfoAula.Data ?? new ResponseModelAula());
@@ -62,6 +62,25 @@ namespace WEB.Controllers {
         {
             configuration["JwtToken"] = Request.Cookies["Token"];
             return Json(await CadastroConteudoViewModel.Excluir(configuration));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AdicionarConteudo([FromForm] CadastroConteudoViewModel CadastroConteudoViewModel, IFormFile DsArquivo)
+        {
+            //Validação do arquivo
+            if (DsArquivo != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await DsArquivo.CopyToAsync(memoryStream);
+                    byte[] arquivoBytes = memoryStream.ToArray();
+                    CadastroConteudoViewModel.DsArquivo = arquivoBytes;
+                }
+            }
+
+            //Atualiza as informações de fato
+            configuration["JwtToken"] = Request.Cookies["Token"];
+            return Json(await CadastroConteudoViewModel.Adicionar(configuration));
         }
 
         [HttpGet]

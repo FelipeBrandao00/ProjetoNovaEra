@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
 @* <link rel="stylesheet" href="~/css/CadastroConteudo/Index.css"> *@
 
+@Html.HiddenFor(model => model.cdAula);
+
 <div id="backgroundConteudoModal"></div>
 <div id="divInformacaoAula">
     <div id="divTituloAula">
@@ -172,7 +174,7 @@
 
                 CdConteudoTemp = null;
                 verificarTurma();
-                verInfoAula('@Model.cdAula');
+                verInfoAula($('#cdAula').val());
             },
             error: function (xhr, status, error) {
                 console.error('Erro na requisição AJAX!', error);
@@ -194,6 +196,9 @@
                 $('#divModalAdicionar').css('display', 'flex');
 
                 $('#txtNomeArquivoModal, #txtTipoArquivoModal, #txtTamanhoArquivoModal')
+                    .css('background-color', '#DBD8D8')
+
+                $('#txtNomeArquivo, #txtTipoArquivo, #txtTamanhoArquivo')
                     .css('background-color', '#DBD8D8')
             }
         });

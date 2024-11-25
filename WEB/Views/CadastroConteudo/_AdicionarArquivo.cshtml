@@ -1,15 +1,18 @@
-﻿<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
-<link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
+﻿@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
+@* <link rel="stylesheet" href="~/css/CadastroConteudo/Index.css"> *@
 
 <div id="divModalAdicionar">
     <div id="divTituloModal">
         <button id="btnVoltarModal" onclick="voltarModalAdicionar()">
-            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+            <i class="fa-solid fa-angle-left arrow-icon"></i>
         </button>
         <h5 class="linear1"><b>Adicionar arquivo</b></h5>
         <p> </p>
     </div>
-
 
     <div id="divConteudoModal">
         <label for="txtFile" id="btnFile" class="linear1">
@@ -20,17 +23,17 @@
 
         <br/>
 
-        <label for="txtNomeArquivoModal" class="linear1">Nome:</label>
-        <input type="text" id="txtNomeArquivoModal" class="txtFormato" disabled/>
+        <label for="txtNomeArquivo" class="linear1">Nome:</label>
+        <input type="text" id="txtNomeArquivo" class="txtFormato" disabled />
 
-        <label for="txtTipoArquivoModal" class="linear1">Tipo:</label>
-        <input type="text" id="txtTipoArquivoModal" class="txtFormato" disabled/>
+        <label for="txtTipoArquivo" class="linear1">Tipo:</label>
+        <input type="text" id="txtTipoArquivo" class="txtFormato" disabled />
 
-        <label for="txtTamanhoArquivoModal" class="linear1">Tamanho:</label>
-        <input type="text" id="txtTamanhoArquivoModal" class="txtFormato" disabled/>
+        <label for="txtTamanhoArquivo" class="linear1">Tamanho:</label>
+        <input type="text" id="txtTamanhoArquivo" class="txtFormato" disabled />
 
-        <label for="txtDescricaoArquivoModal" class="linear1">Descrição:</label>
-        <textarea type="text" id="txtDescricaoArquivoModal" class="txtFormato"></textarea>
+        <label for="txtDescricaoArquivo" class="linear1">Descrição:</label>
+        <textarea type="text" id="txtDescricaoArquivo" class="txtFormato"></textarea>
     </div>
     
     <div id="divFooterModal">
@@ -41,16 +44,13 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        console.log('Teste1');
-
         document.getElementById('txtFile').onchange = function (event) {
-            console.log('Teste2');
-
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    console.log('Teste3');
+
+                    ArquivoBase64 = e.target.result;
 
                     // Extrair nome
                     const fileName = file.name.substring(0, file.name.lastIndexOf('.')); // Nome sem extensão
@@ -58,13 +58,13 @@
                     // Extrair extensão do arquivo
                     const fileExtension = file.name.slice(file.name.lastIndexOf('.')); // Só a extensão
 
-                    console.log(fileName);
-                    console.log(fileExtension);
-                    console.log((file.size / 1048576).toFixed(2) + ' MB');
+                    $('#txtNomeArquivo').val(fileName);        // Nome do arquivo
+                    $('#txtTipoArquivo').val(fileExtension);   // Extensão do arquivo
 
-                    $('#txtNomeArquivoModal').val(fileName);        // Nome do arquivo
-                    $('#txtTipoArquivoModal').val(fileExtension);   // Extensão do arquivo
-                    $('#txtTamanhoArquivoModal').val((file.size / 1048576).toFixed(2) + ' MB'); // Tamanho em MB
+                    if ((file.size / 1048576) >= 1)
+                        $('#txtTamanhoArquivo').val((file.size / 1048576).toFixed(2) + ' MB'); // Tamanho em MB
+                    else
+                        $('#txtTamanhoArquivo').val((file.size / 1024).toFixed(2) + ' KB'); // Tamanho em KB
 
                 };
                 reader.readAsDataURL(file);
@@ -72,8 +72,69 @@
         };
     });
 
+    function base64ToBlob(base64) {
+        // Extrair o tipo MIME da string Base64
+        const mimeType = base64.match(/^data:(.*?);base64,/)[1]; // Regex para capturar o tipo MIME
+        const binaryString = atob(base64.split(',')[1]); // Decodificar a parte Base64
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        return new Blob([bytes], { type: mimeType });
+    }
+
+
     function adicionarArquivo() {
-        alert('adicionar arquivo');
+
+        let CadastroConteudoViewModel = new FormData();
+
+        if (!!ArquivoBase64) {
+            const arquivoBlob = base64ToBlob(ArquivoBase64);
+
+            console.log('ArquivoBase64: ' + ArquivoBase64);
+            console.log('arquivoBlob: ' + arquivoBlob);
+            console.log('type: ' + arquivoBlob.type);
+
+            CadastroConteudoViewModel.append('DsArquivo', arquivoBlob);
+        }
+
+        CadastroConteudoViewModel.append('CdAula', $('#cdAula').val());
+        CadastroConteudoViewModel.append('CdTurma', $('#ddlTurma').val());
+        CadastroConteudoViewModel.append('DsConteudo', $('#txtDescricaoArquivo').val());
+
+        $.ajax({
+            url: '@Url.Action("AdicionarConteudo", "CadastroConteudo")',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: CadastroConteudoViewModel,
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                //Fechar a modal de adicionar conteúdo...
+
+                ArquivoBase64 = null;
+                verificarTurma();
+                verInfoAula($('#cdAula').val());
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
     }
 
 </script>
