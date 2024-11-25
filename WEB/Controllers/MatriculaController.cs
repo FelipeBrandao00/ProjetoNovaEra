@@ -29,7 +29,7 @@ namespace WEB.Controllers {
             }
 
             if (Function.spacesString(dados.unique_name) > 1) {
-                ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
+                ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ")[0]);
             } else {
                 ViewBag.Nome = dados.unique_name;
             }

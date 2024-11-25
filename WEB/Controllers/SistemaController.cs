@@ -32,7 +32,7 @@ namespace WEB.Controllers {
             }
 
             if (Function.spacesString(dados.unique_name) > 1) {
-                ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
+                ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ")[0]);
             } else {
                 ViewBag.Nome = dados.unique_name;
             }
@@ -80,6 +80,10 @@ namespace WEB.Controllers {
             configuration["JwtToken"] = token;
             var ListaCargo = await CargoViewModel.GerarLista(configuration);
             ViewBag.ListaCargo = ListaCargo.Data;
+
+
+            var responseUser = await new UsuarioViewModel().BuscarInfoEmail(configuration, dados.email);
+            ViewBag.UsuarioLogado = responseUser.Data.CdUsuario;
             return View();
         }
 

@@ -19,7 +19,6 @@ namespace WEB.Controllers {
             var ListaTurmas = await listarTurmaViewModel.GerarListaMatriculasDisponiveis(configuration);
             ViewBag.ListaTurmas = listarTurmaViewModel.ItensLista;
 
-
             return View();
         }
 
