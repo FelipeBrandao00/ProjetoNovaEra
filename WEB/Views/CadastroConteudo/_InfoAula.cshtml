@@ -1,6 +1,15 @@
-﻿<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
-<link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
+﻿@using WEB.Models.Response
+@model ResponseModelAula
 
+@{
+    Layout = null;
+
+    List<ResponseModelConteudo> ListaConteudo = ViewBag.ListaConteudo ?? new List<ResponseModelConteudo>();
+}
+
+<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
+
+@Html.HiddenFor(model => model.cdAula)
 
 <div id="backgroundConteudoModal"></div>
 <div id="divInformacaoAula">
@@ -12,11 +21,12 @@
         <p> </p>
     </div>
 
+    <div id="divTituloConteudoAula">
+        <h3 class="linear1"><b>@Model.nmAula</b></h3>
+        <h5 class="linear1"><b>@Model.dtAula</b></h5>
+    </div>
+
     <div id="divConteudoAula">
-        <div id="divTituloConteudoAula">
-            <h3 class="linear1"><b>Aula 01</b></h3>
-            <h5 class="linear1"><b>21/01/2024</b></h5>
-        </div>
 
         <table id="listaArquivos">
             <thead>
@@ -30,22 +40,25 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < 10; i++) {
+
+                @foreach (var Conteudo in ListaConteudo)
+                {
                     <tr>
-                        <td id="CelulaArquivo">Aula 01</td>
-                        <td id="CelulaTipo">PDF</td>
-                        <td id="CelulaTamanho">20MB</td>
+                        <td id="CelulaArquivo">@Conteudo.nmArquivo</td>
+                        <td id="CelulaTipo">@Conteudo.dsExtensao</td>
+                        <td id="CelulaTamanho">0MB</td>
                         <td id="CelulaInfo" style="display: none">
-                            <button id="btnInfo" onclick="carregarInfoModal()"><i class="fa fa-info"></i></button>
+                            <button id="btnInfo" onclick="carregarInfoModal('@Conteudo.nmArquivo', '@Conteudo.dsExtensao', '@Conteudo.dsConteudo')"><i class="fa fa-info"></i></button>
                         </td>
                         <td id="CelulaBaixar">
-                            <button id="btnMatricular" onclick="downloadArquivo()"><i class="fa fa-download"></i></button>
+                            <button id="btnMatricular" onclick="downloadArquivo(@Conteudo.cdConteudo)"><i class="fa fa-download"></i></button>
                         </td>
                         <td id="CelulaDeletar">
-                            <button id="btnDeletar" onclick="carregarDeletarArquivo()"><i class="fa fa-trash"></i></button>
+                            <button id="btnDeletar" onclick="carregarDeletarArquivo(@Conteudo.cdConteudo)"><i class="fa fa-trash"></i></button>
                         </td>
                     </tr>
                 }
+
             </tbody>
         </table>
     </div>
@@ -82,7 +95,7 @@
         <input type="text" id="txtTipoArquivoModal" class="txtFormato" disabled />
 
         <label for="txtTamanhoArquivoModal" class="linear1">Tamanho:</label>
-        <input type="text" id="txtTamanhoArquivoModal" class="txtFormato" disabled />
+        <input type="text" id="txtTamanhoArquivoModal" class="txtFormato" value="0MB" disabled />
 
         <label for="txtDescricaoArquivoModal" class="linear1">Descrição:</label>
         <textarea type="text" id="txtDescricaoArquivoModal" class="txtFormato" disabled></textarea>
@@ -92,11 +105,63 @@
 <div id="_divAdicionarArquivo"></div>
 
 <script type="text/javascript">
-    function downloadArquivo() {
-        alert('baixar');
+
+    function downloadArquivo(CdConteudo) {
+        $.ajax({
+            url: '@Url.Action("DownloadConteudo", "CadastroConteudo")',
+            type: 'POST',
+            data: { CdConteudo },
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+
+                    // Processa o arquivo Base64
+                    const arquivoBase64 = data.data.arquivo;
+                    const nomeArquivo = data.data.nmArquivo;
+                    const extensao = data.data.dsExtensao;
+
+                    // Decodifica o Base64 e cria um Blob
+                    const bytes = atob(arquivoBase64);
+                    const tamanho = bytes.length;
+                    const arrayBuffer = new Uint8Array(tamanho);
+
+                    for (let i = 0; i < tamanho; i++) {
+                        arrayBuffer[i] = bytes.charCodeAt(i);
+                    }
+
+                    const blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
+
+                    // Cria um link temporário para baixar o arquivo
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = nomeArquivo + extensao;
+                    document.body.appendChild(link);
+
+                    // Simula o clique no link para iniciar o download
+                    link.click();
+
+                    // Remove o link temporário
+                    document.body.removeChild(link);
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
     }
     
-    function carregarDeletarArquivo() {
+    function carregarDeletarArquivo(CdConteudo) {
+        CdConteudoTemp = CdConteudo;
+
         $('#backgroundConteudoModal').css('display', 'block');
         $('#divDeletarArquivo').css('display', 'flex');
 
@@ -108,23 +173,63 @@
 
     function cancelarDeletarArquivo() {
         $('#backgroundConteudoModal').css('display', 'none');
-
         $('#divDeletarArquivo').css('display', 'none');
+
         if (window.matchMedia("(max-width: 1200px)").matches) {
             window.location.hash = '';
         }
+
+        CdConteudoTemp = null;
     }
 
-    function carregarInfoModal() {
+    function carregarInfoModal(nmArquivo, dsExtensao, dsConteudo) {
         $('#backgroundConteudoModal').css('display', 'block');
         $('#divModalInfoMobile').css('display', 'flex');
+
+        $('#txtNomeArquivoModal').val(nmArquivo);
+        $('#txtTipoArquivoModal').val(dsExtensao);
+        $('#txtDescricaoArquivoModal').val(dsConteudo);
 
         $('#txtNomeArquivoModal, #txtTipoArquivoModal, #txtTamanhoArquivoModal, #txtDescricaoArquivoModal')
             .css('background-color', '#DBD8D8')
     }
 
     function deletarArquivo() {
-        alert('deletar');
+        $.ajax({
+            url: '@Url.Action("ExcluirConteudo", "CadastroConteudo")',
+            type: 'POST',
+            data: {
+                CdConteudo: CdConteudoTemp
+            },
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                $('#backgroundConteudoModal').css('display', 'none');
+                $('#divDeletarArquivo').css('display', 'none');
+
+                if (window.matchMedia("(max-width: 1200px)").matches) {
+                    window.location.hash = '';
+                }
+
+                CdConteudoTemp = null;
+                verificarTurma();
+                verInfoAula($('#cdAula').val());
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
     }
 
     function carregarAdicionarArquivo() {
@@ -140,7 +245,11 @@
 
                 $('#txtNomeArquivoModal, #txtTipoArquivoModal, #txtTamanhoArquivoModal')
                     .css('background-color', '#DBD8D8')
+
+                $('#txtNomeArquivo, #txtTipoArquivo, #txtTamanhoArquivo')
+                    .css('background-color', '#DBD8D8')
             }
         });
     }
+
 </script>

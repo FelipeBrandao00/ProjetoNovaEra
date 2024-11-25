@@ -14,8 +14,8 @@ namespace WEB.Controllers {
             }
 
             var dados = JwtToken.DescriptografarJwt(token);
-            ViewBag.Role = dados.role[0];
-            ViewBag.Nome = dados.role[1];
+            ViewBag.Role = String.Join(" | ", dados.role);
+            ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
 
             var TurmaViewModel = new TurmaViewModel();
             var ListaTurmasAbertasMatricula = await TurmaViewModel.TurmasAbertasMatricula(configuration);

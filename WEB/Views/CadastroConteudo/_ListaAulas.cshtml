@@ -1,4 +1,11 @@
-﻿<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
+﻿@using WEB.Models.Response
+
+@{
+    Layout = null;
+    List<ResponseModelAula> ListaAula = ViewBag.ListaAula ?? new List<ResponseModelAula>();
+}
+
+<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
 
 <div id="divAlunosTurma">
     <div id="TituloInfoAula">
@@ -10,28 +17,42 @@
 
     <div id="divRelevo">
        <div id="divAulas">
-            @for (int i = 0; i < 3; i++) {
-                <div id="divAula" onclick="verInfoAula()">
+
+            @foreach (var Aula in ListaAula)
+            {
+                <div id="divAula" onclick="verInfoAula(@Aula.cdAula)">
                     <div id="topoAula">
                         <div id="infoAula">
-                            <h5 class="linear1"><b>Desenvolvimento de Sistemas</b></h5>
-                            <p class="linear1">21/01/2024</p>
+                            <h5 class="linear1"><b>@Aula.nmAula</b></h5>
+                            <p class="linear1">@Aula.dtAula</p>
                         </div>
                         <div id="InfoNumeroArquivo">
                             <h5 class="linear1"><b>Arquivos</b></h5>
-                            <h3 class="linear1"><b>2</b></h3>
+                            <h3 class="linear1"><b>@Aula.qtArquivos</b></h3>
                         </div>
                     </div>
-                    <div id="infoArquivos">
-                        <div id="divArquivos" class="comDoc">C/Arquivo</div>
-                    </div>
+
+                    @if (Aula.qtArquivos == 0)
+                    {
+                        <div id="infoArquivos">
+                            <div id="divArquivos" class="semDoc">S/Arquivo</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div id="infoArquivos">
+                            <div id="divArquivos" class="comDoc">C/Arquivo</div>
+                        </div>
+                    }
+
                     <br />
 
                     <div id="descAula" class="linear1">
-                        Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+                        @Aula.dsAula
                     </div>
                 </div>
             }
+
         </div>
     </div>
 </div>
@@ -41,17 +62,22 @@
 </div>
 
 <script type="text/javascript">
-    function verInfoAula() {
-            $.ajax({
-                url: '@Url.Action("CarregarInfoAula", "CadastroConteudo")',
-                type: 'GET',
-                async: true,
-                success: function (data) {
-                    $('#_divInfoAula').html(data);
 
-                    $('#backgroundModal').css('display', 'block');
-                    $('#divInformacaoAula').css('display', 'flex');
-                }
-            });
+    function verInfoAula(CdAula) {
+        $.ajax({
+            url: '@Url.Action("CarregarInfoAula", "CadastroConteudo")',
+            type: 'GET',
+            data: {
+                CdAula
+            },
+            async: true,
+            success: function (data) {
+                $('#_divInfoAula').html(data);
+
+                $('#backgroundModal').css('display', 'block');
+                $('#divInformacaoAula').css('display', 'flex');
+            }
+        });
     }
+
 </script>

@@ -1,36 +1,38 @@
-﻿<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
-<link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
+﻿@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
 
 <div id="divModalAdicionar">
     <div id="divTituloModal">
         <button id="btnVoltarModal" onclick="voltarModalAdicionar()">
-            <i class="fa-solid fa-angle-left arrow-icon">   </i>
+            <i class="fa-solid fa-angle-left arrow-icon"></i>
         </button>
         <h5 class="linear1"><b>Adicionar arquivo</b></h5>
         <p> </p>
     </div>
 
-
     <div id="divConteudoModal">
         <label for="txtFile" id="btnFile" class="linear1">
             Selecione o arquivo
         </label>
+
         <input id="txtFile" type="file" class="txtFormato" />
 
         <br/>
-        
 
-        <label for="txtNomeArquivoModal" class="linear1">Nome:</label>
-        <input type="text" id="txtNomeArquivoModal" class="txtFormato" disabled/>
+        <label for="txtNomeArquivo" class="linear1">Nome:</label>
+        <input type="text" id="txtNomeArquivo" class="txtFormato" disabled />
 
-        <label for="txtTipoArquivoModal" class="linear1">Tipo:</label>
-        <input type="text" id="txtTipoArquivoModal" class="txtFormato" disabled/>
+        <label for="txtTipoArquivo" class="linear1">Tipo:</label>
+        <input type="text" id="txtTipoArquivo" class="txtFormato" disabled />
 
-        <label for="txtTamanhoArquivoModal" class="linear1">Tamanho:</label>
-        <input type="text" id="txtTamanhoArquivoModal" class="txtFormato" disabled/>
+        <label for="txtTamanhoArquivo" class="linear1">Tamanho:</label>
+        <input type="text" id="txtTamanhoArquivo" class="txtFormato" disabled />
 
-        <label for="txtDescricaoArquivoModal" class="linear1">Descrição:</label>
-        <textarea type="text" id="txtDescricaoArquivoModal" class="txtFormato"></textarea>
+        <label for="txtDescricaoArquivo" class="linear1">Descrição:</label>
+        <textarea type="text" id="txtDescricaoArquivo" class="txtFormato"></textarea>
     </div>
     
     <div id="divFooterModal">
@@ -39,7 +41,108 @@
 </div>
 
 <script type="text/javascript">
-    function adicionarArquivo() {
-        alert('adicionar arquivo');
+
+    $(document).ready(function () {
+        document.getElementById('txtFile').onchange = function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+
+                    // Guarda o Base64 do arquivo
+                    ArquivoBase64 = e.target.result;
+
+                    // Guarda o nome do arquivo
+                    FileName = file.name;
+
+                    // Só o nome do arquivo
+                    const fileName = file.name.substring(0, file.name.lastIndexOf('.')); 
+
+                    // Só a extensão do arquivo
+                    const fileExtension = file.name.slice(file.name.lastIndexOf('.'));
+
+                    $('#txtNomeArquivo').val(fileName);
+                    $('#txtTipoArquivo').val(fileExtension);
+
+                    if ((file.size / 1048576) >= 1)
+                        $('#txtTamanhoArquivo').val((file.size / 1048576).toFixed(2) + ' MB'); // Tamanho em MB
+                    else
+                        $('#txtTamanhoArquivo').val((file.size / 1024).toFixed(2) + ' KB'); // Tamanho em KB
+
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+    });
+
+    function base64ToBlob(base64) {
+        // Extrair o tipo MIME da string Base64
+        const mimeType = base64.match(/^data:(.*?);base64,/)[1]; // Regex para capturar o tipo MIME
+        const binaryString = atob(base64.split(',')[1]); // Decodificar a parte Base64
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+
+        for (let i = 0; i < len; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        return new Blob([bytes], { type: mimeType });
     }
+
+    function adicionarArquivo() {
+        let CadastroConteudoViewModel = new FormData();
+
+        if (!!ArquivoBase64) {
+            const arquivoBlob = base64ToBlob(ArquivoBase64);
+            CadastroConteudoViewModel.append('DsArquivo', arquivoBlob, FileName);
+        } else {
+            ExibirInfo('Selecione um arquivo para adicionar.', 'Atenção!');
+            return;
+        }
+
+        const DsConteudo = $('#txtDescricaoArquivo').val();
+        if (DsConteudo == null || DsConteudo == '') {
+            ExibirInfo('É necessário a descrição do conteúdo.', 'Atenção!');
+            return;
+        }
+
+        const CdTurma = $('#ddlTurma').val();
+        const CdAula = $('#cdAula').val();
+
+        CadastroConteudoViewModel.append('CdAula', CdAula);
+        CadastroConteudoViewModel.append('CdTurma', CdTurma);
+        CadastroConteudoViewModel.append('DsConteudo', DsConteudo);
+
+        $.ajax({
+            url: '@Url.Action("AdicionarConteudo", "CadastroConteudo")',
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: CadastroConteudoViewModel,
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.isSuccess) {
+                    ExibirSucesso(data.message, 'Sucesso!');
+                }
+                else {
+                    console.error('Erro interno.', data.message);
+                    ExibirErro(data.message, 'Erro!');
+                    return;
+                }
+
+                ArquivoBase64 = null;
+                FileName = null;
+
+                verificarTurma();
+                verInfoAula($('#cdAula').val());
+            },
+            error: function (xhr, status, error) {
+                console.error('Erro na requisição AJAX!', error);
+                ExibirErro('Erro ao salvar as informações.', 'Erro!');
+                return;
+            }
+        });
+    }
+
 </script>

@@ -4,6 +4,8 @@
 
     ViewData["PagePrev"] = new string[] { "Menu rápido", "Index", "Home" };
     ViewData["Page"] = "Cadastro de conteúdo";
+
+    List<WEB.Models.Shared.ListarPadraoViewModel.ItemListaPadrao> ListaTurma = ViewBag.ListaTurma ?? new List<WEB.Models.Shared.ListarPadraoViewModel.ItemListaPadrao>();
 }
 
 <link rel="stylesheet" href="~/css/CadastroConteudo/Index.css">
@@ -13,21 +15,20 @@
         <div id="divTurmaCheckbox">
             <div id="divDdlTurma">
                 <label for="divTurma" class="linear1">Selecione a turma:</label><br />
-                <select id="ddlTurma" class="txtFormato" onchange="verificarTurma()">
+                <select id="ddlTurma" class="txtFormato" onchange="return verificarTurma();">
                     <option value="-1">Selecione</option>
-                    <option value="1">1N1</option>
-                    <option value="2">2N1</option>
-                    <option value="3">3N1</option>
+
+                    @foreach (var Turma in ListaTurma)
+                    {
+                        <option value="@Turma.Id">@Turma.Text</option>
+                    }
+
                 </select>
             </div>
             <div id="divCheckbox">
                 <div id="cArquivo">
-                    <input type="checkbox" id="idCArquivo" checked/>
+                    <input type="checkbox" id="idCArquivo" onchange="return verificarTurma();" />
                     <label for="idCArquivo">C/Arquivo</label>
-                </div>
-                <div id="sArquivo">
-                    <input type="checkbox" id="idSArquivo" checked/>
-                    <label for="idSArquivo">S/Arquivo</label>
                 </div>
             </div>
         </div>
@@ -43,23 +44,32 @@
 </div>
 
 <script type="text/javascript">
-    // document.addEventListener("DOMContentLoaded", carregarListaMatriculados);
-    // document.addEventListener("DOMContentLoaded", carregarListaNaoMatriculados);
+
+    let CdConteudoTemp;
+    let ArquivoBase64;
+    let FileName;
 
     function verificarTurma() {
         var valorDdl = $('#ddlTurma').val();
         if (valorDdl == -1) {
-            alert('escolhe outro valor');
-            return;
+            ExibirInfo('Escolha uma turma.');
+            return false;
         }
 
-        carregarListaAulas();
+        const chkArquivo = $('#idCArquivo').is(':checked');
+
+        carregarListaAulas(valorDdl, chkArquivo);
+        return true;
     }
 
-    function carregarListaAulas() {
+    function carregarListaAulas(CdTurma, icConteudo) {
         $.ajax({
             url: '@Url.Action("ListarAulas", "CadastroConteudo")',
             type: 'GET',
+            data: {
+                CdTurma: CdTurma,
+                icConteudo: icConteudo
+            },
             async: true,
             success: function (data) {
                 $('#_divListaAulas').html(data);
@@ -80,6 +90,8 @@
     function voltarModalAdicionar() {
         $('#divModalAdicionar').css('display', 'none');
         $('#backgroundConteudoModal').css('display', 'none');
+        ArquivoBase64 = null;
+        FileName = null;
     }
 
 </script>
