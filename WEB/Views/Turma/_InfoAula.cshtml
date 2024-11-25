@@ -200,6 +200,14 @@
         });
     }
 
+    function redirecionarConteudo() {
+        let CdAula = $('#cdAula').val();
+        let CdTurma = $('#CdTurma').val();
+
+        let url = `/CadastroConteudo/Index?cdTurma=${encodeURIComponent(CdTurma)}&cdAula=${encodeURIComponent(CdAula)}`;
+        window.open(url, "_blank");
+    }
+
     function redirecionarChamada() {
         let CdAula = $('#cdAula').val();
         let CdTurma = $('#CdTurma').val();

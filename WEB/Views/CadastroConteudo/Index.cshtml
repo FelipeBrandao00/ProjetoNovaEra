@@ -18,17 +18,20 @@
                 <select id="ddlTurma" class="txtFormato" onchange="return verificarTurma();">
                     <option value="-1">Selecione</option>
 
-                    @foreach (var Turma in ListaTurma)
-                    {
+                    @foreach (var Turma in ListaTurma) {
                         <option value="@Turma.Id">@Turma.Text</option>
                     }
 
                 </select>
             </div>
-            <div id="divCheckbox">
+            <div id="divCheckbox" style="gap: 10px;">
                 <div id="cArquivo">
-                    <input type="checkbox" id="idCArquivo" onchange="return verificarTurma();" />
+                    <input type="checkbox" id="idCArquivo" onchange="return verificarTurma();" checked/>
                     <label for="idCArquivo">C/Arquivo</label>
+                </div>
+                <div id="sArquivo">
+                    <input type="checkbox" id="idSArquivo" onchange="return verificarTurma();" checked/>
+                    <label for="idSArquivo">S/Arquivo</label>
                 </div>
             </div>
         </div>
@@ -44,6 +47,13 @@
 </div>
 
 <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", checkConteudo);
+
+    function checkConteudo() {
+        if ('@ViewBag.CdTurma' != '-1') {
+            carregarListaAulas('@ViewBag.CdTurma', true, true);
+        }
+    }
 
     let CdConteudoTemp;
     let ArquivoBase64;
@@ -56,13 +66,32 @@
             return false;
         }
 
-        const chkArquivo = $('#idCArquivo').is(':checked');
+        $('#ddlTurma').find("option[value='-1']").remove();
 
-        carregarListaAulas(valorDdl, chkArquivo);
+        const chkCArquivo = $('#idCArquivo').is(':checked');
+        const chkSArquivo = $('#idSArquivo').is(':checked');
+
+
+        if (chkCArquivo == false && chkSArquivo == false) {
+            ExibirInfo('Selecione ao menos uma das opções!', 'Alerta!');
+            return false;
+        }
+
+        let icConteudo = null;
+        if (chkCArquivo == true && chkSArquivo == false) {
+            icConteudo = true;
+        }
+        if (chkCArquivo == false && chkSArquivo == true) {
+            icConteudo = false;
+        }
+
+
+
+        carregarListaAulas(valorDdl, icConteudo);
         return true;
     }
 
-    function carregarListaAulas(CdTurma, icConteudo) {
+    function carregarListaAulas(CdTurma, icConteudo, icadd = null) {
         $.ajax({
             url: '@Url.Action("ListarAulas", "CadastroConteudo")',
             type: 'GET',
@@ -73,6 +102,11 @@
             async: true,
             success: function (data) {
                 $('#_divListaAulas').html(data);
+
+                if ('@ViewBag.CdTurma' != '-1' && icadd == true) {
+                    $('#ddlTurma').val('@ViewBag.CdTurma'); 
+                    verInfoAula('@ViewBag.CdAula');
+                }
             }
         });
     }

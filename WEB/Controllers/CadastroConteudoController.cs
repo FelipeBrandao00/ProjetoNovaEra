@@ -13,7 +13,7 @@ using WEB.Models.Usuario;
 namespace WEB.Controllers {
     public class CadastroConteudoController(IConfiguration configuration) : Controller {
 
-        public async Task<IActionResult> Index(bool icAdicionar = false) {
+        public async Task<IActionResult> Index(bool icAdicionar = false, int? cdAula = null, int? cdTurma = null) {
             string? token = Request.Cookies["Token"];
             if (string.IsNullOrEmpty(token))
             {
@@ -25,6 +25,8 @@ namespace WEB.Controllers {
             ViewBag.Nome = String.Join(" ", dados.unique_name.Split(" ").Take(2));
 
             ViewBag.IcAdicionar = icAdicionar;
+            ViewBag.CdAula = cdAula ?? -1;
+            ViewBag.CdTurma = cdTurma ?? -1;
 
             var ListarTurmaViewModel = new ListarTurmaViewModel() {
                 IcFinalizado = false
@@ -40,6 +42,8 @@ namespace WEB.Controllers {
         public async Task<IActionResult> ListarAulas(ResponseModelTurma ResponseModelTurma, bool? icConteudo) {
             configuration["JwtToken"] = Request.Cookies["Token"];
             var retorno = await new AulaViewModel().BuscarPorTurma(configuration, ResponseModelTurma, icConteudo: icConteudo);
+
+            ViewBag.CdTurma = ResponseModelTurma.CdTurma;
             ViewBag.ListaAula = retorno.Data;
             return View("_ListaAulas");
         }

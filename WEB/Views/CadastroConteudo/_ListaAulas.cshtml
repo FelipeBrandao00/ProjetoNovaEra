@@ -7,58 +7,58 @@
 
 <link rel="stylesheet" href="~/css/CadastroConteudo/InfoAula.css">
 
-<div id="divAlunosTurma">
-    <div id="TituloInfoAula">
-        <div id="TituloBotaoAula">
-            <div style="font-size: 15px;" class="linear1">Aulas:</div>
-            <div id="descAulaTip"  class="linear1">Clique na aula para abrir a lista de arquivos!</div>
+@if (ListaAula.Any()) {
+    <div id="divAlunosTurma">
+        <div id="TituloInfoAula">
+            <div id="TituloBotaoAula">
+                <div style="font-size: 15px;" class="linear1">Aulas:</div>
+                <div id="descAulaTip" class="linear1">Clique na aula para abrir a lista de arquivos!</div>
+            </div>
         </div>
-    </div>
 
-    <div id="divRelevo">
-       <div id="divAulas">
+        <div id="divRelevo">
+            <div id="divAulas">
 
-            @foreach (var Aula in ListaAula)
-            {
-                <div id="divAula" onclick="verInfoAula(@Aula.cdAula)">
-                    <div id="topoAula">
-                        <div id="infoAula">
-                            <h5 class="linear1"><b>@Aula.nmAula</b></h5>
-                            <p class="linear1">@Aula.dtAula</p>
+                @foreach (var Aula in ListaAula) {
+                    <div id="divAula" onclick="verInfoAula(@Aula.cdAula)">
+                        <div id="topoAula">
+                            <div id="infoAula">
+                                <h5 class="linear1"><b>@Aula.nmAula</b></h5>
+                                <p class="linear1">@Aula.dtAula.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            <div id="InfoNumeroArquivo">
+                                <h5 class="linear1"><b>Arquivos</b></h5>
+                                <h3 class="linear1"><b>@Aula.qtArquivos</b></h3>
+                            </div>
                         </div>
-                        <div id="InfoNumeroArquivo">
-                            <h5 class="linear1"><b>Arquivos</b></h5>
-                            <h3 class="linear1"><b>@Aula.qtArquivos</b></h3>
+
+                        @if (Aula.qtArquivos == 0) {
+                            <div id="infoArquivos">
+                                <div id="divArquivos" class="semDoc">S/Arquivo</div>
+                            </div>
+                        } else {
+                            <div id="infoArquivos">
+                                <div id="divArquivos" class="comDoc">C/Arquivo</div>
+                            </div>
+                        }
+
+                        <br />
+
+                        <div id="descAula" class="linear1">
+                            @Aula.dsAula
                         </div>
                     </div>
+                }
 
-                    @if (Aula.qtArquivos == 0)
-                    {
-                        <div id="infoArquivos">
-                            <div id="divArquivos" class="semDoc">S/Arquivo</div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div id="infoArquivos">
-                            <div id="divArquivos" class="comDoc">C/Arquivo</div>
-                        </div>
-                    }
-
-                    <br />
-
-                    <div id="descAula" class="linear1">
-                        @Aula.dsAula
-                    </div>
-                </div>
-            }
-
+            </div>
         </div>
     </div>
-</div>
+} else {
+    <h5 class="linear1">Não há aulas.</h5>
+}
 
 <div id="divFooterPagina">
-   <button type="button" id="btnCriarAula">Criar aula <i class="fa fa-external-link"></i></button>
+   <button type="button" id="btnCriarAula" onclick="redirecionarCriarAula('@ViewBag.CdTurma')">Criar aula <i class="fa fa-external-link"></i></button>
 </div>
 
 <script type="text/javascript">
@@ -78,6 +78,10 @@
                 $('#divInformacaoAula').css('display', 'flex');
             }
         });
+    }
+
+    function redirecionarCriarAula(cdTurma) {
+        window.open('@Url.Action("Index", "Turma", new { cdTurma = @ViewBag.CdTurma })', "_blank");
     }
 
 </script>

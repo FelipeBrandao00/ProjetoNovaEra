@@ -21,13 +21,14 @@
         <p> </p>
     </div>
 
-    <div id="divTituloConteudoAula">
-        <h3 class="linear1"><b>@Model.nmAula</b></h3>
-        <h5 class="linear1"><b>@Model.dtAula</b></h5>
-    </div>
-
     <div id="divConteudoAula">
+        <div id="divTituloConteudoAula">
+            <h3 class="linear1"><b>@Model.nmAula</b></h3>
+            <h5 class="linear1"><b>@Model.dtAula.ToString("dd/MM/yyyy")</b></h5>
+        </div>
 
+
+        <p class="linear1" style="text-align: left;"><b>Clique no arquivo para ver suas informações!</b></p>
         <table id="listaArquivos">
             <thead>
                 <tr>
@@ -41,8 +42,7 @@
             </thead>
             <tbody>
 
-                @foreach (var Conteudo in ListaConteudo)
-                {
+                @foreach (var Conteudo in ListaConteudo) {
                     <tr>
                         <td id="CelulaArquivo">@Conteudo.nmArquivo</td>
                         <td id="CelulaTipo">@Conteudo.dsExtensao</td>
