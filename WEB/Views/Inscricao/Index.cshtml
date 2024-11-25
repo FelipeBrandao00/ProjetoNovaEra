@@ -98,11 +98,11 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/ff8bf52a33.js" crossorigin="anonymous"></script>
+
     <script src="~/js/toastr.js"></script>
     <script src="~/js/toastr.min.js"></script>
 
     <script type="text/javascript">
-
         toastr.options = {
             "timeOut": "5000",
             "positionClass": "toast-top-center",
@@ -149,10 +149,10 @@
                 data: {
                     DsNome: $('#txtNome').val(),
                     DsEmail: $('#txtEmail').val(),
-                    DsCPF: $('#txtCPF').val(),
+                    DsCPF: $('#txtCPF').val().replace(/\D/g, ''),
                     CdGenero: $('#txtGenero').val(),
                     DtNascimento: $('#txtNascimento').val(),
-                    DsTelefone: $('#txtTelefone').val(),
+                    DsTelefone: $('#txtTelefone').val().replace(/\D/g, ''),
                     CdTurma: $('#txtCurso').val()
                 },
                 success: function (data) {
@@ -177,7 +177,7 @@
                 return false;
             }
 
-            if ($('#txtCPF').val().length != 11) {
+            if ($('#txtCPF').val().replace(/\D/g, '').length != 11) {
                 ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção');
                 return false;
             }
@@ -192,7 +192,7 @@
                 return false;
             }
 
-            if ($('#txtTelefone').val().length == 0) {
+            if ($('#txtTelefone').val().replace(/\D/g, '').length == 0) {
                 ExibirInfo('O telefone é obrigatório!', 'Atenção');
                 return false;
             }
@@ -206,5 +206,23 @@
 
 
     </script>
+
+    
+    <script src="~/js/jquery.mask.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var phoneMaskBehavior = function (val) {
+                return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00000';
+            };
+            var options = {
+                onKeyPress: function (val, e, field, options) {
+                    field.mask(phoneMaskBehavior.apply({}, arguments), options);
+                }
+            };
+            $('#txtTelefone').mask(phoneMaskBehavior, options);
+            $('#txtCPF').mask('000.000.000-00');
+        });
+    </script>
+
 </body>
 </html>
