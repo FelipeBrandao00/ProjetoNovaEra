@@ -26,13 +26,6 @@ namespace WEB.Controllers {
             ViewBag.CdAula = cdAula ?? -1;
             ViewBag.CdTurma = cdTurma ?? -1;
 
-            var ListarTurmaViewModel = new ListarTurmaViewModel() {
-                IcFinalizado = false
-            };
-            configuration["JwtToken"] = token;
-            await ListarTurmaViewModel.GerarLista(configuration);
-            ViewBag.ListaTurma = ListarTurmaViewModel.ItensLista;
-
             dynamic? dados;
             try {
                 dados = JwtToken.DescriptografarJwt(token);
@@ -96,6 +89,13 @@ namespace WEB.Controllers {
                 var responseUser = await new UsuarioViewModel().BuscarInfoEmail(configuration, dados.email);
                 cdProfessor = responseUser.Data.CdUsuario;
             }
+            var ListarTurmaViewModel = new ListarTurmaViewModel() {
+                IcFinalizado = false
+            };
+            configuration["JwtToken"] = token;
+            await ListarTurmaViewModel.GerarLista(configuration, cdProfessor);
+            ViewBag.ListaTurma = ListarTurmaViewModel.ItensLista;
+
             ViewBag.Roles = dados.role;
             return View();
         }
