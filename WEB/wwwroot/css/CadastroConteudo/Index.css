@@ -4,6 +4,11 @@ input:focus, button:focus {
     outline: none;
 }
 
+#divPagina {
+    overflow-y: auto;
+    padding-right: 25px;
+}
+
 article {
     justify-content: flex-start !important;
 }

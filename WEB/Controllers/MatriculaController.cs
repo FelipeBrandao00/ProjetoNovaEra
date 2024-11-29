@@ -2,10 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using WEB.Models;
 using WEB.Models.Response;
 using WEB.Models.Turma;
+using WEB.Models.Aluno;
 using WEB.Models.Matricula;
 using WEB.Models.Genero;
 using WEB.Models.PermissaoCargo;
 using WEB.Models.Cargo;
+using Application.Responses;
 
 namespace WEB.Controllers {
     public class MatriculaController(IConfiguration configuration) : Controller {
@@ -88,10 +90,17 @@ namespace WEB.Controllers {
 
             var MatriculaViewModel = new MatriculaViewModel();
             var ListaMatriculas = await MatriculaViewModel.BuscarPorTurma(configuration, ResponseModelMatricula);
-
             var ListaMatriculasAtende = ListaMatriculas.Data.Where(x => x.icAtendeFiltro == true); 
             ViewBag.ListaMatriculas = ListaMatriculasAtende;
             ViewBag.QuantidadeAprovados = ListaMatriculasAtende.Count();
+            
+
+            var ResponseModelTurma = new ResponseModelTurma { 
+                CdTurma = ResponseModelMatricula.cdTurma 
+            };
+            var AlunoViewModel = new AlunoViewModel();
+            var ListaAlunos = await AlunoViewModel.BuscarPorTurma(configuration, ResponseModelTurma);
+            ViewBag.QuantidadeMatriculados = ListaAlunos.Data?.Count();
             return View("_ListaAlunos");
         }
 

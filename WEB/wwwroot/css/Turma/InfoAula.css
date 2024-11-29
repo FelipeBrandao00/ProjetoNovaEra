@@ -13,8 +13,8 @@
     font-size: 14px;
     position: fixed;
     top: 8%;
-    max-height: 80%;
     left: 32%;
+    max-height: 90%;
 }
 
 #divTituloAula {
@@ -74,7 +74,7 @@
 }
 
 #btnEditarAula {
-    width: 15%;
+    width: 25%;
     height: 35px;
     font-size: 15px;
     border: none;
@@ -86,7 +86,7 @@
 
 #btnExcluirAula {
     color: white;
-    width: 15%;
+    width: 25%;
     height: 35px;
     font-size: 15px;
     border: none;
@@ -99,7 +99,7 @@
 
 #btnCancelarEdicaoAula {
     display: none;
-    width: 15%;
+    width: 25%;
     height: 35px;
     font-size: 15px;
     border: none;
@@ -111,7 +111,7 @@
 
 #btnSalvarEdicaoAula {
     display: none;
-    width: 15%;
+    width: 25%;
     height: 35px;
     color: #FFFFFF;
     font-size: 15px;
@@ -123,8 +123,8 @@
 }
 
 #btnAdicionarAula {
-    width: 15%;
-    height: 35px;
+    width: 25%;
+    height: 35%;
     color: #FFFFFF;
     font-size: 15px;
     border: none;

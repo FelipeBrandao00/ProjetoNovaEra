@@ -163,7 +163,7 @@
 
         let IcFinalizado = null;
         if (!$('#chkEmAndamento').is(":checked") && !$('#chkFinalizado').is(":checked")) {
-            alert('Selecione ao menos um filtro!');
+            ExibirInfo('Selecione ao menos um filtro!', 'Atenção');
             return;
         }
 

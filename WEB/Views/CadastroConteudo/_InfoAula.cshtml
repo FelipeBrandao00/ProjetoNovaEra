@@ -35,8 +35,8 @@
                     <tr>
                         <th id="nmArquivo">Nome</th>
                         <th id="nmTipo">Extensão</th>
-                        <th id="nmTamanho">Tamanho</th>
-                        <th id="Info" style="display: none">Info</th>
+@*                         <th id="nmTamanho">Tamanho</th>
+ *@                        <th id="Info" style="display: none">Info</th>
                         <th id="baixar"></th>
                         <th id="deletar"></th>
                     </tr>
@@ -46,8 +46,8 @@
                         <tr>
                             <td id="CelulaArquivo">@Conteudo.nmArquivo</td>
                             <td id="CelulaTipo">@Conteudo.dsExtensao</td>
-                            <td id="CelulaTamanho">0MB</td>
-                            <td id="CelulaInfo" style="display: none">
+@*                             <td id="CelulaTamanho">0MB</td>
+ *@                            <td id="CelulaInfo" style="display: none">
                                 <button id="btnInfo" onclick="carregarInfoModal('@Conteudo.nmArquivo', '@Conteudo.dsExtensao', '@Conteudo.dsConteudo')"><i class="fa fa-info"></i></button>
                             </td>
                             <td id="CelulaBaixar">

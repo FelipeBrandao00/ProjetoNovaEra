@@ -5,6 +5,7 @@
     /* max-height: 70%; */
     overflow-y: auto;
     min-height: 133px;
+    padding-right: 10px;
 }
 
 #listaPadrao > div:first-child {

@@ -34,28 +34,31 @@
     </div>
 
     <div id="divForm">
-        <h2 class="linear1">Inscrição</h2>
+        <div style="display: flex; gap: 20px;">
+            <h2 class="linear1"><b>Inscrição</b></h2>
+            <b style="color: red; margin-top: 5px;">(* campos obrigatórios)</b>
+        </div>
 
         <div id="divNome">
-            <label for="divNome" class="linear1">Nome:</label><br />
+            <label for="divNome" class="linear1">Nome: </label> <b style="color: red;">*</b><br />
             <input id="txtNome" class="txtInfo" type="text" placeholder="Digite o nome..." />
         </div>
 
         <div id="divGrupo">
             <div id="divEmail">
-                <label for="divEmail" class="linear1">Email:</label><br />
+                <label for="divEmail" class="linear1">Email: </label> <b style="color: red;">*</b><br />
                 <input id="txtEmail" class="txtInfo" type="text" placeholder="Digite o e-mail..." />
             </div>
 
             <div id="divCPF">
-                <label for="divCPF" class="linear1">CPF:</label><br />
+                <label for="divCPF" class="linear1">CPF: </label> <b style="color: red;">*</b><br />
                 <input id="txtCPF" class="txtInfo" type="text" placeholder="Digite o CPF..." />
             </div>
         </div>
 
         <div id="divGrupo2">
             <div id="divGenero">
-                <label for="txtGenero" class="linear1">Gênero:</label><br />
+                <label for="txtGenero" class="linear1">Gênero: </label> <b style="color: red;">*</b><br />
                 <select id="txtGenero" class="txtInfo">
                     <option value="0">Selecione</option>
                     @foreach (GeneroViewModel.ItemListaGenero item in ListaGenero) {
@@ -65,12 +68,12 @@
             </div>
 
             <div id="divNascimento">
-                <label for="divNascimento" class="linear1">Nascimento:</label><br />
+                <label for="divNascimento" class="linear1">Data de Nascimento: </label> <b style="color: red;">*</b><br />
                 <input id="txtNascimento" class="txtInfo" type="date" />
             </div>
 
             <div id="divTelefone">
-                <label for="divTelefone" class="linear1">Telefone:</label><br />
+                <label for="divTelefone" class="linear1">Telefone: </label> <b style="color:red">*</b><br />
                 <input id="txtTelefone" class="txtInfo" type="text" placeholder="Digite o telefone..." />
             </div>
         </div>
@@ -78,9 +81,8 @@
         <div id="divLinha">
         </div>
 
-        *A inscrição não confirma matrícula!
         <div id="divCurso">
-            <label for="divCurso" class="linear1">Turma que queira fazer:</label><br />
+            <label for="divCurso" class="linear1">Turma que queira fazer:</label> <b style="color: red;">*</b><br />
             <select id="txtCurso" class="txtInfo">
                 <option value="0">Selecione</option>
                 @foreach (ListarPadraoViewModel.ItemListaPadrao item in ListaTurmas) {
@@ -89,6 +91,28 @@
             </select>
         </div>
 
+        <br />
+        <div id="divCheck">
+            <div id="divUsar">
+            <div id="divChkUsar">
+                <input type="checkbox" id="chkUsar"/>
+            </div>
+            <div id="divTxtUsar">
+                <label for="chkUsar">Eu concordo em fornecer minhas informações pessoais ao Projeto Nova Era, ciente de que esses dados serão utilizados para o gerenciamento do sistema, conforme descrito na <a href="link-para-politica-de-privacidade" target="_blank">Política de Privacidade</a>.  <b style="color: red;"> *</b></label>
+            </div>
+            </div>
+
+
+            <div id="divInsc">
+            <div id="divChkInsc">
+                <input type="checkbox" id="chkInscricao"/>
+            </div>
+            <div id="divTxtInsc">
+                <label for="chkInsc">Estou ciente que a inscrição não garante a matrícula. <b style="color: red;"> *</b></label>  
+            </div>
+            </div>
+        </div>
+        <br />
         <div id="divBotaoInscrever">
             <button id="btnInscrever" onclick="realizarInscricao()">Inscrever</button>
         </div>
@@ -141,6 +165,7 @@
             if (!validarCampos()) {
                 return;
             }
+            return;
 
             $.ajax({
                 url: '@Url.Action("ConfirmarInscricao", "Inscricao")',
@@ -167,39 +192,44 @@
         }
 
         function validarCampos() {
-            if ($('#txtNome').val().length == 0) {
-                ExibirInfo('O nome é obrigatório!','Atenção');
-                return false;
-            }
+            // if ($('#txtNome').val().length == 0) {
+            //     ExibirInfo('O nome é obrigatório!','Atenção');
+            //     return false;
+            // }
 
-            if ($('#txtEmail').val().length == 0) {
-                ExibirInfo('O e-mail é obrigatório!', 'Atenção');
-                return false;
-            }
+            // if ($('#txtEmail').val().length == 0) {
+            //     ExibirInfo('O e-mail é obrigatório!', 'Atenção');
+            //     return false;
+            // }
 
-            let CPF = $('#txtCPF').val().replace(/\D/g, '');
-            if (CPF.length != 11 || !TestaCPF(CPF)) {
-                ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção');
-                return false;
-            }
+            // let CPF = $('#txtCPF').val().replace(/\D/g, '');
+            // if (CPF.length != 11 || !TestaCPF(CPF)) {
+            //     ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção');
+            //     return false;
+            // }
 
-            if ($('#txtGenero').find(":selected").val() == 0) {
-                ExibirInfo('Selecione um gênero!', 'Atenção');
-                return false;
-            }
+            // if ($('#txtGenero').find(":selected").val() == 0) {
+            //     ExibirInfo('Selecione um gênero!', 'Atenção');
+            //     return false;
+            // }
 
-            if (!$('#txtNascimento').val()) {
-                ExibirInfo('A data é obrigatória!', 'Atenção');
-                return false;
-            }
+            // if (!$('#txtNascimento').val()) {
+            //     ExibirInfo('A data é obrigatória!', 'Atenção');
+            //     return false;
+            // }
 
-            if ($('#txtTelefone').val().replace(/\D/g, '').length == 0) {
-                ExibirInfo('O telefone é obrigatório!', 'Atenção');
-                return false;
-            }
+            // if ($('#txtTelefone').val().replace(/\D/g, '').length == 0) {
+            //     ExibirInfo('O telefone é obrigatório!', 'Atenção');
+            //     return false;
+            // }
 
-            if ($('#txtCurso').find(":selected").val() == 0) {
-                ExibirInfo('Selecione uma turma!', 'Atenção');
+            // if ($('#txtCurso').find(":selected").val() == 0) {
+            //     ExibirInfo('Selecione uma turma!', 'Atenção');
+            //     return false;
+            // }
+
+            if ( !$('#chkUsar').is(':checked') || !$('#chkInscricao').is(':checked')) {
+                ExibirInfo('É obrigatório aceitar os termos!', 'Atenção');
                 return false;
             }
             return true;

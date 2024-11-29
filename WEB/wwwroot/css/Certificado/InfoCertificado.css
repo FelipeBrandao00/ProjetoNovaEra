@@ -6,8 +6,8 @@
     display: none;
 /*  display: flex; */    
     justify-content: flex-end;
-    margin-top: 11vh;
-    gap: 10px;
+/*    margin-top: 11vh;
+*/    gap: 10px;
 }
 
 #btnConfirmarAdicionar {

@@ -306,20 +306,18 @@
     flex-direction: column;
     gap: 5px;
     width: 66vw;
+    height: 85vh;
     margin-top: 50px;
     font-size: 14px;
     position: fixed;
     top: 1%;
+    overflow-y: auto;
 }
 
     #divModalAdicionar > #divConteudoModal > label {
         font-weight: 700;
         font-size: 12px;
         text-align: left;
-    }
-
-    #divModalAdicionar > #divConteudoModal > input {
-        margin-bottom: 10px;
     }
 
     #divModalAdicionar > #divConteudoModal > textarea {

@@ -8,6 +8,11 @@ article {
     justify-content: flex-start !important;
 }
 
+#divPagina {
+    overflow-y: auto;
+    padding-right: 25px;
+}
+
 /* IDs */
 #divInicioPagina {
     width: 100%;

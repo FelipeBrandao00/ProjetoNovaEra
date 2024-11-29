@@ -8,3 +8,13 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+*::-webkit-scrollbar {
+    width: 6px; /* width of the entire scrollbar */
+}
+
+
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgb(100, 100, 100) 50%, rgba(159, 159, 159, 1) 100%);
+    border-radius: 20px; /* roundness of the scroll thumb */
+}

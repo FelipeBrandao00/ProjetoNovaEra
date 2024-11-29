@@ -14,8 +14,7 @@
     <h5 class="linear1"><b>@ViewBag.NmCargo</b></h5><br />
 </div>
 
-<br />
-<label id="lblListaPermissao" for="listaPermisso" class="linear1">Cargo(s):</label>
+<label id="lblListaPermissao" for="listaPermisso" class="linear1">Permissões:</label>
 <div id="listaPermissao">
     @foreach (var item in ListaPermissoes) {
         bool icChecked = ListaPermissoesCargo.Any(x => x.NmPermissao.Contains(item.NmPermissao));

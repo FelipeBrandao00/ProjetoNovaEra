@@ -6,7 +6,7 @@
 }
 
 #logoNovaEra {
-    height: 15vh;
+    height: 10vh;
     width: 100%;
     background: rgb(79,0,62);
     background: linear-gradient(180deg, rgba(79,0,62,1) 14%, rgba(107,0,85,1) 71%);
@@ -24,13 +24,10 @@
 
 #divForm {
     height: 100%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 5%;
+    margin-top: 3%;
 }
 
 #divForm > h2 {
-    margin-bottom: 20px;
     font-weight: 700;
 }
 
@@ -54,7 +51,7 @@
 
 label {
     font-weight: 700;
-    font-size: 12px;
+    font-size: 18px;
 }
 
 .txtInfo {
@@ -72,11 +69,10 @@ label {
 #divLinha {
     height: 1px;
     background-color: #767676;
-    margin: 40px 0 40px 0 !important;
+    margin: 10px 0 10px 0 !important;
 }
 
 #divBotaoInscrever {
-    margin-top: 50px !important;
     display: flex;
     justify-content: center;
 }
@@ -92,9 +88,34 @@ label {
     font-weight: 700;
 }
 
+#divUsar, #divInsc {
+    display: flex;
+    flex-direction: row;
+    margin-top: 6px;
+}
+
+#divChkUsar, #divChkInsc  {
+    width: 30px;
+    padding-right: 5px;
+}
+
+#divTxtUsar > label, #divTxtInsc > label {
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    transform: scale(1.25); 
+}
+
 @media (max-width: 1200px) {
     body {
         margin: 0;
+    }
+
+    #divForm {
+        margin: 30px;
     }
 
     #logoNovaEra img {
