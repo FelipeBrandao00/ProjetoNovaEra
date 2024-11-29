@@ -192,43 +192,43 @@
         }
 
         function validarCampos() {
-            // if ($('#txtNome').val().length == 0) {
-            //     ExibirInfo('O nome é obrigatório!','Atenção');
-            //     return false;
-            // }
+            if ($('#txtNome').val().length == 0) {
+                ExibirInfo('O nome é obrigatório!','Atenção');
+                return false;
+            }
 
-            // if ($('#txtEmail').val().length == 0) {
-            //     ExibirInfo('O e-mail é obrigatório!', 'Atenção');
-            //     return false;
-            // }
+            if ($('#txtEmail').val().length == 0) {
+                ExibirInfo('O e-mail é obrigatório!', 'Atenção');
+                return false;
+            }
 
-            // let CPF = $('#txtCPF').val().replace(/\D/g, '');
-            // if (CPF.length != 11 || !TestaCPF(CPF)) {
-            //     ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção');
-            //     return false;
-            // }
+            let CPF = $('#txtCPF').val().replace(/\D/g, '');
+            if (CPF.length != 11 || !TestaCPF(CPF)) {
+                ExibirInfo('O CPF é obrigatório e precisa ser válido!', 'Atenção');
+                return false;
+            }
 
-            // if ($('#txtGenero').find(":selected").val() == 0) {
-            //     ExibirInfo('Selecione um gênero!', 'Atenção');
-            //     return false;
-            // }
+            if ($('#txtGenero').find(":selected").val() == 0) {
+                ExibirInfo('Selecione um gênero!', 'Atenção');
+                return false;
+            }
 
-            // if (!$('#txtNascimento').val()) {
-            //     ExibirInfo('A data é obrigatória!', 'Atenção');
-            //     return false;
-            // }
+            if (!$('#txtNascimento').val()) {
+                ExibirInfo('A data é obrigatória!', 'Atenção');
+                return false;
+            }
 
-            // if ($('#txtTelefone').val().replace(/\D/g, '').length == 0) {
-            //     ExibirInfo('O telefone é obrigatório!', 'Atenção');
-            //     return false;
-            // }
+            if ($('#txtTelefone').val().replace(/\D/g, '').length == 0) {
+                ExibirInfo('O telefone é obrigatório!', 'Atenção');
+                return false;
+            }
 
-            // if ($('#txtCurso').find(":selected").val() == 0) {
-            //     ExibirInfo('Selecione uma turma!', 'Atenção');
-            //     return false;
-            // }
+            if ($('#txtCurso').find(":selected").val() == 0) {
+                ExibirInfo('Selecione uma turma!', 'Atenção');
+                return false;
+            }
 
-            if ( !$('#chkUsar').is(':checked') || !$('#chkInscricao').is(':checked')) {
+            if (!$('#chkUsar').is(':checked') || !$('#chkInscricao').is(':checked')) {
                 ExibirInfo('É obrigatório aceitar os termos!', 'Atenção');
                 return false;
             }
